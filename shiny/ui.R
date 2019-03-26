@@ -6,18 +6,18 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                      tabPanel("Crosstab Generator",
                               fluidRow(
                                 h5(class="header", 
-                                   "Select from the following persons characteristics to generate a cross-tabulated table ")
+                                   "Select from the following persons characteristics to generate cross-tabulated tables ")
                               ),
                               br(),
                               fluidRow(
                                 column(3,
                                        selectInput('xtab_xcol', 
-                                                   'First Dimension', 
+                                                   'Rows', # First Dimension
                                                    width = '100%', 
                                                    person_variables)),
                                 column(3,
                                        selectInput('xtab_ycol', 
-                                                   'Second Dimension', 
+                                                   'Columns', # Second Dimension
                                                    width = '100%', 
                                                    person_variables)),
                                 column(1,
@@ -27,7 +27,20 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                               ), # end fluidRow
                               br(),
                               br(), 
-                              mainPanel(DTOutput('xtab_table'))
+                              fluidRow(
+                                column(width = 12,
+                                       DTOutput('xtab_table_sample_count'),
+                                       br(),
+                                       DTOutput('xtab_table_estimate'),
+                                       br(),
+                                       DTOutput('xtab_table_share'),
+                                       br(),
+                                       DTOutput('xtab_table_N_HH'),
+                                       br(),
+                                       DTOutput('xtab_table_MOE')
+                                       )
+                              ) # end fluidRow
+                              # mainPanel(DTOutput('xtab_table'))
                               ) # end tabPanel
                      ) # end navbarPage
           ) # end fluidPage
