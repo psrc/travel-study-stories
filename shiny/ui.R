@@ -2,24 +2,34 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
           # shinythemes::themeSelector(),
           theme = shinytheme("flatly"),
           
-          navbarPage("HH Survey Results",
+          navbarPage("Household Survey Results",
                      tabPanel("Crosstab Generator",
                               fluidRow(
                                 h5(class="header", 
-                                   "Select from the following persons characteristics to generate cross-tabulated tables ")
+                                   "Select from the following characteristics, organized by categories, to generate cross-tabulated tables")
                               ),
                               br(),
                               fluidRow(
                                 column(3,
-                                       selectInput('xtab_xcol', 
-                                                   'Rows', # First Dimension
-                                                   width = '100%', 
-                                                   person_variables)),
+                                       wellPanel(
+                                         p(strong("First Dimension (Rows)")),
+                                         selectInput('xtab_xcat',
+                                                     'Category',
+                                                     width = '75%',
+                                                     vars.cat),
+                                         uiOutput("ui_xtab_xcol")
+                                         ) # end wellPanel
+                                       ),
                                 column(3,
-                                       selectInput('xtab_ycol', 
-                                                   'Columns', # Second Dimension
-                                                   width = '100%', 
-                                                   person_variables)),
+                                       wellPanel(
+                                         p(strong("Second Dimension (Columns)")),
+                                         selectInput('xtab_ycat',
+                                                     'Category',
+                                                     width = '75%',
+                                                     vars.cat),
+                                         uiOutput("ui_xtab_ycol")
+                                         ) # end welPanel
+                                ),
                                 column(1,
                                        style = "margin-top: 15px;",
                                        actionButton('xtab_go', 
@@ -28,19 +38,13 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                               br(),
                               br(), 
                               fluidRow(
-                                column(width = 12,
-                                       DTOutput('xtab_table_sample_count'),
-                                       br(),
-                                       DTOutput('xtab_table_estimate'),
-                                       br(),
-                                       DTOutput('xtab_table_share'),
-                                       br(),
-                                       DTOutput('xtab_table_N_HH'),
-                                       br(),
-                                       DTOutput('xtab_table_MOE')
-                                       )
+                                tabsetPanel(type = "tabs",
+                                            tabPanel("Shares", DTOutput('xtab_table_share')),
+                                            tabPanel("Estimates", DTOutput('xtab_table_estimate')),
+                                            tabPanel("Number of Households", DTOutput('xtab_table_N_HH')),
+                                            tabPanel("Margin of Error", DTOutput('xtab_table_MOE')),
+                                            tabPanel("Sample Count", DTOutput('xtab_table_sample_count')))
                               ) # end fluidRow
-                              # mainPanel(DTOutput('xtab_table'))
                               ) # end tabPanel
                      ) # end navbarPage
           ) # end fluidPage

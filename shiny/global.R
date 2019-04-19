@@ -5,13 +5,16 @@ library(tidyverse)
 library(DT)
 library(openxlsx)
 
-# base.dir <- "C:/Users/CLam/Desktop/travel-study-stories/travel_crosstab"
+# base.dir <- "C:/Users/CLam/Desktop/travel-study-stories/shiny"
 
 # source functions
 source('travel_crosstab.R')
 
 # source data
-survey <- fread('person_2017.csv')
+pers.dt <- fread('person.csv')
+trip.dt <- fread('trip.csv')
 
-person_variables <- read.xlsx('person_variables.xlsx')
-# person_variables <- read.xlsx(file.path(base.dir, 'person_variables.xlsx'))
+variables.lu <- read.xlsx('variables.xlsx') %>% as.data.table
+vars.cat <- unique(variables.lu$Category)
+
+
