@@ -5,32 +5,47 @@ function(input, output, session) {
 
   # Column Subset Crosstab Generator
   xtab.col.subset <- function(table, colstring = c("sample_count", "estimate", "share", "MOE", "N_HH")) {
-    cols <- c("var1", str_subset(colnames(table), paste0("^", colstring)))
+    cols <- c(varsXAlias(), str_subset(colnames(table), paste0("^", colstring)))
     table[, ..cols]
   }
-
+  
+  
 # Crosstab Generator ------------------------------------------------------
   
-  # return values associated with category selected
-  output$ui_xtab_xcol <- renderUI({
+  # variable X alias list
+  varsListX <- reactive({
     t <- variables.lu[Category %in% input$xtab_xcat, ]
     vars.raw <- as.list(t$Variables)
     vars.list <- setNames(vars.raw, as.list(t$Name))
+  })
+  
+  # variable Y alias list
+  varsListY <- reactive({
+    t <- variables.lu[Category %in% input$xtab_ycat, ]
+    vars.raw <- as.list(t$Variables)
+    vars.list <- setNames(vars.raw, as.list(t$Name))
+  })
+  
+  # variable X alias
+  varsXAlias <- reactive({
+    xvar.alias <- variables.lu[Variables %in% input$xtab_xcol, .(Name)]
+    xvar.alias$Name
+  })
+  
+  # return values associated with category selected
+  output$ui_xtab_xcol <- renderUI({
     selectInput('xtab_xcol',
                 'Variable', 
                 width = '75%',
-                vars.list)
+                varsListX())
   })
   
   # return values associated with category selected
   output$ui_xtab_ycol <- renderUI({
-    t <- variables.lu[Category %in% input$xtab_ycat, ]
-    vars.raw <- as.list(t$Variables)
-    vars.list <- setNames(vars.raw, as.list(t$Name))
     selectInput('xtab_ycol',
                 'Variable', 
                 width = '75%',
-                vars.list)
+                varsListY())
   })
   
   xtabTableType <- eventReactive(input$xtab_go, {
@@ -40,30 +55,70 @@ function(input, output, session) {
     return(res)
   })
   
-  observeEvent(input$xtab_go, {
-    table.type <- xtabTableType()
-    if (table.type == "Person") {
-      survey <- pers.dt
-      wt_field <- 'hh_wt_revised'
-    } else {
-      survey <- trip.dt
-      wt_field <- 'trip_weight_revised'
-    }
-    type <- 'total'
-    crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-    col.headers<- c("sample_count", "estimate", "share", "MOE", "N_HH")
-    dt.list <- list(xtab.col.subset(crosstab, "sample_count"),
-                    xtab.col.subset(crosstab, "estimate"),
-                    xtab.col.subset(crosstab, "share"),
-                    xtab.col.subset(crosstab, "MOE"),
-                    xtab.col.subset(crosstab, "N_HH"))
-    names(dt.list) <- col.headers
-
-    output$xtab_table_sample_count <- renderDT(dt.list$sample_count, options = list(bFilter=0))
-    output$xtab_table_estimate <- renderDT(dt.list$estimate, options = list(bFilter=0))
-    output$xtab_table_share <- renderDT(dt.list$share, options = list(bFilter=0))
-    output$xtab_table_N_HH <- renderDT(dt.list$N_HH, options = list(bFilter=0))
-    output$xtab_table_MOE <- renderDT(dt.list$MOE, options = list(bFilter=0))
+  # return list of tables subsetted by value types
+  xtabTable <- eventReactive(input$xtab_go, {
+      table.type <- xtabTableType()
+      if (table.type == "Person") {
+        survey <- pers.dt
+        wt_field <- 'hh_wt_revised'
+      } else {
+        survey <- trip.dt
+        wt_field <- 'trip_weight_revised'
+      }
+      type <- 'total'
+     
+      crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
+      # test.varsListX <- varsListX()
+      # test.varsXAlias <- varsXAlias()
+      # browser()
+      setnames(crosstab, "var1", varsXAlias())
+      col.headers <- c("sample_count", "estimate", "share", "MOE", "N_HH")
+      xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+      dt.list <- map(as.list(col.headers), xtab.crosstab)
+      names(dt.list) <- col.headers
+      return(dt.list)
   })
+  
+  output$xtab_download <- downloadHandler(
+    filename = function() {
+      paste("hh_survey_crosstab.xlsx", sep = "")
+    },
+    content = function(file) {
+      write.xlsx(xtabTable(), file)
+    }
+  )
+  
+  output$xtab_table_share <- renderDT({
+    dt <- xtabTable()$share
+    DT::datatable(dt,
+                  options = list(bFilter=0)) %>%
+      formatPercentage(colnames(dt)[2:length(colnames(dt))], 1)
+  })
+  
+  output$xtab_table_estimate <- renderDT({
+    dt <- xtabTable()$estimate
+    DT::datatable(dt, 
+                  options = list(bFilter=0)) %>%
+      formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+  })
+  
+  output$xtab_table_N_HH <- renderDT({
+    dt <- xtabTable()$N_HH
+    DT::datatable(dt, options = list(bFilter=0)) %>%
+      formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+  })
+
+  output$xtab_table_MOE <- renderDT({
+    DT::datatable(xtabTable()$MOE, options = list(bFilter=0))%>%
+      formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
+  })
+  
+  output$xtab_table_sample_count <- renderDT({
+    dt <- xtabTable()$sample_count
+    DT::datatable(dt, options = list(bFilter=0)) %>%
+      formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+  })
+  
+ 
   
 }

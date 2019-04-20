@@ -2,12 +2,10 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
           # shinythemes::themeSelector(),
           theme = shinytheme("flatly"),
           
-          navbarPage("Household Survey Results",
+          navbarPage("2017 Household Survey Results",
                      tabPanel("Crosstab Generator",
-                              fluidRow(
-                                h5(class="header", 
-                                   "Select from the following characteristics, organized by categories, to generate cross-tabulated tables")
-                              ),
+                              # fluidRow(
+                              # ),
                               br(),
                               fluidRow(
                                 column(3,
@@ -19,7 +17,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                      vars.cat),
                                          uiOutput("ui_xtab_xcol")
                                          ) # end wellPanel
-                                       ),
+                                       ), # end column
                                 column(3,
                                        wellPanel(
                                          p(strong("Second Dimension (Columns)")),
@@ -29,21 +27,37 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                      vars.cat),
                                          uiOutput("ui_xtab_ycol")
                                          ) # end welPanel
-                                ),
-                                column(1,
-                                       style = "margin-top: 15px;",
+                                ), # end column
+                                column(2,
+                                       p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
+                                       p("Data can be downloaded once the cross-tabulations have been generated."), 
+                                       # style = "margin-top: 15px;",
                                        actionButton('xtab_go', 
-                                                    'Create Crosstab'))
+                                                    'Create Crosstab'),
+                                       br(),
+                                       br(),
+                                       downloadButton("xtab_download", "Download")
+                                ) # end column
                               ), # end fluidRow
                               br(),
                               br(), 
                               fluidRow(
                                 tabsetPanel(type = "tabs",
-                                            tabPanel("Shares", DTOutput('xtab_table_share')),
-                                            tabPanel("Estimates", DTOutput('xtab_table_estimate')),
-                                            tabPanel("Number of Households", DTOutput('xtab_table_N_HH')),
-                                            tabPanel("Margin of Error", DTOutput('xtab_table_MOE')),
-                                            tabPanel("Sample Count", DTOutput('xtab_table_sample_count')))
+                                            tabPanel("Shares", 
+                                                     br(),
+                                                     DTOutput('xtab_table_share')),
+                                            tabPanel("Estimates", 
+                                                     br(),
+                                                     DTOutput('xtab_table_estimate')),
+                                            tabPanel("Number of Households", 
+                                                     br(),
+                                                     DTOutput('xtab_table_N_HH')),
+                                            tabPanel("Margin of Error", 
+                                                     br(),
+                                                     DTOutput('xtab_table_MOE')),
+                                            tabPanel("Sample Count", 
+                                                     br(),
+                                                     DTOutput('xtab_table_sample_count')))
                               ) # end fluidRow
                               ) # end tabPanel
                      ) # end navbarPage
