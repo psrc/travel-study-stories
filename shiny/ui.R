@@ -28,7 +28,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                          uiOutput("ui_xtab_ycol")
                                          ) # end welPanel
                                 ), # end column
-                                column(2,
+                                column(3,
                                        p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
                                        p("Data can be downloaded once the cross-tabulations have been generated."), 
                                        # style = "margin-top: 15px;",
@@ -45,19 +45,19 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                 tabsetPanel(type = "tabs",
                                             tabPanel("Shares", 
                                                      br(),
-                                                     DTOutput('xtab_table_share')),
+                                                     div(DTOutput('xtab_table_share'), style = 'font-size: 95%; width: 75%')),
                                             tabPanel("Estimates", 
                                                      br(),
-                                                     DTOutput('xtab_table_estimate')),
+                                                     div(DTOutput('xtab_table_estimate'), style = 'font-size: 95%; width: 75%')),
                                             tabPanel("Number of Households", 
                                                      br(),
-                                                     DTOutput('xtab_table_N_HH')),
+                                                     div(DTOutput('xtab_table_N_HH'), style = 'font-size: 95%; width: 75%')),
                                             tabPanel("Margin of Error", 
                                                      br(),
-                                                     DTOutput('xtab_table_MOE')),
+                                                     div(DTOutput('xtab_table_MOE'), style = 'font-size: 95%; width: 75%')),
                                             tabPanel("Sample Count", 
                                                      br(),
-                                                     DTOutput('xtab_table_sample_count')))
+                                                     div(DTOutput('xtab_table_sample_count'), style = 'font-size: 95%; width: 75%')))
                               ) # end fluidRow
                               ) # end tabPanel
                      ) # end navbarPage

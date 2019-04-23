@@ -68,8 +68,6 @@ function(input, output, session) {
       type <- 'total'
      
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      # test.varsListX <- varsListX()
-      # test.varsXAlias <- varsXAlias()
       # browser()
       setnames(crosstab, "var1", varsXAlias())
       col.headers <- c("sample_count", "estimate", "share", "MOE", "N_HH")
@@ -90,6 +88,9 @@ function(input, output, session) {
   
   output$xtab_table_share <- renderDT({
     dt <- xtabTable()$share
+    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=share_).+")
+    new.colnames[is.na(new.colnames)] <- "No Response"
+    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
     DT::datatable(dt,
                   options = list(bFilter=0)) %>%
       formatPercentage(colnames(dt)[2:length(colnames(dt))], 1)
@@ -97,6 +98,9 @@ function(input, output, session) {
   
   output$xtab_table_estimate <- renderDT({
     dt <- xtabTable()$estimate
+    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=estimate_).+")
+    new.colnames[is.na(new.colnames)] <- "No Response"
+    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
     DT::datatable(dt, 
                   options = list(bFilter=0)) %>%
       formatRound(colnames(dt)[2:length(colnames(dt))], 0)
@@ -104,17 +108,27 @@ function(input, output, session) {
   
   output$xtab_table_N_HH <- renderDT({
     dt <- xtabTable()$N_HH
+    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=N_HH_).+")
+    new.colnames[is.na(new.colnames)] <- "No Response"
+    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
     DT::datatable(dt, options = list(bFilter=0)) %>%
       formatRound(colnames(dt)[2:length(colnames(dt))], 0)
   })
 
   output$xtab_table_MOE <- renderDT({
-    DT::datatable(xtabTable()$MOE, options = list(bFilter=0))%>%
+    dt <- xtabTable()$MOE
+    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=MOE_).+")
+    new.colnames[is.na(new.colnames)] <- "No Response"
+    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
+    DT::datatable(dt, options = list(bFilter=0))%>%
       formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
   })
   
   output$xtab_table_sample_count <- renderDT({
     dt <- xtabTable()$sample_count
+    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=sample_count_).+")
+    new.colnames[is.na(new.colnames)] <- "No Response"
+    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
     DT::datatable(dt, options = list(bFilter=0)) %>%
       formatRound(colnames(dt)[2:length(colnames(dt))], 0)
   })
