@@ -27,9 +27,15 @@ function(input, output, session) {
   })
   
   # variable X alias
-  varsXAlias <- reactive({
+  varsXAlias <- eventReactive(input$xtab_go, {
     xvar.alias <- variables.lu[Variables %in% input$xtab_xcol, .(Name)]
     xvar.alias$Name
+  })
+  
+  # variable Y alias
+  varsYAlias <- eventReactive(input$xtab_go, {
+    yvar.alias <- variables.lu[Variables %in% input$xtab_ycol, .(Name)]
+    yvar.alias$Name
   })
   
   # return values associated with category selected
@@ -46,6 +52,15 @@ function(input, output, session) {
                 'Variable', 
                 width = '75%',
                 varsListY())
+  })
+  
+  xtabXValues <- eventReactive(input$xtab_go, {
+    dt <- values.lu[Label %in% input$xtab_xcol, ] # return dt
+  })
+  
+  xtabYValues <- eventReactive(input$xtab_go, {
+    dt <- values.lu[Label %in% input$xtab_ycol, ]
+    v <- as.vector(dt$Value) # return vector
   })
   
   xtabTableType <- eventReactive(input$xtab_go, {
@@ -68,7 +83,11 @@ function(input, output, session) {
       type <- 'total'
      
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      # browser()
+      xvals <- xtabXValues()[, .(Variable, Value)]
+
+      crosstab[, var1.sort := factor(var1, levels = xvals$Value)]
+      crosstab <- crosstab[order(var1.sort)][, var1.sort := NULL]
+      
       setnames(crosstab, "var1", varsXAlias())
       col.headers <- c("sample_count", "estimate", "share", "MOE", "N_HH")
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
@@ -77,62 +96,75 @@ function(input, output, session) {
       return(dt.list)
   })
   
+  # clean xtabTable()
+  xtabTableClean <- reactive({
+    dt.list <- xtabTable()
+    yv <- xtabYValues()
+    xa <- varsXAlias()
+    
+    col.headers <- c("sample_count", "estimate", "share", "MOE", "N_HH")
+    col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
+    regex <- paste(col.headers, collapse = "|")
+    for (i in 1:length(dt.list)) {
+      new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+"))
+      
+      if (any(is.na(new.colnames))) { # if contains any NA columns
+        new.colnames[is.na(new.colnames)] <- "No Response"
+        setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
+        if (!is.null(yv)) {
+          setcolorder(dt.list[[i]], c(xa, "No Response", yv))
+        }
+      } else {
+        setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
+        if (!is.null(yv)) {
+          setcolorder(dt.list[[i]], c(xa, yv))
+        }
+      }
+    }
+   return(dt.list)
+  })
+  
   output$xtab_download <- downloadHandler(
     filename = function() {
-      paste("hh_survey_crosstab.xlsx", sep = "")
+      paste0("HHSurvey2017_", varsXAlias(), "_by_", varsYAlias())
     },
     content = function(file) {
-      write.xlsx(xtabTable(), file)
+      write.xlsx(xtabTableClean(), file)
     }
   )
+
+# Crosstab Generator Rendering --------------------------------------------
+
   
   output$xtab_table_share <- renderDT({
-    dt <- xtabTable()$share
-    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=share_).+")
-    new.colnames[is.na(new.colnames)] <- "No Response"
-    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
+    dt <- xtabTableClean()$share
     DT::datatable(dt,
                   options = list(bFilter=0)) %>%
       formatPercentage(colnames(dt)[2:length(colnames(dt))], 1)
   })
   
   output$xtab_table_estimate <- renderDT({
-    dt <- xtabTable()$estimate
-    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=estimate_).+")
-    new.colnames[is.na(new.colnames)] <- "No Response"
-    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
+    dt <- xtabTableClean()$estimate
     DT::datatable(dt, 
                   options = list(bFilter=0)) %>%
       formatRound(colnames(dt)[2:length(colnames(dt))], 0)
   })
   
   output$xtab_table_N_HH <- renderDT({
-    dt <- xtabTable()$N_HH
-    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=N_HH_).+")
-    new.colnames[is.na(new.colnames)] <- "No Response"
-    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
+    dt <- xtabTableClean()$N_HH
     DT::datatable(dt, options = list(bFilter=0)) %>%
       formatRound(colnames(dt)[2:length(colnames(dt))], 0)
   })
 
   output$xtab_table_MOE <- renderDT({
-    dt <- xtabTable()$MOE
-    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=MOE_).+")
-    new.colnames[is.na(new.colnames)] <- "No Response"
-    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
+    dt <- xtabTableClean()$MOE
     DT::datatable(dt, options = list(bFilter=0))%>%
       formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
   })
   
   output$xtab_table_sample_count <- renderDT({
-    dt <- xtabTable()$sample_count
-    new.colnames <- str_extract(colnames(dt)[2:length(colnames(dt))], "(?<=sample_count_).+")
-    new.colnames[is.na(new.colnames)] <- "No Response"
-    setnames(dt, colnames(dt), c(colnames(dt)[1], new.colnames))
+    dt <- xtabTableClean()$sample_count
     DT::datatable(dt, options = list(bFilter=0)) %>%
       formatRound(colnames(dt)[2:length(colnames(dt))], 0)
   })
-  
- 
-  
 }
