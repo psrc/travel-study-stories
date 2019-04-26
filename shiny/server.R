@@ -51,7 +51,8 @@ function(input, output, session) {
     selectInput('xtab_ycol',
                 'Variable', 
                 width = '75%',
-                varsListY())
+                varsListY(),
+                selected = varsListY()[[2]])
   })
   
   xtabXValues <- eventReactive(input$xtab_go, {
@@ -105,19 +106,23 @@ function(input, output, session) {
     col.headers <- c("sample_count", "estimate", "share", "MOE", "N_HH")
     col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
     regex <- paste(col.headers, collapse = "|")
+    # browser()
     for (i in 1:length(dt.list)) {
       new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+"))
       
       if (any(is.na(new.colnames))) { # if contains any NA columns
+        nonna.new.colnames <- str_subset(new.colnames, ".")
         new.colnames[is.na(new.colnames)] <- "No Response"
         setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
         if (!is.null(yv)) {
-          setcolorder(dt.list[[i]], c(xa, "No Response", yv))
+          yv.subset <- yv[yv %in% nonna.new.colnames] # are all yv vals accounted for in new.colnames excluding 'No Response'
+          setcolorder(dt.list[[i]], c(xa, "No Response", yv.subset))
         }
       } else {
         setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
         if (!is.null(yv)) {
-          setcolorder(dt.list[[i]], c(xa, yv))
+          yv.subset <- yv[yv %in% new.colnames] # are all yv vals accounted for in new.colnames
+          setcolorder(dt.list[[i]], c(xa, yv.subset))
         }
       }
     }
@@ -126,7 +131,7 @@ function(input, output, session) {
   
   output$xtab_download <- downloadHandler(
     filename = function() {
-      paste0("HHSurvey2017_", varsXAlias(), "_by_", varsYAlias())
+      paste0("HHSurvey2017_", varsXAlias(), "_by_", varsYAlias(), ".xlsx")
     },
     content = function(file) {
       write.xlsx(xtabTableClean(), file)

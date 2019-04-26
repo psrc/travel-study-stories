@@ -14,7 +14,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                          selectInput('xtab_xcat',
                                                      'Category',
                                                      width = '75%',
-                                                     vars.cat),
+                                                     vars.cat[!(vars.cat %in% "None")]),
                                          uiOutput("ui_xtab_xcol")
                                          ) # end wellPanel
                                        ), # end column
@@ -24,7 +24,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                          selectInput('xtab_ycat',
                                                      'Category',
                                                      width = '75%',
-                                                     vars.cat),
+                                                     vars.cat[!(vars.cat %in% "None")]),
                                          uiOutput("ui_xtab_ycol")
                                          ) # end welPanel
                                 ), # end column
@@ -59,7 +59,8 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                      br(),
                                                      div(DTOutput('xtab_table_sample_count'), style = 'font-size: 95%; width: 75%')))
                               ) # end fluidRow
-                              ) # end tabPanel
+                              ), # end tabPanel
+                     tabPanel("Simple Table")
                      ) # end navbarPage
           ) # end fluidPage
 
