@@ -16,5 +16,10 @@ variables.lu <- read.xlsx('variables.xlsx') %>% as.data.table
 vars.cat <- unique(variables.lu$Category)
 
 values.lu <- read.xlsx('variables_values.xlsx') %>% as.data.table
+dtype.choice <- c("Share" ="share", 
+                  "Estimate" = "estimate",
+                  "Number of Households" = "N_HH", 
+                  "Margin of Error" = "MOE",
+                  "Sample Count" = "sample_count")
 
 

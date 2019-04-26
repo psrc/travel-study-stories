@@ -1,5 +1,6 @@
-function(input, output, session) {
 
+function(input, output, session) {
+  
 
 # Functions ---------------------------------------------------------------
 
@@ -129,6 +130,53 @@ function(input, output, session) {
    return(dt.list)
   })
   
+  xtabVisTable <- reactive({
+    dt.list <- xtabTableClean()
+    # browser()
+    visdt.list <- NULL
+    for (i in 1:length(dt.list)) {
+      idcol <- varsXAlias()
+      msrcols <- colnames(dt.list[[i]])[!(colnames(dt.list[[i]]) %in% idcol)]
+      varcol <- "value"
+      t <- melt.data.table(dt.list[[i]], id.vars = idcol, measure.vars = msrcols, variable.name = "value", value.name = "result")
+      t[, type := names(dt.list[i])]
+      visdt.list[[names(dt.list[i])]]<- t
+    }
+    return(visdt.list)
+  }) 
+  
+# Crosstab Generator Rendering --------------------------------------------
+  
+  output$xtab_tbl <- renderDT({
+    dttype <- input$xtab_dtype_rbtns
+    dt <- xtabTableClean()[[dttype]]
+
+    if (dttype == 'share') {
+      DT::datatable(dt,
+                    options = list(bFilter=0)) %>%
+        formatPercentage(colnames(dt)[2:length(colnames(dt))], 1)
+    } else if (dttype == 'estimate') {
+      DT::datatable(dt, 
+                    options = list(bFilter=0)) %>%
+        formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+    } else if (dttype == 'N_HH') {
+      DT::datatable(dt, options = list(bFilter=0)) %>%
+        formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+    } else if (dttype == 'MOE') {
+      DT::datatable(dt, options = list(bFilter=0))%>%
+        formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
+    } else if (dttype == 'sample_count') {
+      DT::datatable(dt, options = list(bFilter=0)) %>%
+        formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+    }
+  })
+
+  # output$ui_xtab_vis <- renderUI(input$xtab_go, {
+  #   tabPanel("Graph",
+  #            br(),
+  #            plotOutput("xtab_vis"))
+  # })
+  
   output$xtab_download <- downloadHandler(
     filename = function() {
       paste0("HHSurvey2017_", varsXAlias(), "_by_", varsYAlias(), ".xlsx")
@@ -137,39 +185,4 @@ function(input, output, session) {
       write.xlsx(xtabTableClean(), file)
     }
   )
-
-# Crosstab Generator Rendering --------------------------------------------
-
-  
-  output$xtab_table_share <- renderDT({
-    dt <- xtabTableClean()$share
-    DT::datatable(dt,
-                  options = list(bFilter=0)) %>%
-      formatPercentage(colnames(dt)[2:length(colnames(dt))], 1)
-  })
-  
-  output$xtab_table_estimate <- renderDT({
-    dt <- xtabTableClean()$estimate
-    DT::datatable(dt, 
-                  options = list(bFilter=0)) %>%
-      formatRound(colnames(dt)[2:length(colnames(dt))], 0)
-  })
-  
-  output$xtab_table_N_HH <- renderDT({
-    dt <- xtabTableClean()$N_HH
-    DT::datatable(dt, options = list(bFilter=0)) %>%
-      formatRound(colnames(dt)[2:length(colnames(dt))], 0)
-  })
-
-  output$xtab_table_MOE <- renderDT({
-    dt <- xtabTableClean()$MOE
-    DT::datatable(dt, options = list(bFilter=0))%>%
-      formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
-  })
-  
-  output$xtab_table_sample_count <- renderDT({
-    dt <- xtabTableClean()$sample_count
-    DT::datatable(dt, options = list(bFilter=0)) %>%
-      formatRound(colnames(dt)[2:length(colnames(dt))], 0)
-  })
 }

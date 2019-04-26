@@ -41,24 +41,32 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                               ), # end fluidRow
                               br(),
                               br(), 
-                              fluidRow(
-                                tabsetPanel(type = "tabs",
-                                            tabPanel("Shares", 
-                                                     br(),
-                                                     div(DTOutput('xtab_table_share'), style = 'font-size: 95%; width: 75%')),
-                                            tabPanel("Estimates", 
-                                                     br(),
-                                                     div(DTOutput('xtab_table_estimate'), style = 'font-size: 95%; width: 75%')),
-                                            tabPanel("Number of Households", 
-                                                     br(),
-                                                     div(DTOutput('xtab_table_N_HH'), style = 'font-size: 95%; width: 75%')),
-                                            tabPanel("Margin of Error", 
-                                                     br(),
-                                                     div(DTOutput('xtab_table_MOE'), style = 'font-size: 95%; width: 75%')),
-                                            tabPanel("Sample Count", 
-                                                     br(),
-                                                     div(DTOutput('xtab_table_sample_count'), style = 'font-size: 95%; width: 75%')))
-                              ) # end fluidRow
+                              conditionalPanel(
+                                "input.xtab_go",
+                                fluidRow(
+                                  column(2,
+                                    wellPanel(
+                                             radioButtons("xtab_dtype_rbtns",
+                                                          label = strong("Summary Types"),
+                                                          choices = dtype.choice
+                                                          )
+                                    )
+                                  ),
+                                  column(10, 
+                                         fluidRow(
+                                           tabsetPanel(type = "tabs",
+                                                       tabPanel("Table",
+                                                                br(),
+                                                                div(DTOutput('xtab_tbl'), style = 'font-size: 95%; width: 75%')),
+                                                       tabPanel("Graph",
+                                                                br(),
+                                                                plotOutput("xtab_vis"))
+                                                       
+                                           ) # end tabsetPanel
+                                         ) # end fluidRow
+                                  ) # end column
+                                ) # end fluidRow
+                              ) # end conditional Panel
                               ), # end tabPanel
                      tabPanel("Simple Table")
                      ) # end navbarPage
