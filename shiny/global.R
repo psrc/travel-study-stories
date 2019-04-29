@@ -4,6 +4,7 @@ library(data.table)
 library(tidyverse)
 library(DT)
 library(openxlsx)
+library(plotly)
 
 # source functions
 source('travel_crosstab.R')

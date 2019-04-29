@@ -10,6 +10,33 @@ function(input, output, session) {
     table[, ..cols]
   }
   
+  xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel) {
+    f <- list(family = "Lato")
+    
+    if (format == "percent") {
+      yscale <- scales::percent
+    } else if (format == "nominal") {
+      yscale <- scales::comma
+    }
+    
+    g <- ggplot(table, 
+                aes_string(x = "value", 
+                           y = "result", 
+                           group = colnames(table)[1], 
+                           fill = colnames(table)[1])) +
+      geom_col(position = position_dodge(preserve = "single")) +
+      theme_minimal() +
+      labs(fill = xlabel,
+           x = ylabel,
+           y = NULL) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
+      scale_y_continuous(labels = yscale) +
+      theme(axis.title.x = element_text(margin = margin(t=30)),
+            axis.title.y = element_text(margin = margin(r=20)))
+    
+    p <- ggplotly(g) %>% layout(font = f)
+  }
+  
   
 # Crosstab Generator ------------------------------------------------------
   
@@ -107,7 +134,7 @@ function(input, output, session) {
     col.headers <- c("sample_count", "estimate", "share", "MOE", "N_HH")
     col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
     regex <- paste(col.headers, collapse = "|")
-    # browser()
+    
     for (i in 1:length(dt.list)) {
       new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+"))
       
@@ -129,10 +156,14 @@ function(input, output, session) {
     }
    return(dt.list)
   })
+
+# Crosstab Generator Visuals ----------------------------------------------
+
   
   xtabVisTable <- reactive({
     dt.list <- xtabTableClean()
-    # browser()
+    xvals <- xtabXValues()[, .(Variable, Value)]
+    
     visdt.list <- NULL
     for (i in 1:length(dt.list)) {
       idcol <- varsXAlias()
@@ -140,12 +171,35 @@ function(input, output, session) {
       varcol <- "value"
       t <- melt.data.table(dt.list[[i]], id.vars = idcol, measure.vars = msrcols, variable.name = "value", value.name = "result")
       t[, type := names(dt.list[i])]
+      setnames(t, idcol, "group")
+      if (nrow(xvals) != 0) {
+        t[, group := factor(group, levels = xvals$Value)][, group := fct_explicit_na(group, "No Response")]
+        t <- t[order(group)]
+      }
       visdt.list[[names(dt.list[i])]]<- t
     }
     return(visdt.list)
   }) 
   
-# Crosstab Generator Rendering --------------------------------------------
+  output$xtab_vis <- renderPlotly({
+    xlabel <- varsXAlias() # first dim
+    ylabel <- varsYAlias() # second dim
+    dttype <- input$xtab_dtype_rbtns
+    dt <- xtabVisTable()[[dttype]]
+    
+    if (dttype == 'share') {
+      p <- xtab.plot.bar(dt, "percent", xlabel, ylabel)
+      return(p)
+    } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
+      p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel)
+      return(p)
+    } else {
+      return(NULL)
+    }
+    
+  })
+  
+# Crosstab Generator Table Rendering --------------------------------------------
   
   output$xtab_tbl <- renderDT({
     dttype <- input$xtab_dtype_rbtns
@@ -170,13 +224,11 @@ function(input, output, session) {
         formatRound(colnames(dt)[2:length(colnames(dt))], 0)
     }
   })
-
-  # output$ui_xtab_vis <- renderUI(input$xtab_go, {
-  #   tabPanel("Graph",
-  #            br(),
-  #            plotOutput("xtab_vis"))
-  # })
   
+
+# Crosstab Generator Download ---------------------------------------------
+
+
   output$xtab_download <- downloadHandler(
     filename = function() {
       paste0("HHSurvey2017_", varsXAlias(), "_by_", varsYAlias(), ".xlsx")

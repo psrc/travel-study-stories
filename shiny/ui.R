@@ -30,13 +30,13 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                 ), # end column
                                 column(3,
                                        p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
-                                       p("Data can be downloaded once the cross-tabulations have been generated."), 
+                                       p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulations have been generated."), 
                                        # style = "margin-top: 15px;",
                                        actionButton('xtab_go', 
                                                     'Create Crosstab'),
                                        br(),
                                        br(),
-                                       downloadButton("xtab_download", "Download")
+                                       downloadButton("xtab_download", "Download Data")
                                 ) # end column
                               ), # end fluidRow
                               br(),
@@ -57,10 +57,10 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                            tabsetPanel(type = "tabs",
                                                        tabPanel("Table",
                                                                 br(),
-                                                                div(DTOutput('xtab_tbl'), style = 'font-size: 95%; width: 75%')),
-                                                       tabPanel("Graph",
+                                                                div(DTOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')),
+                                                       tabPanel("Visual",
                                                                 br(),
-                                                                plotOutput("xtab_vis"))
+                                                                plotlyOutput("xtab_vis", width = "85%"))
                                                        
                                            ) # end tabsetPanel
                                          ) # end fluidRow
