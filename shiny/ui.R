@@ -4,8 +4,6 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
           
           navbarPage("2017 Household Survey Results",
                      tabPanel("Crosstab Generator",
-                              # fluidRow(
-                              # ),
                               br(),
                               fluidRow(
                                 column(3,
@@ -13,7 +11,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                          p(strong("First Dimension (Rows)")),
                                          selectInput('xtab_xcat',
                                                      'Category',
-                                                     width = '75%',
+                                                     # width = '75%',
                                                      vars.cat[!(vars.cat %in% "None")]),
                                          uiOutput("ui_xtab_xcol")
                                          ) # end wellPanel
@@ -23,7 +21,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                          p(strong("Second Dimension (Columns)")),
                                          selectInput('xtab_ycat',
                                                      'Category',
-                                                     width = '75%',
+                                                     # width = '75%',
                                                      vars.cat[!(vars.cat %in% "None")]),
                                          uiOutput("ui_xtab_ycol")
                                          ) # end welPanel
@@ -31,9 +29,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                 column(3,
                                        p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
                                        p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulations have been generated."), 
-                                       # style = "margin-top: 15px;",
-                                       actionButton('xtab_go', 
-                                                    'Create Crosstab'),
+                                       actionButton('xtab_go', 'Create Crosstab'),
                                        br(),
                                        br(),
                                        downloadButton("xtab_download", "Download Data")
@@ -68,7 +64,44 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                 ) # end fluidRow
                               ) # end conditional Panel
                               ), # end tabPanel
-                     tabPanel("Simple Table")
+                     tabPanel("Simple Table",
+                              sidebarLayout(
+                                sidebarPanel(width = 3,
+                                             p("Select from the following characteristics, organized by categories, to generate a simple summary table."),
+                                             p("Click 'Download Data' to download tabular data after the table has been generated."),
+                                             br(),
+                                            selectInput('stab_xcat',
+                                                        'Category',
+                                                        # width = '75%',
+                                                        vars.cat[!(vars.cat %in% "None")]),
+                                            uiOutput("ui_stab_xcol"),
+                                            br(),
+                                            actionButton('stab_go', 
+                                                         'Create Table'),
+                                            br(),
+                                            br(),
+                                            downloadButton("stab_download", "Download Data"),
+                                            br(),
+                                            br(),
+                                            br(),
+                                            conditionalPanel(
+                                              "input.stab_go",
+                                              radioButtons("stab_dtype_rbtns",
+                                                           label = strong("Visual Options"),
+                                                           choices = dtype.choice[!(dtype.choice %in% 'MOE')]
+                                              )
+                                              
+                                            ) # end conditionalPanel
+                                ), # end sidbarPanel
+                                mainPanel(width = 9,
+                                          div(DTOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),
+                                          br(),
+                                          br(),
+                                          br(),
+                                          plotlyOutput('stab_vis', width = "85%")
+                                ) # end mainPanel
+                              ) # end sidebarLayout
+                              ) # end tabPanel
                      ) # end navbarPage
           ) # end fluidPage
 

@@ -37,9 +37,38 @@ function(input, output, session) {
     p <- ggplotly(g) %>% layout(font = f)
   }
   
+  stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel) {
+    f <- list(family = "Lato")
+    
+    if (format == "percent") {
+      yscale <- scales::percent
+    } else if (format == "nominal") {
+      yscale <- scales::comma
+    }
+    
+    g <- ggplot(table, 
+                aes_string(x = "value", 
+                           y = "result", 
+                           fill = colnames(table)[1])) +
+      geom_col(position = position_dodge(preserve = "single")) +
+      theme_minimal() +
+      labs(fill = NULL,
+           x = xlabel,
+           y = NULL) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
+      scale_y_continuous(labels = yscale) +
+      theme(axis.title.x = element_text(margin = margin(t=30)),
+            axis.title.y = element_text(margin = margin(r=20)),
+            legend.position = 'none')
+    
+    p <- ggplotly(g) %>% layout(font = f)
+  }
   
-# Crosstab Generator ------------------------------------------------------
   
+
+# Crosstab Generator Selection --------------------------------------------
+
+
   # variable X alias list
   varsListX <- reactive({
     t <- variables.lu[Category %in% input$xtab_xcat, ]
@@ -70,7 +99,7 @@ function(input, output, session) {
   output$ui_xtab_xcol <- renderUI({
     selectInput('xtab_xcol',
                 'Variable', 
-                width = '75%',
+                # width = '75%',
                 varsListX())
   })
   
@@ -78,7 +107,7 @@ function(input, output, session) {
   output$ui_xtab_ycol <- renderUI({
     selectInput('xtab_ycol',
                 'Variable', 
-                width = '75%',
+                # width = '75%',
                 varsListY(),
                 selected = varsListY()[[2]])
   })
@@ -91,6 +120,10 @@ function(input, output, session) {
     dt <- values.lu[Label %in% input$xtab_ycol, ]
     v <- as.vector(dt$Value) # return vector
   })
+
+  
+# Crosstab Generator data wrangling ---------------------------------------
+  
   
   xtabTableType <- eventReactive(input$xtab_go, {
     select.vars <- variables.lu[Variables %in% c(input$xtab_xcol, input$xtab_ycol), ]
@@ -98,7 +131,7 @@ function(input, output, session) {
     ifelse(tables == "Person", res <- "Person", res <- "Trip")
     return(res)
   })
-  
+
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
       table.type <- xtabTableType()
@@ -201,6 +234,7 @@ function(input, output, session) {
   
 # Crosstab Generator Table Rendering --------------------------------------------
   
+  
   output$xtab_tbl <- renderDT({
     dttype <- input$xtab_dtype_rbtns
     dt <- xtabTableClean()[[dttype]]
@@ -237,4 +271,129 @@ function(input, output, session) {
       write.xlsx(xtabTableClean(), file)
     }
   )
+  
+  # Simple Table ------------------------------------------------------------
+  
+  
+  # variable X alias
+  stab.varsXAlias <- eventReactive(input$stab_go, {
+    xvar.alias <- variables.lu[Variables %in% input$stab_xcol, .(Name)]
+    xvar.alias$Name
+  })
+  
+  # variable X alias list
+  stab.varsListX <- reactive({
+    t <- variables.lu[Category %in% input$stab_xcat, ]
+    vars.raw <- as.list(t$Variables)
+    vars.list <- setNames(vars.raw, as.list(t$Name))
+  })
+  
+  output$ui_stab_xcol <- renderUI({
+    selectInput('stab_xcol',
+                'Variable', 
+                # width = '75%',
+                stab.varsListX())
+  })
+  
+  stabXValues <- eventReactive(input$stab_go, {
+    dt <- values.lu[Label %in% input$stab_xcol, ] # return dt
+  })
+
+# Simple Table Data Wrangling ---------------------------------------------
+
+  
+  stabTableType <- eventReactive(input$stab_go, {
+    select.vars <- variables.lu[Variables %in% c(input$stab_xcol), ]
+    tables <- unique(select.vars$Table)
+    ifelse(tables == "Person", res <- "Person", res <- "Trip")
+    return(res)
+  })
+  
+  # return list of tables subsetted by value types
+  stabTable <- eventReactive(input$stab_go, {
+    table.type <- stabTableType()
+    if (table.type == "Person") {
+      survey <- pers.dt
+      wt_field <- 'hh_wt_revised'
+    } else {
+      survey <- trip.dt
+      wt_field <- 'trip_weight_revised'
+    }
+    type <- 'total'
+    
+    simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
+    xvals <- stabXValues()[, .(Variable, Value)]
+
+    simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$Value)]
+    simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
+    
+    selcols <- c(stab.varsXAlias(), names(dtype.choice))
+    setnames(simtable, c(input$stab_xcol, dtype.choice), selcols)
+    setcolorder(simtable, selcols)
+    dt <- simtable[, ..selcols]
+  })
+  
+  output$stab_tbl <- renderDT({
+    dt <- stabTable()
+    DT::datatable(dt,
+                  options = list(bFilter=0, pageLength = 6)) %>%
+      formatPercentage(c('Share', 'Margin of Error'), 1) %>%
+      formatRound(c('Estimate', 'Number of Households', 'Sample Count'), 0)
+  })
+
+# Simple Table Visuals -----------------------------------------------------
+
+  
+  stabVisTable <- reactive({
+    dt <- stabTable()
+    idvar <- stab.varsXAlias()
+    xvals <- stabXValues()[, .(Variable, Value)]
+    
+    # browser()
+    cols <- c('Number of Households', 'Sample Count')
+    dt[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
+    t <- melt.data.table(dt, id.vars = idvar, measure.vars = names(dtype.choice), variable.name = "type", value.name = "result")
+    setnames(t, idvar, "value")
+    
+    if (nrow(xvals) != 0) {
+      t[, value := factor(value, levels = xvals$Value)][, value := fct_explicit_na(value, "No Response")]
+      t <- t[order(value)]
+    }
+    
+    return(t)
+  })
+  
+  output$stab_vis <- renderPlotly({
+    xlabel <- stab.varsXAlias() # first dim
+    dttype <- input$stab_dtype_rbtns
+    selection <- names(dtype.choice[dtype.choice %in% dttype])
+    dt <- stabVisTable()[type %in% selection, ]
+    
+    if (dttype == 'share') {
+      p <- stab.plot.bar(dt, "percent", xlabel)
+      return(p)
+    } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
+      p <- stab.plot.bar(dt, "nominal", xlabel)
+      return(p)
+    } else {
+      return(NULL)
+    }
+  })
+
+
+# Simple Table Download ---------------------------------------------------
+
+  
+  output$stab_download <- downloadHandler(
+    filename = function() {
+      paste0("HHSurvey2017_", stab.varsXAlias(), ".xlsx")
+    },
+    content = function(file) {
+      write.xlsx(stabTable(), file)
+    }
+  )
+  
 }
+
+
+
