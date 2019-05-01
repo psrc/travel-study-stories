@@ -64,6 +64,22 @@ function(input, output, session) {
     p <- ggplotly(g) %>% layout(font = f)
   }
   
+  # a generic container for crosstab tables
+  dt.container <- function(atable, xvaralias, yvaralias) {
+    htmltools::withTags(table(
+      class = 'display',
+      thead(
+        tr(
+          th(class = 'dt-center', rowspan = 2, xvaralias),
+          th(class = 'dt-center', colspan = (ncol(atable)-1), yvaralias)
+        ), # end tr
+        tr(
+          lapply(colnames(atable)[2:(ncol(atable))], th)
+        ) # end tr
+      ) # end thead
+    ) # end table
+    ) # end withTags
+  }
   
 
 # Crosstab Generator Selection --------------------------------------------
@@ -238,10 +254,14 @@ function(input, output, session) {
   output$xtab_tbl <- renderDT({
     dttype <- input$xtab_dtype_rbtns
     dt <- xtabTableClean()[[dttype]]
+    sketch <- dt.container(dt, varsXAlias(), varsYAlias())
 
     if (dttype == 'share') {
       DT::datatable(dt,
-                    options = list(bFilter=0)) %>%
+                    container = sketch,
+                    rownames = FALSE,
+                    options = list(bFilter=0
+                                   )) %>%
         formatPercentage(colnames(dt)[2:length(colnames(dt))], 1)
     } else if (dttype == 'estimate') {
       DT::datatable(dt, 

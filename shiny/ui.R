@@ -6,6 +6,10 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                      tabPanel("Crosstab Generator",
                               br(),
                               fluidRow(
+                                column(2,
+                                       p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
+                                       p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulations have been generated.")
+                                       ),
                                 column(3,
                                        wellPanel(
                                          p(strong("First Dimension (Rows)")),
@@ -26,9 +30,10 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                          uiOutput("ui_xtab_ycol")
                                          ) # end welPanel
                                 ), # end column
+                                
                                 column(3,
-                                       p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
-                                       p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulations have been generated."), 
+                                       # p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
+                                       # p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulations have been generated."), 
                                        actionButton('xtab_go', 'Create Crosstab'),
                                        br(),
                                        br(),
@@ -53,7 +58,8 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                            tabsetPanel(type = "tabs",
                                                        tabPanel("Table",
                                                                 br(),
-                                                                div(DTOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')),
+                                                                div(DTOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
+                                                                ),
                                                        tabPanel("Visual",
                                                                 br(),
                                                                 plotlyOutput("xtab_vis", width = "85%"))
