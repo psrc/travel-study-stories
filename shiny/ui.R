@@ -44,7 +44,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                     wellPanel(
                                              radioButtons("xtab_dtype_rbtns",
                                                           label = strong("Summary Types"),
-                                                          choices = dtype.choice
+                                                          choices = dtype.choice[!(dtype.choice %in% 'N_HH')]
                                                           )
                                     )
                                   ),
@@ -88,7 +88,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                               "input.stab_go",
                                               radioButtons("stab_dtype_rbtns",
                                                            label = strong("Visual Options"),
-                                                           choices = dtype.choice[!(dtype.choice %in% 'MOE')]
+                                                           choices = dtype.choice[!(dtype.choice %in% c('MOE', 'N_HH'))]
                                               )
                                               
                                             ) # end conditionalPanel

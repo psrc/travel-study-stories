@@ -327,18 +327,25 @@ function(input, output, session) {
     simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$Value)]
     simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
     
-    selcols <- c(stab.varsXAlias(), names(dtype.choice))
-    setnames(simtable, c(input$stab_xcol, dtype.choice), selcols)
+    dtypes <- dtype.choice[!(dtype.choice %in% "N_HH")] # remove N_HH
+    selcols <- c(stab.varsXAlias(), names(dtypes))
+    setnames(simtable, c(input$stab_xcol, dtypes), selcols)
     setcolorder(simtable, selcols)
     dt <- simtable[, ..selcols]
   })
   
   output$stab_tbl <- renderDT({
     dt <- stabTable()
+
+    fmt.per <- names(dtype.choice[dtype.choice %in% c('share', 'MOE')])
+    fmt.num <- names(dtype.choice[dtype.choice %in% c('estimate', 'sample_count')])
     DT::datatable(dt,
-                  options = list(bFilter=0, pageLength = 6)) %>%
-      formatPercentage(c('Share', 'Margin of Error'), 1) %>%
-      formatRound(c('Estimate', 'Number of Households', 'Sample Count'), 0)
+                  options = list(bFilter=0, 
+                                 pageLength = 6,
+                                 autoWidth = TRUE,
+                                 columnDefs = list(list(width = '280px', targets = c(2:ncol(dt)))))) %>%
+      formatPercentage(fmt.per, 1) %>%
+      formatRound(fmt.num, 0)
   })
 
 # Simple Table Visuals -----------------------------------------------------
@@ -349,10 +356,10 @@ function(input, output, session) {
     idvar <- stab.varsXAlias()
     xvals <- stabXValues()[, .(Variable, Value)]
     
-    # browser()
-    cols <- c('Number of Households', 'Sample Count')
+    cols <- c('Sample Count')
     dt[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
-    t <- melt.data.table(dt, id.vars = idvar, measure.vars = names(dtype.choice), variable.name = "type", value.name = "result")
+    msr.vars <- names(dtype.choice[names(dtype.choice) %in% colnames(dt)])
+    t <- melt.data.table(dt, id.vars = idvar, measure.vars = msr.vars, variable.name = "type", value.name = "result")
     setnames(t, idvar, "value")
     
     if (nrow(xvals) != 0) {
