@@ -5,6 +5,7 @@ library(tidyverse)
 library(DT)
 library(openxlsx)
 library(plotly)
+library(shinyjs)
 
 # source functions
 source('travel_crosstab.R')

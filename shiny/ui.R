@@ -1,13 +1,14 @@
 fluidPage(title = "", windowTitle = "2017 Household Survey Results",
           # shinythemes::themeSelector(),
           theme = shinytheme("flatly"),
-          
+          useShinyjs(),
           navbarPage("2017 Household Survey Results",
                      tabPanel("Crosstab Generator",
                               br(),
                               fluidRow(
                                 column(2,
-                                       p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
+                                       p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."),
+                                       p("Tables may be summarized by share, margin of error based on the share, weighted estimates, or sample count."), 
                                        p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulations have been generated.")
                                        ),
                                 column(3,
@@ -17,7 +18,15 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                      'Category',
                                                      # width = '75%',
                                                      vars.cat[!(vars.cat %in% "None")]),
-                                         uiOutput("ui_xtab_xcol")
+                                         uiOutput("ui_xtab_xcol"),
+                                         div(a(id = "xtabXtoggleAdvanced", "Show/hide variable detail", href = "#"),
+                                             hidden(
+                                               div(id = "xtabXAdvanced", 
+                                                   textOutput("xtab_xcol_det")
+                                               ) # end div 
+                                             ), # end hidden
+                                             style = 'font-size: 90%'
+                                         )# end div
                                          ) # end wellPanel
                                        ), # end column
                                 column(3,
@@ -27,14 +36,20 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                      'Category',
                                                      # width = '75%',
                                                      vars.cat[!(vars.cat %in% "None")]),
-                                         uiOutput("ui_xtab_ycol")
-                                         ) # end welPanel
+                                         uiOutput("ui_xtab_ycol"),
+                                         div(a(id = "xtabYtoggleAdvanced", "Show/hide variable detail", href = "#"),
+                                             hidden(
+                                               div(id = "xtabYAdvanced", 
+                                                   textOutput("xtab_ycol_det")
+                                                   ) # end div 
+                                              ), # end hidden
+                                             style = 'font-size: 90%'
+                                         )# end div
+                                       ) # end welPanel
                                 ), # end column
                                 
                                 column(3,
-                                       # p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."), 
-                                       # p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulations have been generated."), 
-                                       actionButton('xtab_go', 'Create Crosstab'),
+                                       actionButton('xtab_go', 'Create Crosstab', width = '150px'),
                                        br(),
                                        br(),
                                        downloadButton("xtab_download", "Download Data")
@@ -81,6 +96,14 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                         # width = '75%',
                                                         vars.cat[!(vars.cat %in% "None")]),
                                             uiOutput("ui_stab_xcol"),
+                                            div(a(id = "stabXtoggleAdvanced", "Show/hide variable detail", href = "#"),
+                                                hidden(
+                                                  div(id = "stabXAdvanced", 
+                                                      textOutput("stab_xcol_det")
+                                                  ) # end div 
+                                                ), # end hidden
+                                                style = 'font-size: 90%'
+                                            ), # end div
                                             br(),
                                             actionButton('stab_go', 
                                                          'Create Table'),
@@ -100,7 +123,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                             ) # end conditionalPanel
                                 ), # end sidbarPanel
                                 mainPanel(width = 9,
-                                          div(DTOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),
+                                          div(DTOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
                                           br(),
                                           br(),
                                           br(),

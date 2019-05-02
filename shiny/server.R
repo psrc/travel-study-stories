@@ -29,7 +29,7 @@ function(input, output, session) {
       labs(fill = xlabel,
            x = ylabel,
            y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 12)) +
       scale_y_continuous(labels = yscale) +
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)))
@@ -84,7 +84,25 @@ function(input, output, session) {
 
 # Crosstab Generator Selection --------------------------------------------
 
-
+  # show/hide vars definition
+  observe({
+    onclick("xtabXtoggleAdvanced",
+            toggle(id = "xtabXAdvanced", anim = TRUE))  
+    onclick("xtabYtoggleAdvanced",
+            toggle(id = "xtabYAdvanced", anim = TRUE))
+    
+  })
+  
+  output$xtab_xcol_det <- renderText({
+    xvar.det <- variables.lu[Variables %in% input$xtab_xcol, .(Detail)]
+    xvar.det$Detail
+  })
+  
+  output$xtab_ycol_det <- renderText({
+    yvar.det <- variables.lu[Variables %in% input$xtab_ycol, .(Detail)]
+    yvar.det$Detail
+  })
+  
   # variable X alias list
   varsListX <- reactive({
     t <- variables.lu[Category %in% input$xtab_xcat, ]
@@ -292,8 +310,18 @@ function(input, output, session) {
     }
   )
   
-  # Simple Table ------------------------------------------------------------
+# Simple Table ------------------------------------------------------------
   
+  # show/hide vars definition
+  observe({
+    onclick("stabXtoggleAdvanced",
+            toggle(id = "stabXAdvanced", anim = TRUE))  
+  })
+  
+  output$stab_xcol_det <- renderText({
+    xvar.det <- variables.lu[Variables %in% input$stab_xcol, .(Detail)]
+    xvar.det$Detail
+  })
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
@@ -362,8 +390,10 @@ function(input, output, session) {
     DT::datatable(dt,
                   options = list(bFilter=0, 
                                  pageLength = 6,
-                                 autoWidth = TRUE,
-                                 columnDefs = list(list(width = '280px', targets = c(2:ncol(dt)))))) %>%
+                                 autoWidth = FALSE,
+                                 columnDefs = list(list(width = '100px', targets = c(2:ncol(dt))))
+                                 )
+                  ) %>%
       formatPercentage(fmt.per, 1) %>%
       formatRound(fmt.num, 0)
   })
@@ -376,7 +406,7 @@ function(input, output, session) {
     idvar <- stab.varsXAlias()
     xvals <- stabXValues()[, .(Variable, Value)]
     
-    cols <- c('Sample Count')
+    cols <- names(dtype.choice[dtype.choice %in% c("sample_count")])
     dt[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
     msr.vars <- names(dtype.choice[names(dtype.choice) %in% colnames(dt)])
     t <- melt.data.table(dt, id.vars = idvar, measure.vars = msr.vars, variable.name = "type", value.name = "result")
