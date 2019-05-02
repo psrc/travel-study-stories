@@ -55,11 +55,38 @@ function(input, output, session) {
       labs(fill = NULL,
            x = xlabel,
            y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 12)) +
       scale_y_continuous(labels = yscale) +
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)),
             legend.position = 'none')
+    
+    p <- ggplotly(g) %>% layout(font = f)
+  }
+  
+  stab.plot.bar2 <- function(table, format = c("percent", "nominal"), xlabel) {
+    f <- list(family = "Lato")
+    
+    if (format == "percent") {
+      yscale <- scales::percent
+    } else if (format == "nominal") {
+      yscale <- scales::comma
+    }
+    
+    g <- ggplot(table, 
+                aes_string(x = "value", 
+                           y = "result", 
+                           fill = colnames(table)[1])) +
+      geom_col(position = position_dodge(preserve = "single")) +
+      theme_minimal() +
+      labs(fill = NULL,
+           x = xlabel,
+           y = NULL) +
+      scale_y_continuous(labels = yscale) +
+      theme(axis.title.x = element_text(margin = margin(t=30)),
+            axis.text.x = element_blank(),
+            axis.title.y = element_text(margin = margin(r=20))#,
+      )
     
     p <- ggplotly(g) %>% layout(font = f)
   }
@@ -426,11 +453,14 @@ function(input, output, session) {
     selection <- names(dtype.choice[dtype.choice %in% dttype])
     dt <- stabVisTable()[type %in% selection, ]
     
+    l <- length(stabXValues()$Value) 
+    ifelse(l == 0, l <- unique(dt$value), l) # evaluate if values are not in lookup (length 0)
+    
     if (dttype == 'share') {
-      p <- stab.plot.bar(dt, "percent", xlabel)
+      ifelse(l < 10, p <- stab.plot.bar(dt, "percent", xlabel), p <- stab.plot.bar2(dt, "percent", xlabel))
       return(p)
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-      p <- stab.plot.bar(dt, "nominal", xlabel)
+      ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel), p <- stab.plot.bar2(dt, "nominal", xlabel))
       return(p)
     } else {
       return(NULL)
