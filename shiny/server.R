@@ -229,7 +229,13 @@ function(input, output, session) {
     col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
     regex <- paste(col.headers, collapse = "|")
     
+    # evaluate for blank values in first dim
+    xvals <- dt.list[[1]][, ..xa]
+    blanks <- nrow(xvals[get(eval(xa)) %in% ""])
+
     for (i in 1:length(dt.list)) {
+      if (blanks >= 1) dt.list[[i]][get(eval(xa)) %in% "", (xa) := "No Response"] 
+      
       new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+"))
       
       if (any(is.na(new.colnames))) { # if contains any NA columns
@@ -396,16 +402,25 @@ function(input, output, session) {
     }
     type <- 'total'
     
+    xa <- stab.varsXAlias()
+    
     simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
     xvals <- stabXValues()[, .(Variable, Value)]
 
     simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$Value)]
     simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
+   
     
     dtypes <- dtype.choice[!(dtype.choice %in% "N_HH")] # remove N_HH
-    selcols <- c(stab.varsXAlias(), names(dtypes))
+    selcols <- c(xa, names(dtypes))
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)
     setcolorder(simtable, selcols)
+
+    # evaluate for blank values 
+    xvals <- simtable[, ..xa]
+    blanks <- nrow(xvals[get(eval(xa)) %in% ""])
+    if (blanks >= 1) simtable[get(eval(xa)) %in% "", (xa) := "No Response"]
+    
     dt <- simtable[, ..selcols]
   })
   
