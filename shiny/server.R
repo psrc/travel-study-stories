@@ -10,7 +10,7 @@ function(input, output, session) {
     table[, ..cols]
   }
   
-  xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel) {
+  xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
     f <- list(family = "Lato")
     
     if (format == "percent") {
@@ -24,7 +24,10 @@ function(input, output, session) {
                            y = "result", 
                            group = colnames(table)[1], 
                            fill = colnames(table)[1])) +
-      geom_col(position = position_dodge(preserve = "single")) +
+      geom_col(position = position_dodge(preserve = "single"),
+               aes(text = paste(paste0(xlabel,':'), group,
+                                paste0('<br>', ylabel, ':'), value,
+                                paste0('<br>', dttype.label, ':'), yscale(result)))) +
       theme_minimal() +
       labs(fill = xlabel,
            x = ylabel,
@@ -34,7 +37,7 @@ function(input, output, session) {
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)))
     
-    p <- ggplotly(g) %>% layout(font = f)
+    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
   }
   
   stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel) {
@@ -49,8 +52,12 @@ function(input, output, session) {
     g <- ggplot(table, 
                 aes_string(x = "value", 
                            y = "result", 
-                           fill = colnames(table)[1])) +
-      geom_col(position = position_dodge(preserve = "single")) +
+                           fill = colnames(table)[1]
+                           )) +
+      geom_col(position = position_dodge(preserve = "single"),
+               aes(text = paste(paste0(xlabel,':'), value,
+                                paste0('<br>', type, ':'), yscale(result)))
+               ) +
       theme_minimal() +
       labs(fill = NULL,
            x = xlabel,
@@ -61,7 +68,7 @@ function(input, output, session) {
             axis.title.y = element_text(margin = margin(r=20)),
             legend.position = 'none')
     
-    p <- ggplotly(g) %>% layout(font = f)
+    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
   }
   
   stab.plot.bar2 <- function(table, format = c("percent", "nominal"), xlabel) {
@@ -76,8 +83,12 @@ function(input, output, session) {
     g <- ggplot(table, 
                 aes_string(x = "value", 
                            y = "result", 
-                           fill = colnames(table)[1])) +
-      geom_col(position = position_dodge(preserve = "single")) +
+                           fill = colnames(table)[1]
+                           )) +
+      geom_col(position = position_dodge(preserve = "single"),
+               aes(text = paste(paste0(xlabel,':'), value,
+                                paste0('<br>', type, ':'), yscale(result)))
+               ) +
       theme_minimal() +
       labs(fill = NULL,
            x = xlabel,
@@ -88,7 +99,7 @@ function(input, output, session) {
             axis.title.y = element_text(margin = margin(r=20))#,
       )
     
-    p <- ggplotly(g) %>% layout(font = f)
+    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
   }
   
   # a generic container for crosstab tables
@@ -160,7 +171,6 @@ function(input, output, session) {
   output$ui_xtab_xcol <- renderUI({
     selectInput('xtab_xcol',
                 'Variable', 
-                # width = '75%',
                 varsListX())
   })
   
@@ -168,7 +178,6 @@ function(input, output, session) {
   output$ui_xtab_ycol <- renderUI({
     selectInput('xtab_ycol',
                 'Variable', 
-                # width = '75%',
                 varsListY(),
                 selected = varsListY()[[2]])
   })
@@ -210,7 +219,6 @@ function(input, output, session) {
 
       crosstab[, var1.sort := factor(var1, levels = xvals$Value)]
       crosstab <- crosstab[order(var1.sort)][, var1.sort := NULL]
-      
       setnames(crosstab, "var1", varsXAlias())
       col.headers <- c("sample_count", "estimate", "share", "MOE", "N_HH")
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
@@ -285,13 +293,14 @@ function(input, output, session) {
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
     dttype <- input$xtab_dtype_rbtns
+    dttype.label <- names(dtype.choice[dtype.choice == dttype])
     dt <- xtabVisTable()[[dttype]]
     
     if (dttype == 'share') {
-      p <- xtab.plot.bar(dt, "percent", xlabel, ylabel)
+      p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label)
       return(p)
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-      p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel)
+      p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label)
       return(p)
     } else {
       return(NULL)
@@ -410,7 +419,6 @@ function(input, output, session) {
     simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$Value)]
     simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
    
-    
     dtypes <- dtype.choice[!(dtype.choice %in% "N_HH")] # remove N_HH
     selcols <- c(xa, names(dtypes))
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)
@@ -426,6 +434,7 @@ function(input, output, session) {
   
   output$stab_tbl <- renderDT({
     dt <- stabTable()
+    # browser()
 
     fmt.per <- names(dtype.choice[dtype.choice %in% c('share', 'MOE')])
     fmt.num <- names(dtype.choice[dtype.choice %in% c('estimate', 'sample_count')])
@@ -467,7 +476,7 @@ function(input, output, session) {
     dttype <- input$stab_dtype_rbtns
     selection <- names(dtype.choice[dtype.choice %in% dttype])
     dt <- stabVisTable()[type %in% selection, ]
-    
+    # browser()
     l <- length(stabXValues()$Value) 
     ifelse(l == 0, l <- unique(dt$value), l) # evaluate if values are not in lookup (length 0)
     
