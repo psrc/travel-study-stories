@@ -38,10 +38,37 @@ function(input, output, session) {
       labs(fill = xlabel,
            x = ylabel,
            y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 12)) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
       scale_y_continuous(labels = yscale) +
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)))
+    
+    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
+  }
+  
+  xtab.plot.bar.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+    f <- list(family = "Lato")
+    yscale <- plot.format.nums(format)
+    
+    g <- ggplot(table, 
+                aes(x = value,
+                    y = result,
+                    group = get(colnames(table)[1]),
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), group,
+                                 paste0('<br>', ylabel, ':'), value,
+                                 paste0('<br>', dttype.label, ':'), yscale(result))
+                )
+    ) +
+      geom_col(position = position_dodge(preserve = "single")) +
+      theme_minimal() +
+      labs(fill = xlabel,
+           x = ylabel,
+           y = NULL) +
+      scale_y_continuous(labels = yscale) +
+      theme(axis.title.x = element_text(margin = margin(t=30)),
+            axis.title.y = element_text(margin = margin(r=20))) +
+      coord_flip()
     
     p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
   }
@@ -63,7 +90,7 @@ function(input, output, session) {
       labs(fill = NULL,
            x = xlabel,
            y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 12)) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
       scale_y_continuous(labels = yscale) +
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)),
@@ -233,22 +260,21 @@ function(input, output, session) {
     col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
     regex <- paste(col.headers, collapse = "|")
     
-    # evaluate for blank values in first dim
-    xvals <- dt.list[[1]][, ..xa]
-    blanks <- nrow(xvals[get(eval(xa)) %in% ""])
-
+    # evaluates for NA columns & rows, and excludes it
     for (i in 1:length(dt.list)) {
-      if (blanks >= 1) dt.list[[i]][get(eval(xa)) %in% "", (xa) := "No Response"] 
-      
-      new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+"))
-      
+      dt.list[[i]] <- dt.list[[i]][!(get(eval(xa)) %in% "")]
+
+      new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+")) #includes blank
+
       if (any(is.na(new.colnames))) { # if contains any NA columns
         nonna.new.colnames <- str_subset(new.colnames, ".")
-        new.colnames[is.na(new.colnames)] <- "No Response"
         setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
-        if (!is.null(yv)) {
-          yv.subset <- yv[yv %in% nonna.new.colnames] # are all yv vals accounted for in new.colnames excluding 'No Response'
-          setcolorder(dt.list[[i]], c(xa, "No Response", yv.subset))
+        keep.cols <- colnames(dt.list[[i]])[!is.na(colnames(dt.list[[i]]))]
+        dt.list[[i]] <- dt.list[[i]][, ..keep.cols]
+
+        if (length(yv) != 0) {
+          yv.subset <- yv[yv %in% nonna.new.colnames] # only account for yv vals that exist in dt
+          setcolorder(dt.list[[i]], c(xa, yv.subset))
         }
       } else {
         setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
@@ -258,6 +284,39 @@ function(input, output, session) {
         }
       }
     }
+
+    # # evaluate for blank values in first dim
+    # xvals <- dt.list[[1]][, ..xa]
+    # blanks <- nrow(xvals[get(eval(xa)) %in% ""])
+    # 
+    # # evaluates for NA columns, naming it as No Response, and excludes it
+    # for (i in 1:length(dt.list)) {
+    #   if (blanks >= 1) dt.list[[i]][get(eval(xa)) %in% "", (xa) := "No Response"]
+    #   dt.list[[i]] <- dt.list[[i]][!(get(eval(xa)) %in% "No Response")]
+    #   
+    #   new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+"))
+    #   
+    #   if (any(is.na(new.colnames))) { # if contains any NA columns
+    #     nonna.new.colnames <- str_subset(new.colnames, ".")
+    #     new.colnames[is.na(new.colnames)] <- "No Response"
+    #     setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
+    #    
+    #     if (length(yv) != 0) {
+    #       yv.subset <- yv[yv %in% nonna.new.colnames] # are all yv vals accounted for in new.colnames excluding 'No Response'
+    #       setcolorder(dt.list[[i]], c(xa, "No Response", yv.subset))
+    #       setcolorder(dt.list[[i]], c(xa, yv.subset))
+    #     }
+    #     keep.cols <- colnames(dt.list[[i]])[!(colnames(dt.list[[i]]) %in% "No Response")]
+    #     dt.list[[i]] <- dt.list[[i]][, ..keep.cols]
+    #   
+    #   } else {
+    #     setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
+    #     if (!is.null(yv)) {
+    #       yv.subset <- yv[yv %in% new.colnames] # are all yv vals accounted for in new.colnames
+    #       setcolorder(dt.list[[i]], c(xa, yv.subset))
+    #     }
+    #   }
+    # }
    return(dt.list)
   })
 
@@ -291,12 +350,14 @@ function(input, output, session) {
     dttype <- input$xtab_dtype_rbtns
     dttype.label <- names(dtype.choice[dtype.choice == dttype])
     dt <- xtabVisTable()[[dttype]]
-    
+ 
+    l <- length(unique(dt$value))
+  
     if (dttype == 'share') {
-      p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label)
+      ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label))
       return(p)
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-      p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label)
+      ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label))
       return(p)
     } else {
       return(NULL)
@@ -419,12 +480,12 @@ function(input, output, session) {
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)
     setcolorder(simtable, selcols)
 
-    # evaluate for blank values 
-    xvals <- simtable[, ..xa]
-    blanks <- nrow(xvals[get(eval(xa)) %in% ""])
-    if (blanks >= 1) simtable[get(eval(xa)) %in% "", (xa) := "No Response"]
+    # # evaluate for blank values 
+    # xvals <- simtable[, ..xa]
+    # blanks <- nrow(xvals[get(eval(xa)) %in% ""])
+    # if (blanks >= 1) simtable[get(eval(xa)) %in% "", (xa) := "No Response"]
     
-    dt <- simtable[, ..selcols]
+    dt <- simtable[!(get(eval(xa)) %in% "")][, ..selcols]
   })
   
   output$stab_tbl <- renderDT({
@@ -472,7 +533,7 @@ function(input, output, session) {
     dt <- stabVisTable()[type %in% selection, ]
 
     l <- length(stabXValues()$Value) 
-    ifelse(l == 0, l <- unique(dt$value), l) # evaluate if values are not in lookup (length 0)
+    if(l == 0) l <- length(unique(dt$value)) # evaluate if values are not in lookup (length 0)
     
     if (dttype == 'share') {
       ifelse(l < 10, p <- stab.plot.bar(dt, "percent", xlabel), p <- stab.plot.bar2(dt, "percent", xlabel))
