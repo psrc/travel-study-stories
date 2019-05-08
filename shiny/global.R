@@ -11,8 +11,8 @@ library(shinyjs)
 source('travel_crosstab.R')
 
 # source data
-pers.dt <- fread('person.csv')
-trip.dt <- fread('trip.csv')
+pers.dt <- fread('person.csv', encoding = 'UTF-8')
+trip.dt <- fread('trip.csv', encoding = 'UTF-8')
 
 variables.lu <- read.xlsx('variables.xlsx') %>% as.data.table
 vars.cat <- unique(variables.lu$Category)
