@@ -10,24 +10,30 @@ function(input, output, session) {
     table[, ..cols]
   }
   
-  xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
-    f <- list(family = "Lato")
-    
+  plot.format.nums <- function(format = c("percent", "nominal")) {
     if (format == "percent") {
       yscale <- scales::percent
     } else if (format == "nominal") {
       yscale <- scales::comma
     }
+    return(yscale)
+  }
+  
+  xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+    f <- list(family = "Lato")
+    yscale <- plot.format.nums(format)
     
     g <- ggplot(table, 
-                aes_string(x = "value", 
-                           y = "result", 
-                           group = colnames(table)[1], 
-                           fill = colnames(table)[1])) +
-      geom_col(position = position_dodge(preserve = "single"),
-               aes(text = paste(paste0(xlabel,':'), group,
-                                paste0('<br>', ylabel, ':'), value,
-                                paste0('<br>', dttype.label, ':'), yscale(result)))) +
+                aes(x = value,
+                    y = result,
+                    group = get(colnames(table)[1]),
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), group,
+                                 paste0('<br>', ylabel, ':'), value,
+                                 paste0('<br>', dttype.label, ':'), yscale(result))
+                    )
+                ) +
+      geom_col(position = position_dodge(preserve = "single")) +
       theme_minimal() +
       labs(fill = xlabel,
            x = ylabel,
@@ -42,22 +48,17 @@ function(input, output, session) {
   
   stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel) {
     f <- list(family = "Lato")
+    yscale <- plot.format.nums(format)
     
-    if (format == "percent") {
-      yscale <- scales::percent
-    } else if (format == "nominal") {
-      yscale <- scales::comma
-    }
-    
-    g <- ggplot(table, 
-                aes_string(x = "value", 
-                           y = "result", 
-                           fill = colnames(table)[1]
-                           )) +
-      geom_col(position = position_dodge(preserve = "single"),
-               aes(text = paste(paste0(xlabel,':'), value,
-                                paste0('<br>', type, ':'), yscale(result)))
-               ) +
+    g <- ggplot(table,
+                aes(x = value,
+                    y = result,
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), value,
+                                paste0('<br>', type, ':'), yscale(result))
+                    )
+                ) +
+      geom_col(position = position_dodge(preserve = "single")) +
       theme_minimal() +
       labs(fill = NULL,
            x = xlabel,
@@ -73,22 +74,17 @@ function(input, output, session) {
   
   stab.plot.bar2 <- function(table, format = c("percent", "nominal"), xlabel) {
     f <- list(family = "Lato")
-    
-    if (format == "percent") {
-      yscale <- scales::percent
-    } else if (format == "nominal") {
-      yscale <- scales::comma
-    }
+    yscale <- plot.format.nums(format)
     
     g <- ggplot(table, 
-                aes_string(x = "value", 
-                           y = "result", 
-                           fill = colnames(table)[1]
-                           )) +
-      geom_col(position = position_dodge(preserve = "single"),
-               aes(text = paste(paste0(xlabel,':'), value,
-                                paste0('<br>', type, ':'), yscale(result)))
-               ) +
+                aes(x = value, 
+                    y = result, 
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), value,
+                                 paste0('<br>', type, ':'), yscale(result))
+                    )
+                ) +
+      geom_col(position = position_dodge(preserve = "single")) +
       theme_minimal() +
       labs(fill = NULL,
            x = xlabel,
@@ -381,7 +377,6 @@ function(input, output, session) {
   output$ui_stab_xcol <- renderUI({
     selectInput('stab_xcol',
                 'Variable', 
-                # width = '75%',
                 stab.varsListX())
   })
   
@@ -434,7 +429,6 @@ function(input, output, session) {
   
   output$stab_tbl <- renderDT({
     dt <- stabTable()
-    # browser()
 
     fmt.per <- names(dtype.choice[dtype.choice %in% c('share', 'MOE')])
     fmt.num <- names(dtype.choice[dtype.choice %in% c('estimate', 'sample_count')])
@@ -476,7 +470,7 @@ function(input, output, session) {
     dttype <- input$stab_dtype_rbtns
     selection <- names(dtype.choice[dtype.choice %in% dttype])
     dt <- stabVisTable()[type %in% selection, ]
-    # browser()
+
     l <- length(stabXValues()$Value) 
     ifelse(l == 0, l <- unique(dt$value), l) # evaluate if values are not in lookup (length 0)
     
