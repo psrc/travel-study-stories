@@ -35,13 +35,14 @@ function(input, output, session) {
                 ) +
       geom_col(position = position_dodge(preserve = "single")) +
       theme_minimal() +
-      labs(fill = xlabel,
+      labs(fill = str_wrap(xlabel, 30),
            x = ylabel,
            y = NULL) +
       scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
       scale_y_continuous(labels = yscale) +
       theme(axis.title.x = element_text(margin = margin(t=30)),
-            axis.title.y = element_text(margin = margin(r=20)))
+            axis.title.y = element_text(margin = margin(r=20)),
+            plot.margin = margin(.4, 0, 0, 0, "cm"))
     
     p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
   }
