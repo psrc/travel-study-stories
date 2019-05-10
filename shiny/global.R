@@ -21,7 +21,8 @@ values.lu <- read.xlsx('variables_values.xlsx') %>% as.data.table
 dtype.choice <- c("Share" ="share", 
                   "Estimate" = "estimate",
                   "Number of Households" = "N_HH", 
-                  "Margin of Error (Share)" = "MOE",
+                  "Shares with Margin of Error" = "share_with_MOE",
+                  # "Margin of Error (Share)" = "MOE",
                   "Sample Count" = "sample_count")
 
 

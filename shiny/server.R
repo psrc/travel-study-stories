@@ -74,6 +74,37 @@ function(input, output, session) {
     p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
   }
   
+  xtab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+    f <- list(family = "Lato")
+    yscale <- plot.format.nums(format)
+    
+    g <- ggplot(table, 
+                aes(x = value,
+                    y = result,
+                    group = get(colnames(table)[1]),
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), group,
+                                 paste0('<br>', ylabel, ':'), value,
+                                 paste0('<br>', dttype.label, ':'), yscale(result))
+                )
+    ) +
+      geom_col(position = position_dodge(preserve = "single")) +
+      geom_errorbar(aes(ymin = result - result_moe, ymax = result + result_moe),
+                    alpha = .5,
+                    position = position_dodge()) +
+      theme_minimal() +
+      labs(fill = str_wrap(xlabel, 30),
+           x = ylabel,
+           y = NULL) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
+      scale_y_continuous(labels = yscale) +
+      theme(axis.title.x = element_text(margin = margin(t=30)),
+            axis.title.y = element_text(margin = margin(r=20)),
+            plot.margin = margin(.4, 0, 0, 0, "cm"))
+    
+    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
+  }
+  
   stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel) {
     f <- list(family = "Lato")
     yscale <- plot.format.nums(format)
@@ -137,6 +168,29 @@ function(input, output, session) {
         ), # end tr
         tr(
           lapply(colnames(atable)[2:(ncol(atable))], th)
+        ) # end tr
+      ) # end thead
+    ) # end table
+    ) # end withTags
+  }
+  
+  # a container for shares with margin of error
+  dt.container.ShareMOE <- function(atable, xvaralias, yvaralias) {
+    exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE", sep = "|"))
+    yval.labels <- setdiff(colnames(atable), exc.cols)
+    
+    htmltools::withTags(table(
+      class = 'display',
+      thead(
+        tr(
+          th(class = 'dt-center', rowspan = 3, xvaralias),
+          th(class = 'dt-center', colspan = (ncol(atable)-1), yvaralias)
+        ), # end tr
+        tr(
+          lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
+        ), # end tr
+        tr(
+          lapply(rep(c("Share", "MOE"), (ncol(atable)-1)/2), function(x) th(style = "font-size:12px", x))
         ) # end tr
       ) # end thead
     ) # end table
@@ -265,11 +319,11 @@ function(input, output, session) {
     for (i in 1:length(dt.list)) {
       dt.list[[i]] <- dt.list[[i]][!(get(eval(xa)) %in% "")]
 
-      new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+")) #includes blank
+      new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+")) # includes blank
 
       if (any(is.na(new.colnames))) { # if contains any NA columns
         nonna.new.colnames <- str_subset(new.colnames, ".")
-        setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
+        setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames)) # blank becomes NA
         keep.cols <- colnames(dt.list[[i]])[!is.na(colnames(dt.list[[i]]))]
         dt.list[[i]] <- dt.list[[i]][, ..keep.cols]
 
@@ -285,44 +339,67 @@ function(input, output, session) {
         }
       }
     }
-
-    # # evaluate for blank values in first dim
-    # xvals <- dt.list[[1]][, ..xa]
-    # blanks <- nrow(xvals[get(eval(xa)) %in% ""])
-    # 
-    # # evaluates for NA columns, naming it as No Response, and excludes it
-    # for (i in 1:length(dt.list)) {
-    #   if (blanks >= 1) dt.list[[i]][get(eval(xa)) %in% "", (xa) := "No Response"]
-    #   dt.list[[i]] <- dt.list[[i]][!(get(eval(xa)) %in% "No Response")]
-    #   
-    #   new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+"))
-    #   
-    #   if (any(is.na(new.colnames))) { # if contains any NA columns
-    #     nonna.new.colnames <- str_subset(new.colnames, ".")
-    #     new.colnames[is.na(new.colnames)] <- "No Response"
-    #     setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
-    #    
-    #     if (length(yv) != 0) {
-    #       yv.subset <- yv[yv %in% nonna.new.colnames] # are all yv vals accounted for in new.colnames excluding 'No Response'
-    #       setcolorder(dt.list[[i]], c(xa, "No Response", yv.subset))
-    #       setcolorder(dt.list[[i]], c(xa, yv.subset))
-    #     }
-    #     keep.cols <- colnames(dt.list[[i]])[!(colnames(dt.list[[i]]) %in% "No Response")]
-    #     dt.list[[i]] <- dt.list[[i]][, ..keep.cols]
-    #   
-    #   } else {
-    #     setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
-    #     if (!is.null(yv)) {
-    #       yv.subset <- yv[yv %in% new.colnames] # are all yv vals accounted for in new.colnames
-    #       setcolorder(dt.list[[i]], c(xa, yv.subset))
-    #     }
-    #   }
-    # }
    return(dt.list)
   })
-
+  
+  # create separate table of shares alongside margin of errors
+  xtabTableClean.ShareMOE <- reactive({
+    xa <- varsXAlias()
+    xvals <- xtabXValues()[, .(Variable, Value)]
+    dt.s <- xtabTableClean()[['share']]
+    dt.m <- xtabTableClean()[['MOE']]
+    dtcols <- colnames(dt.s)[2:ncol(dt.s)]
+    
+    cols.order <- c()
+    for (acol in dtcols) {
+      moe.col <- paste0(acol, "_MOE")
+      cols.order <- append(cols.order, c(acol, moe.col))
+    }
+    
+    colnames(dt.m)[2:ncol(dt.m)] <- paste0(colnames(dt.m)[2:ncol(dt.m)], "_MOE")
+    dt.sm <- merge(dt.s, dt.m, by = xa)
+    
+    dt.sm[, var1.sort := factor(get(eval(xa)), levels = xvals$Value)]
+    dt.sm <- dt.sm[order(var1.sort)][, var1.sort := NULL]
+    order.colnames <- c(xa, cols.order)
+    dt.sm <- dt.sm[, ..order.colnames]
+  })
+  
+  xtabTableClean.DT.ShareMOE <- reactive({
+    dt <- xtabTableClean.ShareMOE()
+    t <- copy(dt)
+    
+    moe.cols <- str_subset(colnames(t), "_MOE$")
+    t[, (moe.cols) := lapply(.SD, function(x) round(x*100, 2)), .SDcols = moe.cols]
+    t[, (moe.cols) := lapply(.SD, function(x) paste0("+/-", as.character(x), "%")), .SDcols = moe.cols]
+    
+    for(j in seq_along(t)){
+      set(t, i = which(t[[j]] == "+/-NA%"), j=j, value="")
+    }
+    return(t)
+  })
+  
 # Crosstab Generator Visuals ----------------------------------------------
 
+  
+  xtabVisTable.ShareMOE <- reactive({
+    xa <- varsXAlias()
+    xvals <- xtabXValues()[, .(Variable, Value)]
+    dt.s <- xtabTableClean()[['share']]
+    dt.m <- xtabTableClean()[['MOE']]
+
+    msrcols <- colnames(dt.s)[!(colnames(dt.s) %in% xa)]
+    dts <- melt.data.table(dt.s, id.vars = xa, measure.vars = msrcols, variable.name = "value", value.name = "result")
+    dtm <- melt.data.table(dt.m, id.vars = xa, measure.vars = msrcols, variable.name = "value", value.name = "result_moe")
+    dt <- merge(dts, dtm, by = c(xa, "value"))
+    setnames(dt, xa, "group")
+    
+    if (nrow(xvals) != 0) {
+      dt[, group := factor(group, levels = xvals$Value)][, group := fct_explicit_na(group, "No Response")]
+      dt <- dt[order(group)]
+    }
+    return(dt)
+  })
   
   xtabVisTable <- reactive({
     dt.list <- xtabTableClean()
@@ -350,8 +427,14 @@ function(input, output, session) {
     ylabel <- varsYAlias() # second dim
     dttype <- input$xtab_dtype_rbtns
     dttype.label <- names(dtype.choice[dtype.choice == dttype])
-    dt <- xtabVisTable()[[dttype]]
- 
+    # dt <- xtabVisTable()[[dttype]]
+    
+    if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
+      dt <- xtabVisTable()[[dttype]]
+    } else {
+      dt <- xtabVisTable.ShareMOE()
+    }
+
     l <- length(unique(dt$value))
   
     if (dttype == 'share') {
@@ -359,6 +442,9 @@ function(input, output, session) {
       return(p)
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
       ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label))
+      return(p)
+    } else if (dttype %in% c('share_with_MOE')) {
+      p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, dttype.label)
       return(p)
     } else {
       return(NULL)
@@ -371,9 +457,14 @@ function(input, output, session) {
   
   output$xtab_tbl <- renderDT({
     dttype <- input$xtab_dtype_rbtns
-    dt <- xtabTableClean()[[dttype]]
+    if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
+      dt <- xtabTableClean()[[dttype]]
+    } else {
+      dt <- xtabTableClean.DT.ShareMOE()
+    }
     sketch <- dt.container(dt, varsXAlias(), varsYAlias())
-
+    sketch.exp <- dt.container.ShareMOE(dt, varsXAlias(), varsYAlias())
+    
     if (dttype == 'share') {
       DT::datatable(dt,
                     container = sketch,
@@ -382,18 +473,38 @@ function(input, output, session) {
                                    )) %>%
         formatPercentage(colnames(dt)[2:length(colnames(dt))], 1)
     } else if (dttype == 'estimate') {
-      DT::datatable(dt, 
+      DT::datatable(dt,
+                    container = sketch,
+                    rownames = FALSE,
                     options = list(bFilter=0)) %>%
         formatRound(colnames(dt)[2:length(colnames(dt))], 0)
     } else if (dttype == 'N_HH') {
       DT::datatable(dt, options = list(bFilter=0)) %>%
         formatRound(colnames(dt)[2:length(colnames(dt))], 0)
     } else if (dttype == 'MOE') {
-      DT::datatable(dt, options = list(bFilter=0))%>%
+      DT::datatable(dt, 
+                    container = sketch,
+                    rownames = FALSE,
+                    options = list(bFilter=0))%>%
         formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
     } else if (dttype == 'sample_count') {
-      DT::datatable(dt, options = list(bFilter=0)) %>%
+      DT::datatable(dt, 
+                    container = sketch,
+                    rownames = FALSE,
+                    options = list(bFilter=0)) %>%
         formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+    } else if (dttype == 'share_with_MOE') {
+      moe.cols <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
+      cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], moe.cols)
+      DT::datatable(dt,
+                    container = sketch.exp,
+                    rownames = FALSE,
+                    options = list(bFilter=0,
+                                   autoWidth = FALSE,
+                                   columnDefs = list(list(className = "dt-head-center dt-center", targets = "_all")) # DT CRAN hack
+                    )
+                    ) %>%
+        formatPercentage(cols.fmt, 1)
     }
   })
   
@@ -476,15 +587,10 @@ function(input, output, session) {
     simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$Value)]
     simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
    
-    dtypes <- dtype.choice[!(dtype.choice %in% "N_HH")] # remove N_HH
+    dtypes <- dtype.choice[!(dtype.choice %in% c("N_HH", "share_with_MOE"))] # remove N_HH
     selcols <- c(xa, names(dtypes))
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)
     setcolorder(simtable, selcols)
-
-    # # evaluate for blank values 
-    # xvals <- simtable[, ..xa]
-    # blanks <- nrow(xvals[get(eval(xa)) %in% ""])
-    # if (blanks >= 1) simtable[get(eval(xa)) %in% "", (xa) := "No Response"]
     
     dt <- simtable[!(get(eval(xa)) %in% "")][, ..selcols]
   })

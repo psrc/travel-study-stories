@@ -68,7 +68,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                           )
                                     )
                                   ),
-                                  column(10, 
+                                  column(10,
                                          fluidRow(
                                            tabsetPanel(type = "tabs",
                                                        tabPanel("Table",
@@ -117,7 +117,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                               "input.stab_go",
                                               radioButtons("stab_dtype_rbtns",
                                                            label = strong("Visual Options"),
-                                                           choices = dtype.choice[!(dtype.choice %in% c('MOE', 'N_HH'))]
+                                                           choices = dtype.choice[!(dtype.choice %in% c('MOE', 'N_HH', 'share_with_MOE'))]
                                               )
                                               
                                             ) # end conditionalPanel
