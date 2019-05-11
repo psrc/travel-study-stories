@@ -38,7 +38,7 @@ function(input, output, session) {
       labs(fill = str_wrap(xlabel, 30),
            x = ylabel,
            y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
       scale_y_continuous(labels = yscale) +
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)),
@@ -96,7 +96,7 @@ function(input, output, session) {
       labs(fill = str_wrap(xlabel, 30),
            x = ylabel,
            y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
       scale_y_continuous(labels = yscale) +
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)),
@@ -122,7 +122,7 @@ function(input, output, session) {
       labs(fill = NULL,
            x = xlabel,
            y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 20)) +
+      scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
       scale_y_continuous(labels = yscale) +
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)),
@@ -426,7 +426,8 @@ function(input, output, session) {
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
     dttype <- input$xtab_dtype_rbtns
-    dttype.label <- names(dtype.choice[dtype.choice == dttype])
+    # dttype.label <- names(dtype.choice[dtype.choice == dttype])
+    dttype.label <- names(dtype.choice.xtab[dtype.choice.xtab == dttype])
     # dt <- xtabVisTable()[[dttype]]
     
     if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
@@ -478,15 +479,15 @@ function(input, output, session) {
                     rownames = FALSE,
                     options = list(bFilter=0)) %>%
         formatRound(colnames(dt)[2:length(colnames(dt))], 0)
-    } else if (dttype == 'N_HH') {
-      DT::datatable(dt, options = list(bFilter=0)) %>%
-        formatRound(colnames(dt)[2:length(colnames(dt))], 0)
-    } else if (dttype == 'MOE') {
-      DT::datatable(dt, 
-                    container = sketch,
-                    rownames = FALSE,
-                    options = list(bFilter=0))%>%
-        formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
+    # } else if (dttype == 'N_HH') {
+    #   DT::datatable(dt, options = list(bFilter=0)) %>%
+    #     formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+    # } else if (dttype == 'MOE') {
+    #   DT::datatable(dt, 
+    #                 container = sketch,
+    #                 rownames = FALSE,
+    #                 options = list(bFilter=0))%>%
+    #     formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
     } else if (dttype == 'sample_count') {
       DT::datatable(dt, 
                     container = sketch,
@@ -587,7 +588,8 @@ function(input, output, session) {
     simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$Value)]
     simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
    
-    dtypes <- dtype.choice[!(dtype.choice %in% c("N_HH", "share_with_MOE"))] # remove N_HH
+    # dtypes <- dtype.choice[!(dtype.choice %in% c("N_HH", "share_with_MOE"))] # remove N_HH
+    dtypes <- dtype.choice.stab # remove N_HH
     selcols <- c(xa, names(dtypes))
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)
     setcolorder(simtable, selcols)
