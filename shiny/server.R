@@ -88,10 +88,11 @@ function(input, output, session) {
                                  paste0('<br>', dttype.label, ':'), yscale(result))
                 )
     ) +
-      geom_col(position = position_dodge(preserve = "single")) +
+      geom_col(position = position_dodge(preserve = "single")) + 
       geom_errorbar(aes(ymin = result - result_moe, ymax = result + result_moe),
                     alpha = .5,
-                    position = position_dodge()) +
+                    width = 0.2,
+                    position = position_dodge(width =  .9)) +
       theme_minimal() +
       labs(fill = str_wrap(xlabel, 30),
            x = ylabel,
@@ -101,6 +102,39 @@ function(input, output, session) {
       theme(axis.title.x = element_text(margin = margin(t=30)),
             axis.title.y = element_text(margin = margin(r=20)),
             plot.margin = margin(.4, 0, 0, 0, "cm"))
+    
+    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
+  }
+  
+  xtab.plot.bar.moe.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+    f <- list(family = "Lato")
+    yscale <- plot.format.nums(format)
+    
+    g <- ggplot(table, 
+                aes(x = value,
+                    y = result,
+                    group = get(colnames(table)[1]),
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), group,
+                                 paste0('<br>', ylabel, ':'), value,
+                                 paste0('<br>', dttype.label, ':'), yscale(result))
+                )
+    ) +
+      geom_col(position = position_dodge(preserve = "single")) + 
+      geom_linerange(aes(ymin = result - result_moe, ymax = result + result_moe),
+                    alpha = .4,
+                    size = .2,
+                    position = position_dodge(width = .9)) +
+      theme_minimal() +
+      labs(fill = str_wrap(xlabel, 30),
+           x = ylabel,
+           y = NULL) +
+      # scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
+      scale_y_continuous(labels = yscale) +
+      theme(axis.title.x = element_text(margin = margin(t=30)),
+            axis.title.y = element_text(margin = margin(r=20)),
+            plot.margin = margin(.4, 0, 0, 0, "cm")) +
+      coord_flip()
     
     p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
   }
@@ -437,7 +471,7 @@ function(input, output, session) {
     }
 
     l <- length(unique(dt$value))
-  
+
     if (dttype == 'share') {
       ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label))
       return(p)
@@ -445,7 +479,8 @@ function(input, output, session) {
       ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label))
       return(p)
     } else if (dttype %in% c('share_with_MOE')) {
-      p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, dttype.label)
+      # p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, dttype.label)
+      ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel, dttype.label), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, dttype.label))
       return(p)
     } else {
       return(NULL)
