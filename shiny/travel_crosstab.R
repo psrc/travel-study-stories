@@ -17,6 +17,8 @@ cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
   
   if (type == "total") {
     setkeyv(table, cols)
+    table[table==""]<- NA
+    table <- na.omit(table, cols = cols)
     raw <- table[, .(sample_count = .N), by = cols] 
     N_hh <- table[, .(hhid = uniqueN(hhid)), by = var1]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = cols]
@@ -55,6 +57,8 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
 
   if (type == "total") {
     setkeyv(table, var)
+    table[table==""]<- NA
+    table <- na.omit(table, cols = var)
     raw <- table[, .(sample_count = .N), by = var]
     N_hh <- table[, .(hhid = uniqueN(hhid)), by = var]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = var]
