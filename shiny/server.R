@@ -3,8 +3,7 @@ function(input, output, session) {
   
 
 # Functions ---------------------------------------------------------------
-  source('functions_plot.R')
-
+  
   # Column Subset Crosstab Generator
   xtab.col.subset <- function(table, colstring = c("sample_count", "estimate", "share", "MOE", "N_HH")) {
     cols <- c(varsXAlias(), str_subset(colnames(table), paste0("^", colstring)))

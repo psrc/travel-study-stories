@@ -9,6 +9,7 @@ library(shinyjs)
 
 # source functions
 source('travel_crosstab.R')
+source('functions_plot.R')
 
 # source data
 pers.dt <- fread('person.csv', encoding = 'UTF-8')
