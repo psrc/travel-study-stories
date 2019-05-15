@@ -3,192 +3,12 @@ function(input, output, session) {
   
 
 # Functions ---------------------------------------------------------------
+  source('functions_plot.R')
 
   # Column Subset Crosstab Generator
   xtab.col.subset <- function(table, colstring = c("sample_count", "estimate", "share", "MOE", "N_HH")) {
     cols <- c(varsXAlias(), str_subset(colnames(table), paste0("^", colstring)))
     table[, ..cols]
-  }
-  
-  plot.format.nums <- function(format = c("percent", "nominal")) {
-    if (format == "percent") {
-      yscale <- scales::percent
-    } else if (format == "nominal") {
-      yscale <- scales::comma
-    }
-    return(yscale)
-  }
-  
-  xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
-    f <- list(family = "Lato")
-    yscale <- plot.format.nums(format)
-    
-    g <- ggplot(table, 
-                aes(x = value,
-                    y = result,
-                    group = get(colnames(table)[1]),
-                    fill = get(colnames(table)[1]),
-                    text = paste(paste0(xlabel,':'), group,
-                                 paste0('<br>', ylabel, ':'), value,
-                                 paste0('<br>', dttype.label, ':'), yscale(result))
-                    )
-                ) +
-      geom_col(position = position_dodge(preserve = "single")) +
-      theme_minimal() +
-      labs(fill = str_wrap(xlabel, 30),
-           x = ylabel,
-           y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
-      scale_y_continuous(labels = yscale) +
-      theme(axis.title.x = element_text(margin = margin(t=30)),
-            axis.title.y = element_text(margin = margin(r=20)),
-            plot.margin = margin(.4, 0, 0, 0, "cm"))
-    
-    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
-  }
-  
-  xtab.plot.bar.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
-    f <- list(family = "Lato")
-    yscale <- plot.format.nums(format)
-    
-    g <- ggplot(table, 
-                aes(x = value,
-                    y = result,
-                    group = get(colnames(table)[1]),
-                    fill = get(colnames(table)[1]),
-                    text = paste(paste0(xlabel,':'), group,
-                                 paste0('<br>', ylabel, ':'), value,
-                                 paste0('<br>', dttype.label, ':'), yscale(result))
-                )
-    ) +
-      geom_col(position = position_dodge(preserve = "single")) +
-      theme_minimal() +
-      labs(fill = xlabel,
-           x = ylabel,
-           y = NULL) +
-      scale_y_continuous(labels = yscale) +
-      theme(axis.title.x = element_text(margin = margin(t=30)),
-            axis.title.y = element_text(margin = margin(r=20))) +
-      coord_flip()
-    
-    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
-  }
-  
-  xtab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
-    f <- list(family = "Lato")
-    yscale <- plot.format.nums(format)
-    
-    g <- ggplot(table, 
-                aes(x = value,
-                    y = result,
-                    group = get(colnames(table)[1]),
-                    fill = get(colnames(table)[1]),
-                    text = paste(paste0(xlabel,':'), group,
-                                 paste0('<br>', ylabel, ':'), value,
-                                 paste0('<br>', dttype.label, ':'), yscale(result))
-                )
-    ) +
-      geom_col(position = position_dodge(preserve = "single")) + 
-      geom_errorbar(aes(ymin = result - result_moe, ymax = result + result_moe),
-                    alpha = .5,
-                    width = 0.2,
-                    position = position_dodge(width =  .9)) +
-      theme_minimal() +
-      labs(fill = str_wrap(xlabel, 30),
-           x = ylabel,
-           y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
-      scale_y_continuous(labels = yscale) +
-      theme(axis.title.x = element_text(margin = margin(t=30)),
-            axis.title.y = element_text(margin = margin(r=20)),
-            plot.margin = margin(.4, 0, 0, 0, "cm"))
-    
-    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
-  }
-  
-  xtab.plot.bar.moe.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
-    f <- list(family = "Lato")
-    yscale <- plot.format.nums(format)
-    
-    g <- ggplot(table, 
-                aes(x = value,
-                    y = result,
-                    group = get(colnames(table)[1]),
-                    fill = get(colnames(table)[1]),
-                    text = paste(paste0(xlabel,':'), group,
-                                 paste0('<br>', ylabel, ':'), value,
-                                 paste0('<br>', dttype.label, ':'), yscale(result))
-                )
-    ) +
-      geom_col(position = position_dodge(preserve = "single")) + 
-      geom_linerange(aes(ymin = result - result_moe, ymax = result + result_moe),
-                    alpha = .4,
-                    size = .2,
-                    position = position_dodge(width = .9)) +
-      theme_minimal() +
-      labs(fill = str_wrap(xlabel, 30),
-           x = ylabel,
-           y = NULL) +
-      # scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
-      scale_y_continuous(labels = yscale) +
-      theme(axis.title.x = element_text(margin = margin(t=30)),
-            axis.title.y = element_text(margin = margin(r=20)),
-            plot.margin = margin(.4, 0, 0, 0, "cm")) +
-      coord_flip()
-    
-    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
-  }
-  
-  stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel) {
-    f <- list(family = "Lato")
-    yscale <- plot.format.nums(format)
-    
-    g <- ggplot(table,
-                aes(x = value,
-                    y = result,
-                    fill = get(colnames(table)[1]),
-                    text = paste(paste0(xlabel,':'), value,
-                                paste0('<br>', type, ':'), yscale(result))
-                    )
-                ) +
-      geom_col(position = position_dodge(preserve = "single")) +
-      theme_minimal() +
-      labs(fill = NULL,
-           x = xlabel,
-           y = NULL) +
-      scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
-      scale_y_continuous(labels = yscale) +
-      theme(axis.title.x = element_text(margin = margin(t=30)),
-            axis.title.y = element_text(margin = margin(r=20)),
-            legend.position = 'none')
-    
-    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
-  }
-  
-  stab.plot.bar2 <- function(table, format = c("percent", "nominal"), xlabel) {
-    f <- list(family = "Lato")
-    yscale <- plot.format.nums(format)
-    
-    g <- ggplot(table, 
-                aes(x = value, 
-                    y = result, 
-                    fill = get(colnames(table)[1]),
-                    text = paste(paste0(xlabel,':'), value,
-                                 paste0('<br>', type, ':'), yscale(result))
-                    )
-                ) +
-      geom_col(position = position_dodge(preserve = "single")) +
-      theme_minimal() +
-      labs(fill = NULL,
-           x = xlabel,
-           y = NULL) +
-      scale_y_continuous(labels = yscale) +
-      theme(axis.title.x = element_text(margin = margin(t=30)),
-            axis.text.x = element_blank(),
-            axis.title.y = element_text(margin = margin(r=20))#,
-      )
-    
-    p <- ggplotly(g, tooltip = "text") %>% layout(font = f)
   }
   
   # a generic container for crosstab tables
@@ -224,7 +44,7 @@ function(input, output, session) {
           lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
         ), # end tr
         tr(
-          lapply(rep(c("Share", "MOE"), (ncol(atable)-1)/2), function(x) th(style = "font-size:12px", x))
+          lapply(rep(c("Share", "Margin of Error"), (ncol(atable)-1)/2), function(x) th(style = "font-size:12px", x))
         ) # end tr
       ) # end thead
     ) # end table
@@ -400,11 +220,11 @@ function(input, output, session) {
   })
   
   xtabTableClean.DT.ShareMOE <- reactive({
-    dt <- xtabTableClean.ShareMOE()
-    t <- copy(dt)
+    # dt <- xtabTableClean.ShareMOE()
+    t <- copy(xtabTableClean.ShareMOE())
     
     moe.cols <- str_subset(colnames(t), "_MOE$")
-    t[, (moe.cols) := lapply(.SD, function(x) round(x*100, 2)), .SDcols = moe.cols]
+    t[, (moe.cols) := lapply(.SD, function(x) round(x*100, 1)), .SDcols = moe.cols]
     t[, (moe.cols) := lapply(.SD, function(x) paste0("+/-", as.character(x), "%")), .SDcols = moe.cols]
     
     for(j in seq_along(t)){
@@ -431,6 +251,8 @@ function(input, output, session) {
     if (nrow(xvals) != 0) {
       dt[, group := factor(group, levels = xvals$Value)][, group := fct_explicit_na(group, "No Response")]
       dt <- dt[order(group)]
+    } else {
+      dt[, group := factor(group)]
     }
     return(dt)
   })
@@ -438,7 +260,7 @@ function(input, output, session) {
   xtabVisTable <- reactive({
     dt.list <- xtabTableClean()
     xvals <- xtabXValues()[, .(Variable, Value)]
-    
+
     visdt.list <- NULL
     for (i in 1:length(dt.list)) {
       idcol <- varsXAlias()
@@ -450,6 +272,8 @@ function(input, output, session) {
       if (nrow(xvals) != 0) {
         t[, group := factor(group, levels = xvals$Value)][, group := fct_explicit_na(group, "No Response")]
         t <- t[order(group)]
+      } else {
+        t[, group := factor(group)]
       }
       visdt.list[[names(dt.list[i])]]<- t
     }
@@ -460,10 +284,8 @@ function(input, output, session) {
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
     dttype <- input$xtab_dtype_rbtns
-    # dttype.label <- names(dtype.choice[dtype.choice == dttype])
     dttype.label <- names(dtype.choice.xtab[dtype.choice.xtab == dttype])
-    # dt <- xtabVisTable()[[dttype]]
-    
+
     if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
       dt <- xtabVisTable()[[dttype]]
     } else {
@@ -479,8 +301,7 @@ function(input, output, session) {
       ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label))
       return(p)
     } else if (dttype %in% c('share_with_MOE')) {
-      # p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, dttype.label)
-      ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel, dttype.label), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, dttype.label))
+      ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel))
       return(p)
     } else {
       return(NULL)
@@ -623,8 +444,7 @@ function(input, output, session) {
     simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$Value)]
     simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
    
-    # dtypes <- dtype.choice[!(dtype.choice %in% c("N_HH", "share_with_MOE"))] # remove N_HH
-    dtypes <- dtype.choice.stab # remove N_HH
+    dtypes <- dtype.choice.stab 
     selcols <- c(xa, names(dtypes))
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)
     setcolorder(simtable, selcols)
@@ -632,16 +452,29 @@ function(input, output, session) {
     dt <- simtable[!(get(eval(xa)) %in% "")][, ..selcols]
   })
   
+  # clean Margin of Error column and column reorder
+  stabTable.DT <- reactive({
+    xa <- stab.varsXAlias()
+    dt <- copy(stabTable())
+   
+    col <- names(dtype.choice[dtype.choice %in% "MOE"])
+    dt[, (col) := lapply(.SD, function(x) round(x*100, 1)), .SDcols = col]
+    dt[, (col) := lapply(.SD, function(x) paste0("+/-", as.character(x), "%")), .SDcols = col]
+    new.colorder <- c(xa, names(dtype.choice[dtype.choice %in% c("share")]), col, names(dtype.choice[dtype.choice %in% c("estimate", "sample_count")]))
+    setcolorder(dt,  new.colorder)
+    return(dt)
+  })
+  
   output$stab_tbl <- renderDT({
-    dt <- stabTable()
+    dt <- stabTable.DT()
 
-    fmt.per <- names(dtype.choice[dtype.choice %in% c('share', 'MOE')])
+    fmt.per <- names(dtype.choice[dtype.choice %in% c('share')])
     fmt.num <- names(dtype.choice[dtype.choice %in% c('estimate', 'sample_count')])
     DT::datatable(dt,
                   options = list(bFilter=0, 
                                  pageLength = 6,
                                  autoWidth = FALSE,
-                                 columnDefs = list(list(width = '100px', targets = c(2:ncol(dt))))
+                                 columnDefs = list(list(className = "dt-center", width = '100px', targets = c(2:ncol(dt))))
                                  )
                   ) %>%
       formatPercentage(fmt.per, 1) %>%
@@ -655,7 +488,7 @@ function(input, output, session) {
     dt <- stabTable()
     idvar <- stab.varsXAlias()
     xvals <- stabXValues()[, .(Variable, Value)]
-    
+
     cols <- names(dtype.choice[dtype.choice %in% c("sample_count")])
     dt[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
     msr.vars <- names(dtype.choice[names(dtype.choice) %in% colnames(dt)])
@@ -665,8 +498,18 @@ function(input, output, session) {
     if (nrow(xvals) != 0) {
       t[, value := factor(value, levels = xvals$Value)][, value := fct_explicit_na(value, "No Response")]
       t <- t[order(value)]
+    } else {
+      t[, value := factor(value)]
     }
     
+    return(t)
+  })
+  
+  stabVisTable.shareMOE <- reactive({
+    types <- names(dtype.choice[dtype.choice %in% c('share', 'MOE')])
+    dt <- stabVisTable()[type %in% types]
+    t <- dcast.data.table(dt, value ~ type, value.var = "result")
+    setnames(t, str_subset(colnames(t), paste(types, collapse = "|")), c("result", "result_moe"))
     return(t)
   })
   
@@ -674,7 +517,12 @@ function(input, output, session) {
     xlabel <- stab.varsXAlias() # first dim
     dttype <- input$stab_dtype_rbtns
     selection <- names(dtype.choice[dtype.choice %in% dttype])
-    dt <- stabVisTable()[type %in% selection, ]
+    
+    if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
+      dt <- stabVisTable()[type %in% selection, ]
+    } else {
+      dt <- stabVisTable.shareMOE()
+    }
 
     l <- length(stabXValues()$Value) 
     if(l == 0) l <- length(unique(dt$value)) # evaluate if values are not in lookup (length 0)
@@ -684,6 +532,9 @@ function(input, output, session) {
       return(p)
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
       ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel), p <- stab.plot.bar2(dt, "nominal", xlabel))
+      return(p)
+    } else if (dttype %in% c('share_with_MOE')) {
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel), p <- stab.plot.bar2.moe(dt, "nominal", xlabel))
       return(p)
     } else {
       return(NULL)

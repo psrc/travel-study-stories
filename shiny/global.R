@@ -32,4 +32,5 @@ dtype.choice.xtab <- dtype.choice[c(1:2, 4, 6)]
 
 # stab sublist
 dtype.choice.stab <- dtype.choice[c(1:2, 5:6)]
+dtype.choice.stab.vis <- dtype.choice[c(1:2, 4, 6)]
 
