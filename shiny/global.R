@@ -7,18 +7,18 @@ library(openxlsx)
 library(plotly)
 library(shinyjs)
 
-# source functions
-source('travel_crosstab.R')
-source('functions_plot.R')
+# wrkdir <- "C:/Users/CLam/Desktop/travel-study-stories/shiny" # local
+wrkdir <- "/home/shiny/apps/travel-study-stories/shiny" # shiny
 
-# source data
-pers.dt <- fread('person.csv', encoding = 'UTF-8')
-trip.dt <- fread('trip.csv', encoding = 'UTF-8')
+source(file.path(wrkdir, 'travel_crosstab.R'))
+source(file.path(wrkdir, 'functions_plot.R'))
+pers.dt <- fread(file.path(wrkdir, 'person.csv'), encoding = 'UTF-8')
+trip.dt <- fread(file.path(wrkdir, 'trip.csv'), encoding = 'UTF-8')
+variables.lu <- read.xlsx(file.path(wrkdir, 'variables.xlsx')) %>% as.data.table
+values.lu <- read.xlsx(file.path(wrkdir, 'variables_values.xlsx')) %>% as.data.table
 
-variables.lu <- read.xlsx('variables.xlsx') %>% as.data.table
+
 vars.cat <- unique(variables.lu$Category)
-
-values.lu <- read.xlsx('variables_values.xlsx') %>% as.data.table
 
 # master list
 dtype.choice <- c("Share" ="share",
