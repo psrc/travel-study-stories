@@ -56,17 +56,17 @@ function(input, output, session) {
   # show/hide vars definition
   observe({
     onclick("xtabXtoggleAdvanced",
-            toggle(id = "xtabXAdvanced", anim = TRUE))  
+            toggle(id = "xtabXAdvanced", anim = TRUE))
     onclick("xtabYtoggleAdvanced",
             toggle(id = "xtabYAdvanced", anim = TRUE))
-    
+
   })
   
   output$xtab_xcol_det <- renderText({
     xvar.det <- variables.lu[Variables %in% input$xtab_xcol, .(Detail)]
     xvar.det$Detail
   })
-  
+
   output$xtab_ycol_det <- renderText({
     yvar.det <- variables.lu[Variables %in% input$xtab_ycol, .(Detail)]
     yvar.det$Detail
@@ -101,14 +101,14 @@ function(input, output, session) {
   # return values associated with category selected
   output$ui_xtab_xcol <- renderUI({
     selectInput('xtab_xcol',
-                'Variable', 
+                'Variable',
                 varsListX())
   })
-  
+
   # return values associated with category selected
   output$ui_xtab_ycol <- renderUI({
     selectInput('xtab_ycol',
-                'Variable', 
+                'Variable',
                 varsListY(),
                 selected = varsListY()[[2]])
   })
@@ -305,13 +305,13 @@ function(input, output, session) {
     } else {
       return(NULL)
     }
-    
+
   })
   
 # Crosstab Generator Table Rendering --------------------------------------------
   
   
-  output$xtab_tbl <- renderDT({
+  output$xtab_tbl <- DT::renderDataTable({
     dttype <- input$xtab_dtype_rbtns
     if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
       dt <- xtabTableClean()[[dttype]]
@@ -464,7 +464,7 @@ function(input, output, session) {
     return(dt)
   })
   
-  output$stab_tbl <- renderDT({
+  output$stab_tbl <- DT::renderDataTable({
     dt <- stabTable.DT()
 
     fmt.per <- names(dtype.choice[dtype.choice %in% c('share')])
