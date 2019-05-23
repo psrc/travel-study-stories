@@ -10,6 +10,29 @@ function(input, output, session) {
     table[, ..cols]
   }
   
+  xtab.join.samplecnt <- function(xtabcleandt, dttype, varsXAlias) {
+    dt.data <- xtabcleandt[[dttype]]
+    dt.sort.rows <- dt.data[[varsXAlias]]
+    dt.style <- xtabcleandt[['sample_count']]
+    colnames(dt.style)[2:length(colnames(dt.style))] <- paste0(colnames(dt.style)[2:length(colnames(dt.style))], "_sc")
+    dt <- merge(dt.data, dt.style, by = varsXAlias)
+    dt[, var1.sort := factor(get(varsXAlias), levels = dt.sort.rows)]
+    dt <- dt[order(var1.sort)][, var1.sort := NULL]
+  }
+  
+  xtab.create.DT <- function(atable, acontainer, indices2hide, maxyvals, sc.cols) {
+    ltgrey <- '#bdbdc3'
+    DT::datatable(atable,
+                  container = acontainer,
+                  rownames = FALSE,
+                  options = list(bFilter=0,
+                                 columnDefs = list(list(visible = F, targets = indices2hide)) # DT's column index starts at 0 not 1
+                  )) %>%
+      formatStyle(columns = colnames(atable)[2:maxyvals],
+                  valueColumns = sc.cols, 
+                  color = styleInterval(c(30), c(ltgrey, 'black')))
+  }
+  
   # a generic container for crosstab tables
   dt.container <- function(atable, xvaralias, yvaralias) {
     htmltools::withTags(table(
@@ -21,6 +44,24 @@ function(input, output, session) {
         ), # end tr
         tr(
           lapply(colnames(atable)[2:(ncol(atable))], th)
+        ) # end tr
+      ) # end thead
+    ) # end table
+    ) # end withTags
+  }
+  
+  dt.container.dtstyle <- function(atable, xvaralias, yvaralias) {
+    sc.cols <- str_subset(colnames(atable), "_sc")
+    num.disp.cols <- ncol(atable) - length(sc.cols)
+    htmltools::withTags(table(
+      class = 'display',
+      thead(
+        tr(
+          th(class = 'dt-center', rowspan = 2, xvaralias),
+          th(class = 'dt-center', colspan = (num.disp.cols-1), yvaralias)
+        ), # end tr
+        tr(
+          lapply(colnames(atable)[2:num.disp.cols], th)
         ) # end tr
       ) # end thead
     ) # end table
@@ -309,46 +350,40 @@ function(input, output, session) {
   })
   
 # Crosstab Generator Table Rendering --------------------------------------------
-  
+ 
   
   output$xtab_tbl <- DT::renderDataTable({
+
     dttype <- input$xtab_dtype_rbtns
     if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
-      dt <- xtabTableClean()[[dttype]]
+      # dt <- xtabTableClean()[[dttype]] #og
+      dt <- xtab.join.samplecnt(xtabTableClean(), dttype, varsXAlias()) 
+      sc.cols <- str_which(colnames(dt), "_sc")
+      sc.idx <- sc.cols - 1
+      disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc")))
     } else {
       dt <- xtabTableClean.DT.ShareMOE()
     }
-    sketch <- dt.container(dt, varsXAlias(), varsYAlias())
+    
+    # sketch <- dt.container(dt, varsXAlias(), varsYAlias())
+    sketch.dtstyle <- dt.container.dtstyle(dt, varsXAlias(), varsYAlias())
     sketch.exp <- dt.container.ShareMOE(dt, varsXAlias(), varsYAlias())
     
     if (dttype == 'share') {
-      DT::datatable(dt,
-                    container = sketch,
-                    rownames = FALSE,
-                    options = list(bFilter=0
-                                   )) %>%
-        formatPercentage(colnames(dt)[2:length(colnames(dt))], 1)
+      # DT::datatable(dt,
+      #               container = sketch,
+      #               rownames = FALSE,
+      #               options = list(bFilter=0
+      #                              )) %>%
+      #   formatPercentage(colnames(dt)[2:length(colnames(dt.data))], 1)
+      xtab.create.DT(dt, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+        formatPercentage(colnames(dt)[2:disp.col.max], 1)
     } else if (dttype == 'estimate') {
-      DT::datatable(dt,
-                    container = sketch,
-                    rownames = FALSE,
-                    options = list(bFilter=0)) %>%
-        formatRound(colnames(dt)[2:length(colnames(dt))], 0)
-    # } else if (dttype == 'N_HH') {
-    #   DT::datatable(dt, options = list(bFilter=0)) %>%
-    #     formatRound(colnames(dt)[2:length(colnames(dt))], 0)
-    # } else if (dttype == 'MOE') {
-    #   DT::datatable(dt, 
-    #                 container = sketch,
-    #                 rownames = FALSE,
-    #                 options = list(bFilter=0))%>%
-    #     formatPercentage(colnames(dt)[2:length(colnames(dt))], 2)
+      xtab.create.DT(dt, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+        formatRound(colnames(dt)[2:disp.col.max], 0)
     } else if (dttype == 'sample_count') {
-      DT::datatable(dt, 
-                    container = sketch,
-                    rownames = FALSE,
-                    options = list(bFilter=0)) %>%
-        formatRound(colnames(dt)[2:length(colnames(dt))], 0)
+      xtab.create.DT(dt, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+        formatRound(colnames(dt)[2:disp.col.max], 0)
     } else if (dttype == 'share_with_MOE') {
       moe.cols <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
       cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], moe.cols)

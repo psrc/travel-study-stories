@@ -6,7 +6,8 @@ library(tidyverse)
 
 # create_cross_tab_with_weights
 cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
-  z <- 1.96
+  # z <- 1.96 # 95% CI
+  z <- 1.645 # 90% CI
   
   print(var1)
   print(var2)
