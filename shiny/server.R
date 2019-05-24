@@ -28,8 +28,42 @@ function(input, output, session) {
                   options = list(bFilter=0,
                                  columnDefs = list(list(visible = F, targets = indices2hide)) # DT's column index starts at 0 not 1
                   )) %>%
-      formatStyle(columns = colnames(atable)[2:maxyvals],
+      formatStyle(columns = 2:maxyvals,
                   valueColumns = sc.cols, 
+                  color = styleInterval(c(30), c(ltgrey, 'black')))
+  }
+  
+  xtab.shareMOE.join.samplecnt <- function(xtabcleanshareMOEdt, xtabcleandt, dttype, varsXAlias) {
+    dt.data <- xtabcleanshareMOEdt
+    dt.style <- xtabcleandt[['sample_count']]
+    dt.sort.rows <- dt.data[[varsXAlias]]
+    
+    idx <- 2:ncol(dt.style)
+    colnames(dt.style)[idx] <- paste0(letters[1:(ncol(dt.style)-1)], "_", colnames(dt.style)[idx], "_sc")
+    new.cols <- paste0(colnames(dt.style)[idx], "2")
+    cols <- colnames(dt.style)[idx]
+    col2order <- sort(c(cols, new.cols))
+    dt.style[, (new.cols) := mapply(function(x) replicate(1, .SD[[x]]), cols, SIMPLIFY = F)]
+    setcolorder(dt.style, c(varsXAlias, col2order))
+    dt <- merge(dt.data, dt.style, by = varsXAlias)
+    
+    dt[, var1.sort := factor(get(varsXAlias), levels = dt.sort.rows)]
+    dt <- dt[order(var1.sort)][, var1.sort := NULL]
+  } 
+  
+  xtab.shareMOE.create.DT <- function(atable, acontainer, indices2hide, maxyvals, sc.cols) {
+    ltgrey <- '#bdbdc3'
+    DT::datatable(atable,
+                  container = acontainer,
+                  rownames = FALSE,
+                  options = list(bFilter=0,
+                                 autoWidth = FALSE,
+                                 columnDefs = list(list(className = "dt-head-center dt-center", targets = "_all"),# DT CRAN hack
+                                                   list(visible = F, targets = indices2hide)) 
+                                )
+                  ) %>%
+      formatStyle(columns = 2:maxyvals,  
+                  valueColumns = sc.cols,
                   color = styleInterval(c(30), c(ltgrey, 'black')))
   }
   
@@ -85,6 +119,31 @@ function(input, output, session) {
         ), # end tr
         tr(
           lapply(rep(c("Share", "Margin of Error"), (ncol(atable)-1)/2), function(x) th(style = "font-size:12px", x))
+        ) # end tr
+      ) # end thead
+    ) # end table
+    ) # end withTags
+  }
+  
+  dt.container.ShareMOE.dtstyle <- function(atable, xvaralias, yvaralias) {
+    exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE|_sc.*", sep = "|"))
+    yval.labels <- setdiff(colnames(atable), exc.cols)
+    
+    sc.cols <- str_subset(colnames(atable), "_sc.*")
+    num.disp.cols <- ncol(atable) - length(sc.cols)
+    
+    htmltools::withTags(table(
+      class = 'display',
+      thead(
+        tr(
+          th(class = 'dt-center', rowspan = 3, xvaralias),
+          th(class = 'dt-center', colspan = (num.disp.cols-1), yvaralias)
+        ), # end tr
+        tr(
+          lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
+        ), # end tr
+        tr(
+          lapply(rep(c("Share", "Margin of Error"), (num.disp.cols-1)/2), function(x) th(style = "font-size:12px", x))
         ) # end tr
       ) # end thead
     ) # end table
@@ -362,12 +421,20 @@ function(input, output, session) {
       sc.idx <- sc.cols - 1
       disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc")))
     } else {
-      dt <- xtabTableClean.DT.ShareMOE()
+      # dt <- xtabTableClean.DT.ShareMOE() #og
+      dt <- xtab.shareMOE.join.samplecnt(xtabTableClean.DT.ShareMOE(), xtabTableClean(), dttype, varsXAlias())
+      moe.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
+      sc.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_sc.*")
+      cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], c(moe.colnms, sc.colnms))
+      sc.cols <- str_which(colnames(dt), "_sc.*")
+      sc.idx <- sc.cols - 1
+      disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc.*")))
     }
     
     # sketch <- dt.container(dt, varsXAlias(), varsYAlias())
+    # sketch.exp <- dt.container.ShareMOE(dt, varsXAlias(), varsYAlias())
     sketch.dtstyle <- dt.container.dtstyle(dt, varsXAlias(), varsYAlias())
-    sketch.exp <- dt.container.ShareMOE(dt, varsXAlias(), varsYAlias())
+    sketch.dtstyle.exp <- dt.container.ShareMOE.dtstyle(dt, varsXAlias(), varsYAlias())
     
     if (dttype == 'share') {
       # DT::datatable(dt,
@@ -385,16 +452,18 @@ function(input, output, session) {
       xtab.create.DT(dt, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
         formatRound(colnames(dt)[2:disp.col.max], 0)
     } else if (dttype == 'share_with_MOE') {
-      moe.cols <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
-      cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], moe.cols)
-      DT::datatable(dt,
-                    container = sketch.exp,
-                    rownames = FALSE,
-                    options = list(bFilter=0,
-                                   autoWidth = FALSE,
-                                   columnDefs = list(list(className = "dt-head-center dt-center", targets = "_all")) # DT CRAN hack
-                    )
-                    ) %>%
+      # moe.cols <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
+      # cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], moe.cols)
+      # DT::datatable(dt,
+      #               container = sketch.exp,
+      #               rownames = FALSE,
+      #               options = list(bFilter=0,
+      #                              autoWidth = FALSE,
+      #                              columnDefs = list(list(className = "dt-head-center dt-center", targets = "_all")) # DT CRAN hack
+      #               )
+      #               ) %>%
+      #   formatPercentage(cols.fmt, 1)
+      xtab.shareMOE.create.DT(dt, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
         formatPercentage(cols.fmt, 1)
     }
   })
