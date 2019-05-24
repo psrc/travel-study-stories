@@ -20,19 +20,6 @@ function(input, output, session) {
     dt <- dt[order(var1.sort)][, var1.sort := NULL]
   }
   
-  xtab.create.DT <- function(atable, acontainer, indices2hide, maxyvals, sc.cols) {
-    ltgrey <- '#bdbdc3'
-    DT::datatable(atable,
-                  container = acontainer,
-                  rownames = FALSE,
-                  options = list(bFilter=0,
-                                 columnDefs = list(list(visible = F, targets = indices2hide)) # DT's column index starts at 0 not 1
-                  )) %>%
-      formatStyle(columns = 2:maxyvals,
-                  valueColumns = sc.cols, 
-                  color = styleInterval(c(30), c(ltgrey, 'black')))
-  }
-  
   xtab.shareMOE.join.samplecnt <- function(xtabcleanshareMOEdt, xtabcleandt, dttype, varsXAlias) {
     dt.data <- xtabcleanshareMOEdt
     dt.style <- xtabcleandt[['sample_count']]
@@ -51,19 +38,23 @@ function(input, output, session) {
     dt <- dt[order(var1.sort)][, var1.sort := NULL]
   } 
   
-  xtab.shareMOE.create.DT <- function(atable, acontainer, indices2hide, maxyvals, sc.cols) {
+  xtab.create.DT <- function(atable, moe = c(TRUE, FALSE), acontainer, indices2hide, maxyvals, sc.cols) {
     ltgrey <- '#bdbdc3'
-    DT::datatable(atable,
-                  container = acontainer,
-                  rownames = FALSE,
-                  options = list(bFilter=0,
-                                 autoWidth = FALSE,
-                                 columnDefs = list(list(className = "dt-head-center dt-center", targets = "_all"),# DT CRAN hack
-                                                   list(visible = F, targets = indices2hide)) 
-                                )
-                  ) %>%
-      formatStyle(columns = 2:maxyvals,  
-                  valueColumns = sc.cols,
+    if (moe == TRUE) {
+      defs <- list(list(className = "dt-head-center dt-center", targets = "_all"),# DT CRAN hack
+                   list(visible = F, targets = indices2hide)) # DT's column index starts at 0 not 1
+    } else {
+      defs <- list(list(visible = F, targets = indices2hide)) # DT's column index starts at 0 not 1
+    }
+
+     DT::datatable(atable,
+                   container = acontainer,
+                   rownames = FALSE,
+                   options = list(bFilter=0,
+                                  columnDefs = defs) # DT's column index starts at 0 not 1
+                   ) %>%
+      formatStyle(columns = 2:maxyvals,
+                  valueColumns = sc.cols, 
                   color = styleInterval(c(30), c(ltgrey, 'black')))
   }
   
@@ -443,13 +434,13 @@ function(input, output, session) {
       #               options = list(bFilter=0
       #                              )) %>%
       #   formatPercentage(colnames(dt)[2:length(colnames(dt.data))], 1)
-      xtab.create.DT(dt, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+      xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
         formatPercentage(colnames(dt)[2:disp.col.max], 1)
     } else if (dttype == 'estimate') {
-      xtab.create.DT(dt, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+      xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
         formatRound(colnames(dt)[2:disp.col.max], 0)
     } else if (dttype == 'sample_count') {
-      xtab.create.DT(dt, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+      xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
         formatRound(colnames(dt)[2:disp.col.max], 0)
     } else if (dttype == 'share_with_MOE') {
       # moe.cols <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
@@ -463,7 +454,8 @@ function(input, output, session) {
       #               )
       #               ) %>%
       #   formatPercentage(cols.fmt, 1)
-      xtab.shareMOE.create.DT(dt, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
+      
+      xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
         formatPercentage(cols.fmt, 1)
     }
   })
