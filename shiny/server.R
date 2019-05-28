@@ -39,7 +39,7 @@ function(input, output, session) {
   } 
   
   xtab.create.DT <- function(atable, moe = c(TRUE, FALSE), acontainer, indices2hide, maxyvals, sc.cols) {
-    ltgrey <- '#bdbdc3'
+    colors <- list(ltgrey = '#bdbdc3', dkgrey = '#343439')
     if (moe == TRUE) {
       defs <- list(list(className = "dt-head-center dt-center", targets = "_all"),# DT CRAN hack
                    list(visible = F, targets = indices2hide)) # DT's column index starts at 0 not 1
@@ -55,25 +55,25 @@ function(input, output, session) {
                    ) %>%
       formatStyle(columns = 2:maxyvals,
                   valueColumns = sc.cols, 
-                  color = styleInterval(c(30), c(ltgrey, 'black')))
+                  color = styleInterval(c(30), c(colors$ltgrey, colors$dkgrey)))
   }
   
-  # a generic container for crosstab tables
-  dt.container <- function(atable, xvaralias, yvaralias) {
-    htmltools::withTags(table(
-      class = 'display',
-      thead(
-        tr(
-          th(class = 'dt-center', rowspan = 2, xvaralias),
-          th(class = 'dt-center', colspan = (ncol(atable)-1), yvaralias)
-        ), # end tr
-        tr(
-          lapply(colnames(atable)[2:(ncol(atable))], th)
-        ) # end tr
-      ) # end thead
-    ) # end table
-    ) # end withTags
-  }
+  # # a generic container for crosstab tables
+  # dt.container <- function(atable, xvaralias, yvaralias) {
+  #   htmltools::withTags(table(
+  #     class = 'display',
+  #     thead(
+  #       tr(
+  #         th(class = 'dt-center', rowspan = 2, xvaralias),
+  #         th(class = 'dt-center', colspan = (ncol(atable)-1), yvaralias)
+  #       ), # end tr
+  #       tr(
+  #         lapply(colnames(atable)[2:(ncol(atable))], th)
+  #       ) # end tr
+  #     ) # end thead
+  #   ) # end table
+  #   ) # end withTags
+  # }
   
   dt.container.dtstyle <- function(atable, xvaralias, yvaralias) {
     sc.cols <- str_subset(colnames(atable), "_sc")
@@ -93,28 +93,28 @@ function(input, output, session) {
     ) # end withTags
   }
   
-  # a container for shares with margin of error
-  dt.container.ShareMOE <- function(atable, xvaralias, yvaralias) {
-    exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE", sep = "|"))
-    yval.labels <- setdiff(colnames(atable), exc.cols)
-    
-    htmltools::withTags(table(
-      class = 'display',
-      thead(
-        tr(
-          th(class = 'dt-center', rowspan = 3, xvaralias),
-          th(class = 'dt-center', colspan = (ncol(atable)-1), yvaralias)
-        ), # end tr
-        tr(
-          lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
-        ), # end tr
-        tr(
-          lapply(rep(c("Share", "Margin of Error"), (ncol(atable)-1)/2), function(x) th(style = "font-size:12px", x))
-        ) # end tr
-      ) # end thead
-    ) # end table
-    ) # end withTags
-  }
+  # # a container for shares with margin of error
+  # dt.container.ShareMOE <- function(atable, xvaralias, yvaralias) {
+  #   exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE", sep = "|"))
+  #   yval.labels <- setdiff(colnames(atable), exc.cols)
+  #   
+  #   htmltools::withTags(table(
+  #     class = 'display',
+  #     thead(
+  #       tr(
+  #         th(class = 'dt-center', rowspan = 3, xvaralias),
+  #         th(class = 'dt-center', colspan = (ncol(atable)-1), yvaralias)
+  #       ), # end tr
+  #       tr(
+  #         lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
+  #       ), # end tr
+  #       tr(
+  #         lapply(rep(c("Share", "Margin of Error"), (ncol(atable)-1)/2), function(x) th(style = "font-size:12px", x))
+  #       ) # end tr
+  #     ) # end thead
+  #   ) # end table
+  #   ) # end withTags
+  # }
   
   dt.container.ShareMOE.dtstyle <- function(atable, xvaralias, yvaralias) {
     exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE|_sc.*", sep = "|"))
@@ -561,6 +561,7 @@ function(input, output, session) {
   })
   
   output$stab_tbl <- DT::renderDataTable({
+    colors <- list(ltgrey = '#bdbdc3', dkgrey = '#343439')
     dt <- stabTable.DT()
 
     fmt.per <- names(dtype.choice[dtype.choice %in% c('share')])
@@ -573,7 +574,10 @@ function(input, output, session) {
                                  )
                   ) %>%
       formatPercentage(fmt.per, 1) %>%
-      formatRound(fmt.num, 0)
+      formatRound(fmt.num, 0) %>%
+      formatStyle(columns = 2:ncol(dt),
+                  valueColumns = ncol(dt), 
+                  color = styleInterval(c(30), c(colors$ltgrey, colors$dkgrey)))
   })
 
 # Simple Table Visuals -----------------------------------------------------

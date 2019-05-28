@@ -3,6 +3,9 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
           theme = shinytheme("flatly"),
           useShinyjs(),
           navbarPage("2017 Household Survey Results",
+
+# Crosstab Generator ------------------------------------------------------
+
                      tabPanel("Crosstab Generator",
                               br(),
                               fluidRow(
@@ -13,7 +16,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                        ),
                                 column(3,
                                        wellPanel(
-                                         p(strong("First Dimension (Rows)")),
+                                         p(strong("First Dimension (Crosstab rows)")),
                                          selectInput('xtab_xcat',
                                                      'Category',
                                                      # width = '75%',
@@ -31,7 +34,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                        ), # end column
                                 column(3,
                                        wellPanel(
-                                         p(strong("Second Dimension (Columns)")),
+                                         p(strong("Second Dimension (Crosstab columns)")),
                                          selectInput('xtab_ycat',
                                                      'Category',
                                                      # width = '75%',
@@ -52,7 +55,13 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                        actionButton('xtab_go', 'Create Crosstab', width = '150px'),
                                        br(),
                                        br(),
-                                       downloadButton("xtab_download", "Download Data")
+                                       downloadButton("xtab_download", "Download Data"),
+                                       br(),
+                                       br(),
+                                       div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
+                                       div(p("The Margin of Error is calculated for a 90% confidence interval. 
+                                         As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
+                                         Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%')
                                 ) # end column
                               ), # end fluidRow
                               br(),
@@ -66,8 +75,9 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                           label = strong("Summary Types"),
                                                           # choices = dtype.choice[!(dtype.choice %in% 'N_HH')]
                                                           choices = dtype.choice.xtab
-                                                          )
-                                    )
+                                                          ),
+                                             div(p("Shares are based on rowwise totals."), style = 'font-size: 85%')
+                                    ) # end wellPanel
                                   ),
                                   column(10,
                                          fluidRow(
@@ -86,6 +96,9 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                 ) # end fluidRow
                               ) # end conditional Panel
                               ), # end tabPanel
+
+# Simple Table ------------------------------------------------------------
+
                      tabPanel("Simple Table",
                               sidebarLayout(
                                 sidebarPanel(width = 3,
@@ -113,6 +126,10 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                             downloadButton("stab_download", "Download Data"),
                                             br(),
                                             br(),
+                                            div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
+                                            div(p("The Margin of Error is calculated for a 90% confidence interval. 
+                                               As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
+                                               Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%'),
                                             br(),
                                             conditionalPanel(
                                               "input.stab_go",
