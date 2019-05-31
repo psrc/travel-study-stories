@@ -2,7 +2,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
           # shinythemes::themeSelector(),
           theme = shinytheme("flatly"),
           useShinyjs(),
-          navbarPage("2017 Household Survey Results",
+          navbarPage("2017 Household Survey Results (Alpha version)",
 
 # Crosstab Generator ------------------------------------------------------
 
