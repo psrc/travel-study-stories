@@ -23,6 +23,11 @@ cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
     raw <- table[, .(sample_count = .N), by = cols] 
     N_hh <- table[, .(hhid = uniqueN(hhid)), by = var1]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = cols]
+    expanded_moe <- table[, lapply(.SD, sd), .SDcols = wt_field, by = cols]
+    names(expanded_moe)[names(expanded_moe)==wt_field]<- "SD_Total"
+    expanded_moe$'MOE_Total'<-expanded_moe$'SD_Total' * z
+    expanded_moe <- expanded_moe[,'SD_Total' := NULL]
+    expanded <- merge(expanded, expanded_moe, by = cols)
     expanded_tot <- expanded[, lapply(.SD, sum), .SDcols = wt_field, by = var1]
     setnames(expanded, wt_field, "estimate")
     expanded <- merge(expanded, expanded_tot, by = var1)
@@ -30,10 +35,11 @@ cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
     expanded <- merge(expanded, N_hh, by = var1)
     expanded[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
     crosstab <- merge(raw, expanded, by = cols)
+    print(crosstab)
     # crosstab output column names will differ from python output
     crosstab <- dcast.data.table(crosstab, 
                                  get(eval(var1)) ~ get(eval(var2)), 
-                                 value.var = c('sample_count', 'estimate', 'share', 'MOE', 'N_HH'))
+                                 value.var = c('sample_count', 'estimate', 'MOE_Total','share', 'MOE', 'N_HH'))
   } else if (type == "mean") {
     tbl <- table[, (var2) := as.numeric(get(eval(var2)))][!is.na(get(eval(var2))), ][get(eval(var2)) != 0, ][get(eval(var2)) < 100, ]
     tbl[, weighted_total := get(eval(wt_field))*get(eval(var2))]
