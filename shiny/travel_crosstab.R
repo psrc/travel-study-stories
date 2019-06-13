@@ -58,7 +58,7 @@ cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
 }
 
 simple_table <- function(table, var, wt_field, type = c("total")) {
-  z <- 1.96
+  z <- 1.645
   
   print(var)
 
@@ -70,6 +70,11 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
     N_hh <- table[, .(hhid = uniqueN(hhid)), by = var]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = var]
     expanded_tot <- expanded[, lapply(.SD, sum), .SDcols = wt_field][[eval(wt_field)]]
+    expanded_moe <- table[, lapply(.SD, sd), .SDcols = wt_field, by = var]
+    names(expanded_moe)[names(expanded_moe)==wt_field]<- "SD_Total"
+    expanded_moe$'MOE_Total'<-expanded_moe$'SD_Total' * z
+    expanded_moe <- expanded_moe[,'SD_Total' := NULL]
+    expanded <- merge(expanded, expanded_moe, by = var)
     setnames(expanded, wt_field, "estimate")
     expanded[, share := estimate/eval(expanded_tot)]
     expanded <- merge(expanded, N_hh, by = var)
