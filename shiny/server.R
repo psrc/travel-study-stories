@@ -9,10 +9,6 @@ function(input, output, session) {
     cols <- c(varsXAlias(), str_subset(colnames(table), paste0("^", colstring)))
     table[, ..cols]
   }
-  # xtab.col.subset <- function(table, colstring = c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")) {
-  #   cols <- c(varsXAlias(), str_subset(colnames(table), paste0("^", colstring)))
-  #   table[, ..cols]
-  # }
   
   xtab.join.samplecnt <- function(xtabcleandt, dttype, varsXAlias) {
     dt.data <- xtabcleandt[[dttype]]
@@ -62,23 +58,6 @@ function(input, output, session) {
                   color = styleInterval(c(30), c(colors$ltgrey, colors$dkgrey)))
   }
   
-  # # a generic container for crosstab tables
-  # dt.container <- function(atable, xvaralias, yvaralias) {
-  #   htmltools::withTags(table(
-  #     class = 'display',
-  #     thead(
-  #       tr(
-  #         th(class = 'dt-center', rowspan = 2, xvaralias),
-  #         th(class = 'dt-center', colspan = (ncol(atable)-1), yvaralias)
-  #       ), # end tr
-  #       tr(
-  #         lapply(colnames(atable)[2:(ncol(atable))], th)
-  #       ) # end tr
-  #     ) # end thead
-  #   ) # end table
-  #   ) # end withTags
-  # }
-  
   dt.container.dtstyle <- function(atable, xvaralias, yvaralias) {
     sc.cols <- str_subset(colnames(atable), "_sc")
     num.disp.cols <- ncol(atable) - length(sc.cols)
@@ -96,29 +75,6 @@ function(input, output, session) {
     ) # end table
     ) # end withTags
   }
-  
-  # # a container for shares with margin of error
-  # dt.container.ShareMOE <- function(atable, xvaralias, yvaralias) {
-  #   exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE", sep = "|"))
-  #   yval.labels <- setdiff(colnames(atable), exc.cols)
-  #   
-  #   htmltools::withTags(table(
-  #     class = 'display',
-  #     thead(
-  #       tr(
-  #         th(class = 'dt-center', rowspan = 3, xvaralias),
-  #         th(class = 'dt-center', colspan = (ncol(atable)-1), yvaralias)
-  #       ), # end tr
-  #       tr(
-  #         lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
-  #       ), # end tr
-  #       tr(
-  #         lapply(rep(c("Share", "Margin of Error"), (ncol(atable)-1)/2), function(x) th(style = "font-size:12px", x))
-  #       ) # end tr
-  #     ) # end thead
-  #   ) # end table
-  #   ) # end withTags
-  # }
   
   dt.container.tblMOE.dtstyle <- function(atable, xvaralias, yvaralias, tbltype = c("share", "estimate")) {
     ifelse(tbltype == "share", tbltype <- "Share", tbltype <- "Estimate")
@@ -248,7 +204,7 @@ function(input, output, session) {
       crosstab[, var1.sort := factor(var1, levels = xvals$Value)]
       crosstab <- crosstab[order(var1.sort)][, var1.sort := NULL]
       setnames(crosstab, "var1", varsXAlias())
-      # col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
+
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
       dt.list <- map(as.list(col.headers), xtab.crosstab)
       names(dt.list) <- col.headers
@@ -261,7 +217,6 @@ function(input, output, session) {
     yv <- xtabYValues()
     xa <- varsXAlias()
     
-    # col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
     col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
     regex <- paste(col.headers, collapse = "|")
     
@@ -314,21 +269,6 @@ function(input, output, session) {
     dt.s <- xtabTableClean()[['share']]
     dt.m <- xtabTableClean()[['MOE']]
     dt.sm <- create.table.joining.moe(dt.s, dt.m, xa, xvals)
-    # dtcols <- colnames(dt.s)[2:ncol(dt.s)]
-    # 
-    # cols.order <- c()
-    # for (acol in dtcols) {
-    #   moe.col <- paste0(acol, "_MOE")
-    #   cols.order <- append(cols.order, c(acol, moe.col))
-    # }
-    # 
-    # colnames(dt.m)[2:ncol(dt.m)] <- paste0(colnames(dt.m)[2:ncol(dt.m)], "_MOE")
-    # dt.sm <- merge(dt.s, dt.m, by = xa)
-    # 
-    # dt.sm[, var1.sort := factor(get(eval(xa)), levels = xvals$Value)]
-    # dt.sm <- dt.sm[order(var1.sort)][, var1.sort := NULL]
-    # order.colnames <- c(xa, cols.order)
-    # dt.sm <- dt.sm[, ..order.colnames]
   })
   
   # create separate table of estimates alongside margin of errors
@@ -338,21 +278,6 @@ function(input, output, session) {
     dt.s <- xtabTableClean()[['estimate']]
     dt.m <- xtabTableClean()[['estMOE']]
     dt.sm <- create.table.joining.moe(dt.s, dt.m, xa, xvals)
-    
-    # dtcols <- colnames(dt.s)[2:ncol(dt.s)]
-    # 
-    # cols.order <- c()
-    # for (acol in dtcols) {
-    #   moe.col <- paste0(acol, "_MOE")
-    #   cols.order <- append(cols.order, c(acol, moe.col))
-    # }
-    # colnames(dt.m)[2:ncol(dt.m)] <- paste0(colnames(dt.m)[2:ncol(dt.m)], "_MOE")
-    # dt.sm <- merge(dt.s, dt.m, by = xa)
-    # 
-    # dt.sm[, var1.sort := factor(get(eval(xa)), levels = xvals$Value)]
-    # dt.sm <- dt.sm[order(var1.sort)][, var1.sort := NULL]
-    # order.colnames <- c(xa, cols.order)
-    # dt.sm <- dt.sm[, ..order.colnames]
   })
   
   xtabTableClean.DT.ShareMOE <- reactive({
@@ -383,6 +308,7 @@ function(input, output, session) {
   
 # Crosstab Generator Visuals ----------------------------------------------
   
+  
   create.table.vistable.moe <- function(valuetable, moetable, xalias, xvalues) {
     msrcols <- colnames(valuetable)[!(colnames(valuetable) %in% xalias)]
     dts <- melt.data.table(valuetable, id.vars = xalias, measure.vars = msrcols, variable.name = "value", value.name = "result")
@@ -405,20 +331,6 @@ function(input, output, session) {
     dt.s <- xtabTableClean()[['estimate']]
     dt.m <- xtabTableClean()[['estMOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
-
-    # msrcols <- colnames(dt.s)[!(colnames(dt.s) %in% xa)]
-    # dts <- melt.data.table(dt.s, id.vars = xa, measure.vars = msrcols, variable.name = "value", value.name = "result")
-    # dtm <- melt.data.table(dt.m, id.vars = xa, measure.vars = msrcols, variable.name = "value", value.name = "result_moe")
-    # dt <- merge(dts, dtm, by = c(xa, "value"))
-    # setnames(dt, xa, "group")
-    # 
-    # if (nrow(xvals) != 0) {
-    #   dt[, group := factor(group, levels = xvals$Value)][, group := fct_explicit_na(group, "No Response")]
-    #   dt <- dt[order(group)]
-    # } else {
-    #   dt[, group := factor(group)]
-    # }
-    # return(dt)
   })
   
   xtabVisTable.ShareMOE <- reactive({
@@ -427,20 +339,6 @@ function(input, output, session) {
     dt.s <- xtabTableClean()[['share']]
     dt.m <- xtabTableClean()[['MOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
-    
-    # msrcols <- colnames(dt.s)[!(colnames(dt.s) %in% xa)]
-    # dts <- melt.data.table(dt.s, id.vars = xa, measure.vars = msrcols, variable.name = "value", value.name = "result")
-    # dtm <- melt.data.table(dt.m, id.vars = xa, measure.vars = msrcols, variable.name = "value", value.name = "result_moe")
-    # dt <- merge(dts, dtm, by = c(xa, "value"))
-    # setnames(dt, xa, "group")
-    # 
-    # if (nrow(xvals) != 0) {
-    #   dt[, group := factor(group, levels = xvals$Value)][, group := fct_explicit_na(group, "No Response")]
-    #   dt <- dt[order(group)]
-    # } else {
-    #   dt[, group := factor(group)]
-    # }
-    # return(dt)
   })
   
   xtabVisTable <- reactive({
@@ -467,7 +365,6 @@ function(input, output, session) {
   }) 
   
   output$xtab_vis <- renderPlotly({
-    # xtabVisTable.EstMOE()
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
     dttype <- input$xtab_dtype_rbtns
@@ -492,7 +389,7 @@ function(input, output, session) {
       ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel))
       return(p)
     } else if (dttype %in% c('estimate_with_MOE')) {
-      p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel)
+      ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel))
       return(p)
     } else {
       return(NULL)
@@ -640,11 +537,19 @@ function(input, output, session) {
   stabTable.DT <- reactive({
     xa <- stab.varsXAlias()
     dt <- copy(stabTable())
-   
+    
     col <- names(dtype.choice[dtype.choice %in% "MOE"])
-    dt[, (col) := lapply(.SD, function(x) round(x*100, 1)), .SDcols = col]
-    dt[, (col) := lapply(.SD, function(x) paste0("+/-", as.character(x), "%")), .SDcols = col]
-    new.colorder <- c(xa, names(dtype.choice[dtype.choice %in% c("share")]), col, names(dtype.choice[dtype.choice %in% c("estimate", "sample_count")]))
+    col2 <- names(dtype.choice[dtype.choice %in% "estMOE"])
+    dt[, (col) := lapply(.SD, function(x) round(x*100, 1)), .SDcols = col
+       ][, (col2) := lapply(.SD, function(x) prettyNum(round(x, 0), big.mark = ",", preserve.width = "none")), .SDcols = col2]
+    dt[, (col) := lapply(.SD, function(x) paste0("+/-", as.character(x), "%")), .SDcols = col
+       ][, (col2) := lapply(.SD, function(x) paste0("+/-", as.character(x))), .SDcols = col2]
+    new.colorder <- c(xa, 
+                      names(dtype.choice[dtype.choice %in% c("share")]), 
+                      col, 
+                      names(dtype.choice[dtype.choice %in% c("estimate")]), 
+                      col2, 
+                      names(dtype.choice[dtype.choice %in% c("sample_count")]))
     setcolorder(dt,  new.colorder)
     return(dt)
   })
@@ -652,7 +557,7 @@ function(input, output, session) {
   output$stab_tbl <- DT::renderDataTable({
     colors <- list(ltgrey = '#bdbdc3', dkgrey = '#343439')
     dt <- stabTable.DT()
-
+   
     fmt.per <- names(dtype.choice[dtype.choice %in% c('share')])
     fmt.num <- names(dtype.choice[dtype.choice %in% c('estimate', 'sample_count')])
     DT::datatable(dt,
@@ -689,7 +594,6 @@ function(input, output, session) {
     } else {
       t[, value := factor(value)]
     }
-    
     return(t)
   })
   
@@ -701,15 +605,24 @@ function(input, output, session) {
     return(t)
   })
   
+  stabVisTable.estMOE <- reactive({
+    types <- names(dtype.choice[dtype.choice %in% c('estimate', 'estMOE')])
+    dt <- stabVisTable()[type %in% types]
+    t <- dcast.data.table(dt, value ~ type, value.var = "result")
+    setnames(t, str_subset(colnames(t), paste(types, collapse = "|")), c("result", "result_moe"))
+    return(t)
+  })
+  
   output$stab_vis <- renderPlotly({
     xlabel <- stab.varsXAlias() # first dim
     dttype <- input$stab_dtype_rbtns
     selection <- names(dtype.choice[dtype.choice %in% dttype])
     
-    if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
+    if (dttype %in% col.headers) {
       dt <- stabVisTable()[type %in% selection, ]
     } else {
-      dt <- stabVisTable.shareMOE()
+      if (dttype == "share_with_MOE") dt <- stabVisTable.shareMOE()
+      if (dttype == "estimate_with_MOE") dt <- stabVisTable.estMOE() 
     }
 
     l <- length(stabXValues()$Value) 
@@ -721,8 +634,11 @@ function(input, output, session) {
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
       ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel), p <- stab.plot.bar2(dt, "nominal", xlabel))
       return(p)
-    } else if (dttype %in% c('share_with_MOE')) {
-      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel), p <- stab.plot.bar2.moe(dt, "nominal", xlabel))
+    } else if (dttype == 'share_with_MOE') {
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel), p <- stab.plot.bar2.moe(dt, "percent", xlabel))
+      return(p)
+    } else if (dttype == 'estimate_with_MOE') {
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "nominal", xlabel),  p <- stab.plot.bar2.moe(dt, "nominal", xlabel))
       return(p)
     } else {
       return(NULL)

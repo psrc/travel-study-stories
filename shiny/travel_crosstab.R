@@ -35,7 +35,7 @@ cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
     expanded <- merge(expanded, N_hh, by = var1)
     expanded[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
     crosstab <- merge(raw, expanded, by = cols)
-    print(crosstab)
+    # print(crosstab)
     # crosstab output column names will differ from python output
     crosstab <- dcast.data.table(crosstab, 
                                  get(eval(var1)) ~ get(eval(var2)), 
