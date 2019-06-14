@@ -449,7 +449,25 @@ function(input, output, session) {
 
 # Crosstab Generator Download ---------------------------------------------
 
-
+  # Enable/Disable download button
+  v <- reactiveValues(xtabxcol = NULL,
+                      xtabycol = NULL,
+                      xtabgo = 0)
+  
+  observeEvent(input$xtab_go, {
+    v$xtabxcol <- input$xtab_xcol
+    v$xtabycol <- input$xtab_ycol
+    v$xtabgo <- v$xtabgo + 1
+  })
+  
+  observe({
+    if (v$xtabgo == 0 || (v$xtabycol != input$xtab_ycol) || (v$xtabxcol != input$xtab_xcol)) {
+      disable("xtab_download")
+    } else if (v$xtabgo > 0) {
+      enable("xtab_download")  
+      }
+  })
+  
   output$xtab_download <- downloadHandler(
     filename = function() {
       paste0("HHSurvey2017_", varsXAlias(), "_by_", varsYAlias(), ".xlsx")
