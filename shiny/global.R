@@ -27,17 +27,34 @@ values.lu <- fread(file.path(data.dir, 'variables_values.csv'))
 vars.cat <- unique(variables.lu$Category)
 
 # master list
+# dtype.choice <- c("Share" ="share",
+#                   "Estimate" = "estimate",
+#                   "Number of Households" = "N_HH",
+#                   "Shares with Margin of Error" = "share_with_MOE",
+#                   "Margin of Error (Share)" = "MOE",
+#                   "Sample Count" = "sample_count")
+# 
+# # xtab sublist
+# dtype.choice.xtab <- dtype.choice[c(1:2, 4, 6)]
+# 
+# # stab sublist
+# dtype.choice.stab <- dtype.choice[c(1:2, 5:6)]
+# dtype.choice.stab.vis <- dtype.choice[c(1:2, 4, 6)]
+
+# test master list
 dtype.choice <- c("Share" ="share",
                   "Estimate" = "estimate",
+                  "Margin of Error (Estimate)" = "estMOE",
+                  "Estimate with Margin of Error" = "estimate_with_MOE",
                   "Number of Households" = "N_HH",
                   "Shares with Margin of Error" = "share_with_MOE",
                   "Margin of Error (Share)" = "MOE",
                   "Sample Count" = "sample_count")
 
 # xtab sublist
-dtype.choice.xtab <- dtype.choice[c(1:2, 4, 6)]
+dtype.choice.xtab <- dtype.choice[c(1:2, 6, 4, 8)]
+col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
 
 # stab sublist
-dtype.choice.stab <- dtype.choice[c(1:2, 5:6)]
-dtype.choice.stab.vis <- dtype.choice[c(1:2, 4, 6)]
-
+# dtype.choice.stab <- dtype.choice[c(1:2, 7:8)]
+# dtype.choice.stab.vis <- dtype.choice[c(1:2, 6, 8)]
