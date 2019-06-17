@@ -666,6 +666,22 @@ function(input, output, session) {
 
 # Simple Table Download ---------------------------------------------------
 
+  # Enable/Disable Download button
+  vs <- reactiveValues(stabxcol = NULL,
+                       stabgo = 0)
+  
+  observeEvent(input$stab_go, {
+    vs$stabxcol <- input$stab_xcol
+    vs$stabgo <- vs$stabgo + 1
+  })
+  
+  observe({
+    if (vs$stabgo == 0 || (vs$stabxcol != input$stab_xcol)) {
+      disable("stab_download")
+    } else if (vs$stabgo > 0) {
+      enable("stab_download")  
+    }
+  })
   
   output$stab_download <- downloadHandler(
     filename = function() {
