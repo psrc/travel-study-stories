@@ -10,10 +10,21 @@ function(input, output, session) {
     table[, ..cols]
   }
   
+  xtab.edit.samplecnt <- function(dt, thresholdcnt) {
+    # dt <- copy(xtabstyletable)
+    edit.ind <- as.data.table(which(dt < thresholdcnt, arr.ind = T))
+    edit.rows <- unique(edit.ind$row)
+    dt[edit.rows, (colnames(dt)[2:length(colnames(dt))]) := 1]
+  }
+  
   xtab.join.samplecnt <- function(xtabcleandt, dttype, varsXAlias) {
     dt.data <- xtabcleandt[[dttype]]
     dt.sort.rows <- dt.data[[varsXAlias]]
-    dt.style <- xtabcleandt[['sample_count']]
+    dt.style <- copy(xtabcleandt[['sample_count']])
+
+    # alter dt.style, update rows containing < 30
+    dt.style <- xtab.edit.samplecnt(dt.style, 30)
+    
     colnames(dt.style)[2:length(colnames(dt.style))] <- paste0(colnames(dt.style)[2:length(colnames(dt.style))], "_sc")
     dt <- merge(dt.data, dt.style, by = varsXAlias)
     dt[, var1.sort := factor(get(varsXAlias), levels = dt.sort.rows)]
@@ -22,7 +33,7 @@ function(input, output, session) {
   
   xtab.tblMOE.join.samplecnt <- function(xtabcleantblMOEdt, xtabcleandt, dttype, varsXAlias) {
     dt.data <- xtabcleantblMOEdt
-    dt.style <- xtabcleandt[['sample_count']]
+    dt.style <- copy(xtabcleandt[['sample_count']])
     dt.sort.rows <- dt.data[[varsXAlias]]
     
     idx <- 2:ncol(dt.style)
@@ -32,6 +43,10 @@ function(input, output, session) {
     col2order <- sort(c(cols, new.cols))
     dt.style[, (new.cols) := mapply(function(x) replicate(1, .SD[[x]]), cols, SIMPLIFY = F)]
     setcolorder(dt.style, c(varsXAlias, col2order))
+
+    # alter dt.style, update rows containing < 30
+    dt.style <- xtab.edit.samplecnt(dt.style, 30)
+    
     dt <- merge(dt.data, dt.style, by = varsXAlias)
     
     dt[, var1.sort := factor(get(varsXAlias), levels = dt.sort.rows)]
@@ -401,8 +416,8 @@ function(input, output, session) {
  
   
   output$xtab_tbl <- DT::renderDataTable({
-    xtabTableClean.EstMOE()
-    xtabTableClean.DT.EstMOE()
+    # xtabTableClean.EstMOE()
+    # xtabTableClean.DT.EstMOE()
     dttype <- input$xtab_dtype_rbtns
     
     if (dttype %in% c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")) {
