@@ -8,12 +8,12 @@ library(plotly)
 library(shinyjs)
 
 # local
-# wrkdir <- "C:/Users/CLam/Desktop/travel-study-stories/shiny"
-# data.dir <- "C:/Users/CLam/Desktop/travel-study-stories/data"
+ wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
+ data.dir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/data"
 
 # shiny server
-wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
-data.dir <- "/home/shiny/apps/travel-study-stories/data"
+#wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
+#data.dir <- "/home/shiny/apps/travel-study-stories/data"
 
 source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
