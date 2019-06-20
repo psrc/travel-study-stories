@@ -8,6 +8,8 @@ library(plotly)
 library(shinyjs)
 
 # local
+# wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
+# data.dir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/data"
 # wrkdir <- "C:/Users/CLam/Desktop/travel-study-stories/shiny"
 # data.dir <- "C:/Users/CLam/Desktop/travel-study-stories/data"
 
