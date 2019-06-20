@@ -91,7 +91,7 @@ xtab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, y
                     fill = get(colnames(table)[1]),
                     text = paste(paste0(xlabel,':'), group,
                                  paste0('<br>', ylabel, ':'), value,
-                                 paste0('<br>', 'Estimate (min, max):'), 
+                                 paste0('<br>', 'Total (min, max):'), 
                                  yscale(result), paste0("(", yscale(result-result_moe), ", ", yscale(result+result_moe), ")"))
                 )
     ) +
@@ -220,7 +220,7 @@ stab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel) {
                     y = result,
                     fill = get(colnames(table)[1]),
                     text = paste(paste0(xlabel,':'), value,
-                                 paste0('<br>', 'Estimate (min, max):'), 
+                                 paste0('<br>', 'Total (min, max):'), 
                                  yscale(result), paste0("(", yscale(result-result_moe), ", ", yscale(result+result_moe), ")"))
                 )
     ) +
@@ -295,7 +295,7 @@ stab.plot.bar2.moe <- function(table, format = c("percent", "nominal"), xlabel) 
                     y = result, 
                     fill = get(colnames(table)[1]),
                     text = paste(paste0(xlabel,':'), value,
-                                 paste0('<br>', 'Estimate (min, max):'), 
+                                 paste0('<br>', 'Total (min, max):'), 
                                  yscale(result), paste0("(", yscale(result-result_moe), ", ", yscale(result+result_moe), ")"))
                 )
     ) +

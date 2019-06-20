@@ -10,12 +10,12 @@ function(input, output, session) {
     table[, ..cols]
   }
   
-  xtab.edit.samplecnt <- function(dt, thresholdcnt) {
-    # dt <- copy(xtabstyletable)
-    edit.ind <- as.data.table(which(dt < thresholdcnt, arr.ind = T))
-    edit.rows <- unique(edit.ind$row)
-    dt[edit.rows, (colnames(dt)[2:length(colnames(dt))]) := 1]
-  }
+  # xtab.edit.samplecnt <- function(dt, thresholdcnt) {
+  #   # dt <- copy(xtabstyletable)
+  #   edit.ind <- as.data.table(which(dt < thresholdcnt, arr.ind = T))
+  #   edit.rows <- unique(edit.ind$row)
+  #   dt[edit.rows, (colnames(dt)[2:length(colnames(dt))]) := 1]
+  # }
   
   xtab.join.samplecnt <- function(xtabcleandt, dttype, varsXAlias) {
     dt.data <- xtabcleandt[[dttype]]
@@ -23,7 +23,7 @@ function(input, output, session) {
     dt.style <- copy(xtabcleandt[['sample_count']])
 
     # alter dt.style, update rows containing < 30
-    dt.style <- xtab.edit.samplecnt(dt.style, 30)
+    # dt.style <- xtab.edit.samplecnt(dt.style, 30)
     
     colnames(dt.style)[2:length(colnames(dt.style))] <- paste0(colnames(dt.style)[2:length(colnames(dt.style))], "_sc")
     dt <- merge(dt.data, dt.style, by = varsXAlias)
@@ -45,7 +45,7 @@ function(input, output, session) {
     setcolorder(dt.style, c(varsXAlias, col2order))
 
     # alter dt.style, update rows containing < 30
-    dt.style <- xtab.edit.samplecnt(dt.style, 30)
+    # dt.style <- xtab.edit.samplecnt(dt.style, 30)
     
     dt <- merge(dt.data, dt.style, by = varsXAlias)
     
@@ -92,7 +92,7 @@ function(input, output, session) {
   }
   
   dt.container.tblMOE.dtstyle <- function(atable, xvaralias, yvaralias, tbltype = c("share", "estimate")) {
-    ifelse(tbltype == "share", tbltype <- "Share", tbltype <- "Estimate")
+    ifelse(tbltype == "share", tbltype <- "Share", tbltype <- "Total")
     
     exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE|_sc.*", sep = "|"))
     yval.labels <- setdiff(colnames(atable), exc.cols)

@@ -8,12 +8,12 @@ library(plotly)
 library(shinyjs)
 
 # local
- wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
- data.dir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/data"
+# wrkdir <- "C:/Users/CLam/Desktop/travel-study-stories/shiny"
+# data.dir <- "C:/Users/CLam/Desktop/travel-study-stories/data"
 
 # shiny server
-#wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
-#data.dir <- "/home/shiny/apps/travel-study-stories/data"
+wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
+data.dir <- "/home/shiny/apps/travel-study-stories/data"
 
 source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
@@ -28,9 +28,9 @@ vars.cat <- unique(variables.lu$Category)
 
 # master list
 dtype.choice <- c("Share" ="share",
-                  "Estimate" = "estimate",
-                  "Margin of Error (Estimate)" = "estMOE",
-                  "Estimate with Margin of Error" = "estimate_with_MOE",
+                  "Total" = "estimate",
+                  "Margin of Error (Total)" = "estMOE",
+                  "Total with Margin of Error" = "estimate_with_MOE",
                   "Number of Households" = "N_HH",
                   "Share with Margin of Error" = "share_with_MOE",
                   "Margin of Error (Share)" = "MOE",

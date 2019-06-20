@@ -67,8 +67,8 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
     expanded[, share := estimate/eval(expanded_tot)]
     expanded <- merge(expanded, N_hh, by = var)
     expanded[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
-    expanded$Total <- sum(expanded$estimate)
-    expanded$estMOE = expanded$MOE * expanded$Total
+    expanded$total <- sum(expanded$estimate)
+    expanded$estMOE = expanded$MOE * expanded$total
     s_table <- merge(raw, expanded, by = var)
   }
   
