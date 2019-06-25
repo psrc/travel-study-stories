@@ -11,8 +11,8 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                               fluidRow(
                                 column(2,
                                        p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."),
-                                       p("Tables may be summarized by share, margin of error based on the share, weighted estimates, or sample count."),
-                                       p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulations have been generated.")
+                                       p("Tables may be summarized by sample counts and share or weighted totals, with and without margins of error."),
+                                       p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulation has been generated.")
                                        ),
                                 column(3,
                                        wellPanel(

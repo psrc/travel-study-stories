@@ -25,7 +25,6 @@ trip.dt <- fread(file.path(data.dir, 'trip.csv'), encoding = 'UTF-8')
 variables.lu <- fread(file.path(data.dir, 'variables.csv'))
 values.lu <- fread(file.path(data.dir, 'variables_values.csv'))
 
-
 vars.cat <- unique(variables.lu$Category)
 
 # master list
