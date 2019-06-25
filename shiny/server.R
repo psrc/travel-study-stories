@@ -212,6 +212,10 @@ function(input, output, session) {
         wt_field <- 'trip_weight_revised'
       }
       type <- 'total'
+      
+      if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
+      # browser()
+      # print(nrow(survey))
      
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
       xvals <- xtabXValues()[, .(Variable, Value)]
@@ -467,16 +471,18 @@ function(input, output, session) {
   # Enable/Disable download button
   v <- reactiveValues(xtabxcol = NULL,
                       xtabycol = NULL,
-                      xtabgo = 0)
+                      xtabgo = 0,
+                      xtabfltrsea = F)
   
   observeEvent(input$xtab_go, {
     v$xtabxcol <- input$xtab_xcol
     v$xtabycol <- input$xtab_ycol
     v$xtabgo <- v$xtabgo + 1
+    v$xtabfltrsea <- input$xtab_fltr_sea
   })
   
   observe({
-    if (v$xtabgo == 0 || (v$xtabycol != input$xtab_ycol) || (v$xtabxcol != input$xtab_xcol)) {
+    if (v$xtabgo == 0 || (v$xtabycol != input$xtab_ycol) || (v$xtabxcol != input$xtab_xcol) || (v$xtabfltrsea != input$xtab_fltr_sea)) {
       disable("xtab_download")
     } else if (v$xtabgo > 0) {
       enable("xtab_download")  
@@ -549,6 +555,8 @@ function(input, output, session) {
       wt_field <- 'trip_weight_revised'
     }
     type <- 'total'
+    
+    if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
     
     xa <- stab.varsXAlias()
     
@@ -683,15 +691,17 @@ function(input, output, session) {
 
   # Enable/Disable Download button
   vs <- reactiveValues(stabxcol = NULL,
-                       stabgo = 0)
+                       stabgo = 0,
+                       stabfltrsea = F)
   
   observeEvent(input$stab_go, {
     vs$stabxcol <- input$stab_xcol
     vs$stabgo <- vs$stabgo + 1
+    vs$stabfltrsea <- input$stab_fltr_sea
   })
   
   observe({
-    if (vs$stabgo == 0 || (vs$stabxcol != input$stab_xcol)) {
+    if (vs$stabgo == 0 || (vs$stabxcol != input$stab_xcol) || (vs$stabfltrsea != input$stab_fltr_sea)) {
       disable("stab_download")
     } else if (vs$stabgo > 0) {
       enable("stab_download")  

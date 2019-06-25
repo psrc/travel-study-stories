@@ -50,20 +50,40 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                          )# end div
                                        ) # end welPanel
                                 ), # end column
-
+                                
                                 column(3,
-                                       actionButton('xtab_go', 'Create Crosstab', width = '150px'),
-                                       br(),
-                                       br(),
-                                       downloadButton("xtab_download", "Download Data"),
-                                       br(),
-                                       br(),
-                                       div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
-                                       div(p("The Margin of Error is calculated for a 90% confidence interval. 
-                                         As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
-                                         Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%')
-                                ) # end column
+                                       fluidRow(
+                                         column(7,
+                                                wellPanel(
+                                                          div(checkboxInput('xtab_fltr_sea', 
+                                                                        label = "Select Seattle results only", 
+                                                                        value = FALSE), style="font-size:95%;"),
+                                                          style = "padding: 31px;"
+                                                        )
+                                                ), # end column
+                                         column(1,
+                                                actionButton('xtab_go', 'Create Crosstab', width = '150px'),
+                                                br(),
+                                                br(),
+                                                downloadButton("xtab_download", "Download Data")
+                                                ) # end column
+                                       ), # end fluidRow
+                                       fluidRow(
+                                         column(12,
+                                           br(),
+                                           div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
+                                           div(p("The Margin of Error is calculated for a 90% confidence interval.
+                                                  As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
+                                                  Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%')
+                                         ) # end column
+                                       ) # end fluidRow
+                                       ) # end column
+                               
                               ), # end fluidRow
+                              
+
+# Crosstab Generator Render Table and Visual ------------------------------
+
                               br(),
                               br(),
                               conditionalPanel(
@@ -118,7 +138,9 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                 ), # end hidden
                                                 style = 'font-size: 90%'
                                             ), # end div
-                                            br(),
+                                            div(checkboxInput('stab_fltr_sea', 
+                                                              label = "Select Seattle results only", 
+                                                              value = FALSE), style="font-size:95%;"),
                                             actionButton('stab_go',
                                                          'Create Table'),
                                             br(),
