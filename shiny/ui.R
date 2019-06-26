@@ -56,9 +56,9 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                          column(7,
                                                 wellPanel(
                                                           div(checkboxInput('xtab_fltr_sea', 
-                                                                        label = "Select Seattle results only", 
+                                                                        label = "Select Seattle households only", 
                                                                         value = FALSE), style="font-size:95%;"),
-                                                          style = "padding: 31px;"
+                                                          style = "padding: 25px;"
                                                         )
                                                 ), # end column
                                          column(1,
@@ -84,12 +84,13 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
 
 # Crosstab Generator Render Table and Visual ------------------------------
 
-                              br(),
-                              br(),
+                              # br(),
+                              # br(),
                               conditionalPanel(
                                 "input.xtab_go",
                                 fluidRow(
                                   column(2,
+                                    uiOutput("ui_xtab_res_type_title"),
                                     wellPanel(
                                              radioButtons("xtab_dtype_rbtns",
                                                           label = strong("Summary Types"),
@@ -139,7 +140,7 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                                 style = 'font-size: 90%'
                                             ), # end div
                                             div(checkboxInput('stab_fltr_sea', 
-                                                              label = "Select Seattle results only", 
+                                                              label = "Select Seattle households only", 
                                                               value = FALSE), style="font-size:95%;"),
                                             actionButton('stab_go',
                                                          'Create Table'),
@@ -164,6 +165,8 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                             ) # end conditionalPanel
                                 ), # end sidbarPanel
                                 mainPanel(width = 9,
+                                          uiOutput("ui_stab_res_type_title"),
+                                          br(),
                                           div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
                                           br(),
                                           br(),

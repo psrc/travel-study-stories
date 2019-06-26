@@ -63,6 +63,7 @@ function(input, output, session) {
     }
 
      DT::datatable(atable,
+                   # caption = acaption,
                    container = acontainer,
                    rownames = FALSE,
                    options = list(bFilter=0,
@@ -188,6 +189,19 @@ function(input, output, session) {
   xtabYValues <- eventReactive(input$xtab_go, {
     dt <- values.lu[Label %in% input$xtab_ycol, ]
     v <- as.vector(dt$Value) # return vector
+  })
+  
+  xtabCaption <- eventReactive(input$xtab_go, {
+    if (input$xtab_fltr_sea == T) {
+      cap <- "Seattle results"
+    } else {
+      cap <- "Regional results"
+    }
+    return(cap)
+  })
+  
+  output$ui_xtab_res_type_title <- renderUI({
+    h4(xtabCaption())
   })
 
   
@@ -532,6 +546,19 @@ function(input, output, session) {
   
   stabXValues <- eventReactive(input$stab_go, {
     dt <- values.lu[Label %in% input$stab_xcol, ] # return dt
+  })
+  
+  stabCaption <- eventReactive(input$stab_go, {
+    if (input$stab_fltr_sea == T) {
+      cap <- "Seattle results"
+    } else {
+      cap <- "Regional results"
+    }
+    return(cap)
+  })
+  
+  output$ui_stab_res_type_title <- renderUI({
+    h4(stabCaption())
   })
 
 # Simple Table Data Wrangling ---------------------------------------------
