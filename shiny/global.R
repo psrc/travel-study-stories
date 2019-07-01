@@ -24,6 +24,7 @@ pers.dt <- fread(file.path(data.dir, 'person.csv'), encoding = 'UTF-8')
 trip.dt <- fread(file.path(data.dir, 'trip.csv'), encoding = 'UTF-8')
 variables.lu <- fread(file.path(data.dir, 'variables.csv'))
 values.lu <- fread(file.path(data.dir, 'variables_values.csv'))
+readme.dt <- read.xlsx(file.path(data.dir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
 
 vars.cat <- unique(variables.lu$Category)
 

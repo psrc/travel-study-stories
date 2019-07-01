@@ -434,8 +434,6 @@ function(input, output, session) {
  
   
   output$xtab_tbl <- DT::renderDataTable({
-    # xtabTableClean.EstMOE()
-    # xtabTableClean.DT.EstMOE()
     dttype <- input$xtab_dtype_rbtns
     
     if (dttype %in% c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")) {
@@ -503,12 +501,46 @@ function(input, output, session) {
       }
   })
   
+  xtabDownloadOutput <- reactive({
+    dtlist <- copy(xtabTableClean())
+    t <- dtlist[['sample_count']]
+    tsm <- copy(xtabTableClean.DT.ShareMOE()) 
+    tem <- copy(xtabTableClean.DT.EstMOE())
+    
+    # Format tsm, every other column as string starting at index 2
+    nums <- seq(1, length(colnames(tsm)))
+    evens <- unlist(lapply(nums, function(x) x %%2 ==0))
+    ind <- nums[evens]
+    
+    cols.to.str <- colnames(tsm)[ind]
+    tsm[, (cols.to.str) := lapply(.SD, function(x) paste0(as.character(round(x*100, 1)), '%')), .SDcols = cols.to.str]
+    
+    # Format tem, every other column as string starting at index 2
+    cols.to.prettynum <- colnames(tem)[ind]
+    tem[, (cols.to.prettynum) := lapply(.SD, function(x) prettyNum(round(x), big.mark = ",")), .SDcols = cols.to.prettynum]
+
+    for(j in seq_along(tsm)){
+      set(tsm, i = which(tsm[[j]] == "NA%"), j=j, value="")
+    }
+
+    for(j in seq_along(tem)){
+      set(tem, i = which(tem[[j]] == "NA"), j=j, value="")
+    }
+    
+    tbllist <- list("About" = readme.dt, 
+                    "Share with Margin of Error" = tsm, 
+                    "Total with Margin of Error" = tem, 
+                    "Sample Count" = t)
+    return(tbllist)
+  })
+  
   output$xtab_download <- downloadHandler(
     filename = function() {
-      paste0("HHSurvey2017_", varsXAlias(), "_by_", varsYAlias(), ".xlsx")
+      paste0("HHSurvey2017_", varsXAlias(), "_by_", varsYAlias(), "_", xtabCaption(), ".xlsx")
     },
     content = function(file) {
-      write.xlsx(xtabTableClean(), file)
+      write.xlsx(xtabDownloadOutput(), file)
+      
     }
   )
   
@@ -735,12 +767,26 @@ function(input, output, session) {
     }
   })
   
+  stabDownloadOutput <- reactive({
+    t <- copy(stabTable())
+    
+    cols.fmt.per <- str_subset(colnames(t), "Share")
+    cols.fmt.nom <- str_subset(colnames(t), "Total")
+    cols.fmt.moe <- str_subset(colnames(t), "Margin of Error")
+    t[, (cols.fmt.per) := lapply(.SD, function(x) paste0(as.character(round(x*100, 1)), '%')), .SDcols = cols.fmt.per
+      ][, (cols.fmt.nom) := lapply(.SD, function(x) prettyNum(round(x), big.mark = ",")), .SDcols = cols.fmt.nom
+        ][, (cols.fmt.moe) := lapply(.SD, function(x) paste0('+/-', x)), .SDcols = cols.fmt.moe]
+    tlist <- list("About" = readme.dt, "Simple Table" = t)
+    return(tlist)
+    })
+  
   output$stab_download <- downloadHandler(
     filename = function() {
-      paste0("HHSurvey2017_", stab.varsXAlias(), ".xlsx")
+      paste0("HHSurvey2017_", stab.varsXAlias(),"_", stabCaption(), ".xlsx")
     },
     content = function(file) {
-      write.xlsx(stabTable(), file)
+      # write.xlsx(stabTable(), file)
+      write.xlsx(stabDownloadOutput(), file)
     }
   )
   
