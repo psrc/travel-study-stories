@@ -1,9 +1,67 @@
-fluidPage(title = "", windowTitle = "2017 Household Survey Results",
+fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
           # shinythemes::themeSelector(),
           theme = shinytheme("flatly"),
           useShinyjs(),
           navbarPage("2017 Household Survey Results (Beta version)",
 
+# Simple Table ------------------------------------------------------------
+
+                                          tabPanel("Simple Table",
+                                                   sidebarLayout(
+                                                     sidebarPanel(width = 3,
+                                                                  p("Select from the following characteristics, organized by categories, to generate a simple summary table."),
+                                                                  p("Click 'Download Data' to download tabular data after the table has been generated."),
+                                                                  br(),
+                                                                 selectInput('stab_xcat',
+                                                                             'Category',
+                                                                             # width = '75%',
+                                                                             vars.cat[!(vars.cat %in% "None")]),
+                                                                 uiOutput("ui_stab_xcol"),
+                                                                 div(a(id = "stabXtoggleAdvanced", "Show/hide variable detail", href = "#"),
+                                                                     hidden(
+                                                                       div(id = "stabXAdvanced",
+                                                                           textOutput("stab_xcol_det")
+                                                                       ) # end div
+                                                                     ), # end hidden
+                                                                     style = 'font-size: 90%'
+                                                                 ), # end div
+                                                                 div(checkboxInput('stab_fltr_sea',
+                                                                                   label = "Select Seattle households only",
+                                                                                   value = FALSE), style="font-size:95%;"),
+                                                                 actionButton('stab_go',
+                                                                              'Create Table'),
+                                                                 br(),
+                                                                 br(),
+                                                                 downloadButton("stab_download", "Download Data"),
+                                                                 br(),
+                                                                 br(),
+                                                                 div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
+                                                                 div(p("The Margin of Error is calculated for a 90% confidence interval.
+                                                                    As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
+                                                                    Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%'),
+                                                                 br(),
+                                                                 conditionalPanel(
+                                                                   "input.stab_go",
+                                                                   radioButtons("stab_dtype_rbtns",
+                                                                                label = strong("Visual Options"),
+                                                                                # choices = dtype.choice[!(dtype.choice %in% c('MOE', 'N_HH', 'share_with_MOE'))]
+                                                                                choices = dtype.choice.stab.vis
+                                                                   )
+
+                                                                 ) # end conditionalPanel
+                                                     ), # end sidbarPanel
+                                                     mainPanel(width = 9,
+                                                               uiOutput("ui_stab_res_type_title"),
+                                                               br(),
+                                                               div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
+                                                               br(),
+                                                               br(),
+                                                               br(),
+                                                               plotlyOutput('stab_vis', width = "85%")
+                                                     ) # end mainPanel
+                                                   ) # end sidebarLayout
+                                                   ), # end tabPanel
+                     
 # Crosstab Generator ------------------------------------------------------
 
                      tabPanel("Crosstab Generator",
@@ -117,64 +175,72 @@ fluidPage(title = "", windowTitle = "2017 Household Survey Results",
                                 ) # end fluidRow
                               ) # end conditional Panel
                               ), # end tabPanel
+                      tabPanel("About Travel Survey Data Explorer",
+                               column(2),
+                               column(8,
+                                      includeMarkdown(file.path(data.dir, "about_page.md"))
+                                      ),
+                               column(2)
+                               )
 
-# Simple Table ------------------------------------------------------------
+# # Simple Table ------------------------------------------------------------
+# 
+#                      tabPanel("Simple Table",
+#                               sidebarLayout(
+#                                 sidebarPanel(width = 3,
+#                                              p("Select from the following characteristics, organized by categories, to generate a simple summary table."),
+#                                              p("Click 'Download Data' to download tabular data after the table has been generated."),
+#                                              br(),
+#                                             selectInput('stab_xcat',
+#                                                         'Category',
+#                                                         # width = '75%',
+#                                                         vars.cat[!(vars.cat %in% "None")]),
+#                                             uiOutput("ui_stab_xcol"),
+#                                             div(a(id = "stabXtoggleAdvanced", "Show/hide variable detail", href = "#"),
+#                                                 hidden(
+#                                                   div(id = "stabXAdvanced",
+#                                                       textOutput("stab_xcol_det")
+#                                                   ) # end div
+#                                                 ), # end hidden
+#                                                 style = 'font-size: 90%'
+#                                             ), # end div
+#                                             div(checkboxInput('stab_fltr_sea', 
+#                                                               label = "Select Seattle households only", 
+#                                                               value = FALSE), style="font-size:95%;"),
+#                                             actionButton('stab_go',
+#                                                          'Create Table'),
+#                                             br(),
+#                                             br(),
+#                                             downloadButton("stab_download", "Download Data"),
+#                                             br(),
+#                                             br(),
+#                                             div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
+#                                             div(p("The Margin of Error is calculated for a 90% confidence interval.
+#                                                As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
+#                                                Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%'),
+#                                             br(),
+#                                             conditionalPanel(
+#                                               "input.stab_go",
+#                                               radioButtons("stab_dtype_rbtns",
+#                                                            label = strong("Visual Options"),
+#                                                            # choices = dtype.choice[!(dtype.choice %in% c('MOE', 'N_HH', 'share_with_MOE'))]
+#                                                            choices = dtype.choice.stab.vis
+#                                               )
+# 
+#                                             ) # end conditionalPanel
+#                                 ), # end sidbarPanel
+#                                 mainPanel(width = 9,
+#                                           uiOutput("ui_stab_res_type_title"),
+#                                           br(),
+#                                           div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
+#                                           br(),
+#                                           br(),
+#                                           br(),
+#                                           plotlyOutput('stab_vis', width = "85%")
+#                                 ) # end mainPanel
+#                               ) # end sidebarLayout
+#                               ) # end tabPanel
 
-                     tabPanel("Simple Table",
-                              sidebarLayout(
-                                sidebarPanel(width = 3,
-                                             p("Select from the following characteristics, organized by categories, to generate a simple summary table."),
-                                             p("Click 'Download Data' to download tabular data after the table has been generated."),
-                                             br(),
-                                            selectInput('stab_xcat',
-                                                        'Category',
-                                                        # width = '75%',
-                                                        vars.cat[!(vars.cat %in% "None")]),
-                                            uiOutput("ui_stab_xcol"),
-                                            div(a(id = "stabXtoggleAdvanced", "Show/hide variable detail", href = "#"),
-                                                hidden(
-                                                  div(id = "stabXAdvanced",
-                                                      textOutput("stab_xcol_det")
-                                                  ) # end div
-                                                ), # end hidden
-                                                style = 'font-size: 90%'
-                                            ), # end div
-                                            div(checkboxInput('stab_fltr_sea', 
-                                                              label = "Select Seattle households only", 
-                                                              value = FALSE), style="font-size:95%;"),
-                                            actionButton('stab_go',
-                                                         'Create Table'),
-                                            br(),
-                                            br(),
-                                            downloadButton("stab_download", "Download Data"),
-                                            br(),
-                                            br(),
-                                            div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
-                                            div(p("The Margin of Error is calculated for a 90% confidence interval.
-                                               As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
-                                               Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%'),
-                                            br(),
-                                            conditionalPanel(
-                                              "input.stab_go",
-                                              radioButtons("stab_dtype_rbtns",
-                                                           label = strong("Visual Options"),
-                                                           # choices = dtype.choice[!(dtype.choice %in% c('MOE', 'N_HH', 'share_with_MOE'))]
-                                                           choices = dtype.choice.stab.vis
-                                              )
-
-                                            ) # end conditionalPanel
-                                ), # end sidbarPanel
-                                mainPanel(width = 9,
-                                          uiOutput("ui_stab_res_type_title"),
-                                          br(),
-                                          div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
-                                          br(),
-                                          br(),
-                                          br(),
-                                          plotlyOutput('stab_vis', width = "85%")
-                                ) # end mainPanel
-                              ) # end sidebarLayout
-                              ) # end tabPanel
                      ) # end navbarPage
           ) # end fluidPage
 
