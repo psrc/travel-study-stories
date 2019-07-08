@@ -74,7 +74,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                        ),
                                 column(3,
                                        wellPanel(
-                                         p(strong("First Dimension (Crosstab rows)")),
+                                         p(strong("First Variable (Crosstab rows)")),
                                          selectInput('xtab_xcat',
                                                      'Category',
                                                      # width = '75%',
@@ -92,7 +92,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                        ), # end column
                                 column(3,
                                        wellPanel(
-                                         p(strong("Second Dimension (Crosstab columns)")),
+                                         p(strong("Second Variable (Crosstab columns)")),
                                          selectInput('xtab_ycat',
                                                      'Category',
                                                      # width = '75%',
@@ -175,6 +175,10 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                 ) # end fluidRow
                               ) # end conditional Panel
                               ), # end tabPanel
+
+# About  ------------------------------------------------------------------
+
+
                       tabPanel("About Travel Survey Data Explorer",
                                column(2),
                                column(8,
