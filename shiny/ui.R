@@ -6,7 +6,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
 
 # Simple Table ------------------------------------------------------------
 
-                                          tabPanel("Simple Table",
+                                          tabPanel("One-way Table",
                                                    sidebarLayout(
                                                      sidebarPanel(width = 3,
                                                                   p("Select from the following characteristics, organized by categories, to generate a simple summary table."),
@@ -38,7 +38,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                                                  div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
                                                                  div(p("The Margin of Error is calculated for a 90% confidence interval.
                                                                     As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
-                                                                    Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%'),
+                                                                    Statistics with less than 30 will be greyed out in the one-way table."), style = 'font-size: 85%'),
                                                                  br(),
                                                                  conditionalPanel(
                                                                    "input.stab_go",
@@ -64,12 +64,12 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                      
 # Crosstab Generator ------------------------------------------------------
 
-                     tabPanel("Crosstab Generator",
+                     tabPanel("Two-way Table",
                               br(),
                               fluidRow(
                                 column(2,
-                                       p("Select from the following characteristics, organized by categories, to generate cross-tabulated tables."),
-                                       p("Tables may be summarized by sample counts and share or weighted totals, with and without margins of error."),
+                                       p("Select from the following characteristics, organized by categories, to generate two-way tables."),
+                                       p("Tables may be summarized by sample counts, or by share or weighted totals, with and without margins of error."),
                                        p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulation has been generated.")
                                        ),
                                 column(3,
@@ -132,7 +132,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                            div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
                                            div(p("The Margin of Error is calculated for a 90% confidence interval.
                                                   As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
-                                                  Statistics with less than 30 will be greyed out in the cross-tabulated tables."), style = 'font-size: 85%')
+                                                  Statistics with less than 30 will be greyed out in the two-way tables."), style = 'font-size: 85%')
                                          ) # end column
                                        ) # end fluidRow
                                        ) # end column
