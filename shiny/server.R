@@ -132,38 +132,38 @@ function(input, output, session) {
   })
   
   output$xtab_xcol_det <- renderText({
-    xvar.det <- variables.lu[Variables %in% input$xtab_xcol, .(Detail)]
+    xvar.det <- variables.lu[Variable %in% input$xtab_xcol, .(Detail)]
     xvar.det$Detail
   })
 
   output$xtab_ycol_det <- renderText({
-    yvar.det <- variables.lu[Variables %in% input$xtab_ycol, .(Detail)]
+    yvar.det <- variables.lu[Variable %in% input$xtab_ycol, .(Detail)]
     yvar.det$Detail
   })
   
   # variable X alias list
   varsListX <- reactive({
     t <- variables.lu[Category %in% input$xtab_xcat, ]
-    vars.raw <- as.list(t$Variables)
+    vars.raw <- as.list(t$Variable)
     vars.list <- setNames(vars.raw, as.list(t$Name))
   })
   
   # variable Y alias list
   varsListY <- reactive({
     t <- variables.lu[Category %in% input$xtab_ycat, ]
-    vars.raw <- as.list(t$Variables)
+    vars.raw <- as.list(t$Variable)
     vars.list <- setNames(vars.raw, as.list(t$Name))
   })
   
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
-    xvar.alias <- variables.lu[Variables %in% input$xtab_xcol, .(Name)]
+    xvar.alias <- variables.lu[Variable %in% input$xtab_xcol, .(Name)]
     xvar.alias$Name
   })
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
-    yvar.alias <- variables.lu[Variables %in% input$xtab_ycol, .(Name)]
+    yvar.alias <- variables.lu[Variable %in% input$xtab_ycol, .(Name)]
     yvar.alias$Name
   })
   
@@ -209,25 +209,35 @@ function(input, output, session) {
   
   
   xtabTableType <- eventReactive(input$xtab_go, {
-    select.vars <- variables.lu[Variables %in% c(input$xtab_xcol, input$xtab_ycol), ]
+    select.vars <- variables.lu[Variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
     tables <- unique(select.vars$Table)
-    ifelse(tables == "Person", res <- "Person", res <- "Trip")
+    
+    if((tables == 'Person' )| (tables == c('Person', 'Household'))){
+      res<-'Person'
+    } else if(tables=='Household'){
+      res<-'Household'
+    }else{
+      res<-'Trip'
+    }
     return(res)
-  })
+    })
 
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
       table.type <- xtabTableType()
       if (table.type == "Person") {
         survey <- pers.dt
-        wt_field <- 'hh_wt_revised'
-      } else {
+        wt_field <- 'HHWtFinal'
+      } else if(table.type == "Trip") {
         survey <- trip.dt
-        wt_field <- 'trip_weight_revised'
+        wt_field <- 'TripWtFinal'
+      }else {
+        survey <- household.dt
+        wt_field = 'HHWtFinal'
       }
       type <- 'total'
       
-      if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
+      if (input$xtab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
       # browser()
       # print(nrow(survey))
      
@@ -553,20 +563,20 @@ function(input, output, session) {
   })
   
   output$stab_xcol_det <- renderText({
-    xvar.det <- variables.lu[Variables %in% input$stab_xcol, .(Detail)]
+    xvar.det <- variables.lu[Variable %in% input$stab_xcol, .(Detail)]
     xvar.det$Detail
   })
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
-    xvar.alias <- variables.lu[Variables %in% input$stab_xcol, .(Name)]
+    xvar.alias <- variables.lu[Variable %in% input$stab_xcol, .(Name)]
     xvar.alias$Name
   })
   
   # variable X alias list
   stab.varsListX <- reactive({
     t <- variables.lu[Category %in% input$stab_xcat, ]
-    vars.raw <- as.list(t$Variables)
+    vars.raw <- as.list(t$Variable)
     vars.list <- setNames(vars.raw, as.list(t$Name))
   })
   
@@ -597,9 +607,15 @@ function(input, output, session) {
 
   
   stabTableType <- eventReactive(input$stab_go, {
-    select.vars <- variables.lu[Variables %in% c(input$stab_xcol), ]
+    select.vars <- variables.lu[Variable %in% c(input$stab_xcol), ]
     tables <- unique(select.vars$Table)
-    ifelse(tables == "Person", res <- "Person", res <- "Trip")
+    if(tables == 'Person'){
+      res<-'Person'
+    } else if(tables=='Household'){
+      res<-'Household'
+    }else{
+      res<-'Trip'
+    }
     return(res)
   })
   
@@ -608,14 +624,17 @@ function(input, output, session) {
     table.type <- stabTableType()
     if (table.type == "Person") {
       survey <- pers.dt
-      wt_field <- 'hh_wt_revised'
-    } else {
+      wt_field <- 'HHWtFinal'
+    } else if(table.type =='Trip') {
       survey <- trip.dt
-      wt_field <- 'trip_weight_revised'
+      wt_field <- 'TripWtFinal'
+    }else{
+      survey<-household.dt
+      wt_field<- "HHWtFinal"
     }
     type <- 'total'
     
-    if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
+    if (input$stab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
     
     xa <- stab.varsXAlias()
     

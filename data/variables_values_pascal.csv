@@ -1,0 +1,1316 @@
+Field,Variable,Value,Label
+HHGroup,1,rMove,Part 2 participation group
+HHGroup,2,rSurvey,Part 2 participation group
+SampleSegment,1,PSRC - Regular-Low,Sample segment
+SampleSegment,2,PSRC - Regular-Medium,Sample segment
+SampleSegment,3,PSRC - Regular-High,Sample segment
+SampleSegment,11,PSRC - Oversample-Low,Sample segment
+SampleSegment,12,PSRC - Oversample-Medium,Sample segment
+SampleSegment,13,PSRC - Oversample-High,Sample segment
+SampleSegment,22,Redmond - Regular-Medium,Sample segment
+SampleSegment,23,Redmond - Regular-High,Sample segment
+SampleSegment,31,Redmond - Oversample-Low,Sample segment
+SampleSegment,32,Redmond - Oversample-Medium,Sample segment
+SampleSegment,33,Redmond - Oversample-High,Sample segment
+SampleSegment,42,Redmond - Downtown-Medium,Sample segment
+SampleSegment,43,Redmond - Downtown-High,Sample segment
+SampleSegment,50,UV - 10%,Sample segment
+SampleSegment,51,UV - 15%,Sample segment
+SampleSegment,52,UV - 20%,Sample segment
+SampleSegment,53,UV - 25%,Sample segment
+SampleSegment,54,UV - 30%,Sample segment
+SampleSegment,55,UV - 35%,Sample segment
+SampleSegment,56,UV - 50%,Sample segment
+SampleSegment,57,UV - 60%,Sample segment
+SampleSegment,58,UV - 75%,Sample segment
+SampleSegment,59,UV - 100%,Sample segment
+FinalCnty,1,King,Final Home Address County (derived)
+FinalCnty,2,Kitsap,Final Home Address County (derived)
+FinalCnty,3,Pierce,Final Home Address County (derived)
+FinalCnty,4,Snohomish,Final Home Address County (derived)
+Cityofredmond,0,No,Sample address located in Redmond
+Cityofredmond,1,Yes,Sample address located in Redmond
+Cityofseattle,0,No,Sample address located in Seattle urban village
+Cityofseattle,1,Yes,Sample address located in Seattle urban village
+PSRC,0,No,Sample address not in Redmond and not in urban village
+PSRC,1,Yes,Sample address not in Redmond and not in urban village
+FinalHomePuma10,11501,Pierce County (Central)--Tacoma City (Central) PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11502,Pierce County (Northwest)--Peninsula Region & Tacoma City (West) PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11503,Pierce County (West Central)--Lakewood City & Joint Base Lewis-McChord PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11504,"Pierce County (South Central)--Tacoma City (South), Parkland & Spanaway PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11505,Pierce County (North Central)--Tacoma (Port) & Bonney Lake (Northwest) Cities PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11506,Pierce County (East Central)--Puyallup City & South Hill PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11507,"Pierce County (Southeast)--Graham, Elk Plain & Prairie Ridge PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11601,Seattle City (Northwest) PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11602,Seattle City (Northeast) PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11603,Seattle City (Downtown)--Queen Anne & Magnolia PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11604,Seattle City (Southeast)--Capitol Hill PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11605,Seattle City (West)--Duwamish & Beacon Hill PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11606,"King County (Northwest)--Shoreline, Kenmore & Bothell (South) Cities PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11607,"King County (Northwest)--Redmond, Kirkland Cities, Inglewood & Finn Hill PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11608,King County (Northwest Central)--Greater Bellevue City PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11609,"King County (Central)--Sammamish, Issaquah, Mercer Island & Newcastle Cities PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11610,"King County (Central)--Renton City, Fairwood, Bryn Mawr & Skyway PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11611,"King County (West Central)--Burien, SeaTac, Tukwila Cities & White Center PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11612,"King County (Far Southwest)--Federal Way, Des Moines Cities & Vashon Island PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11613,King County (Southwest Central)--Kent City PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11614,King County (Southwest)--Auburn City & Lakeland PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11615,"King County (Southeast)--Maple Valley, Covington & Enumclaw Cities PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11616,"King County (Northeast)--Snoqualmie City, Cottage Lake, Union Hill & Novelty Hill PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11701,"Snohomish County (Southwest)--Edmonds, Lynnwood & Mountlake Terrace Cities PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11702,Snohomish County (West Central)--Mukilteo & Everett (Southwest) Cities PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11703,Snohomish County (Central)--Everett City (Central & East) & Eastmont PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11704,"Snohomish County (South Central)--Bothell (North), Mill Creek Cities & Silver Firs PUMA",Final home address_ PUMA 2010
+FinalHomePuma10,11705,Snohomish County (Central & Southeast)--Lake Stevens & Monroe Cities PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11706,Snohomish County (North)--Marysville & Arlington Cities PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11801,Kitsap County (North)--Bainbridge Island City & Silverdale PUMA,Final home address_ PUMA 2010
+FinalHomePuma10,11802,Kitsap County (South)--Bremerton & Port Orchard Cities PUMA,Final home address_ PUMA 2010
+FinalHomeRgcnum,1,Not RCG,Final home address_ Regional growth center
+FinalHomeRgcnum,2,Auburn,Final home address_ Regional growth center
+FinalHomeRgcnum,3,Bellevue Downtown,Final home address_ Regional growth center
+FinalHomeRgcnum,4,Bothell Canyon Park,Final home address_ Regional growth center
+FinalHomeRgcnum,5,Bremerton,Final home address_ Regional growth center
+FinalHomeRgcnum,6,Burien,Final home address_ Regional growth center
+FinalHomeRgcnum,7,Everett,Final home address_ Regional growth center
+FinalHomeRgcnum,8,Federal Way,Final home address_ Regional growth center
+FinalHomeRgcnum,9,Issaquah,Final home address_ Regional growth center
+FinalHomeRgcnum,10,Kent,Final home address_ Regional growth center
+FinalHomeRgcnum,11,Kirkland Totem Lake,Final home address_ Regional growth center
+FinalHomeRgcnum,12,Lakewood,Final home address_ Regional growth center
+FinalHomeRgcnum,13,Lynnwood,Final home address_ Regional growth center
+FinalHomeRgcnum,14,Puyallup Downtown,Final home address_ Regional growth center
+FinalHomeRgcnum,15,Puyallup South Hill,Final home address_ Regional growth center
+FinalHomeRgcnum,16,Redmond Downtown,Final home address_ Regional growth center
+FinalHomeRgcnum,17,Redmond Overlake,Final home address_ Regional growth center
+FinalHomeRgcnum,18,Renton,Final home address_ Regional growth center
+FinalHomeRgcnum,19,SeaTac,Final home address_ Regional growth center
+FinalHomeRgcnum,20,Seattle Downtown,Final home address_ Regional growth center
+FinalHomeRgcnum,21,Seattle First Hill/Capitol Hill,Final home address_ Regional growth center
+FinalHomeRgcnum,22,Seattle Northgate,Final home address_ Regional growth center
+FinalHomeRgcnum,23,Seattle South Lake Union,Final home address_ Regional growth center
+FinalHomeRgcnum,24,Seattle University Community,Final home address_ Regional growth center
+FinalHomeRgcnum,25,Seattle Uptown,Final home address_ Regional growth center
+FinalHomeRgcnum,26,Silverdale,Final home address_ Regional growth center
+FinalHomeRgcnum,27,Tacoma Downtown,Final home address_ Regional growth center
+FinalHomeRgcnum,28,Tacoma Mall,Final home address_ Regional growth center
+FinalHomeRgcnum,29,Tukwila,Final home address_ Regional growth center
+FinalHomeRgcnum,30,University Place,Final home address_ Regional growth center
+FinalHomeUvnum,0,(None),Final home address_ Urban village
+FinalHomeUvnum,1,12th Avenue,Final home address_ Urban village
+FinalHomeUvnum,2,23rd & Union-Jackson,Final home address_ Urban village
+FinalHomeUvnum,3,Admiral,Final home address_ Urban village
+FinalHomeUvnum,4,Aurora-Licton Springs,Final home address_ Urban village
+FinalHomeUvnum,5,Ballard,Final home address_ Urban village
+FinalHomeUvnum,6,Ballard-Interbay-Northend,Final home address_ Urban village
+FinalHomeUvnum,7,Belltown,Final home address_ Urban village
+FinalHomeUvnum,8,Bitter Lake Village,Final home address_ Urban village
+FinalHomeUvnum,9,Capitol Hill,Final home address_ Urban village
+FinalHomeUvnum,10,Chinatown-International District,Final home address_ Urban village
+FinalHomeUvnum,11,Columbia City,Final home address_ Urban village
+FinalHomeUvnum,12,Commercial Core,Final home address_ Urban village
+FinalHomeUvnum,13,Crown Hill,Final home address_ Urban village
+FinalHomeUvnum,14,Denny Triangle,Final home address_ Urban village
+FinalHomeUvnum,15,Eastlake,Final home address_ Urban village
+FinalHomeUvnum,16,First Hill,Final home address_ Urban village
+FinalHomeUvnum,17,Fremont,Final home address_ Urban village
+FinalHomeUvnum,18,Greater Duwamish,Final home address_ Urban village
+FinalHomeUvnum,19,Green Lake,Final home address_ Urban village
+FinalHomeUvnum,20,Greenwood-Phinney Ridge,Final home address_ Urban village
+FinalHomeUvnum,21,Lake City,Final home address_ Urban village
+FinalHomeUvnum,22,Madison-Miller,Final home address_ Urban village
+FinalHomeUvnum,23,Morgan Junction,Final home address_ Urban village
+FinalHomeUvnum,24,North Beacon Hill,Final home address_ Urban village
+FinalHomeUvnum,25,North Rainier,Final home address_ Urban village
+FinalHomeUvnum,26,Northgate,Final home address_ Urban village
+FinalHomeUvnum,27,Othello,Final home address_ Urban village
+FinalHomeUvnum,28,Pike/Pine,Final home address_ Urban village
+FinalHomeUvnum,29,Pioneer Square,Final home address_ Urban village
+FinalHomeUvnum,30,Rainier Beach,Final home address_ Urban village
+FinalHomeUvnum,31,Ravenna,Final home address_ Urban village
+FinalHomeUvnum,32,Roosevelt,Final home address_ Urban village
+FinalHomeUvnum,33,South Lake Union,Final home address_ Urban village
+FinalHomeUvnum,34,South Park,Final home address_ Urban village
+FinalHomeUvnum,35,University Campus,Final home address_ Urban village
+FinalHomeUvnum,36,University District Northwest,Final home address_ Urban village
+FinalHomeUvnum,37,Upper Queen Anne,Final home address_ Urban village
+FinalHomeUvnum,38,Uptown,Final home address_ Urban village
+FinalHomeUvnum,39,Wallingford,Final home address_ Urban village
+FinalHomeUvnum,40,West Seattle Junction,Final home address_ Urban village
+FinalHomeUvnum,41,Westwood-Highland Park,Final home address_ Urban village
+Dayofweek,1,Sunday,Day of week of first travel date
+Dayofweek,2,Monday,Day of week of first travel date
+Dayofweek,3,Tuesday,Day of week of first travel date
+Dayofweek,4,Wednesday,Day of week of first travel date
+Dayofweek,5,Thursday,Day of week of first travel date
+Dayofweek,6,Friday,Day of week of first travel date
+Dayofweek,7,Saturday,Day of week of first travel date
+HHsize,1,1 person,Household size
+HHsize,2,2 people,Household size
+HHsize,3,3 people,Household size
+HHsize,4,4 people,Household size
+HHsize,5,5 people,Household size
+HHsize,6,6 people,Household size
+HHsize,7,7 people,Household size
+HHsize,8,8 people,Household size
+HHsize,9,9 people,Household size
+HHsize,10,10 people,Household size
+HHsize,11,11 people,Household size
+HHsize,12,12 or more people,Household size
+VehicleCount,0,0 (no vehicles),Number of vehicles
+VehicleCount,1,1,Number of vehicles
+VehicleCount,2,2,Number of vehicles
+VehicleCount,3,3,Number of vehicles
+VehicleCount,4,4,Number of vehicles
+VehicleCount,5,5,Number of vehicles
+VehicleCount,6,6,Number of vehicles
+VehicleCount,7,7,Number of vehicles
+VehicleCount,8,8,Number of vehicles
+VehicleCount,9,9,Number of vehicles
+VehicleCount,10,10 or more vehicles,Number of vehicles
+Lifecycle,1,Household includes children under 5,Household lifecycle stage
+Lifecycle,2,Household includes children age 5-17,Household lifecycle stage
+Lifecycle,3,"Household size = 1, Householder under age 35",Household lifecycle stage
+Lifecycle,4,"Household size = 1, Householder age 35 - 64",Household lifecycle stage
+Lifecycle,5,"Household size = 1, Householder age 65+",Household lifecycle stage
+Lifecycle,6,"Household size > 1, Householder under age 35",Household lifecycle stage
+Lifecycle,7,"Household size > 1, Householder age 35 - 64",Household lifecycle stage
+Lifecycle,8,"Household size > 1, Householder age 65+",Household lifecycle stage
+HHincomeDetailed,1,"Under $10,000",Household income 2016_ Detailed categories
+HHincomeDetailed,2,"$10,000-$24,999",Household income 2016_ Detailed categories
+HHincomeDetailed,3,"$25,000-$34,999",Household income 2016_ Detailed categories
+HHincomeDetailed,4,"$35,000-$49,999",Household income 2016_ Detailed categories
+HHincomeDetailed,5,"$50,000-$74,999",Household income 2016_ Detailed categories
+HHincomeDetailed,6,"$75,000-$99,999",Household income 2016_ Detailed categories
+HHincomeDetailed,7,"$100,000-$149,999",Household income 2016_ Detailed categories
+HHincomeDetailed,8,"$150,000-$199,999",Household income 2016_ Detailed categories
+HHincomeDetailed,9,"$200,000-$249,999",Household income 2016_ Detailed categories
+HHincomeDetailed,10,"$250,000 or more",Household income 2016_ Detailed categories
+HHincomeDetailed,11,Prefer not to answer,Household income 2016_ Detailed categories
+HHincomeFollowup,1,"Under $25,000",Prefer not to answer detailed household income 2016_ Broad follow-up categories
+HHincomeFollowup,2,"$25,000-$49,999",Prefer not to answer detailed household income 2016_ Broad follow-up categories
+HHincomeFollowup,3,"$50,000-$74,999",Prefer not to answer detailed household income 2016_ Broad follow-up categories
+HHincomeFollowup,4,"$75,000-$99,999",Prefer not to answer detailed household income 2016_ Broad follow-up categories
+HHincomeFollowup,5,"$100,000 or more",Prefer not to answer detailed household income 2016_ Broad follow-up categories
+HHincomeFollowup,6,Prefer not to answer,Prefer not to answer detailed household income 2016_ Broad follow-up categories
+HHincomeBroad,1,"Under $25,000",Household income 2016_ Broad categories_ all respondents
+HHincomeBroad,2,"$25,000-$49,999",Household income 2016_ Broad categories_ all respondents
+HHincomeBroad,3,"$50,000-$74,999",Household income 2016_ Broad categories_ all respondents
+HHincomeBroad,4,"$75,000-$99,999",Household income 2016_ Broad categories_ all respondents
+HHincomeBroad,5,"$100,000 or more",Household income 2016_ Broad categories_ all respondents
+HHincomeBroad,6,Prefer not to answer,Household income 2016_ Broad categories_ all respondents
+CarShare,1,Yes,HH belongs to carshare program
+CarShare,2,No,HH belongs to carshare program
+RentOwn,1,Own/paying mortgage,Residence tenure status
+RentOwn,2,Rent,Residence tenure status
+RentOwn,3,Provided by job or military,Residence tenure status
+RentOwn,4,Other,Residence tenure status
+RentOwn,5,Prefer not to answer,Residence tenure status
+ResDur,1,Less than a year,How long lived in current residence
+ResDur,2,Between 1 and 2 years,How long lived in current residence
+ResDur,3,Between 2 and 3 years,How long lived in current residence
+ResDur,4,Between 3 and 5 years,How long lived in current residence
+ResDur,5,Between 5 and 10 years,How long lived in current residence
+ResDur,6,Between 10 and 20 years,How long lived in current residence
+ResDur,7,More than 20 years,How long lived in current residence
+ResType,1,Single-family house (detached house),Type of residence
+ResType,2,Townhouse (attached house),Type of residence
+ResType,3,Building with 3 or fewer apartments/condos,Type of residence
+ResType,4,Building with 4 or more apartments/condos,Type of residence
+ResType,5,Mobile home/trailer,Type of residence
+ResType,6,Dorm or institutional housing,Type of residence
+ResType,7,"Other (including boat, RV, van, etc.)",Type of residence
+ResMonths,1,12 months,Months per year live in residence where survey invitation received
+ResMonths,2,9-11 months of the year,Months per year live in residence where survey invitation received
+ResMonths,3,6-8 months of the year,Months per year live in residence where survey invitation received
+ResMonths,4,3-5 months of the year,Months per year live in residence where survey invitation received
+ResMonths,5,Fewer than 3 months of the year,Months per year live in residence where survey invitation received
+Offpark,0,0 (no spaces available),Off-street parking spaces at residence
+Offpark,1,1,Off-street parking spaces at residence
+Offpark,2,2,Off-street parking spaces at residence
+Offpark,3,3,Off-street parking spaces at residence
+Offpark,4,4,Off-street parking spaces at residence
+Offpark,5,5,Off-street parking spaces at residence
+Offpark,6,6,Off-street parking spaces at residence
+Offpark,7,7,Off-street parking spaces at residence
+Offpark,8,8,Off-street parking spaces at residence
+Offpark,9,9,Off-street parking spaces at residence
+Offpark,10,10 or more,Off-street parking spaces at residence
+Streetpark,1,"Yes, during most times for any vehicles",On-street parking availability at_near residence
+Streetpark,2,"Yes, during most times but a residential permit is required",On-street parking availability at_near residence
+Streetpark,3,"No, residential on-street parking is typically difficult to find or unavailable",On-street parking availability at_near residence
+Streetpark,4,I don't know,On-street parking availability at_near residence
+PrevHomeWa,1,"Yes, previous home was in Washington",Moved in last 5 years_ Previous home in State of Washington (WA)
+PrevHomeWa,2,"No, previous home was in another state or country",Moved in last 5 years_ Previous home in State of Washington (WA)
+PrevHomeNotwaNotus,0,Not Selected,Moved in last 5 years_ Previous home address not in the US
+PrevHomeNotwaNotus,1,Selected,Moved in last 5 years_ Previous home address not in the US
+PrevHomeNotwaState,1,Alabama (AL),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,2,Alaska (AK),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,3,Arizona (AZ),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,4,Arkansas (AR),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,5,California (CA),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,6,Colorado (CO),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,7,Connecticut (CT),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,8,Delaware (DE),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,9,Florida (FL),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,10,Georgia (GA),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,11,Hawaii (HI),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,12,Idaho (ID),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,13,Illinois (IL),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,14,Indiana (IN),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,15,Iowa (IA),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,16,Kansas (KS),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,17,Kentucky (KY),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,18,Louisiana (LA),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,19,Maine (ME),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,20,Maryland (MD),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,21,Massachusetts (MA),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,22,Michigan (MI),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,23,Minnesota (MN),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,24,Mississippi (MS),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,25,Missouri (MO),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,26,Montana (MT),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,27,Nebraska (NE),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,28,Nevada (NV),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,29,New Hampshire (NH),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,30,New Jersey (NJ),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,31,New Mexico (NM),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,32,New York (NY),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,33,North Carolina (NC),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,34,North Dakota (ND),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,35,Ohio (OH),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,36,Oklahoma (OK),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,37,Oregon (OR),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,38,Pennsylvania (PA),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,39,Puerto Rico (PR),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,40,Rhode Island (RI),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,41,South Carolina (SC),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,42,South Dakota (SD),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,43,Tennessee (TN),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,44,Texas (TX),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,45,Utah (UT),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,46,Vermont (VT),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,47,Virginia (VA),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,48,Washington (WA),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,49,West Virginia (WV),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,50,Wisconsin (WI),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,51,Wyoming (WY),Moved in last 5 years_ Previous home address_ State
+PrevHomeNotwaState,52,Washington D.C. / District of Columbia (DC),Moved in last 5 years_ Previous home address_ State
+PrevRentOwn,1,Owned/paid mortgage,Moved in last 5 years_ Previous home_ Tenure status
+PrevRentOwn,2,Rent,Moved in last 5 years_ Previous home_ Tenure status
+PrevRentOwn,3,Provided by job or military,Moved in last 5 years_ Previous home_ Tenure status
+PrevRentOwn,4,Other,Moved in last 5 years_ Previous home_ Tenure status
+PrevRentOwn,5,Prefer not to answer,Moved in last 5 years_ Previous home_ Tenure status
+PrevResType,1,Single-family house (detached house),Moved in last 5 years_ Previous home_ Residence type
+PrevResType,2,Townhouse (attached house),Moved in last 5 years_ Previous home_ Residence type
+PrevResType,3,Building with 3 or fewer apartments/condos,Moved in last 5 years_ Previous home_ Residence type
+PrevResType,4,Building with 4 or more apartments/condos,Moved in last 5 years_ Previous home_ Residence type
+PrevResType,5,Mobile home/trailer,Moved in last 5 years_ Previous home_ Residence type
+PrevResType,6,Dorm or institutional housing,Moved in last 5 years_ Previous home_ Residence type
+PrevResType,7,"Other (including boat, RV, van, etc.)",Moved in last 5 years_ Previous home_ Residence type
+ResFactors_30min,1,Very unimportant,How important when chose current home_ Being within a 30-minute commute to work
+ResFactors_30min,2,Somewhat unimportant,How important when chose current home_ Being within a 30-minute commute to work
+ResFactors_30min,3,Neither or N/A,How important when chose current home_ Being within a 30-minute commute to work
+ResFactors_30min,4,Somewhat important,How important when chose current home_ Being within a 30-minute commute to work
+ResFactors_30min,5,Very important,How important when chose current home_ Being within a 30-minute commute to work
+ResFactorsAfford,1,Very unimportant,How important when chose current home_ Affordability
+ResFactorsAfford,2,Somewhat unimportant,How important when chose current home_ Affordability
+ResFactorsAfford,3,Neither or N/A,How important when chose current home_ Affordability
+ResFactorsAfford,4,Somewhat important,How important when chose current home_ Affordability
+ResFactorsAfford,5,Very important,How important when chose current home_ Affordability
+ResFactorsClosefam,1,Very unimportant,How important when chose current home_ Being close to family or friends
+ResFactorsClosefam,2,Somewhat unimportant,How important when chose current home_ Being close to family or friends
+ResFactorsClosefam,3,Neither or N/A,How important when chose current home_ Being close to family or friends
+ResFactorsClosefam,4,Somewhat important,How important when chose current home_ Being close to family or friends
+ResFactorsClosefam,5,Very important,How important when chose current home_ Being close to family or friends
+ResFactorsHHchange,1,Very unimportant,How important when chose current home_ A change in family size or marital_ partner status
+ResFactorsHHchange,2,Somewhat unimportant,How important when chose current home_ A change in family size or marital_ partner status
+ResFactorsHHchange,3,Neither or N/A,How important when chose current home_ A change in family size or marital_ partner status
+ResFactorsHHchange,4,Somewhat important,How important when chose current home_ A change in family size or marital_ partner status
+ResFactorsHHchange,5,Very important,How important when chose current home_ A change in family size or marital_ partner status
+ResFactorsHwy,1,Very unimportant,How important when chose current home_ Being close to the highway
+ResFactorsHwy,2,Somewhat unimportant,How important when chose current home_ Being close to the highway
+ResFactorsHwy,3,Neither or N/A,How important when chose current home_ Being close to the highway
+ResFactorsHwy,4,Somewhat important,How important when chose current home_ Being close to the highway
+ResFactorsHwy,5,Very important,How important when chose current home_ Being close to the highway
+ResFactorsSchool,1,Very unimportant,How important when chose current home_ Quality of schools (K-12)
+ResFactorsSchool,2,Somewhat unimportant,How important when chose current home_ Quality of schools (K-12)
+ResFactorsSchool,3,Neither or N/A,How important when chose current home_ Quality of schools (K-12)
+ResFactorsSchool,4,Somewhat important,How important when chose current home_ Quality of schools (K-12)
+ResFactorsSchool,5,Very important,How important when chose current home_ Quality of schools (K-12)
+ResFactorsSpace,1,Very unimportant,How important when chose current home_ Having space & separation from others
+ResFactorsSpace,2,Somewhat unimportant,How important when chose current home_ Having space & separation from others
+ResFactorsSpace,3,Neither or N/A,How important when chose current home_ Having space & separation from others
+ResFactorsSpace,4,Somewhat important,How important when chose current home_ Having space & separation from others
+ResFactorsSpace,5,Very important,How important when chose current home_ Having space & separation from others
+ResFactorsTransit,1,Very unimportant,How important when chose current home_ Being close to public transit
+ResFactorsTransit,2,Somewhat unimportant,How important when chose current home_ Being close to public transit
+ResFactorsTransit,3,Neither or N/A,How important when chose current home_ Being close to public transit
+ResFactorsTransit,4,Somewhat important,How important when chose current home_ Being close to public transit
+ResFactorsTransit,5,Very important,How important when chose current home_ Being close to public transit
+ResFactorsWalk,1,Very unimportant,How important when chose current home_ Having a walkable neighborhood and being near local activities
+ResFactorsWalk,2,Somewhat unimportant,How important when chose current home_ Having a walkable neighborhood and being near local activities
+ResFactorsWalk,3,Neither or N/A,How important when chose current home_ Having a walkable neighborhood and being near local activities
+ResFactorsWalk,4,Somewhat important,How important when chose current home_ Having a walkable neighborhood and being near local activities
+ResFactorsWalk,5,Very important,How important when chose current home_ Having a walkable neighborhood and being near local activities
+RmoveOptin,1,Selected rMove when offered,rMove offer response
+RmoveOptin,2,Declined rMove when offered,rMove offer response
+DiaryIncentiveType,1,Amazon e-gift card (delivered by email),rSurvey only_ Incentive type
+DiaryIncentiveType,2,Starbucks e-gift card (delivered by email),rSurvey only_ Incentive type
+DiaryIncentiveType,3,Amazon mailed gift card (will take longer to arrive),rSurvey only_ Incentive type
+DiaryIncentiveType,4,Starbucks mailed gift card (will take longer to arrive),rSurvey only_ Incentive type
+DiaryIncentiveType,5,None - prefer not to receive a gift card,rSurvey only_ Incentive type
+ExtraIncentive,0,No extra incentive offered,Extra incentive
+ExtraIncentive,1,Received extra incentive,Extra incentive
+CallCenter,0,No,Household completed Part 1 (recruit survey) through the call center
+CallCenter,1,Yes,Household completed Part 1 (recruit survey) through the call center
+MobileDevice,0,No,Household completed Part 1 (recruit survey) on a mobile device
+MobileDevice,1,Yes,Household completed Part 1 (recruit survey) on a mobile device
+ContactEmail,0,Not Selected,Household requested email reminders
+ContactEmail,1,Selected,Household requested email reminders
+ContactPhone,0,Not Selected,Household requested phone reminders
+ContactPhone,1,Selected,Household requested phone reminders
+ForeignLanguage,0,No,Detected foreign language browser during Part 1 (recruit survey)
+ForeignLanguage,1,Yes,Detected foreign language browser during Part 1 (recruit survey)
+GoogleTranslate,0,No,Detected Google translate tool during Part 1 (recruit survey)
+GoogleTranslate,1,Yes,Detected Google translate tool during Part 1 (recruit survey)
+Numdayscomplete,1,1 day,Household number of days complete
+Numdayscomplete,2,2 days,Household number of days complete
+Numdayscomplete,3,3 days,Household number of days complete
+Numdayscomplete,4,4 days,Household number of days complete
+Numdayscomplete,5,5 days,Household number of days complete
+Numdayscomplete,6,6 days,Household number of days complete
+Numdayscomplete,7,7 days,Household number of days complete
+Day1complete,0,No,Household completed day 1 of study
+Day1complete,1,Yes,Household completed day 1 of study
+Day2complete,0,No,rMove only_ Household completed day 2 of study
+Day2complete,1,Yes,rMove only_ Household completed day 2 of study
+Day3complete,0,No,rMove only_ Household completed day 3 of study
+Day3complete,1,Yes,rMove only_ Household completed day 3 of study
+Day4complete,0,No,rMove only_ Household completed day 4 of study
+Day4complete,1,Yes,rMove only_ Household completed day 4 of study
+Day5complete,0,No,rMove only_ Household completed day 5 of study
+Day5complete,1,Yes,rMove only_ Household completed day 5 of study
+Day6complete,0,No,rMove only_ Household completed day 6 of study
+Day6complete,1,Yes,rMove only_ Household completed day 6 of study
+Day7complete,0,No,rMove only_ Household completed day 7 of study
+Day7complete,1,Yes,rMove only_ Household completed day 7 of study
+NumTrips,0,0 (no trips),Household number of trips
+Nwkdays,0,0 day,Number of weekdays (Mon-Thu) for weighting
+Nwkdays,1,1 day,Number of weekdays (Mon-Thu) for weighting
+Nwkdays,2,2 days,Number of weekdays (Mon-Thu) for weighting
+Nwkdays,3,3 days,Number of weekdays (Mon-Thu) for weighting
+Nwkdays,4,4 days,Number of weekdays (Mon-Thu) for weighting
+SampleSegment,1,1 - PSRC - Regular-Low,Sample segment
+SampleSegment,2,2 - PSRC - Regular-Medium,Sample segment
+SampleSegment,3,3 - PSRC - Regular-High,Sample segment
+SampleSegment,11,11 - PSRC - Oversample-Low,Sample segment
+SampleSegment,12,12 - PSRC - Oversample-Medium,Sample segment
+SampleSegment,13,13 - PSRC - Oversample-High,Sample segment
+SampleSegment,22,22 - Redmond - Regular-Medium,Sample segment
+SampleSegment,23,23 - Redmond - Regular-High,Sample segment
+SampleSegment,31,31 - Redmond - Oversample-Low,Sample segment
+SampleSegment,32,32 - Redmond - Oversample-Medium,Sample segment
+SampleSegment,33,33 - Redmond - Oversample-High,Sample segment
+SampleSegment,42,42 - Redmond - Downtown-Medium,Sample segment
+SampleSegment,43,43 - Redmond - Downtown-High,Sample segment
+SampleSegment,50,50 - UV - 10%,Sample segment
+SampleSegment,51,51 - UV - 15%,Sample segment
+SampleSegment,52,52 - UV - 20%,Sample segment
+SampleSegment,53,53 - UV - 25%,Sample segment
+SampleSegment,54,54 - UV - 30%,Sample segment
+SampleSegment,55,55 - UV - 35%,Sample segment
+SampleSegment,56,56 - UV - 50%,Sample segment
+SampleSegment,57,57 - UV - 60%,Sample segment
+SampleSegment,58,58 - UV - 75%,Sample segment
+SampleSegment,59,59 - UV - 100%,Sample segment
+Relationship,0,Self,Relationship to primary respondent
+Relationship,1,Wife/Husband/Partner,Relationship to primary respondent
+Relationship,2,Daughter/Son/In-law,Relationship to primary respondent
+Relationship,3,Mother/Father/In-law,Relationship to primary respondent
+Relationship,4,Sister/Brother/In-law,Relationship to primary respondent
+Relationship,5,Other relative,Relationship to primary respondent
+Relationship,6,Roommate/Friend,Relationship to primary respondent
+Relationship,7,Household help,Relationship to primary respondent
+Relationship,97,Other,Relationship to primary respondent
+ProxyParent,0,No,rMove only_ Is proxy parent
+ProxyParent,1,Yes,rMove only_ Is proxy parent
+Proxy,1,Respondent answered themselves,Survey respondent_proxy
+Proxy,2,Another person responded with the participant present,Survey respondent_proxy
+Proxy,3,Another person responded without the participant present,Survey respondent_proxy
+Age,1,Under 5 years old,Age
+Age,2,5-11 years,Age
+Age,3,12-15 years,Age
+Age,4,16-17 years,Age
+Age,5,18-24 years,Age
+Age,6,25-34 years,Age
+Age,7,35-44 years,Age
+Age,8,45-54 years,Age
+Age,9,55-64 years,Age
+Age,10,65-74 years,Age
+Age,11,75-84 years,Age
+Age,12,85 or years older,Age
+Gender,1,Male,Gender
+Gender,2,Female,Gender
+Gender,3,Another,Gender
+Gender,4,Prefer not to answer,Gender
+Employment,1,"Employed full time (35+ hours/week, paid)",Age 18+_ Employment status
+Employment,2,"Employed part time (fewer than 35 hours/week, paid)",Age 18+_ Employment status
+Employment,3,Self-employed,Age 18+_ Employment status
+Employment,4,Unpaid volunteer or intern,Age 18+_ Employment status
+Employment,5,Homemaker,Age 18+_ Employment status
+Employment,6,Retired,Age 18+_ Employment status
+Employment,7,Not currently employed,Age 18+_ Employment status
+JobsCount,0,0 jobs,Age 16-17 or employed adult_ Number of jobs
+JobsCount,1,1 job,Age 16-17 or employed adult_ Number of jobs
+JobsCount,2,2 jobs,Age 16-17 or employed adult_ Number of jobs
+JobsCount,3,3 jobs,Age 16-17 or employed adult_ Number of jobs
+JobsCount,4,4 jobs,Age 16-17 or employed adult_ Number of jobs
+JobsCount,5,5 or more jobs,Age 16-17 or employed adult_ Number of jobs
+Worker,0,No jobs,Worker status (derived)
+Worker,1,1+ job(s) (including part-time),Worker status (derived)
+Student,1,"No, not a student",Age 18+_ Student status
+Student,2,Part-time student,Age 18+_ Student status
+Student,3,Full-time student,Age 18+_ Student status
+Schooltype,1,Daycare,Student (child or adult)_ Type of school attended
+Schooltype,2,Preschool,Student (child or adult)_ Type of school attended
+Schooltype,3,K-12 public school,Student (child or adult)_ Type of school attended
+Schooltype,4,K-12 private school,Student (child or adult)_ Type of school attended
+Schooltype,5,K-12 home school (full-time or part-time),Student (child or adult)_ Type of school attended
+Schooltype,6,"College, graduate, or professional school",Student (child or adult)_ Type of school attended
+Schooltype,7,Vocational/technical school,Student (child or adult)_ Type of school attended
+Schooltype,9,None,Student (child or adult)_ Type of school attended
+Schooltype,97,Other,Student (child or adult)_ Type of school attended
+Education,1,Less than high school,Age 18+_ Educational attainment
+Education,2,High school graduate,Age 18+_ Educational attainment
+Education,3,Some college,Age 18+_ Educational attainment
+Education,4,Vocational/technical training,Age 18+_ Educational attainment
+Education,5,Associates degree,Age 18+_ Educational attainment
+Education,6,Bachelor degree,Age 18+_ Educational attainment
+Education,7,Graduate/post-graduate degree,Age 18+_ Educational attainment
+License,1,"Yes, has an intermediate or unrestricted license",Age 16+_ Has valid drivers license
+License,2,"Yes, has a learner’s permit",Age 16+_ Has valid drivers license
+License,3,"No, does not have a license or permit",Age 16+_ Has valid drivers license
+Vehicleused,1,Household vehicle 1,Has drivers license_ in HH with car_ Vehicle uses most often
+Vehicleused,2,Household vehicle 2,Has drivers license_ in HH with car_ Vehicle uses most often
+Vehicleused,3,Household vehicle 3,Has drivers license_ in HH with car_ Vehicle uses most often
+Vehicleused,4,Household vehicle 4,Has drivers license_ in HH with car_ Vehicle uses most often
+Vehicleused,5,Household vehicle 5,Has drivers license_ in HH with car_ Vehicle uses most often
+Vehicleused,11,"A carshare vehicle (Zipcar, Car2Go, RelayRides, etc.)",Has drivers license_ in HH with car_ Vehicle uses most often
+Vehicleused,12,Other vehicle,Has drivers license_ in HH with car_ Vehicle uses most often
+Vehicleused,13,None,Has drivers license_ in HH with car_ Vehicle uses most often
+SmartphoneType,1,"Yes, has an Android phone",Age 18+_ Smartphone type
+SmartphoneType,2,"Yes, has an iPhone",Age 18+_ Smartphone type
+SmartphoneType,3,"Yes, has a Windows Phone",Age 18+_ Smartphone type
+SmartphoneType,4,"Yes, has a Blackberry",Age 18+_ Smartphone type
+SmartphoneType,5,"Yes, has other type of smartphone",Age 18+_ Smartphone type
+SmartphoneType,6,"No, does not have a smartphone",Age 18+_ Smartphone type
+SmartphoneAge,1,Yes,Smartphone is more than four years old
+SmartphoneAge,2,No,Smartphone is more than four years old
+SmartphoneQualified,0,No,Owns rMove qualified smartphone
+SmartphoneQualified,1,Yes,Owns rMove qualified smartphone
+RaceAfam,0,Not Selected,Age 18+_ Race_ African American or Black
+RaceAfam,1,Selected,Age 18+_ Race_ African American or Black
+RaceAiak,0,Not Selected,Age 18+_ Race_ American Indian or Alaska Native
+RaceAiak,1,Selected,Age 18+_ Race_ American Indian or Alaska Native
+RaceAsian,0,Not Selected,Age 18+_ Race_ Asian
+RaceAsian,1,Selected,Age 18+_ Race_ Asian
+RaceHapi,0,Not Selected,Age 18+_ Race_ Native Hawaiian or Pacific Islander
+RaceHapi,1,Selected,Age 18+_ Race_ Native Hawaiian or Pacific Islander
+RaceHisp,0,Not Selected,Age 18+_ Race_ Hispanic
+RaceHisp,1,Selected,Age 18+_ Race_ Hispanic
+RaceWhite,0,Not Selected,Age 18+_ Race_ White
+RaceWhite,1,Selected,Age 18+_ Race_ White
+RaceOther,0,Not Selected,Age 18+_ Race_ Other
+RaceOther,1,Selected,Age 18+_ Race_ Other
+RaceNoanswer,0,Not Selected,Age 18+_ Race_ Prefer not to answer
+RaceNoanswer,1,Selected,Age 18+_ Race_ Prefer not to answer
+Workplace,1,Usually the same location (outside home),Employed_ Usual work location
+Workplace,2,Workplace regularly varies (different offices or jobsites),Employed_ Usual work location
+Workplace,3,At home (telecommute or self-employed with home office),Employed_ Usual work location
+Workplace,4,"Drives for a living (e.g., bus driver, salesperson)",Employed_ Usual work location
+HoursWork,1,More than 50 hours,Employed_ Number of hours typically worked per week
+HoursWork,2,41–50 hours,Employed_ Number of hours typically worked per week
+HoursWork,3,31–40 hours,Employed_ Number of hours typically worked per week
+HoursWork,4,21–30 hours,Employed_ Number of hours typically worked per week
+HoursWork,5,11–20 hours,Employed_ Number of hours typically worked per week
+HoursWork,6,10 hours or fewer,Employed_ Number of hours typically worked per week
+CommuteFreq,1,6-7 days a week,Employed_ fixed_varied workplace_ How often typically commutes to workplace
+CommuteFreq,2,5 days a week,Employed_ fixed_varied workplace_ How often typically commutes to workplace
+CommuteFreq,3,4 days a week,Employed_ fixed_varied workplace_ How often typically commutes to workplace
+CommuteFreq,4,3 days a week,Employed_ fixed_varied workplace_ How often typically commutes to workplace
+CommuteFreq,5,2 days a week,Employed_ fixed_varied workplace_ How often typically commutes to workplace
+CommuteFreq,6,1 day a week,Employed_ fixed_varied workplace_ How often typically commutes to workplace
+CommuteFreq,7,A few times per month,Employed_ fixed_varied workplace_ How often typically commutes to workplace
+CommuteFreq,8,Less than monthly,Employed_ fixed_varied workplace_ How often typically commutes to workplace
+CommuteMode,1,Drive alone,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,2,Carpool ONLY with other household members,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,3,Carpool with other people not in household (may also include household members),Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,4,Motorcycle/moped/scooter,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,5,Vanpool,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,6,Bicycle or e-bike,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,7,"Walk, jog, or wheelchair",Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,8,Bus (public transit),Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,9,Private bus or shuttle,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,10,Paratransit,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,11,"Commuter rail (Sounder, Amtrak)",Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,12,"Urban rail (Link light rail, monorail)",Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,13,Streetcar,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,14,Ferry or water taxi,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,15,"Taxi (e.g., Yellow Cab)",Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,16,"Other hired service (e.g. Lyft, Uber)",Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,17,Airplane or helicopter,Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteMode,97,"Other (e.g. skateboard, kayak, motor home, etc.)",Employed_ fixed_varied workplace_ Usual way of commuting to current location_office
+CommuteDur,1,Less than a year,Employed_ fixed workplace_ How long has been commuting to current location_office
+CommuteDur,2,Between 1 and 2 years,Employed_ fixed workplace_ How long has been commuting to current location_office
+CommuteDur,3,Between 2 and 3 years,Employed_ fixed workplace_ How long has been commuting to current location_office
+CommuteDur,4,Between 3 and 5 years,Employed_ fixed workplace_ How long has been commuting to current location_office
+CommuteDur,5,Between 5 and 10 years,Employed_ fixed workplace_ How long has been commuting to current location_office
+CommuteDur,6,Between 10 and 20 years,Employed_ fixed workplace_ How long has been commuting to current location_office
+CommuteDur,7,More than 20 years,Employed_ fixed workplace_ How long has been commuting to current location_office
+TelecommuteFreq,1,6-7 days a week,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,2,5 days a week,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,3,4 days a week,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,4,3 days a week,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,5,2 days a week,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,6,1 day a week,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,7,A few times per month,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,8,Less than monthly,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,9,Never,Employed_ fixed_varied workplace_ How often telecommutes
+TelecommuteFreq,10,Not applicable,Employed_ fixed_varied workplace_ How often telecommutes
+Wpktyp,1,At work – driveway/surface lot,Commutes in private vehicle_ Usual parking location at work
+Wpktyp,2,At work – garage/parkade,Commutes in private vehicle_ Usual parking location at work
+Wpktyp,3,On street by work,Commutes in private vehicle_ Usual parking location at work
+Wpktyp,4,Different location – driveway/surface lot,Commutes in private vehicle_ Usual parking location at work
+Wpktyp,5,Different location – garage/parkade,Commutes in private vehicle_ Usual parking location at work
+Wpktyp,6,Different location - on street,Commutes in private vehicle_ Usual parking location at work
+Wpktyp,7,Dropped off,Commutes in private vehicle_ Usual parking location at work
+Wpktyp,9,Don’t know,Commutes in private vehicle_ Usual parking location at work
+Wpktyp,97,Other,Commutes in private vehicle_ Usual parking location at work
+Workpass,1,"Yes, personally pay for parking pass at work",Parks at work_ Usual way of paying for parking at work
+Workpass,2,"Yes, personally pay daily with cash/tickets",Parks at work_ Usual way of paying for parking at work
+Workpass,3,"Yes, employer pays/reimburses for all or part of parking pass",Parks at work_ Usual way of paying for parking at work
+Workpass,4,"Yes, employer pays/reimburses for all or part of daily parking costs",Parks at work_ Usual way of paying for parking at work
+Workpass,5,"No, parking is usually/always free",Parks at work_ Usual way of paying for parking at work
+Workpass,6,N/A (e.g. dropped off),Parks at work_ Usual way of paying for parking at work
+WorkpassCostDk,0,Not Selected,Parks at work_ Don't know total work parking cost per month
+WorkpassCostDk,1,Selected,Parks at work_ Don't know total work parking cost per month
+PrevWorkWa,1,"Yes, previous workplace was in Washington",New work location in last 5 years_ Previous work location in State of Washington (WA)
+PrevWorkWa,2,"No, previous workplace was in another state or country",New work location in last 5 years_ Previous work location in State of Washington (WA)
+PrevWorkWa,3,Not applicable (No previous job / Previously telecommuted / Don’t know),New work location in last 5 years_ Previous work location in State of Washington (WA)
+PrevWorkNotwaState,1,Alabama (AL),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,2,Alaska (AK),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,3,Arizona (AZ),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,4,Arkansas (AR),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,5,California (CA),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,6,Colorado (CO),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,7,Connecticut (CT),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,8,Delaware (DE),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,9,Florida (FL),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,10,Georgia (GA),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,11,Hawaii (HI),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,12,Idaho (ID),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,13,Illinois (IL),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,14,Indiana (IN),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,15,Iowa (IA),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,16,Kansas (KS),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,17,Kentucky (KY),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,18,Louisiana (LA),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,19,Maine (ME),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,20,Maryland (MD),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,21,Massachusetts (MA),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,22,Michigan (MI),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,23,Minnesota (MN),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,24,Mississippi (MS),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,25,Missouri (MO),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,26,Montana (MT),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,27,Nebraska (NE),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,28,Nevada (NV),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,29,New Hampshire (NH),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,30,New Jersey (NJ),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,31,New Mexico (NM),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,32,New York (NY),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,33,North Carolina (NC),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,34,North Dakota (ND),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,35,Ohio (OH),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,36,Oklahoma (OK),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,37,Oregon (OR),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,38,Pennsylvania (PA),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,39,Puerto Rico (PR),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,40,Rhode Island (RI),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,41,South Carolina (SC),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,42,South Dakota (SD),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,43,Tennessee (TN),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,44,Texas (TX),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,45,Utah (UT),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,46,Vermont (VT),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,47,Virginia (VA),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,48,Washington (WA),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,49,West Virginia (WV),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,50,Wisconsin (WI),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,51,Wyoming (WY),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaState,52,Washington D.C. / District of Columbia (DC),New work location in last 5 years_ Previous work location_ State
+PrevWorkNotwaNotus,0,Not Selected,New work location in last 5 years_ Previous work location not in the US
+PrevWorkNotwaNotus,1,Selected,New work location in last 5 years_ Previous work location not in the US
+SchoolFreq,1,6–7 days per week,Student_ travels to school_ How often travels to school
+SchoolFreq,2,5 days per week,Student_ travels to school_ How often travels to school
+SchoolFreq,3,4 days per week,Student_ travels to school_ How often travels to school
+SchoolFreq,4,3 days per week,Student_ travels to school_ How often travels to school
+SchoolFreq,5,2 days per week,Student_ travels to school_ How often travels to school
+SchoolFreq,6,1 day per week,Student_ travels to school_ How often travels to school
+SchoolFreq,7,Less than 1 day per week,Student_ travels to school_ How often travels to school
+SchoolFreq,8,"Never, only take online classes",Student_ travels to school_ How often travels to school
+CompletedPrefSurvey,0,No,Participant completed preference survey
+CompletedPrefSurvey,1,Yes,Participant completed preference survey
+ModeFreq_1,1,6-7 days/week,Times ridden transit in past 30 days
+ModeFreq_1,2,5 days/week,Times ridden transit in past 30 days
+ModeFreq_1,3,2-4 days/week,Times ridden transit in past 30 days
+ModeFreq_1,4,1 day/week,Times ridden transit in past 30 days
+ModeFreq_1,5,1-3 times in the past 30 days,Times ridden transit in past 30 days
+ModeFreq_1,6,"I do this, but not in the past 30 days",Times ridden transit in past 30 days
+ModeFreq_1,7,I never do this,Times ridden transit in past 30 days
+ModeFreq_2,1,6-7 days/week,Times ridden a bike in past 30 days
+ModeFreq_2,2,5 days/week,Times ridden a bike in past 30 days
+ModeFreq_2,3,2-4 days/week,Times ridden a bike in past 30 days
+ModeFreq_2,4,1 day/week,Times ridden a bike in past 30 days
+ModeFreq_2,5,1-3 times in the past 30 days,Times ridden a bike in past 30 days
+ModeFreq_2,6,"I do this, but not in the past 30 days",Times ridden a bike in past 30 days
+ModeFreq_2,7,I never do this,Times ridden a bike in past 30 days
+ModeFreq_3,1,6-7 days/week,Times gone for a walk in past 30 days
+ModeFreq_3,2,5 days/week,Times gone for a walk in past 30 days
+ModeFreq_3,3,2-4 days/week,Times gone for a walk in past 30 days
+ModeFreq_3,4,1 day/week,Times gone for a walk in past 30 days
+ModeFreq_3,5,1-3 times in the past 30 days,Times gone for a walk in past 30 days
+ModeFreq_3,6,"I do this, but not in the past 30 days",Times gone for a walk in past 30 days
+ModeFreq_3,7,I never do this,Times gone for a walk in past 30 days
+ModeFreq_4,1,6-7 days/week,Age 16+_ Times used carshare in past 30 days
+ModeFreq_4,2,5 days/week,Age 16+_ Times used carshare in past 30 days
+ModeFreq_4,3,2-4 days/week,Age 16+_ Times used carshare in past 30 days
+ModeFreq_4,4,1 day/week,Age 16+_ Times used carshare in past 30 days
+ModeFreq_4,5,1-3 times in the past 30 days,Age 16+_ Times used carshare in past 30 days
+ModeFreq_4,6,"I do this, but not in the past 30 days",Age 16+_ Times used carshare in past 30 days
+ModeFreq_4,7,I never do this,Age 16+_ Times used carshare in past 30 days
+ModeFreq_5,1,6-7 days/week,Age 16+_ Times used rideshare in past 30 days
+ModeFreq_5,2,5 days/week,Age 16+_ Times used rideshare in past 30 days
+ModeFreq_5,3,2-4 days/week,Age 16+_ Times used rideshare in past 30 days
+ModeFreq_5,4,1 day/week,Age 16+_ Times used rideshare in past 30 days
+ModeFreq_5,5,1-3 times in the past 30 days,Age 16+_ Times used rideshare in past 30 days
+ModeFreq_5,6,"I do this, but not in the past 30 days",Age 16+_ Times used rideshare in past 30 days
+ModeFreq_5,7,I never do this,Age 16+_ Times used rideshare in past 30 days
+TranPass_1,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ Cash
+TranPass_1,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ Cash
+TranPass_1,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ Cash
+TranPass_2,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ Tickets
+TranPass_2,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ Tickets
+TranPass_2,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ Tickets
+TranPass_3,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ ORCA card
+TranPass_3,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ ORCA card
+TranPass_3,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ ORCA card
+TranPass_4,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ UPass or Husky Card
+TranPass_4,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ UPass or Husky Card
+TranPass_4,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ UPass or Husky Card
+TranPass_5,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ Regional Reduced-Fare Permit
+TranPass_5,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ Regional Reduced-Fare Permit
+TranPass_5,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ Regional Reduced-Fare Permit
+TranPass_6,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ Flexpass_Passport
+TranPass_6,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ Flexpass_Passport
+TranPass_6,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ Flexpass_Passport
+TranPass_7,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ Access Pass
+TranPass_7,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ Access Pass
+TranPass_7,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ Access Pass
+TranPass_8,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ School District Card_Pass
+TranPass_8,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ School District Card_Pass
+TranPass_8,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ School District Card_Pass
+TranPass_9,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ City_County Employee Badge
+TranPass_9,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ City_County Employee Badge
+TranPass_9,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ City_County Employee Badge
+TranPass_10,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ Ride free
+TranPass_10,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ Ride free
+TranPass_10,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ Ride free
+TranPass_11,1,Typically use,Ridden transit in past 30 days_ Available and typically use when riding transit_ Other
+TranPass_11,2,"Available, but don't typically use",Ridden transit in past 30 days_ Available and typically use when riding transit_ Other
+TranPass_11,3,Not available,Ridden transit in past 30 days_ Available and typically use when riding transit_ Other
+TranPass_12,1,"Yes, school pays all of value",Age 12+_ travels to school_ uses transit pass_ School pays for part of all of pass value
+TranPass_12,2,"Yes, school pays part of value",Age 12+_ travels to school_ uses transit pass_ School pays for part of all of pass value
+TranPass_12,3,"No, participant/household pays all of value",Age 12+_ travels to school_ uses transit pass_ School pays for part of all of pass value
+TranPass_12,4,"No, someone else pays all of value",Age 12+_ travels to school_ uses transit pass_ School pays for part of all of pass value
+TranPass_12,5,I don't know,Age 12+_ travels to school_ uses transit pass_ School pays for part of all of pass value
+Benefits_1,1,Not offered,Employer commuter benefits_ Flextime
+Benefits_1,2,"Offered, but I don't use",Employer commuter benefits_ Flextime
+Benefits_1,3,"Offered, and I use",Employer commuter benefits_ Flextime
+Benefits_1,4,I don't know,Employer commuter benefits_ Flextime
+Benefits_2,1,Not offered,Employer commuter benefits_ Compressed Week
+Benefits_2,2,"Offered, but I don't use",Employer commuter benefits_ Compressed Week
+Benefits_2,3,"Offered, and I use",Employer commuter benefits_ Compressed Week
+Benefits_2,4,I don't know,Employer commuter benefits_ Compressed Week
+Benefits_3,1,Not offered,Employer commuter benefits_ Free_partially subsidized passes_fares
+Benefits_3,2,"Offered, but I don't use",Employer commuter benefits_ Free_partially subsidized passes_fares
+Benefits_3,3,"Offered, and I use",Employer commuter benefits_ Free_partially subsidized passes_fares
+Benefits_3,4,I don't know,Employer commuter benefits_ Free_partially subsidized passes_fares
+Benefits_4,1,Not offered,Employer commuter benefits_ Other subsidized commute (vanpool_ bike_ etc.)
+Benefits_4,2,"Offered, but I don't use",Employer commuter benefits_ Other subsidized commute (vanpool_ bike_ etc.)
+Benefits_4,3,"Offered, and I use",Employer commuter benefits_ Other subsidized commute (vanpool_ bike_ etc.)
+Benefits_4,4,I don't know,Employer commuter benefits_ Other subsidized commute (vanpool_ bike_ etc.)
+AvInterest_1,1,Very interested,Age 18+_ proxy _ 3_ Autonomous car interest_ Taxi_ no driver present
+AvInterest_1,2,Somewhat interested,Age 18+_ proxy _ 3_ Autonomous car interest_ Taxi_ no driver present
+AvInterest_1,3,Neutral,Age 18+_ proxy _ 3_ Autonomous car interest_ Taxi_ no driver present
+AvInterest_1,4,Somewhat uninterested,Age 18+_ proxy _ 3_ Autonomous car interest_ Taxi_ no driver present
+AvInterest_1,5,Not at all interested,Age 18+_ proxy _ 3_ Autonomous car interest_ Taxi_ no driver present
+AvInterest_1,6,Don't know,Age 18+_ proxy _ 3_ Autonomous car interest_ Taxi_ no driver present
+AvInterest_2,1,Very interested,Age 18+_ proxy _ 3_Autonomous car interest_ Taxi_ backup driver present
+AvInterest_2,2,Somewhat interested,Age 18+_ proxy _ 3_Autonomous car interest_ Taxi_ backup driver present
+AvInterest_2,3,Neutral,Age 18+_ proxy _ 3_Autonomous car interest_ Taxi_ backup driver present
+AvInterest_2,4,Somewhat uninterested,Age 18+_ proxy _ 3_Autonomous car interest_ Taxi_ backup driver present
+AvInterest_2,5,Not at all interested,Age 18+_ proxy _ 3_Autonomous car interest_ Taxi_ backup driver present
+AvInterest_2,6,Don't know,Age 18+_ proxy _ 3_Autonomous car interest_ Taxi_ backup driver present
+AvInterest_3,1,Very interested,Age 18+_ proxy _ 3_Autonomous car interest_ Commute alone
+AvInterest_3,2,Somewhat interested,Age 18+_ proxy _ 3_Autonomous car interest_ Commute alone
+AvInterest_3,3,Neutral,Age 18+_ proxy _ 3_Autonomous car interest_ Commute alone
+AvInterest_3,4,Somewhat uninterested,Age 18+_ proxy _ 3_Autonomous car interest_ Commute alone
+AvInterest_3,5,Not at all interested,Age 18+_ proxy _ 3_Autonomous car interest_ Commute alone
+AvInterest_3,6,Don't know,Age 18+_ proxy _ 3_Autonomous car interest_ Commute alone
+AvInterest_4,1,Very interested,Age 18+_ proxy _ 3_Autonomous car interest_ Commute with others
+AvInterest_4,2,Somewhat interested,Age 18+_ proxy _ 3_Autonomous car interest_ Commute with others
+AvInterest_4,3,Neutral,Age 18+_ proxy _ 3_Autonomous car interest_ Commute with others
+AvInterest_4,4,Somewhat uninterested,Age 18+_ proxy _ 3_Autonomous car interest_ Commute with others
+AvInterest_4,5,Not at all interested,Age 18+_ proxy _ 3_Autonomous car interest_ Commute with others
+AvInterest_4,6,Don't know,Age 18+_ proxy _ 3_Autonomous car interest_ Commute with others
+AvInterest_5,1,Very interested,Age 18+_ proxy _ 3_Autonomous car interest_ Own autonomous car
+AvInterest_5,2,Somewhat interested,Age 18+_ proxy _ 3_Autonomous car interest_ Own autonomous car
+AvInterest_5,3,Neutral,Age 18+_ proxy _ 3_Autonomous car interest_ Own autonomous car
+AvInterest_5,4,Somewhat uninterested,Age 18+_ proxy _ 3_Autonomous car interest_ Own autonomous car
+AvInterest_5,5,Not at all interested,Age 18+_ proxy _ 3_Autonomous car interest_ Own autonomous car
+AvInterest_5,6,Don't know,Age 18+_ proxy _ 3_Autonomous car interest_ Own autonomous car
+AvInterest_6,1,Very interested,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous carshare
+AvInterest_6,2,Somewhat interested,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous carshare
+AvInterest_6,3,Neutral,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous carshare
+AvInterest_6,4,Somewhat uninterested,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous carshare
+AvInterest_6,5,Not at all interested,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous carshare
+AvInterest_6,6,Don't know,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous carshare
+AvInterest_7,1,Very interested,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous short trips
+AvInterest_7,2,Somewhat interested,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous short trips
+AvInterest_7,3,Neutral,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous short trips
+AvInterest_7,4,Somewhat uninterested,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous short trips
+AvInterest_7,5,Not at all interested,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous short trips
+AvInterest_7,6,Don't know,Age 18+_ proxy _ 3_Autonomous car interest_ Autonomous short trips
+AvConcern_1,1,Very concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Equipment and safety
+AvConcern_1,2,Somewhat concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Equipment and safety
+AvConcern_1,3,Neutral,Age 18+_ proxy _ 3_Autonomous car concern_ Equipment and safety
+AvConcern_1,4,Somewhat unconcerned,Age 18+_ proxy _ 3_Autonomous car concern_ Equipment and safety
+AvConcern_1,5,Not at all concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Equipment and safety
+AvConcern_1,6,Don't know,Age 18+_ proxy _ 3_Autonomous car concern_ Equipment and safety
+AvConcern_2,1,Very concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Legal liability
+AvConcern_2,2,Somewhat concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Legal liability
+AvConcern_2,3,Neutral,Age 18+_ proxy _ 3_Autonomous car concern_ Legal liability
+AvConcern_2,4,Somewhat unconcerned,Age 18+_ proxy _ 3_Autonomous car concern_ Legal liability
+AvConcern_2,5,Not at all concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Legal liability
+AvConcern_2,6,Don't know,Age 18+_ proxy _ 3_Autonomous car concern_ Legal liability
+AvConcern_3,1,Very concerned,Age 18+_ proxy _ 3_Autonomous car concern_ System and security
+AvConcern_3,2,Somewhat concerned,Age 18+_ proxy _ 3_Autonomous car concern_ System and security
+AvConcern_3,3,Neutral,Age 18+_ proxy _ 3_Autonomous car concern_ System and security
+AvConcern_3,4,Somewhat unconcerned,Age 18+_ proxy _ 3_Autonomous car concern_ System and security
+AvConcern_3,5,Not at all concerned,Age 18+_ proxy _ 3_Autonomous car concern_ System and security
+AvConcern_3,6,Don't know,Age 18+_ proxy _ 3_Autonomous car concern_ System and security
+AvConcern_4,1,Very concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Reaction to driving environment
+AvConcern_4,2,Somewhat concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Reaction to driving environment
+AvConcern_4,3,Neutral,Age 18+_ proxy _ 3_Autonomous car concern_ Reaction to driving environment
+AvConcern_4,4,Somewhat unconcerned,Age 18+_ proxy _ 3_Autonomous car concern_ Reaction to driving environment
+AvConcern_4,5,Not at all concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Reaction to driving environment
+AvConcern_4,6,Don't know,Age 18+_ proxy _ 3_Autonomous car concern_ Reaction to driving environment
+AvConcern_5,1,Very concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Poor weather performance
+AvConcern_5,2,Somewhat concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Poor weather performance
+AvConcern_5,3,Neutral,Age 18+_ proxy _ 3_Autonomous car concern_ Poor weather performance
+AvConcern_5,4,Somewhat unconcerned,Age 18+_ proxy _ 3_Autonomous car concern_ Poor weather performance
+AvConcern_5,5,Not at all concerned,Age 18+_ proxy _ 3_Autonomous car concern_ Poor weather performance
+AvConcern_5,6,Don't know,Age 18+_ proxy _ 3_Autonomous car concern_ Poor weather performance
+WbtTransitmore_1,1,Regularly (6-7 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Safer ways to get to stops
+WbtTransitmore_1,2,Somewhat often (3-5 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Safer ways to get to stops
+WbtTransitmore_1,3,Occasionally (1-2 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Safer ways to get to stops
+WbtTransitmore_1,4,Rarely (1-3 times per month),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Safer ways to get to stops
+WbtTransitmore_1,5,Never,Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Safer ways to get to stops
+WbtTransitmore_1,6,Not Applicable,Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Safer ways to get to stops
+WbtTransitmore_2,1,Regularly (6-7 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased frequency
+WbtTransitmore_2,2,Somewhat often (3-5 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased frequency
+WbtTransitmore_2,3,Occasionally (1-2 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased frequency
+WbtTransitmore_2,4,Rarely (1-3 times per month),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased frequency
+WbtTransitmore_2,5,Never,Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased frequency
+WbtTransitmore_2,6,Not Applicable,Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased frequency
+WbtTransitmore_3,1,Regularly (6-7 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased reliability
+WbtTransitmore_3,2,Somewhat often (3-5 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased reliability
+WbtTransitmore_3,3,Occasionally (1-2 days per week),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased reliability
+WbtTransitmore_3,4,Rarely (1-3 times per month),Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased reliability
+WbtTransitmore_3,5,Never,Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased reliability
+WbtTransitmore_3,6,Not Applicable,Age 18+_ proxy _ 3_ transit_freq _ 5 days_wk_ Use more transit_ Increased reliability
+WbtBikemore_1,1,Regularly (6-7 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared use path or protected bike lane
+WbtBikemore_1,2,Somewhat often (3-5 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared use path or protected bike lane
+WbtBikemore_1,3,Occasionally (1-2 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared use path or protected bike lane
+WbtBikemore_1,4,Rarely (1-3 times per month),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared use path or protected bike lane
+WbtBikemore_1,5,Never,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared use path or protected bike lane
+WbtBikemore_1,6,Not Applicable,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared use path or protected bike lane
+WbtBikemore_2,1,Regularly (6-7 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Neighborhood greenway
+WbtBikemore_2,2,Somewhat often (3-5 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Neighborhood greenway
+WbtBikemore_2,3,Occasionally (1-2 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Neighborhood greenway
+WbtBikemore_2,4,Rarely (1-3 times per month),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Neighborhood greenway
+WbtBikemore_2,5,Never,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Neighborhood greenway
+WbtBikemore_2,6,Not Applicable,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Neighborhood greenway
+WbtBikemore_3,1,Regularly (6-7 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Bike lane
+WbtBikemore_3,2,Somewhat often (3-5 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Bike lane
+WbtBikemore_3,3,Occasionally (1-2 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Bike lane
+WbtBikemore_3,4,Rarely (1-3 times per month),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Bike lane
+WbtBikemore_3,5,Never,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Bike lane
+WbtBikemore_3,6,Not Applicable,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Bike lane
+WbtBikemore_4,1,Regularly (6-7 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared roadway lane
+WbtBikemore_4,2,Somewhat often (3-5 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared roadway lane
+WbtBikemore_4,3,Occasionally (1-2 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared roadway lane
+WbtBikemore_4,4,Rarely (1-3 times per month),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared roadway lane
+WbtBikemore_4,5,Never,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared roadway lane
+WbtBikemore_4,6,Not Applicable,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ Shared roadway lane
+WbtBikemore_5,1,Regularly (6-7 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ End of trip ammenities
+WbtBikemore_5,2,Somewhat often (3-5 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ End of trip ammenities
+WbtBikemore_5,3,Occasionally (1-2 days per week),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ End of trip ammenities
+WbtBikemore_5,4,Rarely (1-3 times per month),Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ End of trip ammenities
+WbtBikemore_5,5,Never,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ End of trip ammenities
+WbtBikemore_5,6,Not Applicable,Age 18+_ proxy _ 3_ bike_freq _ 5 days_wk_ Use more bike_ End of trip ammenities
+RmoveIncentive,1,Amazon e-gift card (delivered by email),Part 2 rMove participation_ Incentive type
+RmoveIncentive,2,Starbucks e-gift card (delivered by email),Part 2 rMove participation_ Incentive type
+RmoveIncentive,3,None – prefer not to receive a gift card,Part 2 rMove participation_ Incentive type
+CallCenter,0,No,rSurvey only_ Participant completed Part 2 through the call center
+CallCenter,1,Yes,rSurvey only_ Participant completed Part 2 through the call center
+MobileDevice,0,No,rSurvey only_ Participant completed Part 2 on a mobile device
+MobileDevice,1,Yes,rSurvey only_ Participant completed Part 2 on a mobile device
+NumTrips,0,0 (no trips),Participant number of trips
+DepartTimeMam,-5,Before 3:00 AM,Departure time_ Minutes after midnight
+DepartTimeMam,1440,3:00 AM or later (the next day),Departure time_ Minutes after midnight
+ArrivalTimeMam,-5,Before 3:00 AM,Arrival time_ Minutes after midnight
+ArrivalTimeMam,1440,3:00 AM or later (the next day),Arrival time_ Minutes after midnight
+OriginPurpose,1,Went home,Origin purpose
+OriginPurpose,6,"Went to school/daycare (e.g., daycare, K-12, college)",Origin purpose
+OriginPurpose,9,"Dropped off/picked up someone (e.g., son at a friend's house, spouse at bus stop)",Origin purpose
+OriginPurpose,10,Went to primary workplace,Origin purpose
+OriginPurpose,11,"Went to work-related place (e.g., meeting, second job, delivery)",Origin purpose
+OriginPurpose,14,Went to other work-related activity,Origin purpose
+OriginPurpose,30,Went grocery shopping,Origin purpose
+OriginPurpose,32,"Went to other shopping (e.g., mall, pet store)",Origin purpose
+OriginPurpose,33,"Conducted personal business (e.g., bank, post office)",Origin purpose
+OriginPurpose,34,"Went to medical appointment (e.g., doctor, dentist)",Origin purpose
+OriginPurpose,50,Went to restaurant to eat/get take-out,Origin purpose
+OriginPurpose,51,"Went to exercise (e.g., gym, walk, jog, bike ride)",Origin purpose
+OriginPurpose,52,"Attended social event (e.g., visit with friends, family, co-workers)",Origin purpose
+OriginPurpose,53,"Attended recreational event (e.g., movies, sporting event)",Origin purpose
+OriginPurpose,54,Went to religious/community/volunteer activity,Origin purpose
+OriginPurpose,56,"Went to a family activity (e.g., child's softball game)",Origin purpose
+OriginPurpose,60,"Transferred to another mode of transportation (e.g., change from ferry to bus)",Origin purpose
+OriginPurpose,61,Other appointment/errands (rMove only),Origin purpose
+OriginPurpose,62,Other social/leisure (rMove only),Origin purpose
+OriginPurpose,97,Other purpose,Origin purpose
+DestPurpose,1,Went home,Destination purpose
+DestPurpose,6,"Went to school/daycare (e.g., daycare, K-12, college)",Destination purpose
+DestPurpose,9,"Dropped off/picked up someone (e.g., son at a friend's house, spouse at bus stop)",Destination purpose
+DestPurpose,10,Went to primary workplace,Destination purpose
+DestPurpose,11,"Went to work-related place (e.g., meeting, second job, delivery)",Destination purpose
+DestPurpose,14,Went to other work-related activity,Destination purpose
+DestPurpose,30,Went grocery shopping,Destination purpose
+DestPurpose,32,"Went to other shopping (e.g., mall, pet store)",Destination purpose
+DestPurpose,33,"Conducted personal business (e.g., bank, post office)",Destination purpose
+DestPurpose,34,"Went to medical appointment (e.g., doctor, dentist)",Destination purpose
+DestPurpose,50,Went to restaurant to eat/get take-out,Destination purpose
+DestPurpose,51,"Went to exercise (e.g., gym, walk, jog, bike ride)",Destination purpose
+DestPurpose,52,"Attended social event (e.g., visit with friends, family, co-workers)",Destination purpose
+DestPurpose,53,"Attended recreational event (e.g., movies, sporting event)",Destination purpose
+DestPurpose,54,Went to religious/community/volunteer activity,Destination purpose
+DestPurpose,56,"Went to a family activity (e.g., child's softball game)",Destination purpose
+DestPurpose,60,"Transferred to another mode of transportation (e.g., change from ferry to bus)",Destination purpose
+DestPurpose,61,Other appointment/errands (rMove only),Destination purpose
+DestPurpose,62,Other social/leisure (rMove only),Destination purpose
+DestPurpose,97,Other purpose,Destination purpose
+Mode_4,1,"Walk, jog, or wheelchair",rMove only_ Fourth mode chosen
+Mode_4,2,Bicycle or e-bike,rMove only_ Fourth mode chosen
+Mode_4,3,Household vehicle 1,rMove only_ Fourth mode chosen
+Mode_4,4,Household vehicle 2,rMove only_ Fourth mode chosen
+Mode_4,5,Household vehicle 3,rMove only_ Fourth mode chosen
+Mode_4,6,Household vehicle 4,rMove only_ Fourth mode chosen
+Mode_4,7,Household vehicle 5,rMove only_ Fourth mode chosen
+Mode_4,8,Household vehicle 6,rMove only_ Fourth mode chosen
+Mode_4,9,Household vehicle 7,rMove only_ Fourth mode chosen
+Mode_4,10,Household vehicle 8,rMove only_ Fourth mode chosen
+Mode_4,11,Household vehicle 9,rMove only_ Fourth mode chosen
+Mode_4,12,Household vehicle 10,rMove only_ Fourth mode chosen
+Mode_4,16,Other household vehicle,rMove only_ Fourth mode chosen
+Mode_4,17,Rental car,rMove only_ Fourth mode chosen
+Mode_4,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only_ Fourth mode chosen
+Mode_4,21,Vanpool vehicle,rMove only_ Fourth mode chosen
+Mode_4,22,Other non-household vehicle,rMove only_ Fourth mode chosen
+Mode_4,23,Bus (public transit),rMove only_ Fourth mode chosen
+Mode_4,24,School bus,rMove only_ Fourth mode chosen
+Mode_4,26,Private bus or shuttle,rMove only_ Fourth mode chosen
+Mode_4,27,Paratransit,rMove only_ Fourth mode chosen
+Mode_4,28,Other bus (rMove only),rMove only_ Fourth mode chosen
+Mode_4,31,Airplane or helicopter,rMove only_ Fourth mode chosen
+Mode_4,32,Ferry or water taxi,rMove only_ Fourth mode chosen
+Mode_4,33,Car from work,rMove only_ Fourth mode chosen
+Mode_4,34,Friend/colleague's car,rMove only_ Fourth mode chosen
+Mode_4,36,"Taxi (e.g., Yello Cab)",rMove only_ Fourth mode chosen
+Mode_4,37,"Other hired service (e.g., Lyft, Uber)",rMove only_ Fourth mode chosen
+Mode_4,41,"Commuter rail (Sounder, Amtrak)",rMove only_ Fourth mode chosen
+Mode_4,42,"Other rail (e.g., streetcar)",rMove only_ Fourth mode chosen
+Mode_4,47,Other motorcycle/moped/scooter,rMove only_ Fourth mode chosen
+Mode_4,52,"Urban rail (e.g., Link light rail, monorail)",rMove only_ Fourth mode chosen
+Mode_4,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only_ Fourth mode chosen
+TravelersNonHH,0,None (0 people),Number of non-household members on trip
+TravelersNonHH,1,1 other person,Number of non-household members on trip
+TravelersNonHH,2,2 other people,Number of non-household members on trip
+TravelersNonHH,3,3 other people,Number of non-household members on trip
+TravelersNonHH,4,4 other people,Number of non-household members on trip
+TravelersNonHH,5,5+ other people,Number of non-household members on trip
+Driver,1,Driver,Auto trip_ non-taxi_ Driver or passenger
+Driver,2,Passenger,Auto trip_ non-taxi_ Driver or passenger
+Driver,3,Both (switched drivers during trip),Auto trip_ non-taxi_ Driver or passenger
+HHmemberNone,0,No,rSurvey only_ Flag_ Self-only on trip
+HHmemberNone,1,Yes,rSurvey only_ Flag_ Self-only on trip
+PoolStart,1,Yes,Carpool_Vanpool_ Joined carpool_vanpool at trip origin
+PoolStart,2,"No, drove to a Park & Ride lot",Carpool_Vanpool_ Joined carpool_vanpool at trip origin
+PoolStart,3,"No, drove to another meeting place",Carpool_Vanpool_ Joined carpool_vanpool at trip origin
+PoolStart,4,"No, walked/biked to a Park & Ride lot",Carpool_Vanpool_ Joined carpool_vanpool at trip origin
+PoolStart,5,"No, walked/biked to another meeting place",Carpool_Vanpool_ Joined carpool_vanpool at trip origin
+PoolStart,6,"No, rode a bus to a Park & Ride lot",Carpool_Vanpool_ Joined carpool_vanpool at trip origin
+PoolStart,7,"No, rode a bus to another place",Carpool_Vanpool_ Joined carpool_vanpool at trip origin
+ChangeVehicles,1,"No, stayed in the same vehicle (picked up/dropped off passengers)",Changed vehicles at carpool start location
+ChangeVehicles,2,"Yes, changed vehicles to join carpool/vanpool",Changed vehicles at carpool start location
+ParkRideAreaStart,1,"North Seattle & Shoreline: includes Greenlake, Jackson Park, Northgate & Roosevelt",Park & Ride_ Origin lot area
+ParkRideAreaStart,2,South Seattle: includes Burien & Vashon Island,Park & Ride_ Origin lot area
+ParkRideAreaStart,3,"Northeast Side (King County): includes Bothell, Kenmore & Woodinville",Park & Ride_ Origin lot area
+ParkRideAreaStart,4,"East Side (King County): includes Bellevue, Kirkland, Medina, Mercer Island, Redmond & Sammamish",Park & Ride_ Origin lot area
+ParkRideAreaStart,5,"Southeast Side (King County): includes Maple Valley, Newport Hills/Newcastle, & Renton",Park & Ride_ Origin lot area
+ParkRideAreaStart,6,"East King County: includes Issaquah, North Bend, Preston, Sammamish, & Snoqualmie",Park & Ride_ Origin lot area
+ParkRideAreaStart,7,"South King County: includes Auburn, Black Diamond, Covington, Enumclaw, Federal Way, Kent, Lake Meridian & Tukwila",Park & Ride_ Origin lot area
+ParkRideAreaStart,8,"Bremerton/Central Kitsap: includes Bremerton, Seabeck",Park & Ride_ Origin lot area
+ParkRideAreaStart,9,"Poulsbo/North Kitsap: includes Kingston, Poulsbo, Suquamish",Park & Ride_ Origin lot area
+ParkRideAreaStart,10,Bainbridge Island Vicinity,Park & Ride_ Origin lot area
+ParkRideAreaStart,11,"Port Orchard/South Kitsap: includes Port Orchard, Burley, Southworth, & Olalla",Park & Ride_ Origin lot area
+ParkRideAreaStart,12,"North Snohomish County: includes Arlington, Stanwood",Park & Ride_ Origin lot area
+ParkRideAreaStart,13,"East Snohomish County: includes Gold Bar, Granite Falls, Monroe, & Sultan",Park & Ride_ Origin lot area
+ParkRideAreaStart,14,"South Snohomish County: includes northern Bothell, Brier, Edmonds, Lynnwood, Mill Creek, & Mountlake Terrace",Park & Ride_ Origin lot area
+ParkRideAreaStart,15,"Central Snohomish County: includes Everett, Lake Stevens, Marysville, & Snohomish",Park & Ride_ Origin lot area
+ParkRideAreaStart,16,"East Pierce County (excluding Tacoma): includes Gig Harbor, Dupont, Lakewood, & Purdy",Park & Ride_ Origin lot area
+ParkRideAreaStart,17,"Central Pierce County: Bonney Lake, Parkland, Puyallup, Sumner, & Spanaway",Park & Ride_ Origin lot area
+ParkRideAreaStart,18,Pierce County: includes Tacoma,Park & Ride_ Origin lot area
+ParkRideAreaEnd,1,"North Seattle & Shoreline: includes Greenlake, Jackson Park, Northgate & Roosevelt",Park & Ride_ Destination lot area
+ParkRideAreaEnd,2,South Seattle: includes Burien & Vashon Island,Park & Ride_ Destination lot area
+ParkRideAreaEnd,3,"Northeast Side (King County): includes Bothell, Kenmore & Woodinville",Park & Ride_ Destination lot area
+ParkRideAreaEnd,4,"East Side (King County): includes Bellevue, Kirkland, Medina, Mercer Island, Redmond & Sammamish",Park & Ride_ Destination lot area
+ParkRideAreaEnd,5,"Southeast Side (King County): includes Maple Valley, Newport Hills/Newcastle, & Renton",Park & Ride_ Destination lot area
+ParkRideAreaEnd,6,"East King County: includes Issaquah, North Bend, Preston, Sammamish, & Snoqualmie",Park & Ride_ Destination lot area
+ParkRideAreaEnd,7,"South King County: includes Auburn, Black Diamond, Covington, Enumclaw, Federal Way, Kent, Lake Meridian & Tukwila",Park & Ride_ Destination lot area
+ParkRideAreaEnd,8,"Bremerton/Central Kitsap: includes Bremerton, Seabeck",Park & Ride_ Destination lot area
+ParkRideAreaEnd,9,"Poulsbo/North Kitsap: includes Kingston, Poulsbo, Suquamish",Park & Ride_ Destination lot area
+ParkRideAreaEnd,10,Bainbridge Island Vicinity,Park & Ride_ Destination lot area
+ParkRideAreaEnd,11,"Port Orchard/South Kitsap: includes Port Orchard, Burley, Southworth, & Olalla",Park & Ride_ Destination lot area
+ParkRideAreaEnd,12,"North Snohomish County: includes Arlington, Stanwood",Park & Ride_ Destination lot area
+ParkRideAreaEnd,13,"East Snohomish County: includes Gold Bar, Granite Falls, Monroe, & Sultan",Park & Ride_ Destination lot area
+ParkRideAreaEnd,14,"South Snohomish County: includes northern Bothell, Brier, Edmonds, Lynnwood, Mill Creek, & Mountlake Terrace",Park & Ride_ Destination lot area
+ParkRideAreaEnd,15,"Central Snohomish County: includes Everett, Lake Stevens, Marysville, & Snohomish",Park & Ride_ Destination lot area
+ParkRideAreaEnd,16,"East Pierce County (excluding Tacoma): includes Gig Harbor, Dupont, Lakewood, & Purdy",Park & Ride_ Destination lot area
+ParkRideAreaEnd,17,"Central Pierce County: Bonney Lake, Parkland, Puyallup, Sumner, & Spanaway",Park & Ride_ Destination lot area
+ParkRideAreaEnd,18,Pierce County: includes Tacoma,Park & Ride_ Destination lot area
+ParkRideAreaEnd,1,,Park & Ride_ Destination lot area
+Toll,0,"No, I did not use a toll road/bridge",Auto trip_ non-taxi_ Used toll on trip
+Toll,1,"Yes, I used a toll road/bridge",Auto trip_ non-taxi_ Used toll on trip
+Toll,98,I don't know,Auto trip_ non-taxi_ Used toll on trip
+TollPay,2,The toll was free,Used toll on trip_ toll fare
+TollPay,3,The toll was less than $2.00,Used toll on trip_ toll fare
+TollPay,4,The toll cost $2.00-$3.99,Used toll on trip_ toll fare
+TollPay,5,The toll cost $4.00-$5.99,Used toll on trip_ toll fare
+TollPay,6,The toll cost $6.00-$7.99,Used toll on trip_ toll fare
+TollPay,7,The toll cost $8.00-$9.99,Used toll on trip_ toll fare
+TollPay,8,The toll cost $10.00 or more,Used toll on trip_ toll fare
+TollPay,98,I don't know,Used toll on trip_ toll fare
+TaxiType,1,I paid the fare myself (no reimbursement),rMove only_ Taxi trip fare payment method
+TaxiType,2,Employer paid (I am reimbursed),rMove only_ Taxi trip fare payment method
+TaxiType,3,Split/shared fare with other(s),rMove only_ Taxi trip fare payment method
+TaxiType,4,Someone else paid 100% (all of taxi fare),rMove only_ Taxi trip fare payment method
+TaxiType,97,Other,rMove only_ Taxi trip fare payment method
+TaxiPay,1,Less than $5.00,Approximate taxi trip fare
+TaxiPay,2,$5.00-$9.99,Approximate taxi trip fare
+TaxiPay,3,$10.00-$19.99,Approximate taxi trip fare
+TaxiPay,4,$20.00-$29.99,Approximate taxi trip fare
+TaxiPay,5,$30.00-$39.99,Approximate taxi trip fare
+TaxiPay,6,$40.00-$49.99,Approximate taxi trip fare
+TaxiPay,7,$50.00-$99.99,Approximate taxi trip fare
+TaxiPay,98,Don't know,Approximate taxi trip fare
+BusType,1,Free (no cost at all),rMove only_ Bus trip fare payment method
+BusType,2,Used a pass (any type),rMove only_ Bus trip fare payment method
+BusType,3,"Cash, credit card, or ticket(s)",rMove only_ Bus trip fare payment method
+BusType,97,Other,rMove only_ Bus trip fare payment method
+BusType,98,Don't Know,rMove only_ Bus trip fare payment method
+BusPay,98,Don't know,rMove only_ Approximate bus trip fare
+BusCostDk,0,Not selected,rMove only_ Don't know bus trip cost
+BusCostDk,1,Selected,rMove only_ Don't know bus trip cost
+FerryType,1,Free (no cost at all),rMove only_ Ferry trip fare payment method
+FerryType,2,Used a pass (any type),rMove only_ Ferry trip fare payment method
+FerryType,3,"Cash, credit card, or ticket(s)",rMove only_ Ferry trip fare payment method
+FerryType,97,Other,rMove only_ Ferry trip fare payment method
+FerryType,98,Don't Know,rMove only_ Ferry trip fare payment method
+FerryPay,98,Don't know,rMove only_ Approximate ferry trip fare
+FerryCostDk,0,Not selected,rMove only_ Don't know ferry trip cost
+FerryCostDk,1,Selected,rMove only_ Don't know ferry trip cost
+RailType,1,Free (no cost at all),rMove only_ Rail trip fare payment method
+RailType,2,Used a pass (any type),rMove only_ Rail trip fare payment method
+RailType,3,"Cash, credit card, or ticket(s)",rMove only_ Rail trip fare payment method
+RailType,97,Other,rMove only_ Rail trip fare payment method
+RailType,98,Don't Know,rMove only_ Rail trip fare payment method
+RailPay,98,Don't know,rMove only_ Approximate rail trip fare
+RailCostDk,0,Not selected,rMove only_ Don't know rail trip cost
+RailCostDk,1,Selected,rMove only_ Don't know rail trip cost
+AirType,1,I paid the fare myself (no reimbursement),rMove only_ Air trip fare payment method
+AirType,2,Employer paid 100% (I am reimbursed),rMove only_ Air trip fare payment method
+AirType,3,Used miles/points to purchase flight,rMove only_ Air trip fare payment method
+AirType,4,Someone else paid 100% (all of airfare cost),rMove only_ Air trip fare payment method
+AirType,97,Other,rMove only_ Air trip fare payment method
+AirPay,98,Don't know,rMove only_ Approximate air trip fare
+AirfareCostDk,0,Not selected,rMove only_ Don't know air trip cost
+AirfareCostDk,1,Selected,rMove only_ Don't know air trip cost
+ModeAcc,1,Walked or jogged,Transit trip_ Travel mode to transit
+ModeAcc,2,Rode a bike,Transit trip_ Travel mode to transit
+ModeAcc,3,"Drove and parked a car (e.g., a vehicle in my household)",Transit trip_ Travel mode to transit
+ModeAcc,4,"Drove and parked a carshare vehicle (e.g., ZipCar, Car2Go)",Transit trip_ Travel mode to transit
+ModeAcc,5,Got dropped off,Transit trip_ Travel mode to transit
+ModeAcc,6,"Took a taxi (e.g., Yellow Cab)",Transit trip_ Travel mode to transit
+ModeAcc,7,"Took ride-share/other hired car service (e.g., Lyft, Uber)",Transit trip_ Travel mode to transit
+ModeAcc,97,Other,Transit trip_ Travel mode to transit
+ModeEgr,1,Walked or jogged,Transit trip_ Travel mode from transit
+ModeEgr,2,Rode a bike,Transit trip_ Travel mode from transit
+ModeEgr,3,"Drove and parked a car (e.g., a vehicle in my household)",Transit trip_ Travel mode from transit
+ModeEgr,4,"Drove and parked a carshare vehicle (e.g., ZipCar, Car2Go)",Transit trip_ Travel mode from transit
+ModeEgr,5,Got dropped off,Transit trip_ Travel mode from transit
+ModeEgr,6,"Took a taxi (e.g., Yellow Cab)",Transit trip_ Travel mode from transit
+ModeEgr,7,"Took ride-share/other hired car service (e.g., Lyft, Uber)",Transit trip_ Travel mode from transit
+ModeEgr,97,Other,Transit trip_ Travel mode from transit
+Park,1,Personal driveway/garage (e.g. own or friend's/family's),Auto trip_ non-taxi_ Park location at end of trip
+Park,2,Parking lot/garage (off-street) at destination,Auto trip_ non-taxi_ Park location at end of trip
+Park,3,Parking lot/garage (off-street) 2+ blocks from destination,Auto trip_ non-taxi_ Park location at end of trip
+Park,4,On the street by destination,Auto trip_ non-taxi_ Park location at end of trip
+Park,5,On the street 2+ blocks from destination,Auto trip_ non-taxi_ Park location at end of trip
+Park,6,Park & Ride lot,Auto trip_ non-taxi_ Park location at end of trip
+Park,7,N/A - did not get out of vehicle / was dropped off,Auto trip_ non-taxi_ Park location at end of trip
+Park,97,Other,Auto trip_ non-taxi_ Park location at end of trip
+ParkType,1,Free parking (no cost at all),rMove only_ Auto_ non-taxi trip_ Park payment method at end of trip
+ParkType,2,Used a parking pass (any type),rMove only_ Auto_ non-taxi trip_ Park payment method at end of trip
+ParkType,3,"Paid via cash, credit card, or ticket(s)",rMove only_ Auto_ non-taxi trip_ Park payment method at end of trip
+ParkType,4,"Reserved parking service (e.g., ParkingPanda)",rMove only_ Auto_ non-taxi trip_ Park payment method at end of trip
+ParkType,97,Other,rMove only_ Auto_ non-taxi trip_ Park payment method at end of trip
+ParkPay,0,Nothing (parking was free),Auto trip_ non-taxi_ Park cost at end of trip
+ParkPay,1,Less than $2.00,Auto trip_ non-taxi_ Park cost at end of trip
+ParkPay,2,$2.00-$4.99,Auto trip_ non-taxi_ Park cost at end of trip
+ParkPay,3,$5.00-$9.99,Auto trip_ non-taxi_ Park cost at end of trip
+ParkPay,4,$10.00-$19.99,Auto trip_ non-taxi_ Park cost at end of trip
+ParkPay,5,More than $20.00,Auto trip_ non-taxi_ Park cost at end of trip
+ParkPay,6,Not applicable (e.g. used a monthly parking pass),Auto trip_ non-taxi_ Park cost at end of trip
+ParkPay,7,Another person with me paid,Auto trip_ non-taxi_ Park cost at end of trip
+ParkPay,98,Don't know,Auto trip_ non-taxi_ Park cost at end of trip
+TransitSystem_1,1,Community Transit,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,2,Everett Transit,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,3,King County Metro,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,4,King County Water Taxi,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,5,Kitsap Ferry,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,6,Kitsap Transit Bus,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,7,Kitsap Transit Worker/Driver,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,8,Pierce County Ferry,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,9,Pierce Transit,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,10,Seattle Monorail,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,11,Seattle Streetcar,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,12,Sound Transit Bus,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,13,Sound Transit Rail,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,14,Washington State Ferries,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,15,King County Metro Dial-a-Ride,rSurvey only_ Transit leg 1_ System name
+TransitSystem_1,16,Amtrak,rSurvey only_ Transit leg 1_ System name
+TransitSystem_2,1,Community Transit,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,2,Everett Transit,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,3,King County Metro,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,4,King County Water Taxi,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,5,Kitsap Ferry,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,6,Kitsap Transit Bus,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,7,Kitsap Transit Worker/Driver,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,8,Pierce County Ferry,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,9,Pierce Transit,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,10,Seattle Monorail,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,11,Seattle Streetcar,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,12,Sound Transit Bus,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,13,Sound Transit Rail,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,14,Washington State Ferries,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,15,King County Metro Dial-a-Ride,rSurvey only_ Transit leg 2_ System name
+TransitSystem_2,16,Amtrak,rSurvey only_ Transit leg 2_ System name
+TransitSystem_3,1,Community Transit,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,2,Everett Transit,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,3,King County Metro,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,4,King County Water Taxi,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,5,Kitsap Ferry,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,6,Kitsap Transit Bus,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,7,Kitsap Transit Worker/Driver,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,8,Pierce County Ferry,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,9,Pierce Transit,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,10,Seattle Monorail,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,11,Seattle Streetcar,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,12,Sound Transit Bus,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,13,Sound Transit Rail,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,14,Washington State Ferries,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,15,King County Metro Dial-a-Ride,rSurvey only_ Transit leg 3_ System name
+TransitSystem_3,16,Amtrak,rSurvey only_ Transit leg 3_ System name
+TransitSystem_4,1,Community Transit,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,2,Everett Transit,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,3,King County Metro,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,4,King County Water Taxi,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,5,Kitsap Ferry,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,6,Kitsap Transit Bus,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,7,Kitsap Transit Worker/Driver,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,8,Pierce County Ferry,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,9,Pierce Transit,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,10,Seattle Monorail,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,11,Seattle Streetcar,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,12,Sound Transit Bus,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,13,Sound Transit Rail,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,14,Washington State Ferries,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,15,King County Metro Dial-a-Ride,rSurvey only_ Transit leg 4_ System name
+TransitSystem_4,16,Amtrak,rSurvey only_ Transit leg 4_ System name
+TransitSystem_5,1,Community Transit,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,2,Everett Transit,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,3,King County Metro,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,4,King County Water Taxi,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,5,Kitsap Ferry,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,6,Kitsap Transit Bus,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,7,Kitsap Transit Worker/Driver,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,8,Pierce County Ferry,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,9,Pierce Transit,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,10,Seattle Monorail,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,11,Seattle Streetcar,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,12,Sound Transit Bus,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,13,Sound Transit Rail,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,14,Washington State Ferries,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,15,King County Metro Dial-a-Ride,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,16,Amtrak,rSurvey only_ Transit leg 5_ System name
+TransitSystem_5,1,,rSurvey only_ Transit leg 5_ System name
+SvyComplete,0,No,Trip survey is complete
+SvyComplete,1,Yes,Trip survey is complete
+Dayofweek,1,Tuesday,Travel day of week
+Dayofweek,2,Wednesday,Travel day of week
+Dayofweek,3,Thursday,Travel day of week
+Dayofweek,4,Friday,Travel day of week
+Dayofweek,5,Saturday,Travel day of week
+Dayofweek,6,Sunday,Travel day of week
+Dayofweek,7,Monday,Travel day of week
+CopiedTrip,0,No,rSurvey only_ Trip was copied from another HH member
+CopiedTrip,1,Yes,rSurvey only_ Trip was copied from another HH member
+UserMerged,0,No,rMove only_ Trip is result of 2 or more trips merged by user
+UserMerged,1,Yes,rMove only_ Trip is result of 2 or more trips merged by user
+UserSplit,0,No,rMove only_ Trip is result of trip split by user
+UserSplit,1,Yes,rMove only_ Trip is result of trip split by user
+AnalystMerged,0,No,rMove only_ Trip is result of 2 or more trips merged by analyst
+AnalystMerged,1,Yes,rMove only_ Trip is result of 2 or more trips merged by analyst
+AnalystSplit,0,No,rMove only_ Trip is result of trip split by analyst
+AnalystSplit,1,Yes,rMove only_ Trip is result of trip split by analyst
+FlagTeleport,0,No,rMove only_ >=250m gap occurs after trip
+FlagTeleport,1,Yes,rMove only_ >=250m gap occurs after trip
+ProxyAddedTrip,0,No,rMove only_ Trip was added by proxy respondent
+ProxyAddedTrip,1,Yes,rMove only_ Trip was added by proxy respondent
+NonproxyDerivedTrip,0,No,Derived child trip_ Trip was derived from a non-proxy record for a non-participant
+NonproxyDerivedTrip,1,Yes,Derived child trip_ Trip was derived from a non-proxy record for a non-participant
+Mode_1,1,"Walk, jog, or wheelchair",Primary Mode
+Mode_1,2,Bicycle or e-bike,Primary Mode
+Mode_1,3,Household vehicle 1,Primary Mode
+Mode_1,4,Household vehicle 2,Primary Mode
+Mode_1,5,Household vehicle 3,Primary Mode
+Mode_1,6,Household vehicle 4,Primary Mode
+Mode_1,7,Household vehicle 5,Primary Mode
+Mode_1,8,Household vehicle 6,Primary Mode
+Mode_1,9,Household vehicle 7,Primary Mode
+Mode_1,10,Household vehicle 8,Primary Mode
+Mode_1,11,Household vehicle 9,Primary Mode
+Mode_1,12,Household vehicle 10,Primary Mode
+Mode_1,16,Other household vehicle,Primary Mode
+Mode_1,17,Rental car,Primary Mode
+Mode_1,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",Primary Mode
+Mode_1,21,Vanpool vehicle,Primary Mode
+Mode_1,22,Other non-household vehicle,Primary Mode
+Mode_1,23,Bus (public transit),Primary Mode
+Mode_1,24,School bus,Primary Mode
+Mode_1,26,Private bus or shuttle,Primary Mode
+Mode_1,27,Paratransit,Primary Mode
+Mode_1,28,Other bus (rMove only),Primary Mode
+Mode_1,31,Airplane or helicopter,Primary Mode
+Mode_1,32,Ferry or water taxi,Primary Mode
+Mode_1,33,Car from work,Primary Mode
+Mode_1,34,Friend/colleague's car,Primary Mode
+Mode_1,36,"Taxi (e.g., Yello Cab)",Primary Mode
+Mode_1,37,"Other hired service (e.g., Lyft, Uber)",Primary Mode
+Mode_1,41,"Commuter rail (Sounder, Amtrak)",Primary Mode
+Mode_1,42,"Other rail (e.g., streetcar)",Primary Mode
+Mode_1,47,Other motorcycle/moped/scooter,Primary Mode
+Mode_1,52,"Urban rail (e.g., Link light rail, monorail)",Primary Mode
+Mode_1,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",Primary Mode
+Mode_2,1,"Walk, jog, or wheelchair",rMove only_ Fourth mode chosen
+Mode_2,2,Bicycle or e-bike,rMove only_ Fourth mode chosen
+Mode_2,3,Household vehicle 1,rMove only_ Fourth mode chosen
+Mode_2,4,Household vehicle 2,rMove only_ Fourth mode chosen
+Mode_2,5,Household vehicle 3,rMove only_ Fourth mode chosen
+Mode_2,6,Household vehicle 4,rMove only_ Fourth mode chosen
+Mode_2,7,Household vehicle 5,rMove only_ Fourth mode chosen
+Mode_2,8,Household vehicle 6,rMove only_ Fourth mode chosen
+Mode_2,9,Household vehicle 7,rMove only_ Fourth mode chosen
+Mode_2,10,Household vehicle 8,rMove only_ Fourth mode chosen
+Mode_2,11,Household vehicle 9,rMove only_ Fourth mode chosen
+Mode_2,12,Household vehicle 10,rMove only_ Fourth mode chosen
+Mode_2,16,Other household vehicle,rMove only_ Fourth mode chosen
+Mode_2,17,Rental car,rMove only_ Fourth mode chosen
+Mode_2,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only_ Fourth mode chosen
+Mode_2,21,Vanpool vehicle,rMove only_ Fourth mode chosen
+Mode_2,22,Other non-household vehicle,rMove only_ Fourth mode chosen
+Mode_2,23,Bus (public transit),rMove only_ Fourth mode chosen
+Mode_2,24,School bus,rMove only_ Fourth mode chosen
+Mode_2,26,Private bus or shuttle,rMove only_ Fourth mode chosen
+Mode_2,27,Paratransit,rMove only_ Fourth mode chosen
+Mode_2,28,Other bus (rMove only),rMove only_ Fourth mode chosen
+Mode_2,31,Airplane or helicopter,rMove only_ Fourth mode chosen
+Mode_2,32,Ferry or water taxi,rMove only_ Fourth mode chosen
+Mode_2,33,Car from work,rMove only_ Fourth mode chosen
+Mode_2,34,Friend/colleague's car,rMove only_ Fourth mode chosen
+Mode_2,36,"Taxi (e.g., Yello Cab)",rMove only_ Fourth mode chosen
+Mode_2,37,"Other hired service (e.g., Lyft, Uber)",rMove only_ Fourth mode chosen
+Mode_2,41,"Commuter rail (Sounder, Amtrak)",rMove only_ Fourth mode chosen
+Mode_2,42,"Other rail (e.g., streetcar)",rMove only_ Fourth mode chosen
+Mode_2,47,Other motorcycle/moped/scooter,rMove only_ Fourth mode chosen
+Mode_2,52,"Urban rail (e.g., Link light rail, monorail)",rMove only_ Fourth mode chosen
+Mode_2,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only_ Fourth mode chosen
+Mode_3,1,"Walk, jog, or wheelchair",rMove only_ Fourth mode chosen
+Mode_3,2,Bicycle or e-bike,rMove only_ Fourth mode chosen
+Mode_3,3,Household vehicle 1,rMove only_ Fourth mode chosen
+Mode_3,4,Household vehicle 2,rMove only_ Fourth mode chosen
+Mode_3,5,Household vehicle 3,rMove only_ Fourth mode chosen
+Mode_3,6,Household vehicle 4,rMove only_ Fourth mode chosen
+Mode_3,7,Household vehicle 5,rMove only_ Fourth mode chosen
+Mode_3,8,Household vehicle 6,rMove only_ Fourth mode chosen
+Mode_3,9,Household vehicle 7,rMove only_ Fourth mode chosen
+Mode_3,10,Household vehicle 8,rMove only_ Fourth mode chosen
+Mode_3,11,Household vehicle 9,rMove only_ Fourth mode chosen
+Mode_3,12,Household vehicle 10,rMove only_ Fourth mode chosen
+Mode_3,16,Other household vehicle,rMove only_ Fourth mode chosen
+Mode_3,17,Rental car,rMove only_ Fourth mode chosen
+Mode_3,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only_ Fourth mode chosen
+Mode_3,21,Vanpool vehicle,rMove only_ Fourth mode chosen
+Mode_3,22,Other non-household vehicle,rMove only_ Fourth mode chosen
+Mode_3,23,Bus (public transit),rMove only_ Fourth mode chosen
+Mode_3,24,School bus,rMove only_ Fourth mode chosen
+Mode_3,26,Private bus or shuttle,rMove only_ Fourth mode chosen
+Mode_3,27,Paratransit,rMove only_ Fourth mode chosen
+Mode_3,28,Other bus (rMove only),rMove only_ Fourth mode chosen
+Mode_3,31,Airplane or helicopter,rMove only_ Fourth mode chosen
+Mode_3,32,Ferry or water taxi,rMove only_ Fourth mode chosen
+Mode_3,33,Car from work,rMove only_ Fourth mode chosen
+Mode_3,34,Friend/colleague's car,rMove only_ Fourth mode chosen
+Mode_3,36,"Taxi (e.g., Yello Cab)",rMove only_ Fourth mode chosen
+Mode_3,37,"Other hired service (e.g., Lyft, Uber)",rMove only_ Fourth mode chosen
+Mode_3,41,"Commuter rail (Sounder, Amtrak)",rMove only_ Fourth mode chosen
+Mode_3,42,"Other rail (e.g., streetcar)",rMove only_ Fourth mode chosen
+Mode_3,47,Other motorcycle/moped/scooter,rMove only_ Fourth mode chosen
+Mode_3,52,"Urban rail (e.g., Link light rail, monorail)",rMove only_ Fourth mode chosen
+Mode_3,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only_ Fourth mode chosen
+Nan,1,Under 18 years,age_category
+Nan,2,18-64 years,age_category
+Nan,3,65 years+,age_category

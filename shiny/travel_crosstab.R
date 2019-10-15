@@ -22,14 +22,14 @@ cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
     table[table==""]<- NA
     table <- na.omit(table, cols = cols)
     raw <- table[, .(sample_count = .N), by = cols] 
-    N_hh <- table[, .(hhid = uniqueN(hhid)), by = var1]
+    N_hh <- table[, .(HHID = uniqueN(HHID)), by = var1]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = cols]
     expanded_tot <- expanded[, lapply(.SD, sum), .SDcols = wt_field, by = var1]
     setnames(expanded, wt_field, "estimate")
     expanded <- merge(expanded, expanded_tot, by = var1)
     expanded[, share := estimate/get(eval(wt_field))]
     expanded <- merge(expanded, N_hh, by = var1)
-    expanded[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
+    expanded[, ("in") := (share*(1-share))/HHID][, MOE := z*sqrt(get("in"))][, N_HH := HHID]
     expanded$estMOE= expanded$MOE*expanded[[wt_field]]
     crosstab <- merge(raw, expanded, by = cols)
     crosstab <- dcast.data.table(crosstab, 
@@ -60,13 +60,13 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
     table[table==""]<- NA
     table <- na.omit(table, cols = var)
     raw <- table[, .(sample_count = .N), by = var]
-    N_hh <- table[, .(hhid = uniqueN(hhid)), by = var]
+    N_hh <- table[, .(HHID = uniqueN(HHID)), by = var]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = var]
     expanded_tot <- expanded[, lapply(.SD, sum), .SDcols = wt_field][[eval(wt_field)]]
     setnames(expanded, wt_field, "estimate")
     expanded[, share := estimate/eval(expanded_tot)]
     expanded <- merge(expanded, N_hh, by = var)
-    expanded[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
+    expanded[, ("in") := (share*(1-share))/HHID][, MOE := z*sqrt(get("in"))][, N_HH := HHID]
     expanded$total <- sum(expanded$estimate)
     expanded$estMOE = expanded$MOE * expanded$total
     s_table <- merge(raw, expanded, by = var)
