@@ -145,25 +145,25 @@ function(input, output, session) {
   varsListX <- reactive({
     t <- variables.lu[Category %in% input$xtab_xcat, ]
     vars.raw <- as.list(t$Variable)
-    vars.list <- setNames(vars.raw, as.list(t$Name))
+    vars.list <- setNames(vars.raw, as.list(t$VariableName))
   })
   
   # variable Y alias list
   varsListY <- reactive({
     t <- variables.lu[Category %in% input$xtab_ycat, ]
     vars.raw <- as.list(t$Variable)
-    vars.list <- setNames(vars.raw, as.list(t$Name))
+    vars.list <- setNames(vars.raw, as.list(t$VariableName))
   })
   
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
-    xvar.alias <- variables.lu[Variable %in% input$xtab_xcol, .(Name)]
+    xvar.alias <- variables.lu[Variable %in% input$xtab_xcol, .(VariableName)]
     xvar.alias$Name
   })
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
-    yvar.alias <- variables.lu[Variable %in% input$xtab_ycol, .(Name)]
+    yvar.alias <- variables.lu[Variable %in% input$xtab_ycol, .(VariableName)]
     yvar.alias$Name
   })
   
@@ -183,12 +183,12 @@ function(input, output, session) {
   })
   
   xtabXValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[Label %in% input$xtab_xcol, ] # return dt
+    dt <- values.lu[VariableName %in% input$xtab_xcol, ] # return dt
   })
   
   xtabYValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[Label %in% input$xtab_ycol, ]
-    v <- as.vector(dt$Value) # return vector
+    dt <- values.lu[VariableName %in% input$xtab_ycol, ]
+    v <- as.vector(dt$ValueText) # return vector
   })
   
   xtabCaption <- eventReactive(input$xtab_go, {
@@ -242,9 +242,9 @@ function(input, output, session) {
       # print(nrow(survey))
      
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      xvals <- xtabXValues()[, .(Variable, Value)]
+      xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
 
-      crosstab[, var1.sort := factor(var1, levels = xvals$Value)]
+      crosstab[, var1.sort := factor(var1, levels = xvals$ValueOrder)]
       crosstab <- crosstab[order(var1.sort)][, var1.sort := NULL]
       setnames(crosstab, "var1", varsXAlias())
 
@@ -299,7 +299,7 @@ function(input, output, session) {
     }
     colnames(moetable)[2:ncol(moetable)] <- paste0(colnames(moetable)[2:ncol(moetable)], "_MOE")
     dt.sm <- merge(valuetable, moetable, by = xalias)
-    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$Value)]
+    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$ValueText)]
     dt.sm <- dt.sm[order(var1.sort)][, var1.sort := NULL]
     order.colnames <- c(xalias, cols.order)
     dt.sm <- dt.sm[, ..order.colnames]
@@ -308,7 +308,7 @@ function(input, output, session) {
   # create separate table of shares alongside margin of errors
   xtabTableClean.ShareMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(Variable, Value)]
+    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     dt.s <- xtabTableClean()[['share']]
     dt.m <- xtabTableClean()[['MOE']]
     dt.sm <- create.table.joining.moe(dt.s, dt.m, xa, xvals)
@@ -317,7 +317,7 @@ function(input, output, session) {
   # create separate table of estimates alongside margin of errors
   xtabTableClean.EstMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(Variable, Value)]
+    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     dt.s <- xtabTableClean()[['estimate']]
     dt.m <- xtabTableClean()[['estMOE']]
     dt.sm <- create.table.joining.moe(dt.s, dt.m, xa, xvals)
@@ -360,7 +360,7 @@ function(input, output, session) {
     setnames(dt, xalias, "group")
     
     if (nrow(xvalues) != 0) {
-      dt[, group := factor(group, levels = xvalues$Value)][, group := fct_explicit_na(group, "No Response")]
+      dt[, group := factor(group, levels = xvalues$ValueText)][, group := fct_explicit_na(group, "No Response")]
       dt <- dt[order(group)]
     } else {
       dt[, group := factor(group)]
@@ -370,7 +370,7 @@ function(input, output, session) {
   
   xtabVisTable.EstMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(Variable, Value)]
+    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     dt.s <- xtabTableClean()[['estimate']]
     dt.m <- xtabTableClean()[['estMOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
@@ -378,7 +378,7 @@ function(input, output, session) {
   
   xtabVisTable.ShareMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(Variable, Value)]
+    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     dt.s <- xtabTableClean()[['share']]
     dt.m <- xtabTableClean()[['MOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
@@ -386,7 +386,7 @@ function(input, output, session) {
   
   xtabVisTable <- reactive({
     dt.list <- xtabTableClean()
-    xvals <- xtabXValues()[, .(Variable, Value)]
+    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
 
     visdt.list <- NULL
     for (i in 1:length(dt.list)) {
@@ -397,7 +397,7 @@ function(input, output, session) {
       t[, type := names(dt.list[i])]
       setnames(t, idcol, "group")
       if (nrow(xvals) != 0) {
-        t[, group := factor(group, levels = xvals$Value)][, group := fct_explicit_na(group, "No Response")]
+        t[, group := factor(group, levels = xvals$ValueText)][, group := fct_explicit_na(group, "No Response")]
         t <- t[order(group)]
       } else {
         t[, group := factor(group)]
@@ -569,7 +569,7 @@ function(input, output, session) {
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
-    xvar.alias <- variables.lu[Variable %in% input$stab_xcol, .(Name)]
+    xvar.alias <- variables.lu[Variable %in% input$stab_xcol, .(VariableName)]
     xvar.alias$Name
   })
   
@@ -577,7 +577,7 @@ function(input, output, session) {
   stab.varsListX <- reactive({
     t <- variables.lu[Category %in% input$stab_xcat, ]
     vars.raw <- as.list(t$Variable)
-    vars.list <- setNames(vars.raw, as.list(t$Name))
+    vars.list <- setNames(vars.raw, as.list(t$VariableName))
   })
   
   output$ui_stab_xcol <- renderUI({
@@ -587,7 +587,7 @@ function(input, output, session) {
   })
   
   stabXValues <- eventReactive(input$stab_go, {
-    dt <- values.lu[Label %in% input$stab_xcol, ] # return dt
+    dt <- values.lu[VariableName %in% input$stab_xcol, ] # return dt
   })
   
   stabCaption <- eventReactive(input$stab_go, {
@@ -608,7 +608,7 @@ function(input, output, session) {
   
   stabTableType <- eventReactive(input$stab_go, {
     select.vars <- variables.lu[Variable %in% c(input$stab_xcol), ]
-    tables <- unique(select.vars$Table)
+    tables <- unique(select.vars$TableName)
     if(tables == 'Person'){
       res<-'Person'
     } else if(tables=='Household'){
@@ -639,9 +639,9 @@ function(input, output, session) {
     xa <- stab.varsXAlias()
     
     simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
-    xvals <- stabXValues()[, .(Variable, Value)]
+    xvals <- stabXValues()[, .(ValueOrder, ValueText)]
 
-    simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$Value)]
+    simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$ValueText)]
     simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
    
     dtypes <- dtype.choice.stab 
@@ -699,7 +699,7 @@ function(input, output, session) {
   stabVisTable <- reactive({
     dt <- stabTable()
     idvar <- stab.varsXAlias()
-    xvals <- stabXValues()[, .(Variable, Value)]
+    xvals <- stabXValues()[, .(ValueOrder, ValueText)]
 
     cols <- names(dtype.choice[dtype.choice %in% c("sample_count")])
     dt[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
@@ -708,7 +708,7 @@ function(input, output, session) {
     setnames(t, idvar, "value")
     
     if (nrow(xvals) != 0) {
-      t[, value := factor(value, levels = xvals$Value)][, value := fct_explicit_na(value, "No Response")]
+      t[, value := factor(value, levels = xvals$ValueText)][, value := fct_explicit_na(value, "No Response")]
       t <- t[order(value)]
     } else {
       t[, value := factor(value)]
@@ -744,7 +744,7 @@ function(input, output, session) {
       if (dttype == "estimate_with_MOE") dt <- stabVisTable.estMOE() 
     }
 
-    l <- length(stabXValues()$Value) 
+    l <- length(stabXValues()$ValueText) 
     if(l == 0) l <- length(unique(dt$value)) # evaluate if values are not in lookup (length 0)
     
     if (dttype == 'share') {
