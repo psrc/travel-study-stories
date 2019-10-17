@@ -244,7 +244,7 @@ function(input, output, session) {
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
       xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
 
-      crosstab[, var1.sort := factor(var1, levels = xvals$ValueOrder)]
+      crosstab[, var1.sort := factor(var1, levels = xvals$ValueText)]
       crosstab <- crosstab[order(var1.sort)][, var1.sort := NULL]
       setnames(crosstab, "var1", varsXAlias())
 

@@ -61,7 +61,9 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
     table <- na.omit(table, cols = var)
     raw <- table[, .(sample_count = .N), by = var]
     N_hh <- table[, .(HHID = uniqueN(HHID)), by = var]
+    table[is.na(table[get(eval(wt_field))])] <-0
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = var]
+    print(expanded)
     expanded_tot <- expanded[, lapply(.SD, sum), .SDcols = wt_field][[eval(wt_field)]]
     setnames(expanded, wt_field, "estimate")
     expanded[, share := estimate/eval(expanded_tot)]
@@ -70,6 +72,7 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
     expanded$total <- sum(expanded$estimate)
     expanded$estMOE = expanded$MOE * expanded$total
     s_table <- merge(raw, expanded, by = var)
+    print(s_table)
   }
   
 return(s_table)  
