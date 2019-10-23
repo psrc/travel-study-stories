@@ -9,10 +9,7 @@ library(tidyverse)
 cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
   # z <- 1.96 # 95% CI
   z <- 1.645 # 90% CI
-  
-  print(var1)
-  print(var2)
-  print(wt_field)
+
   print("reading in data")
 
   cols <- c(var1, var2)
@@ -21,6 +18,7 @@ cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
     setkeyv(table, cols)
     table[table==""]<- NA
     table <- na.omit(table, cols = cols)
+    table<-table[!is.na(get(wt_field))]
     raw <- table[, .(sample_count = .N), by = cols] 
     N_hh <- table[, .(HHID = uniqueN(HHID)), by = var1]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = cols]
@@ -53,18 +51,20 @@ cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
 simple_table <- function(table, var, wt_field, type = c("total")) {
   z <- 1.645
   
-  print(var)
+
 
   if (type == "total") {
     setkeyv(table, var)
+    print(var)
     table[table==""]<- NA
     table <- na.omit(table, cols = var)
     raw <- table[, .(sample_count = .N), by = var]
+    print(raw)
     N_hh <- table[, .(HHID = uniqueN(HHID)), by = var]
-    table[is.na(table[get(eval(wt_field))])] <-0
+    table<-table[!is.na(get(wt_field))]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = var]
-    print(expanded)
     expanded_tot <- expanded[, lapply(.SD, sum), .SDcols = wt_field][[eval(wt_field)]]
+    print(expanded_tot)
     setnames(expanded, wt_field, "estimate")
     expanded[, share := estimate/eval(expanded_tot)]
     expanded <- merge(expanded, N_hh, by = var)
@@ -72,7 +72,6 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
     expanded$total <- sum(expanded$estimate)
     expanded$estMOE = expanded$MOE * expanded$total
     s_table <- merge(raw, expanded, by = var)
-    print(s_table)
   }
   
 return(s_table)  

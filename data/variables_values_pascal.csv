@@ -307,11 +307,11 @@ PrevResType,4,Building with 4 or more apartments/condos,Moved in last 5 years: P
 PrevResType,5,Mobile home/trailer,Moved in last 5 years: Previous home: Residence type,Mobile home/trailer
 PrevResType,6,Dorm or institutional housing,Moved in last 5 years: Previous home: Residence type,Dorm or institutional housing
 PrevResType,7,"Other (including boat, RV, van, etc.)",Moved in last 5 years: Previous home: Residence type,"Other (including boat, RV, van, etc.)"
-ResFactors_30min,1,Very unimportant,How important when chose current home: Being within a 30-minute commute to work,Very unimportant
-ResFactors_30min,2,Somewhat unimportant,How important when chose current home: Being within a 30-minute commute to work,Somewhat unimportant
-ResFactors_30min,3,Neither or N/A,How important when chose current home: Being within a 30-minute commute to work,Neither or N/A
-ResFactors_30min,4,Somewhat important,How important when chose current home: Being within a 30-minute commute to work,Somewhat important
-ResFactors_30min,5,Very important,How important when chose current home: Being within a 30-minute commute to work,Very important
+ResFactors30min,1,Very unimportant,How important when chose current home: Being within a 30-minute commute to work,Very unimportant
+ResFactors30min,2,Somewhat unimportant,How important when chose current home: Being within a 30-minute commute to work,Somewhat unimportant
+ResFactors30min,3,Neither or N/A,How important when chose current home: Being within a 30-minute commute to work,Neither or N/A
+ResFactors30min,4,Somewhat important,How important when chose current home: Being within a 30-minute commute to work,Somewhat important
+ResFactors30min,5,Very important,How important when chose current home: Being within a 30-minute commute to work,Very important
 ResFactorsAfford,1,Very unimportant,How important when chose current home: Affordability,Very unimportant
 ResFactorsAfford,2,Somewhat unimportant,How important when chose current home: Affordability,Somewhat unimportant
 ResFactorsAfford,3,Neither or N/A,How important when chose current home: Affordability,Neither or N/A
@@ -661,215 +661,215 @@ SchoolFreq,7,Less than 1 day per week,"Student, travels to school: How often tra
 SchoolFreq,8,"Never, only take online classes","Student, travels to school: How often travels to school","Never, only take online classes"
 CompletedPrefSurvey,0,No,Participant completed preference survey,No
 CompletedPrefSurvey,1,Yes,Participant completed preference survey,Yes
-ModeFreq_1,1,6-7 days/week,Times ridden transit in past 30 days,6-7 days/week
-ModeFreq_1,2,5 days/week,Times ridden transit in past 30 days,5 days/week
-ModeFreq_1,3,2-4 days/week,Times ridden transit in past 30 days,2-4 days/week
-ModeFreq_1,4,1 day/week,Times ridden transit in past 30 days,1 day/week
-ModeFreq_1,5,1-3 times in the past 30 days,Times ridden transit in past 30 days,1-3 times in the past 30 days
-ModeFreq_1,6,"I do this, but not in the past 30 days",Times ridden transit in past 30 days,"I do this, but not in the past 30 days"
-ModeFreq_1,7,I never do this,Times ridden transit in past 30 days,I never do this
-ModeFreq_2,1,6-7 days/week,Times ridden a bike in past 30 days,6-7 days/week
-ModeFreq_2,2,5 days/week,Times ridden a bike in past 30 days,5 days/week
-ModeFreq_2,3,2-4 days/week,Times ridden a bike in past 30 days,2-4 days/week
-ModeFreq_2,4,1 day/week,Times ridden a bike in past 30 days,1 day/week
-ModeFreq_2,5,1-3 times in the past 30 days,Times ridden a bike in past 30 days,1-3 times in the past 30 days
-ModeFreq_2,6,"I do this, but not in the past 30 days",Times ridden a bike in past 30 days,"I do this, but not in the past 30 days"
-ModeFreq_2,7,I never do this,Times ridden a bike in past 30 days,I never do this
-ModeFreq_3,1,6-7 days/week,Times gone for a walk in past 30 days,6-7 days/week
-ModeFreq_3,2,5 days/week,Times gone for a walk in past 30 days,5 days/week
-ModeFreq_3,3,2-4 days/week,Times gone for a walk in past 30 days,2-4 days/week
-ModeFreq_3,4,1 day/week,Times gone for a walk in past 30 days,1 day/week
-ModeFreq_3,5,1-3 times in the past 30 days,Times gone for a walk in past 30 days,1-3 times in the past 30 days
-ModeFreq_3,6,"I do this, but not in the past 30 days",Times gone for a walk in past 30 days,"I do this, but not in the past 30 days"
-ModeFreq_3,7,I never do this,Times gone for a walk in past 30 days,I never do this
-ModeFreq_4,1,6-7 days/week,Age 16+: Times used carshare in past 30 days,6-7 days/week
-ModeFreq_4,2,5 days/week,Age 16+: Times used carshare in past 30 days,5 days/week
-ModeFreq_4,3,2-4 days/week,Age 16+: Times used carshare in past 30 days,2-4 days/week
-ModeFreq_4,4,1 day/week,Age 16+: Times used carshare in past 30 days,1 day/week
-ModeFreq_4,5,1-3 times in the past 30 days,Age 16+: Times used carshare in past 30 days,1-3 times in the past 30 days
-ModeFreq_4,6,"I do this, but not in the past 30 days",Age 16+: Times used carshare in past 30 days,"I do this, but not in the past 30 days"
-ModeFreq_4,7,I never do this,Age 16+: Times used carshare in past 30 days,I never do this
-ModeFreq_5,1,6-7 days/week,Age 16+: Times used rideshare in past 30 days,6-7 days/week
-ModeFreq_5,2,5 days/week,Age 16+: Times used rideshare in past 30 days,5 days/week
-ModeFreq_5,3,2-4 days/week,Age 16+: Times used rideshare in past 30 days,2-4 days/week
-ModeFreq_5,4,1 day/week,Age 16+: Times used rideshare in past 30 days,1 day/week
-ModeFreq_5,5,1-3 times in the past 30 days,Age 16+: Times used rideshare in past 30 days,1-3 times in the past 30 days
-ModeFreq_5,6,"I do this, but not in the past 30 days",Age 16+: Times used rideshare in past 30 days,"I do this, but not in the past 30 days"
-ModeFreq_5,7,I never do this,Age 16+: Times used rideshare in past 30 days,I never do this
-TranPass_1,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Cash,Typically use
-TranPass_1,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Cash,"Available, but don't typically use"
-TranPass_1,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Cash,Not available
-TranPass_2,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Tickets,Typically use
-TranPass_2,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Tickets,"Available, but don't typically use"
-TranPass_2,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Tickets,Not available
-TranPass_3,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: ORCA card,Typically use
-TranPass_3,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: ORCA card,"Available, but don't typically use"
-TranPass_3,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: ORCA card,Not available
-TranPass_4,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: UPass or Husky Card,Typically use
-TranPass_4,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: UPass or Husky Card,"Available, but don't typically use"
-TranPass_4,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: UPass or Husky Card,Not available
-TranPass_5,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Regional Reduced-Fare Permit,Typically use
-TranPass_5,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Regional Reduced-Fare Permit,"Available, but don't typically use"
-TranPass_5,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Regional Reduced-Fare Permit,Not available
-TranPass_6,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Flexpass/Passport,Typically use
-TranPass_6,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Flexpass/Passport,"Available, but don't typically use"
-TranPass_6,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Flexpass/Passport,Not available
-TranPass_7,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Access Pass,Typically use
-TranPass_7,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Access Pass,"Available, but don't typically use"
-TranPass_7,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Access Pass,Not available
-TranPass_8,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: School District Card/Pass,Typically use
-TranPass_8,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: School District Card/Pass,"Available, but don't typically use"
-TranPass_8,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: School District Card/Pass,Not available
-TranPass_9,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: City/County Employee Badge,Typically use
-TranPass_9,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: City/County Employee Badge,"Available, but don't typically use"
-TranPass_9,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: City/County Employee Badge,Not available
-TranPass_10,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Ride free,Typically use
-TranPass_10,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Ride free,"Available, but don't typically use"
-TranPass_10,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Ride free,Not available
-TranPass_11,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Other,Typically use
-TranPass_11,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Other,"Available, but don't typically use"
-TranPass_11,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Other,Not available
-TranPass_12,1,"Yes, school pays all of value","Age 12+, travels to school, uses transit pass: School pays for part of all of pass value","Yes, school pays all of value"
-TranPass_12,2,"Yes, school pays part of value","Age 12+, travels to school, uses transit pass: School pays for part of all of pass value","Yes, school pays part of value"
-TranPass_12,3,"No, participant/household pays all of value","Age 12+, travels to school, uses transit pass: School pays for part of all of pass value","No, participant/household pays all of value"
-TranPass_12,4,"No, someone else pays all of value","Age 12+, travels to school, uses transit pass: School pays for part of all of pass value","No, someone else pays all of value"
-TranPass_12,5,I don't know,"Age 12+, travels to school, uses transit pass: School pays for part of all of pass value",I don't know
-Benefits_1,1,Not offered,Employer commuter benefits: Flextime,Not offered
-Benefits_1,2,"Offered, but I don't use",Employer commuter benefits: Flextime,"Offered, but I don't use"
-Benefits_1,3,"Offered, and I use",Employer commuter benefits: Flextime,"Offered, and I use"
-Benefits_1,4,I don't know,Employer commuter benefits: Flextime,I don't know
-Benefits_2,1,Not offered,Employer commuter benefits: Compressed Week,Not offered
-Benefits_2,2,"Offered, but I don't use",Employer commuter benefits: Compressed Week,"Offered, but I don't use"
-Benefits_2,3,"Offered, and I use",Employer commuter benefits: Compressed Week,"Offered, and I use"
-Benefits_2,4,I don't know,Employer commuter benefits: Compressed Week,I don't know
-Benefits_3,1,Not offered,Employer commuter benefits: Free/partially subsidized passes/fares,Not offered
-Benefits_3,2,"Offered, but I don't use",Employer commuter benefits: Free/partially subsidized passes/fares,"Offered, but I don't use"
-Benefits_3,3,"Offered, and I use",Employer commuter benefits: Free/partially subsidized passes/fares,"Offered, and I use"
-Benefits_3,4,I don't know,Employer commuter benefits: Free/partially subsidized passes/fares,I don't know
-Benefits_4,1,Not offered,"Employer commuter benefits: Other subsidized commute (vanpool, bike, etc.)",Not offered
-Benefits_4,2,"Offered, but I don't use","Employer commuter benefits: Other subsidized commute (vanpool, bike, etc.)","Offered, but I don't use"
-Benefits_4,3,"Offered, and I use","Employer commuter benefits: Other subsidized commute (vanpool, bike, etc.)","Offered, and I use"
-Benefits_4,4,I don't know,"Employer commuter benefits: Other subsidized commute (vanpool, bike, etc.)",I don't know
-AvInterest_1,1,Very interested,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Very interested
-AvInterest_1,2,Somewhat interested,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Somewhat interested
-AvInterest_1,3,Neutral,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Neutral
-AvInterest_1,4,Somewhat uninterested,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Somewhat uninterested
-AvInterest_1,5,Not at all interested,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Not at all interested
-AvInterest_1,6,Don't know,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Don't know
-AvInterest_2,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Very interested
-AvInterest_2,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Somewhat interested
-AvInterest_2,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Neutral
-AvInterest_2,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Somewhat uninterested
-AvInterest_2,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Not at all interested
-AvInterest_2,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Don't know
-AvInterest_3,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Very interested
-AvInterest_3,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Somewhat interested
-AvInterest_3,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Neutral
-AvInterest_3,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Somewhat uninterested
-AvInterest_3,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Not at all interested
-AvInterest_3,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Don't know
-AvInterest_4,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Very interested
-AvInterest_4,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Somewhat interested
-AvInterest_4,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Neutral
-AvInterest_4,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Somewhat uninterested
-AvInterest_4,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Not at all interested
-AvInterest_4,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Don't know
-AvInterest_5,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Very interested
-AvInterest_5,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Somewhat interested
-AvInterest_5,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Neutral
-AvInterest_5,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Somewhat uninterested
-AvInterest_5,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Not at all interested
-AvInterest_5,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Don't know
-AvInterest_6,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Very interested
-AvInterest_6,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Somewhat interested
-AvInterest_6,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Neutral
-AvInterest_6,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Somewhat uninterested
-AvInterest_6,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Not at all interested
-AvInterest_6,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Don't know
-AvInterest_7,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Very interested
-AvInterest_7,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Somewhat interested
-AvInterest_7,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Neutral
-AvInterest_7,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Somewhat uninterested
-AvInterest_7,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Not at all interested
-AvInterest_7,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Don't know
-AvConcern_1,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Very concerned
-AvConcern_1,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Somewhat concerned
-AvConcern_1,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Neutral
-AvConcern_1,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Somewhat unconcerned
-AvConcern_1,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Not at all concerned
-AvConcern_1,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Don't know
-AvConcern_2,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Very concerned
-AvConcern_2,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Somewhat concerned
-AvConcern_2,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Neutral
-AvConcern_2,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Somewhat unconcerned
-AvConcern_2,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Not at all concerned
-AvConcern_2,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Don't know
-AvConcern_3,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Very concerned
-AvConcern_3,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Somewhat concerned
-AvConcern_3,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Neutral
-AvConcern_3,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Somewhat unconcerned
-AvConcern_3,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Not at all concerned
-AvConcern_3,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Don't know
-AvConcern_4,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Very concerned
-AvConcern_4,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Somewhat concerned
-AvConcern_4,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Neutral
-AvConcern_4,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Somewhat unconcerned
-AvConcern_4,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Not at all concerned
-AvConcern_4,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Don't know
-AvConcern_5,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Very concerned
-AvConcern_5,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Somewhat concerned
-AvConcern_5,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Neutral
-AvConcern_5,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Somewhat unconcerned
-AvConcern_5,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Not at all concerned
-AvConcern_5,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Don't know
-WbtTransitmore_1,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Regularly (6-7 days per week)
-WbtTransitmore_1,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Somewhat often (3-5 days per week)
-WbtTransitmore_1,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Occasionally (1-2 days per week)
-WbtTransitmore_1,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Rarely (1-3 times per month)
-WbtTransitmore_1,5,Never,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Never
-WbtTransitmore_1,6,Not Applicable,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Not Applicable
-WbtTransitmore_2,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Regularly (6-7 days per week)
-WbtTransitmore_2,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Somewhat often (3-5 days per week)
-WbtTransitmore_2,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Occasionally (1-2 days per week)
-WbtTransitmore_2,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Rarely (1-3 times per month)
-WbtTransitmore_2,5,Never,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Never
-WbtTransitmore_2,6,Not Applicable,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Not Applicable
-WbtTransitmore_3,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Regularly (6-7 days per week)
-WbtTransitmore_3,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Somewhat often (3-5 days per week)
-WbtTransitmore_3,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Occasionally (1-2 days per week)
-WbtTransitmore_3,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Rarely (1-3 times per month)
-WbtTransitmore_3,5,Never,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Never
-WbtTransitmore_3,6,Not Applicable,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Not Applicable
-WbtBikemore_1,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Regularly (6-7 days per week)
-WbtBikemore_1,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Somewhat often (3-5 days per week)
-WbtBikemore_1,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Occasionally (1-2 days per week)
-WbtBikemore_1,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Rarely (1-3 times per month)
-WbtBikemore_1,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Never
-WbtBikemore_1,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Not Applicable
-WbtBikemore_2,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Regularly (6-7 days per week)
-WbtBikemore_2,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Somewhat often (3-5 days per week)
-WbtBikemore_2,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Occasionally (1-2 days per week)
-WbtBikemore_2,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Rarely (1-3 times per month)
-WbtBikemore_2,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Never
-WbtBikemore_2,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Not Applicable
-WbtBikemore_3,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Regularly (6-7 days per week)
-WbtBikemore_3,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Somewhat often (3-5 days per week)
-WbtBikemore_3,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Occasionally (1-2 days per week)
-WbtBikemore_3,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Rarely (1-3 times per month)
-WbtBikemore_3,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Never
-WbtBikemore_3,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Not Applicable
-WbtBikemore_4,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Regularly (6-7 days per week)
-WbtBikemore_4,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Somewhat often (3-5 days per week)
-WbtBikemore_4,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Occasionally (1-2 days per week)
-WbtBikemore_4,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Rarely (1-3 times per month)
-WbtBikemore_4,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Never
-WbtBikemore_4,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Not Applicable
-WbtBikemore_5,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Regularly (6-7 days per week)
-WbtBikemore_5,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Somewhat often (3-5 days per week)
-WbtBikemore_5,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Occasionally (1-2 days per week)
-WbtBikemore_5,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Rarely (1-3 times per month)
-WbtBikemore_5,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Never
-WbtBikemore_5,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Not Applicable
+ModeFreq1,1,6-7 days/week,Times ridden transit in past 30 days,6-7 days/week
+ModeFreq1,2,5 days/week,Times ridden transit in past 30 days,5 days/week
+ModeFreq1,3,2-4 days/week,Times ridden transit in past 30 days,2-4 days/week
+ModeFreq1,4,1 day/week,Times ridden transit in past 30 days,1 day/week
+ModeFreq1,5,1-3 times in the past 30 days,Times ridden transit in past 30 days,1-3 times in the past 30 days
+ModeFreq1,6,"I do this, but not in the past 30 days",Times ridden transit in past 30 days,"I do this, but not in the past 30 days"
+ModeFreq1,7,I never do this,Times ridden transit in past 30 days,I never do this
+ModeFreq2,1,6-7 days/week,Times ridden a bike in past 30 days,6-7 days/week
+ModeFreq2,2,5 days/week,Times ridden a bike in past 30 days,5 days/week
+ModeFreq2,3,2-4 days/week,Times ridden a bike in past 30 days,2-4 days/week
+ModeFreq2,4,1 day/week,Times ridden a bike in past 30 days,1 day/week
+ModeFreq2,5,1-3 times in the past 30 days,Times ridden a bike in past 30 days,1-3 times in the past 30 days
+ModeFreq2,6,"I do this, but not in the past 30 days",Times ridden a bike in past 30 days,"I do this, but not in the past 30 days"
+ModeFreq2,7,I never do this,Times ridden a bike in past 30 days,I never do this
+ModeFreq3,1,6-7 days/week,Times gone for a walk in past 30 days,6-7 days/week
+ModeFreq3,2,5 days/week,Times gone for a walk in past 30 days,5 days/week
+ModeFreq3,3,2-4 days/week,Times gone for a walk in past 30 days,2-4 days/week
+ModeFreq3,4,1 day/week,Times gone for a walk in past 30 days,1 day/week
+ModeFreq3,5,1-3 times in the past 30 days,Times gone for a walk in past 30 days,1-3 times in the past 30 days
+ModeFreq3,6,"I do this, but not in the past 30 days",Times gone for a walk in past 30 days,"I do this, but not in the past 30 days"
+ModeFreq3,7,I never do this,Times gone for a walk in past 30 days,I never do this
+ModeFreq4,1,6-7 days/week,Age 16+: Times used carshare in past 30 days,6-7 days/week
+ModeFreq4,2,5 days/week,Age 16+: Times used carshare in past 30 days,5 days/week
+ModeFreq4,3,2-4 days/week,Age 16+: Times used carshare in past 30 days,2-4 days/week
+ModeFreq4,4,1 day/week,Age 16+: Times used carshare in past 30 days,1 day/week
+ModeFreq4,5,1-3 times in the past 30 days,Age 16+: Times used carshare in past 30 days,1-3 times in the past 30 days
+ModeFreq4,6,"I do this, but not in the past 30 days",Age 16+: Times used carshare in past 30 days,"I do this, but not in the past 30 days"
+ModeFreq4,7,I never do this,Age 16+: Times used carshare in past 30 days,I never do this
+ModeFreq5,1,6-7 days/week,Age 16+: Times used rideshare in past 30 days,6-7 days/week
+ModeFreq5,2,5 days/week,Age 16+: Times used rideshare in past 30 days,5 days/week
+ModeFreq5,3,2-4 days/week,Age 16+: Times used rideshare in past 30 days,2-4 days/week
+ModeFreq5,4,1 day/week,Age 16+: Times used rideshare in past 30 days,1 day/week
+ModeFreq5,5,1-3 times in the past 30 days,Age 16+: Times used rideshare in past 30 days,1-3 times in the past 30 days
+ModeFreq5,6,"I do this, but not in the past 30 days",Age 16+: Times used rideshare in past 30 days,"I do this, but not in the past 30 days"
+ModeFreq5,7,I never do this,Age 16+: Times used rideshare in past 30 days,I never do this
+TranPass1,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Cash,Typically use
+TranPass1,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Cash,"Available, but don't typically use"
+TranPass1,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Cash,Not available
+TranPass2,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Tickets,Typically use
+TranPass2,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Tickets,"Available, but don't typically use"
+TranPass2,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Tickets,Not available
+TranPass3,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: ORCA card,Typically use
+TranPass3,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: ORCA card,"Available, but don't typically use"
+TranPass3,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: ORCA card,Not available
+TranPass4,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: UPass or Husky Card,Typically use
+TranPass4,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: UPass or Husky Card,"Available, but don't typically use"
+TranPass4,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: UPass or Husky Card,Not available
+TranPass5,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Regional Reduced-Fare Permit,Typically use
+TranPass5,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Regional Reduced-Fare Permit,"Available, but don't typically use"
+TranPass5,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Regional Reduced-Fare Permit,Not available
+TranPass6,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Flexpass/Passport,Typically use
+TranPass6,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Flexpass/Passport,"Available, but don't typically use"
+TranPass6,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Flexpass/Passport,Not available
+TranPass7,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Access Pass,Typically use
+TranPass7,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Access Pass,"Available, but don't typically use"
+TranPass7,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Access Pass,Not available
+TranPass8,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: School District Card/Pass,Typically use
+TranPass8,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: School District Card/Pass,"Available, but don't typically use"
+TranPass8,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: School District Card/Pass,Not available
+TranPass9,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: City/County Employee Badge,Typically use
+TranPass9,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: City/County Employee Badge,"Available, but don't typically use"
+TranPass9,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: City/County Employee Badge,Not available
+TranPass10,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Ride free,Typically use
+TranPass10,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Ride free,"Available, but don't typically use"
+TranPass10,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Ride free,Not available
+TranPass11,1,Typically use,Ridden transit in past 30 days: Available and typically use when riding transit: Other,Typically use
+TranPass11,2,"Available, but don't typically use",Ridden transit in past 30 days: Available and typically use when riding transit: Other,"Available, but don't typically use"
+TranPass11,3,Not available,Ridden transit in past 30 days: Available and typically use when riding transit: Other,Not available
+TranPass12,1,"Yes, school pays all of value","Age 12+, travels to school, uses transit pass: School pays for part of all of pass value","Yes, school pays all of value"
+TranPass12,2,"Yes, school pays part of value","Age 12+, travels to school, uses transit pass: School pays for part of all of pass value","Yes, school pays part of value"
+TranPass12,3,"No, participant/household pays all of value","Age 12+, travels to school, uses transit pass: School pays for part of all of pass value","No, participant/household pays all of value"
+TranPass12,4,"No, someone else pays all of value","Age 12+, travels to school, uses transit pass: School pays for part of all of pass value","No, someone else pays all of value"
+TranPass12,5,I don't know,"Age 12+, travels to school, uses transit pass: School pays for part of all of pass value",I don't know
+Benefits1,1,Not offered,Employer commuter benefits: Flextime,Not offered
+Benefits1,2,"Offered, but I don't use",Employer commuter benefits: Flextime,"Offered, but I don't use"
+Benefits1,3,"Offered, and I use",Employer commuter benefits: Flextime,"Offered, and I use"
+Benefits1,4,I don't know,Employer commuter benefits: Flextime,I don't know
+Benefits2,1,Not offered,Employer commuter benefits: Compressed Week,Not offered
+Benefits2,2,"Offered, but I don't use",Employer commuter benefits: Compressed Week,"Offered, but I don't use"
+Benefits2,3,"Offered, and I use",Employer commuter benefits: Compressed Week,"Offered, and I use"
+Benefits2,4,I don't know,Employer commuter benefits: Compressed Week,I don't know
+Benefits3,1,Not offered,Employer commuter benefits: Free/partially subsidized passes/fares,Not offered
+Benefits3,2,"Offered, but I don't use",Employer commuter benefits: Free/partially subsidized passes/fares,"Offered, but I don't use"
+Benefits3,3,"Offered, and I use",Employer commuter benefits: Free/partially subsidized passes/fares,"Offered, and I use"
+Benefits3,4,I don't know,Employer commuter benefits: Free/partially subsidized passes/fares,I don't know
+Benefits4,1,Not offered,"Employer commuter benefits: Other subsidized commute (vanpool, bike, etc.)",Not offered
+Benefits4,2,"Offered, but I don't use","Employer commuter benefits: Other subsidized commute (vanpool, bike, etc.)","Offered, but I don't use"
+Benefits4,3,"Offered, and I use","Employer commuter benefits: Other subsidized commute (vanpool, bike, etc.)","Offered, and I use"
+Benefits4,4,I don't know,"Employer commuter benefits: Other subsidized commute (vanpool, bike, etc.)",I don't know
+AvInterest1,1,Very interested,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Very interested
+AvInterest1,2,Somewhat interested,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Somewhat interested
+AvInterest1,3,Neutral,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Neutral
+AvInterest1,4,Somewhat uninterested,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Somewhat uninterested
+AvInterest1,5,Not at all interested,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Not at all interested
+AvInterest1,6,Don't know,"Age 18+, proxy <> 3: Autonomous car interest: Taxi, no driver present",Don't know
+AvInterest2,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Very interested
+AvInterest2,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Somewhat interested
+AvInterest2,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Neutral
+AvInterest2,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Somewhat uninterested
+AvInterest2,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Not at all interested
+AvInterest2,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Taxi, backup driver present",Don't know
+AvInterest3,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Very interested
+AvInterest3,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Somewhat interested
+AvInterest3,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Neutral
+AvInterest3,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Somewhat uninterested
+AvInterest3,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Not at all interested
+AvInterest3,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Commute alone",Don't know
+AvInterest4,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Very interested
+AvInterest4,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Somewhat interested
+AvInterest4,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Neutral
+AvInterest4,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Somewhat uninterested
+AvInterest4,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Not at all interested
+AvInterest4,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Commute with others",Don't know
+AvInterest5,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Very interested
+AvInterest5,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Somewhat interested
+AvInterest5,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Neutral
+AvInterest5,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Somewhat uninterested
+AvInterest5,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Not at all interested
+AvInterest5,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Own autonomous car",Don't know
+AvInterest6,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Very interested
+AvInterest6,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Somewhat interested
+AvInterest6,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Neutral
+AvInterest6,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Somewhat uninterested
+AvInterest6,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Not at all interested
+AvInterest6,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous carshare",Don't know
+AvInterest7,1,Very interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Very interested
+AvInterest7,2,Somewhat interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Somewhat interested
+AvInterest7,3,Neutral,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Neutral
+AvInterest7,4,Somewhat uninterested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Somewhat uninterested
+AvInterest7,5,Not at all interested,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Not at all interested
+AvInterest7,6,Don't know,"Age 18+, proxy <> 3:Autonomous car interest: Autonomous short trips",Don't know
+AvConcern1,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Very concerned
+AvConcern1,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Somewhat concerned
+AvConcern1,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Neutral
+AvConcern1,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Somewhat unconcerned
+AvConcern1,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Not at all concerned
+AvConcern1,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: Equipment and safety",Don't know
+AvConcern2,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Very concerned
+AvConcern2,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Somewhat concerned
+AvConcern2,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Neutral
+AvConcern2,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Somewhat unconcerned
+AvConcern2,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Not at all concerned
+AvConcern2,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: Legal liability",Don't know
+AvConcern3,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Very concerned
+AvConcern3,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Somewhat concerned
+AvConcern3,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Neutral
+AvConcern3,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Somewhat unconcerned
+AvConcern3,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Not at all concerned
+AvConcern3,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: System and security",Don't know
+AvConcern4,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Very concerned
+AvConcern4,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Somewhat concerned
+AvConcern4,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Neutral
+AvConcern4,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Somewhat unconcerned
+AvConcern4,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Not at all concerned
+AvConcern4,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: Reaction to driving environment",Don't know
+AvConcern5,1,Very concerned,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Very concerned
+AvConcern5,2,Somewhat concerned,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Somewhat concerned
+AvConcern5,3,Neutral,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Neutral
+AvConcern5,4,Somewhat unconcerned,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Somewhat unconcerned
+AvConcern5,5,Not at all concerned,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Not at all concerned
+AvConcern5,6,Don't know,"Age 18+, proxy <> 3:Autonomous car concern: Poor weather performance",Don't know
+WbtTransitmore1,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Regularly (6-7 days per week)
+WbtTransitmore1,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Somewhat often (3-5 days per week)
+WbtTransitmore1,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Occasionally (1-2 days per week)
+WbtTransitmore1,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Rarely (1-3 times per month)
+WbtTransitmore1,5,Never,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Never
+WbtTransitmore1,6,Not Applicable,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Safer ways to get to stops",Not Applicable
+WbtTransitmore2,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Regularly (6-7 days per week)
+WbtTransitmore2,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Somewhat often (3-5 days per week)
+WbtTransitmore2,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Occasionally (1-2 days per week)
+WbtTransitmore2,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Rarely (1-3 times per month)
+WbtTransitmore2,5,Never,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Never
+WbtTransitmore2,6,Not Applicable,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased frequency",Not Applicable
+WbtTransitmore3,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Regularly (6-7 days per week)
+WbtTransitmore3,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Somewhat often (3-5 days per week)
+WbtTransitmore3,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Occasionally (1-2 days per week)
+WbtTransitmore3,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Rarely (1-3 times per month)
+WbtTransitmore3,5,Never,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Never
+WbtTransitmore3,6,Not Applicable,"Age 18+, proxy <> 3, transit_freq < 5 days/wk: Use more transit: Increased reliability",Not Applicable
+WbtBikemore1,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Regularly (6-7 days per week)
+WbtBikemore1,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Somewhat often (3-5 days per week)
+WbtBikemore1,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Occasionally (1-2 days per week)
+WbtBikemore1,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Rarely (1-3 times per month)
+WbtBikemore1,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Never
+WbtBikemore1,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared use path or protected bike lane",Not Applicable
+WbtBikemore2,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Regularly (6-7 days per week)
+WbtBikemore2,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Somewhat often (3-5 days per week)
+WbtBikemore2,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Occasionally (1-2 days per week)
+WbtBikemore2,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Rarely (1-3 times per month)
+WbtBikemore2,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Never
+WbtBikemore2,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Neighborhood greenway",Not Applicable
+WbtBikemore3,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Regularly (6-7 days per week)
+WbtBikemore3,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Somewhat often (3-5 days per week)
+WbtBikemore3,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Occasionally (1-2 days per week)
+WbtBikemore3,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Rarely (1-3 times per month)
+WbtBikemore3,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Never
+WbtBikemore3,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Bike lane",Not Applicable
+WbtBikemore4,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Regularly (6-7 days per week)
+WbtBikemore4,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Somewhat often (3-5 days per week)
+WbtBikemore4,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Occasionally (1-2 days per week)
+WbtBikemore4,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Rarely (1-3 times per month)
+WbtBikemore4,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Never
+WbtBikemore4,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: Shared roadway lane",Not Applicable
+WbtBikemore5,1,Regularly (6-7 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Regularly (6-7 days per week)
+WbtBikemore5,2,Somewhat often (3-5 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Somewhat often (3-5 days per week)
+WbtBikemore5,3,Occasionally (1-2 days per week),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Occasionally (1-2 days per week)
+WbtBikemore5,4,Rarely (1-3 times per month),"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Rarely (1-3 times per month)
+WbtBikemore5,5,Never,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Never
+WbtBikemore5,6,Not Applicable,"Age 18+, proxy <> 3, bike_freq < 5 days/wk: Use more bike: End of trip ammenities",Not Applicable
 RmoveIncentive,1,Amazon e-gift card (delivered by email),Part 2 rMove participation: Incentive type,Amazon e-gift card (delivered by email)
 RmoveIncentive,2,Starbucks e-gift card (delivered by email),Part 2 rMove participation: Incentive type,Starbucks e-gift card (delivered by email)
 RmoveIncentive,3,None – prefer not to receive a gift card,Part 2 rMove participation: Incentive type,None – prefer not to receive a gift card
@@ -922,39 +922,39 @@ DestPurpose,60,"Transferred to another mode of transportation (e.g., change from
 DestPurpose,61,Other appointment/errands (rMove only),Destination purpose,Other appointment/errands (rMove only)
 DestPurpose,62,Other social/leisure (rMove only),Destination purpose,Other social/leisure (rMove only)
 DestPurpose,97,Other purpose,Destination purpose,Other purpose
-Mode_4,1,"Walk, jog, or wheelchair",rMove only: Fourth mode chosen,"Walk, jog, or wheelchair"
-Mode_4,2,Bicycle or e-bike,rMove only: Fourth mode chosen,Bicycle or e-bike
-Mode_4,3,Household vehicle 1,rMove only: Fourth mode chosen,Household vehicle 1
-Mode_4,4,Household vehicle 2,rMove only: Fourth mode chosen,Household vehicle 2
-Mode_4,5,Household vehicle 3,rMove only: Fourth mode chosen,Household vehicle 3
-Mode_4,6,Household vehicle 4,rMove only: Fourth mode chosen,Household vehicle 4
-Mode_4,7,Household vehicle 5,rMove only: Fourth mode chosen,Household vehicle 5
-Mode_4,8,Household vehicle 6,rMove only: Fourth mode chosen,Household vehicle 6
-Mode_4,9,Household vehicle 7,rMove only: Fourth mode chosen,Household vehicle 7
-Mode_4,10,Household vehicle 8,rMove only: Fourth mode chosen,Household vehicle 8
-Mode_4,11,Household vehicle 9,rMove only: Fourth mode chosen,Household vehicle 9
-Mode_4,12,Household vehicle 10,rMove only: Fourth mode chosen,Household vehicle 10
-Mode_4,16,Other household vehicle,rMove only: Fourth mode chosen,Other household vehicle
-Mode_4,17,Rental car,rMove only: Fourth mode chosen,Rental car
-Mode_4,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only: Fourth mode chosen,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)"
-Mode_4,21,Vanpool vehicle,rMove only: Fourth mode chosen,Vanpool vehicle
-Mode_4,22,Other non-household vehicle,rMove only: Fourth mode chosen,Other non-household vehicle
-Mode_4,23,Bus (public transit),rMove only: Fourth mode chosen,Bus (public transit)
-Mode_4,24,School bus,rMove only: Fourth mode chosen,School bus
-Mode_4,26,Private bus or shuttle,rMove only: Fourth mode chosen,Private bus or shuttle
-Mode_4,27,Paratransit,rMove only: Fourth mode chosen,Paratransit
-Mode_4,28,Other bus (rMove only),rMove only: Fourth mode chosen,Other bus (rMove only)
-Mode_4,31,Airplane or helicopter,rMove only: Fourth mode chosen,Airplane or helicopter
-Mode_4,32,Ferry or water taxi,rMove only: Fourth mode chosen,Ferry or water taxi
-Mode_4,33,Car from work,rMove only: Fourth mode chosen,Car from work
-Mode_4,34,Friend/colleague's car,rMove only: Fourth mode chosen,Friend/colleague's car
-Mode_4,36,"Taxi (e.g., Yello Cab)",rMove only: Fourth mode chosen,"Taxi (e.g., Yello Cab)"
-Mode_4,37,"Other hired service (e.g., Lyft, Uber)",rMove only: Fourth mode chosen,"Other hired service (e.g., Lyft, Uber)"
-Mode_4,41,"Commuter rail (Sounder, Amtrak)",rMove only: Fourth mode chosen,"Commuter rail (Sounder, Amtrak)"
-Mode_4,42,"Other rail (e.g., streetcar)",rMove only: Fourth mode chosen,"Other rail (e.g., streetcar)"
-Mode_4,47,Other motorcycle/moped/scooter,rMove only: Fourth mode chosen,Other motorcycle/moped/scooter
-Mode_4,52,"Urban rail (e.g., Link light rail, monorail)",rMove only: Fourth mode chosen,"Urban rail (e.g., Link light rail, monorail)"
-Mode_4,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only: Fourth mode chosen,"Other mode (e.g., skateboard, kayak, motorhome, etc.)"
+Mode4,1,"Walk, jog, or wheelchair",rMove only: Fourth mode chosen,"Walk, jog, or wheelchair"
+Mode4,2,Bicycle or e-bike,rMove only: Fourth mode chosen,Bicycle or e-bike
+Mode4,3,Household vehicle 1,rMove only: Fourth mode chosen,Household vehicle 1
+Mode4,4,Household vehicle 2,rMove only: Fourth mode chosen,Household vehicle 2
+Mode4,5,Household vehicle 3,rMove only: Fourth mode chosen,Household vehicle 3
+Mode4,6,Household vehicle 4,rMove only: Fourth mode chosen,Household vehicle 4
+Mode4,7,Household vehicle 5,rMove only: Fourth mode chosen,Household vehicle 5
+Mode4,8,Household vehicle 6,rMove only: Fourth mode chosen,Household vehicle 6
+Mode4,9,Household vehicle 7,rMove only: Fourth mode chosen,Household vehicle 7
+Mode4,10,Household vehicle 8,rMove only: Fourth mode chosen,Household vehicle 8
+Mode4,11,Household vehicle 9,rMove only: Fourth mode chosen,Household vehicle 9
+Mode4,12,Household vehicle 10,rMove only: Fourth mode chosen,Household vehicle 10
+Mode4,16,Other household vehicle,rMove only: Fourth mode chosen,Other household vehicle
+Mode4,17,Rental car,rMove only: Fourth mode chosen,Rental car
+Mode4,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only: Fourth mode chosen,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)"
+Mode4,21,Vanpool vehicle,rMove only: Fourth mode chosen,Vanpool vehicle
+Mode4,22,Other non-household vehicle,rMove only: Fourth mode chosen,Other non-household vehicle
+Mode4,23,Bus (public transit),rMove only: Fourth mode chosen,Bus (public transit)
+Mode4,24,School bus,rMove only: Fourth mode chosen,School bus
+Mode4,26,Private bus or shuttle,rMove only: Fourth mode chosen,Private bus or shuttle
+Mode4,27,Paratransit,rMove only: Fourth mode chosen,Paratransit
+Mode4,28,Other bus (rMove only),rMove only: Fourth mode chosen,Other bus (rMove only)
+Mode4,31,Airplane or helicopter,rMove only: Fourth mode chosen,Airplane or helicopter
+Mode4,32,Ferry or water taxi,rMove only: Fourth mode chosen,Ferry or water taxi
+Mode4,33,Car from work,rMove only: Fourth mode chosen,Car from work
+Mode4,34,Friend/colleague's car,rMove only: Fourth mode chosen,Friend/colleague's car
+Mode4,36,"Taxi (e.g., Yello Cab)",rMove only: Fourth mode chosen,"Taxi (e.g., Yello Cab)"
+Mode4,37,"Other hired service (e.g., Lyft, Uber)",rMove only: Fourth mode chosen,"Other hired service (e.g., Lyft, Uber)"
+Mode4,41,"Commuter rail (Sounder, Amtrak)",rMove only: Fourth mode chosen,"Commuter rail (Sounder, Amtrak)"
+Mode4,42,"Other rail (e.g., streetcar)",rMove only: Fourth mode chosen,"Other rail (e.g., streetcar)"
+Mode4,47,Other motorcycle/moped/scooter,rMove only: Fourth mode chosen,Other motorcycle/moped/scooter
+Mode4,52,"Urban rail (e.g., Link light rail, monorail)",rMove only: Fourth mode chosen,"Urban rail (e.g., Link light rail, monorail)"
+Mode4,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only: Fourth mode chosen,"Other mode (e.g., skateboard, kayak, motorhome, etc.)"
 TravelersNonHH,0,None (0 people),Number of non-household members on trip,None (0 people)
 TravelersNonHH,1,1 other person,Number of non-household members on trip,1 other person
 TravelersNonHH,2,2 other people,Number of non-household members on trip,2 other people
@@ -1106,87 +1106,87 @@ ParkPay,5,More than $20.00,"Auto trip, non-taxi: Park cost at end of trip",More 
 ParkPay,6,Not applicable (e.g. used a monthly parking pass),"Auto trip, non-taxi: Park cost at end of trip",Not applicable (e.g. used a monthly parking pass)
 ParkPay,7,Another person with me paid,"Auto trip, non-taxi: Park cost at end of trip",Another person with me paid
 ParkPay,98,Don't know,"Auto trip, non-taxi: Park cost at end of trip",Don't know
-TransitSystem_1,1,Community Transit,rSurvey only: Transit leg 1: System name,Community Transit
-TransitSystem_1,2,Everett Transit,rSurvey only: Transit leg 1: System name,Everett Transit
-TransitSystem_1,3,King County Metro,rSurvey only: Transit leg 1: System name,King County Metro
-TransitSystem_1,4,King County Water Taxi,rSurvey only: Transit leg 1: System name,King County Water Taxi
-TransitSystem_1,5,Kitsap Ferry,rSurvey only: Transit leg 1: System name,Kitsap Ferry
-TransitSystem_1,6,Kitsap Transit Bus,rSurvey only: Transit leg 1: System name,Kitsap Transit Bus
-TransitSystem_1,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 1: System name,Kitsap Transit Worker/Driver
-TransitSystem_1,8,Pierce County Ferry,rSurvey only: Transit leg 1: System name,Pierce County Ferry
-TransitSystem_1,9,Pierce Transit,rSurvey only: Transit leg 1: System name,Pierce Transit
-TransitSystem_1,10,Seattle Monorail,rSurvey only: Transit leg 1: System name,Seattle Monorail
-TransitSystem_1,11,Seattle Streetcar,rSurvey only: Transit leg 1: System name,Seattle Streetcar
-TransitSystem_1,12,Sound Transit Bus,rSurvey only: Transit leg 1: System name,Sound Transit Bus
-TransitSystem_1,13,Sound Transit Rail,rSurvey only: Transit leg 1: System name,Sound Transit Rail
-TransitSystem_1,14,Washington State Ferries,rSurvey only: Transit leg 1: System name,Washington State Ferries
-TransitSystem_1,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 1: System name,King County Metro Dial-a-Ride
-TransitSystem_1,16,Amtrak,rSurvey only: Transit leg 1: System name,Amtrak
-TransitSystem_2,1,Community Transit,rSurvey only: Transit leg 2: System name,Community Transit
-TransitSystem_2,2,Everett Transit,rSurvey only: Transit leg 2: System name,Everett Transit
-TransitSystem_2,3,King County Metro,rSurvey only: Transit leg 2: System name,King County Metro
-TransitSystem_2,4,King County Water Taxi,rSurvey only: Transit leg 2: System name,King County Water Taxi
-TransitSystem_2,5,Kitsap Ferry,rSurvey only: Transit leg 2: System name,Kitsap Ferry
-TransitSystem_2,6,Kitsap Transit Bus,rSurvey only: Transit leg 2: System name,Kitsap Transit Bus
-TransitSystem_2,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 2: System name,Kitsap Transit Worker/Driver
-TransitSystem_2,8,Pierce County Ferry,rSurvey only: Transit leg 2: System name,Pierce County Ferry
-TransitSystem_2,9,Pierce Transit,rSurvey only: Transit leg 2: System name,Pierce Transit
-TransitSystem_2,10,Seattle Monorail,rSurvey only: Transit leg 2: System name,Seattle Monorail
-TransitSystem_2,11,Seattle Streetcar,rSurvey only: Transit leg 2: System name,Seattle Streetcar
-TransitSystem_2,12,Sound Transit Bus,rSurvey only: Transit leg 2: System name,Sound Transit Bus
-TransitSystem_2,13,Sound Transit Rail,rSurvey only: Transit leg 2: System name,Sound Transit Rail
-TransitSystem_2,14,Washington State Ferries,rSurvey only: Transit leg 2: System name,Washington State Ferries
-TransitSystem_2,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 2: System name,King County Metro Dial-a-Ride
-TransitSystem_2,16,Amtrak,rSurvey only: Transit leg 2: System name,Amtrak
-TransitSystem_3,1,Community Transit,rSurvey only: Transit leg 3: System name,Community Transit
-TransitSystem_3,2,Everett Transit,rSurvey only: Transit leg 3: System name,Everett Transit
-TransitSystem_3,3,King County Metro,rSurvey only: Transit leg 3: System name,King County Metro
-TransitSystem_3,4,King County Water Taxi,rSurvey only: Transit leg 3: System name,King County Water Taxi
-TransitSystem_3,5,Kitsap Ferry,rSurvey only: Transit leg 3: System name,Kitsap Ferry
-TransitSystem_3,6,Kitsap Transit Bus,rSurvey only: Transit leg 3: System name,Kitsap Transit Bus
-TransitSystem_3,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 3: System name,Kitsap Transit Worker/Driver
-TransitSystem_3,8,Pierce County Ferry,rSurvey only: Transit leg 3: System name,Pierce County Ferry
-TransitSystem_3,9,Pierce Transit,rSurvey only: Transit leg 3: System name,Pierce Transit
-TransitSystem_3,10,Seattle Monorail,rSurvey only: Transit leg 3: System name,Seattle Monorail
-TransitSystem_3,11,Seattle Streetcar,rSurvey only: Transit leg 3: System name,Seattle Streetcar
-TransitSystem_3,12,Sound Transit Bus,rSurvey only: Transit leg 3: System name,Sound Transit Bus
-TransitSystem_3,13,Sound Transit Rail,rSurvey only: Transit leg 3: System name,Sound Transit Rail
-TransitSystem_3,14,Washington State Ferries,rSurvey only: Transit leg 3: System name,Washington State Ferries
-TransitSystem_3,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 3: System name,King County Metro Dial-a-Ride
-TransitSystem_3,16,Amtrak,rSurvey only: Transit leg 3: System name,Amtrak
-TransitSystem_4,1,Community Transit,rSurvey only: Transit leg 4: System name,Community Transit
-TransitSystem_4,2,Everett Transit,rSurvey only: Transit leg 4: System name,Everett Transit
-TransitSystem_4,3,King County Metro,rSurvey only: Transit leg 4: System name,King County Metro
-TransitSystem_4,4,King County Water Taxi,rSurvey only: Transit leg 4: System name,King County Water Taxi
-TransitSystem_4,5,Kitsap Ferry,rSurvey only: Transit leg 4: System name,Kitsap Ferry
-TransitSystem_4,6,Kitsap Transit Bus,rSurvey only: Transit leg 4: System name,Kitsap Transit Bus
-TransitSystem_4,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 4: System name,Kitsap Transit Worker/Driver
-TransitSystem_4,8,Pierce County Ferry,rSurvey only: Transit leg 4: System name,Pierce County Ferry
-TransitSystem_4,9,Pierce Transit,rSurvey only: Transit leg 4: System name,Pierce Transit
-TransitSystem_4,10,Seattle Monorail,rSurvey only: Transit leg 4: System name,Seattle Monorail
-TransitSystem_4,11,Seattle Streetcar,rSurvey only: Transit leg 4: System name,Seattle Streetcar
-TransitSystem_4,12,Sound Transit Bus,rSurvey only: Transit leg 4: System name,Sound Transit Bus
-TransitSystem_4,13,Sound Transit Rail,rSurvey only: Transit leg 4: System name,Sound Transit Rail
-TransitSystem_4,14,Washington State Ferries,rSurvey only: Transit leg 4: System name,Washington State Ferries
-TransitSystem_4,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 4: System name,King County Metro Dial-a-Ride
-TransitSystem_4,16,Amtrak,rSurvey only: Transit leg 4: System name,Amtrak
-TransitSystem_5,1,Community Transit,rSurvey only: Transit leg 5: System name,Community Transit
-TransitSystem_5,2,Everett Transit,rSurvey only: Transit leg 5: System name,Everett Transit
-TransitSystem_5,3,King County Metro,rSurvey only: Transit leg 5: System name,King County Metro
-TransitSystem_5,4,King County Water Taxi,rSurvey only: Transit leg 5: System name,King County Water Taxi
-TransitSystem_5,5,Kitsap Ferry,rSurvey only: Transit leg 5: System name,Kitsap Ferry
-TransitSystem_5,6,Kitsap Transit Bus,rSurvey only: Transit leg 5: System name,Kitsap Transit Bus
-TransitSystem_5,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 5: System name,Kitsap Transit Worker/Driver
-TransitSystem_5,8,Pierce County Ferry,rSurvey only: Transit leg 5: System name,Pierce County Ferry
-TransitSystem_5,9,Pierce Transit,rSurvey only: Transit leg 5: System name,Pierce Transit
-TransitSystem_5,10,Seattle Monorail,rSurvey only: Transit leg 5: System name,Seattle Monorail
-TransitSystem_5,11,Seattle Streetcar,rSurvey only: Transit leg 5: System name,Seattle Streetcar
-TransitSystem_5,12,Sound Transit Bus,rSurvey only: Transit leg 5: System name,Sound Transit Bus
-TransitSystem_5,13,Sound Transit Rail,rSurvey only: Transit leg 5: System name,Sound Transit Rail
-TransitSystem_5,14,Washington State Ferries,rSurvey only: Transit leg 5: System name,Washington State Ferries
-TransitSystem_5,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 5: System name,King County Metro Dial-a-Ride
-TransitSystem_5,16,Amtrak,rSurvey only: Transit leg 5: System name,Amtrak
-TransitSystem_5,1,,rSurvey only: Transit leg 5: System name,
+TransitSystem1,1,Community Transit,rSurvey only: Transit leg 1: System name,Community Transit
+TransitSystem1,2,Everett Transit,rSurvey only: Transit leg 1: System name,Everett Transit
+TransitSystem1,3,King County Metro,rSurvey only: Transit leg 1: System name,King County Metro
+TransitSystem1,4,King County Water Taxi,rSurvey only: Transit leg 1: System name,King County Water Taxi
+TransitSystem1,5,Kitsap Ferry,rSurvey only: Transit leg 1: System name,Kitsap Ferry
+TransitSystem1,6,Kitsap Transit Bus,rSurvey only: Transit leg 1: System name,Kitsap Transit Bus
+TransitSystem1,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 1: System name,Kitsap Transit Worker/Driver
+TransitSystem1,8,Pierce County Ferry,rSurvey only: Transit leg 1: System name,Pierce County Ferry
+TransitSystem1,9,Pierce Transit,rSurvey only: Transit leg 1: System name,Pierce Transit
+TransitSystem1,10,Seattle Monorail,rSurvey only: Transit leg 1: System name,Seattle Monorail
+TransitSystem1,11,Seattle Streetcar,rSurvey only: Transit leg 1: System name,Seattle Streetcar
+TransitSystem1,12,Sound Transit Bus,rSurvey only: Transit leg 1: System name,Sound Transit Bus
+TransitSystem1,13,Sound Transit Rail,rSurvey only: Transit leg 1: System name,Sound Transit Rail
+TransitSystem1,14,Washington State Ferries,rSurvey only: Transit leg 1: System name,Washington State Ferries
+TransitSystem1,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 1: System name,King County Metro Dial-a-Ride
+TransitSystem1,16,Amtrak,rSurvey only: Transit leg 1: System name,Amtrak
+TransitSystem2,1,Community Transit,rSurvey only: Transit leg 2: System name,Community Transit
+TransitSystem2,2,Everett Transit,rSurvey only: Transit leg 2: System name,Everett Transit
+TransitSystem2,3,King County Metro,rSurvey only: Transit leg 2: System name,King County Metro
+TransitSystem2,4,King County Water Taxi,rSurvey only: Transit leg 2: System name,King County Water Taxi
+TransitSystem2,5,Kitsap Ferry,rSurvey only: Transit leg 2: System name,Kitsap Ferry
+TransitSystem2,6,Kitsap Transit Bus,rSurvey only: Transit leg 2: System name,Kitsap Transit Bus
+TransitSystem2,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 2: System name,Kitsap Transit Worker/Driver
+TransitSystem2,8,Pierce County Ferry,rSurvey only: Transit leg 2: System name,Pierce County Ferry
+TransitSystem2,9,Pierce Transit,rSurvey only: Transit leg 2: System name,Pierce Transit
+TransitSystem2,10,Seattle Monorail,rSurvey only: Transit leg 2: System name,Seattle Monorail
+TransitSystem2,11,Seattle Streetcar,rSurvey only: Transit leg 2: System name,Seattle Streetcar
+TransitSystem2,12,Sound Transit Bus,rSurvey only: Transit leg 2: System name,Sound Transit Bus
+TransitSystem2,13,Sound Transit Rail,rSurvey only: Transit leg 2: System name,Sound Transit Rail
+TransitSystem2,14,Washington State Ferries,rSurvey only: Transit leg 2: System name,Washington State Ferries
+TransitSystem2,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 2: System name,King County Metro Dial-a-Ride
+TransitSystem2,16,Amtrak,rSurvey only: Transit leg 2: System name,Amtrak
+TransitSystem3,1,Community Transit,rSurvey only: Transit leg 3: System name,Community Transit
+TransitSystem3,2,Everett Transit,rSurvey only: Transit leg 3: System name,Everett Transit
+TransitSystem3,3,King County Metro,rSurvey only: Transit leg 3: System name,King County Metro
+TransitSystem3,4,King County Water Taxi,rSurvey only: Transit leg 3: System name,King County Water Taxi
+TransitSystem3,5,Kitsap Ferry,rSurvey only: Transit leg 3: System name,Kitsap Ferry
+TransitSystem3,6,Kitsap Transit Bus,rSurvey only: Transit leg 3: System name,Kitsap Transit Bus
+TransitSystem3,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 3: System name,Kitsap Transit Worker/Driver
+TransitSystem3,8,Pierce County Ferry,rSurvey only: Transit leg 3: System name,Pierce County Ferry
+TransitSystem3,9,Pierce Transit,rSurvey only: Transit leg 3: System name,Pierce Transit
+TransitSystem3,10,Seattle Monorail,rSurvey only: Transit leg 3: System name,Seattle Monorail
+TransitSystem3,11,Seattle Streetcar,rSurvey only: Transit leg 3: System name,Seattle Streetcar
+TransitSystem3,12,Sound Transit Bus,rSurvey only: Transit leg 3: System name,Sound Transit Bus
+TransitSystem3,13,Sound Transit Rail,rSurvey only: Transit leg 3: System name,Sound Transit Rail
+TransitSystem3,14,Washington State Ferries,rSurvey only: Transit leg 3: System name,Washington State Ferries
+TransitSystem3,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 3: System name,King County Metro Dial-a-Ride
+TransitSystem3,16,Amtrak,rSurvey only: Transit leg 3: System name,Amtrak
+TransitSystem4,1,Community Transit,rSurvey only: Transit leg 4: System name,Community Transit
+TransitSystem4,2,Everett Transit,rSurvey only: Transit leg 4: System name,Everett Transit
+TransitSystem4,3,King County Metro,rSurvey only: Transit leg 4: System name,King County Metro
+TransitSystem4,4,King County Water Taxi,rSurvey only: Transit leg 4: System name,King County Water Taxi
+TransitSystem4,5,Kitsap Ferry,rSurvey only: Transit leg 4: System name,Kitsap Ferry
+TransitSystem4,6,Kitsap Transit Bus,rSurvey only: Transit leg 4: System name,Kitsap Transit Bus
+TransitSystem4,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 4: System name,Kitsap Transit Worker/Driver
+TransitSystem4,8,Pierce County Ferry,rSurvey only: Transit leg 4: System name,Pierce County Ferry
+TransitSystem4,9,Pierce Transit,rSurvey only: Transit leg 4: System name,Pierce Transit
+TransitSystem4,10,Seattle Monorail,rSurvey only: Transit leg 4: System name,Seattle Monorail
+TransitSystem4,11,Seattle Streetcar,rSurvey only: Transit leg 4: System name,Seattle Streetcar
+TransitSystem4,12,Sound Transit Bus,rSurvey only: Transit leg 4: System name,Sound Transit Bus
+TransitSystem4,13,Sound Transit Rail,rSurvey only: Transit leg 4: System name,Sound Transit Rail
+TransitSystem4,14,Washington State Ferries,rSurvey only: Transit leg 4: System name,Washington State Ferries
+TransitSystem4,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 4: System name,King County Metro Dial-a-Ride
+TransitSystem4,16,Amtrak,rSurvey only: Transit leg 4: System name,Amtrak
+TransitSystem5,1,Community Transit,rSurvey only: Transit leg 5: System name,Community Transit
+TransitSystem5,2,Everett Transit,rSurvey only: Transit leg 5: System name,Everett Transit
+TransitSystem5,3,King County Metro,rSurvey only: Transit leg 5: System name,King County Metro
+TransitSystem5,4,King County Water Taxi,rSurvey only: Transit leg 5: System name,King County Water Taxi
+TransitSystem5,5,Kitsap Ferry,rSurvey only: Transit leg 5: System name,Kitsap Ferry
+TransitSystem5,6,Kitsap Transit Bus,rSurvey only: Transit leg 5: System name,Kitsap Transit Bus
+TransitSystem5,7,Kitsap Transit Worker/Driver,rSurvey only: Transit leg 5: System name,Kitsap Transit Worker/Driver
+TransitSystem5,8,Pierce County Ferry,rSurvey only: Transit leg 5: System name,Pierce County Ferry
+TransitSystem5,9,Pierce Transit,rSurvey only: Transit leg 5: System name,Pierce Transit
+TransitSystem5,10,Seattle Monorail,rSurvey only: Transit leg 5: System name,Seattle Monorail
+TransitSystem5,11,Seattle Streetcar,rSurvey only: Transit leg 5: System name,Seattle Streetcar
+TransitSystem5,12,Sound Transit Bus,rSurvey only: Transit leg 5: System name,Sound Transit Bus
+TransitSystem5,13,Sound Transit Rail,rSurvey only: Transit leg 5: System name,Sound Transit Rail
+TransitSystem5,14,Washington State Ferries,rSurvey only: Transit leg 5: System name,Washington State Ferries
+TransitSystem5,15,King County Metro Dial-a-Ride,rSurvey only: Transit leg 5: System name,King County Metro Dial-a-Ride
+TransitSystem5,16,Amtrak,rSurvey only: Transit leg 5: System name,Amtrak
+TransitSystem5,1,,rSurvey only: Transit leg 5: System name,
 SvyComplete,0,No,Trip survey is complete,No
 SvyComplete,1,Yes,Trip survey is complete,Yes
 Dayofweek,1,Tuesday,Travel day of week,Tuesday
@@ -1212,105 +1212,105 @@ ProxyAddedTrip,0,No,rMove only: Trip was added by proxy respondent,No
 ProxyAddedTrip,1,Yes,rMove only: Trip was added by proxy respondent,Yes
 NonproxyDerivedTrip,0,No,Derived child trip: Trip was derived from a non-proxy record for a non-participant,No
 NonproxyDerivedTrip,1,Yes,Derived child trip: Trip was derived from a non-proxy record for a non-participant,Yes
-Mode_1,1,"Walk, jog, or wheelchair",Primary Mode,Walk or bike
-Mode_1,2,Bicycle or e-bike,Primary Mode,Walk or bike
-Mode_1,3,Household vehicle 1,Primary Mode,Drive
-Mode_1,4,Household vehicle 2,Primary Mode,Drive
-Mode_1,5,Household vehicle 3,Primary Mode,Drive
-Mode_1,6,Household vehicle 4,Primary Mode,Drive
-Mode_1,7,Household vehicle 5,Primary Mode,Drive
-Mode_1,8,Household vehicle 6,Primary Mode,Drive
-Mode_1,9,Household vehicle 7,Primary Mode,Drive
-Mode_1,10,Household vehicle 8,Primary Mode,Drive
-Mode_1,11,Household vehicle 9,Primary Mode,Drive
-Mode_1,12,Household vehicle 10,Primary Mode,Drive
-Mode_1,16,Other household vehicle,Primary Mode,Drive
-Mode_1,17,Rental car,Primary Mode,Drive
-Mode_1,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",Primary Mode,Drive
-Mode_1,21,Vanpool vehicle,Primary Mode,Transit
-Mode_1,22,Other non-household vehicle,Primary Mode,Drive
-Mode_1,23,Bus (public transit),Primary Mode,Transit
-Mode_1,24,School bus,Primary Mode,Other
-Mode_1,26,Private bus or shuttle,Primary Mode,Other
-Mode_1,27,Paratransit,Primary Mode,Transit
-Mode_1,28,Other bus (rMove only),Primary Mode,Other
-Mode_1,31,Airplane or helicopter,Primary Mode,Other
-Mode_1,32,Ferry or water taxi,Primary Mode,Transit
-Mode_1,33,Car from work,Primary Mode,Drive
-Mode_1,34,Friend/colleague's car,Primary Mode,Drive
-Mode_1,36,"Taxi (e.g., Yello Cab)",Primary Mode,Other
-Mode_1,37,"Other hired service (e.g., Lyft, Uber)",Primary Mode,Other
-Mode_1,41,"Commuter rail (Sounder, Amtrak)",Primary Mode,Transit
-Mode_1,42,"Other rail (e.g., streetcar)",Primary Mode,Transit
-Mode_1,47,Other motorcycle/moped/scooter,Primary Mode,Drive
-Mode_1,52,"Urban rail (e.g., Link light rail, monorail)",Primary Mode,Transit
-Mode_1,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",Primary Mode,Other
-Mode_2,1,"Walk, jog, or wheelchair",rMove only: Fourth mode chosen,Walk or bike
-Mode_2,2,Bicycle or e-bike,rMove only: Fourth mode chosen,Walk or bike
-Mode_2,3,Household vehicle 1,rMove only: Fourth mode chosen,Drive
-Mode_2,4,Household vehicle 2,rMove only: Fourth mode chosen,Drive
-Mode_2,5,Household vehicle 3,rMove only: Fourth mode chosen,Drive
-Mode_2,6,Household vehicle 4,rMove only: Fourth mode chosen,Drive
-Mode_2,7,Household vehicle 5,rMove only: Fourth mode chosen,Drive
-Mode_2,8,Household vehicle 6,rMove only: Fourth mode chosen,Drive
-Mode_2,9,Household vehicle 7,rMove only: Fourth mode chosen,Drive
-Mode_2,10,Household vehicle 8,rMove only: Fourth mode chosen,Drive
-Mode_2,11,Household vehicle 9,rMove only: Fourth mode chosen,Drive
-Mode_2,12,Household vehicle 10,rMove only: Fourth mode chosen,Drive
-Mode_2,16,Other household vehicle,rMove only: Fourth mode chosen,Drive
-Mode_2,17,Rental car,rMove only: Fourth mode chosen,Drive
-Mode_2,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only: Fourth mode chosen,Drive
-Mode_2,21,Vanpool vehicle,rMove only: Fourth mode chosen,Transit
-Mode_2,22,Other non-household vehicle,rMove only: Fourth mode chosen,Drive
-Mode_2,23,Bus (public transit),rMove only: Fourth mode chosen,Transit
-Mode_2,24,School bus,rMove only: Fourth mode chosen,Other
-Mode_2,26,Private bus or shuttle,rMove only: Fourth mode chosen,Other
-Mode_2,27,Paratransit,rMove only: Fourth mode chosen,Transit
-Mode_2,28,Other bus (rMove only),rMove only: Fourth mode chosen,Other
-Mode_2,31,Airplane or helicopter,rMove only: Fourth mode chosen,Other
-Mode_2,32,Ferry or water taxi,rMove only: Fourth mode chosen,Transit
-Mode_2,33,Car from work,rMove only: Fourth mode chosen,Drive
-Mode_2,34,Friend/colleague's car,rMove only: Fourth mode chosen,Drive
-Mode_2,36,"Taxi (e.g., Yello Cab)",rMove only: Fourth mode chosen,Other
-Mode_2,37,"Other hired service (e.g., Lyft, Uber)",rMove only: Fourth mode chosen,Other
-Mode_2,41,"Commuter rail (Sounder, Amtrak)",rMove only: Fourth mode chosen,Transit
-Mode_2,42,"Other rail (e.g., streetcar)",rMove only: Fourth mode chosen,Transit
-Mode_2,47,Other motorcycle/moped/scooter,rMove only: Fourth mode chosen,Drive
-Mode_2,52,"Urban rail (e.g., Link light rail, monorail)",rMove only: Fourth mode chosen,Transit
-Mode_2,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only: Fourth mode chosen,Other
-Mode_3,1,"Walk, jog, or wheelchair",rMove only: Fourth mode chosen,Walk or bike
-Mode_3,2,Bicycle or e-bike,rMove only: Fourth mode chosen,Walk or bike
-Mode_3,3,Household vehicle 1,rMove only: Fourth mode chosen,Drive
-Mode_3,4,Household vehicle 2,rMove only: Fourth mode chosen,Drive
-Mode_3,5,Household vehicle 3,rMove only: Fourth mode chosen,Drive
-Mode_3,6,Household vehicle 4,rMove only: Fourth mode chosen,Drive
-Mode_3,7,Household vehicle 5,rMove only: Fourth mode chosen,Drive
-Mode_3,8,Household vehicle 6,rMove only: Fourth mode chosen,Drive
-Mode_3,9,Household vehicle 7,rMove only: Fourth mode chosen,Drive
-Mode_3,10,Household vehicle 8,rMove only: Fourth mode chosen,Drive
-Mode_3,11,Household vehicle 9,rMove only: Fourth mode chosen,Drive
-Mode_3,12,Household vehicle 10,rMove only: Fourth mode chosen,Drive
-Mode_3,16,Other household vehicle,rMove only: Fourth mode chosen,Drive
-Mode_3,17,Rental car,rMove only: Fourth mode chosen,Drive
-Mode_3,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only: Fourth mode chosen,Drive
-Mode_3,21,Vanpool vehicle,rMove only: Fourth mode chosen,Transit
-Mode_3,22,Other non-household vehicle,rMove only: Fourth mode chosen,Drive
-Mode_3,23,Bus (public transit),rMove only: Fourth mode chosen,Transit
-Mode_3,24,School bus,rMove only: Fourth mode chosen,Other
-Mode_3,26,Private bus or shuttle,rMove only: Fourth mode chosen,Other
-Mode_3,27,Paratransit,rMove only: Fourth mode chosen,Transit
-Mode_3,28,Other bus (rMove only),rMove only: Fourth mode chosen,Other
-Mode_3,31,Airplane or helicopter,rMove only: Fourth mode chosen,Other
-Mode_3,32,Ferry or water taxi,rMove only: Fourth mode chosen,Transit
-Mode_3,33,Car from work,rMove only: Fourth mode chosen,Drive
-Mode_3,34,Friend/colleague's car,rMove only: Fourth mode chosen,Drive
-Mode_3,36,"Taxi (e.g., Yello Cab)",rMove only: Fourth mode chosen,Other
-Mode_3,37,"Other hired service (e.g., Lyft, Uber)",rMove only: Fourth mode chosen,Other
-Mode_3,41,"Commuter rail (Sounder, Amtrak)",rMove only: Fourth mode chosen,Transit
-Mode_3,42,"Other rail (e.g., streetcar)",rMove only: Fourth mode chosen,Transit
-Mode_3,47,Other motorcycle/moped/scooter,rMove only: Fourth mode chosen,Drive
-Mode_3,52,"Urban rail (e.g., Link light rail, monorail)",rMove only: Fourth mode chosen,Transit
-Mode_3,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only: Fourth mode chosen,Other
+Mode1,1,"Walk, jog, or wheelchair",Primary Mode,Walk or bike
+Mode1,2,Bicycle or e-bike,Primary Mode,Walk or bike
+Mode1,3,Household vehicle 1,Primary Mode,Drive
+Mode1,4,Household vehicle 2,Primary Mode,Drive
+Mode1,5,Household vehicle 3,Primary Mode,Drive
+Mode1,6,Household vehicle 4,Primary Mode,Drive
+Mode1,7,Household vehicle 5,Primary Mode,Drive
+Mode1,8,Household vehicle 6,Primary Mode,Drive
+Mode1,9,Household vehicle 7,Primary Mode,Drive
+Mode1,10,Household vehicle 8,Primary Mode,Drive
+Mode1,11,Household vehicle 9,Primary Mode,Drive
+Mode1,12,Household vehicle 10,Primary Mode,Drive
+Mode1,16,Other household vehicle,Primary Mode,Drive
+Mode1,17,Rental car,Primary Mode,Drive
+Mode1,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",Primary Mode,Drive
+Mode1,21,Vanpool vehicle,Primary Mode,Transit
+Mode1,22,Other non-household vehicle,Primary Mode,Drive
+Mode1,23,Bus (public transit),Primary Mode,Transit
+Mode1,24,School bus,Primary Mode,Other
+Mode1,26,Private bus or shuttle,Primary Mode,Other
+Mode1,27,Paratransit,Primary Mode,Transit
+Mode1,28,Other bus (rMove only),Primary Mode,Other
+Mode1,31,Airplane or helicopter,Primary Mode,Other
+Mode1,32,Ferry or water taxi,Primary Mode,Transit
+Mode1,33,Car from work,Primary Mode,Drive
+Mode1,34,Friend/colleague's car,Primary Mode,Drive
+Mode1,36,"Taxi (e.g., Yello Cab)",Primary Mode,Other
+Mode1,37,"Other hired service (e.g., Lyft, Uber)",Primary Mode,Other
+Mode1,41,"Commuter rail (Sounder, Amtrak)",Primary Mode,Transit
+Mode1,42,"Other rail (e.g., streetcar)",Primary Mode,Transit
+Mode1,47,Other motorcycle/moped/scooter,Primary Mode,Drive
+Mode1,52,"Urban rail (e.g., Link light rail, monorail)",Primary Mode,Transit
+Mode1,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",Primary Mode,Other
+Mode2,1,"Walk, jog, or wheelchair",rMove only: Fourth mode chosen,Walk or bike
+Mode2,2,Bicycle or e-bike,rMove only: Fourth mode chosen,Walk or bike
+Mode2,3,Household vehicle 1,rMove only: Fourth mode chosen,Drive
+Mode2,4,Household vehicle 2,rMove only: Fourth mode chosen,Drive
+Mode2,5,Household vehicle 3,rMove only: Fourth mode chosen,Drive
+Mode2,6,Household vehicle 4,rMove only: Fourth mode chosen,Drive
+Mode2,7,Household vehicle 5,rMove only: Fourth mode chosen,Drive
+Mode2,8,Household vehicle 6,rMove only: Fourth mode chosen,Drive
+Mode2,9,Household vehicle 7,rMove only: Fourth mode chosen,Drive
+Mode2,10,Household vehicle 8,rMove only: Fourth mode chosen,Drive
+Mode2,11,Household vehicle 9,rMove only: Fourth mode chosen,Drive
+Mode2,12,Household vehicle 10,rMove only: Fourth mode chosen,Drive
+Mode2,16,Other household vehicle,rMove only: Fourth mode chosen,Drive
+Mode2,17,Rental car,rMove only: Fourth mode chosen,Drive
+Mode2,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only: Fourth mode chosen,Drive
+Mode2,21,Vanpool vehicle,rMove only: Fourth mode chosen,Transit
+Mode2,22,Other non-household vehicle,rMove only: Fourth mode chosen,Drive
+Mode2,23,Bus (public transit),rMove only: Fourth mode chosen,Transit
+Mode2,24,School bus,rMove only: Fourth mode chosen,Other
+Mode2,26,Private bus or shuttle,rMove only: Fourth mode chosen,Other
+Mode2,27,Paratransit,rMove only: Fourth mode chosen,Transit
+Mode2,28,Other bus (rMove only),rMove only: Fourth mode chosen,Other
+Mode2,31,Airplane or helicopter,rMove only: Fourth mode chosen,Other
+Mode2,32,Ferry or water taxi,rMove only: Fourth mode chosen,Transit
+Mode2,33,Car from work,rMove only: Fourth mode chosen,Drive
+Mode2,34,Friend/colleague's car,rMove only: Fourth mode chosen,Drive
+Mode2,36,"Taxi (e.g., Yello Cab)",rMove only: Fourth mode chosen,Other
+Mode2,37,"Other hired service (e.g., Lyft, Uber)",rMove only: Fourth mode chosen,Other
+Mode2,41,"Commuter rail (Sounder, Amtrak)",rMove only: Fourth mode chosen,Transit
+Mode2,42,"Other rail (e.g., streetcar)",rMove only: Fourth mode chosen,Transit
+Mode2,47,Other motorcycle/moped/scooter,rMove only: Fourth mode chosen,Drive
+Mode2,52,"Urban rail (e.g., Link light rail, monorail)",rMove only: Fourth mode chosen,Transit
+Mode2,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only: Fourth mode chosen,Other
+Mode3,1,"Walk, jog, or wheelchair",rMove only: Fourth mode chosen,Walk or bike
+Mode3,2,Bicycle or e-bike,rMove only: Fourth mode chosen,Walk or bike
+Mode3,3,Household vehicle 1,rMove only: Fourth mode chosen,Drive
+Mode3,4,Household vehicle 2,rMove only: Fourth mode chosen,Drive
+Mode3,5,Household vehicle 3,rMove only: Fourth mode chosen,Drive
+Mode3,6,Household vehicle 4,rMove only: Fourth mode chosen,Drive
+Mode3,7,Household vehicle 5,rMove only: Fourth mode chosen,Drive
+Mode3,8,Household vehicle 6,rMove only: Fourth mode chosen,Drive
+Mode3,9,Household vehicle 7,rMove only: Fourth mode chosen,Drive
+Mode3,10,Household vehicle 8,rMove only: Fourth mode chosen,Drive
+Mode3,11,Household vehicle 9,rMove only: Fourth mode chosen,Drive
+Mode3,12,Household vehicle 10,rMove only: Fourth mode chosen,Drive
+Mode3,16,Other household vehicle,rMove only: Fourth mode chosen,Drive
+Mode3,17,Rental car,rMove only: Fourth mode chosen,Drive
+Mode3,18,"Carshare vehicle (e.g., Zipcar, Car2Go, RelayRides, etc.)",rMove only: Fourth mode chosen,Drive
+Mode3,21,Vanpool vehicle,rMove only: Fourth mode chosen,Transit
+Mode3,22,Other non-household vehicle,rMove only: Fourth mode chosen,Drive
+Mode3,23,Bus (public transit),rMove only: Fourth mode chosen,Transit
+Mode3,24,School bus,rMove only: Fourth mode chosen,Other
+Mode3,26,Private bus or shuttle,rMove only: Fourth mode chosen,Other
+Mode3,27,Paratransit,rMove only: Fourth mode chosen,Transit
+Mode3,28,Other bus (rMove only),rMove only: Fourth mode chosen,Other
+Mode3,31,Airplane or helicopter,rMove only: Fourth mode chosen,Other
+Mode3,32,Ferry or water taxi,rMove only: Fourth mode chosen,Transit
+Mode3,33,Car from work,rMove only: Fourth mode chosen,Drive
+Mode3,34,Friend/colleague's car,rMove only: Fourth mode chosen,Drive
+Mode3,36,"Taxi (e.g., Yello Cab)",rMove only: Fourth mode chosen,Other
+Mode3,37,"Other hired service (e.g., Lyft, Uber)",rMove only: Fourth mode chosen,Other
+Mode3,41,"Commuter rail (Sounder, Amtrak)",rMove only: Fourth mode chosen,Transit
+Mode3,42,"Other rail (e.g., streetcar)",rMove only: Fourth mode chosen,Transit
+Mode3,47,Other motorcycle/moped/scooter,rMove only: Fourth mode chosen,Drive
+Mode3,52,"Urban rail (e.g., Link light rail, monorail)",rMove only: Fourth mode chosen,Transit
+Mode3,97,"Other mode (e.g., skateboard, kayak, motorhome, etc.)",rMove only: Fourth mode chosen,Other
 AgeCategory,1,Under 18 years,age:category,Under 18 years
 AgeCategory,2,18-64 years,age:category,18-64 years
 AgeCategory,3,65 years+,age:category,65 years+

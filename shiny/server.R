@@ -158,13 +158,13 @@ function(input, output, session) {
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
     xvar.alias <- variables.lu[Variable %in% input$xtab_xcol, .(VariableName)]
-    xvar.alias$Name
+    xvar.alias$VariableName
   })
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
     yvar.alias <- variables.lu[Variable %in% input$xtab_ycol, .(VariableName)]
-    yvar.alias$Name
+    yvar.alias$VariableName
   })
   
   # return values associated with category selected
@@ -210,14 +210,14 @@ function(input, output, session) {
   
   xtabTableType <- eventReactive(input$xtab_go, {
     select.vars <- variables.lu[Variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
-    tables <- unique(select.vars$Table)
+    tables <- as.vector(unique(select.vars$Table))
     
-    if((tables == 'Person' )| (tables == c('Person', 'Household'))){
-      res<-'Person'
-    } else if(tables=='Household'){
-      res<-'Household'
-    }else{
+    if('Trip' %in% tables){
       res<-'Trip'
+    } else if('Person' %in% tables){
+      res<-'Person'
+    }else{
+      res<-'Household'
     }
     return(res)
     })
@@ -570,7 +570,7 @@ function(input, output, session) {
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
     xvar.alias <- variables.lu[Variable %in% input$stab_xcol, .(VariableName)]
-    xvar.alias$Name
+    xvar.alias$VariableName
   })
   
   # variable X alias list
