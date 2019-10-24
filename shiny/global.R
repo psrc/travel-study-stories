@@ -13,12 +13,8 @@ library(DBI)
 # local
 
 wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
-data.dir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/data"
-#wrkdir <- "C:/Users/CLam/Desktop/travel-study-stories/shiny"
-#data.dir <- "C:/Users/CLam/Desktop/travel-study-stories/data"
 # shiny server
 #wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
-#data.dir <- "/home/shiny/apps/travel-study-stories/data"
 
 source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
@@ -27,7 +23,8 @@ source(file.path(wrkdir, 'functions_plot.R'))
 working.dbtable.household <- "HHSurvey.vHousehold2017"
 working.dbtable.person <- "HHSurvey.vHouseholdPerson2017"
 working.dbtable.trip <- "HHSurvey.vHouseholdPersonTrip2017"
-working.dbtable.variables <- "HHSurvey.DataExplorerVariables"
+working.dbtable.variables <- "HHSurvey.DataExplorerVariables2017"
+working.dbtable.values <- "HHSurvey.vDataExplorerValues2017"
 
 
 ## Read from Elmer
@@ -54,8 +51,8 @@ household.dt <- read.dt(working.dbtable.household)
 pers.dt <-  read.dt(working.dbtable.person)
 trip.dt <- read.dt(working.dbtable.trip)
 variables.lu <- read.dt(working.dbtable.variables)
-values.lu <- fread(file.path(data.dir, 'variables_values_pascal.csv'))
-readme.dt <- read.xlsx(file.path(data.dir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
+values.lu <- read.dt(working.dbtable.values)
+readme.dt <- read.xlsx(file.path(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
 
 vars.cat <- unique(variables.lu$Category)
 

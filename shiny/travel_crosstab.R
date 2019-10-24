@@ -55,11 +55,9 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
 
   if (type == "total") {
     setkeyv(table, var)
-    print(var)
     table[table==""]<- NA
     table <- na.omit(table, cols = var)
     raw <- table[, .(sample_count = .N), by = var]
-    print(raw)
     N_hh <- table[, .(HHID = uniqueN(HHID)), by = var]
     table<-table[!is.na(get(wt_field))]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = var]
