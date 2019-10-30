@@ -183,11 +183,13 @@ function(input, output, session) {
   })
   
   xtabXValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[VariableName %in% input$xtab_xcol, ] # return dt
+    dt <- values.lu[Variable %in% input$xtab_xcol, ][order(ValueOrder)] # return dt
   })
   
+ 
+  
   xtabYValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[VariableName %in% input$xtab_ycol, ]
+    dt <- values.lu[Variable %in% input$xtab_ycol, ][order(ValueOrder)]
     v <- as.vector(dt$ValueText) # return vector
   })
   
@@ -244,9 +246,10 @@ function(input, output, session) {
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
       xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
 
-      crosstab[, var1.sort := factor(var1, levels = xvals$ValueText)]
-      crosstab <- crosstab[order(var1.sort)][, var1.sort := NULL]
-      setnames(crosstab, "var1", varsXAlias())
+      crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
+      setorder(crosstab, ValueOrder)
+      setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
+      
 
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
       dt.list <- map(as.list(col.headers), xtab.crosstab)
@@ -259,7 +262,6 @@ function(input, output, session) {
     dt.list <- xtabTable()
     yv <- xtabYValues()
     xa <- varsXAlias()
-    
     col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
     regex <- paste(col.headers, collapse = "|")
     
@@ -299,7 +301,7 @@ function(input, output, session) {
     }
     colnames(moetable)[2:ncol(moetable)] <- paste0(colnames(moetable)[2:ncol(moetable)], "_MOE")
     dt.sm <- merge(valuetable, moetable, by = xalias)
-    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$ValueText)]
+    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$ValueOrder)]
     dt.sm <- dt.sm[order(var1.sort)][, var1.sort := NULL]
     order.colnames <- c(xalias, cols.order)
     dt.sm <- dt.sm[, ..order.colnames]
@@ -587,7 +589,7 @@ function(input, output, session) {
   })
   
   stabXValues <- eventReactive(input$stab_go, {
-    dt <- values.lu[VariableName %in% input$stab_xcol, ] # return dt
+    dt <- values.lu[Variable %in% input$stab_xcol, ][order(ValueOrder)] # return dt
   })
   
   stabCaption <- eventReactive(input$stab_go, {
@@ -639,11 +641,10 @@ function(input, output, session) {
     xa <- stab.varsXAlias()
     
     simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
-    xvals <- stabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- stabXValues()[, .(ValueOrder, ValueText)][]
 
-    simtable[, var1.sort := factor(get(input$stab_xcol), levels = xvals$ValueText)]
-    simtable <- simtable[order(var1.sort)][, var1.sort := NULL]
-   
+    simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='ValueText')
+    setorder(simtable, ValueOrder)
     dtypes <- dtype.choice.stab 
     selcols <- c(xa, names(dtypes))
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)

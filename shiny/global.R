@@ -51,7 +51,10 @@ household.dt <- read.dt(working.dbtable.household)
 pers.dt <-  read.dt(working.dbtable.person)
 trip.dt <- read.dt(working.dbtable.trip)
 variables.lu <- read.dt(working.dbtable.variables)
+variables.lu <- na.omit(variables.lu)
+variables.lu <- variables.lu[order(CategoryOrder, VariableName)]
 values.lu <- read.dt(working.dbtable.values)
+values.lu<- values.lu[order(ValueOrder)]
 readme.dt <- read.xlsx(file.path(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
 
 vars.cat <- unique(variables.lu$Category)
