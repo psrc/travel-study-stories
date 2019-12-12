@@ -6,14 +6,14 @@ library(tidyverse)
 
 
 # create_cross_tab_with_weights
-cross_tab <- function(table, var1, var2, wt_field, type = c("total", "mean")) {
+cross_tab <- function(table, var1, var2, wt_field, type) {
   # z <- 1.96 # 95% CI
   z <- 1.645 # 90% CI
 
   print("reading in data")
 
   cols <- c(var1, var2)
-  
+  print(type)
   if (type == "dimension") {
     setkeyv(table, cols)
     table[table==""]<- NA
@@ -53,7 +53,7 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
   
 
 
-  if (type == "total") {
+  if (type == "dimension") {
     setkeyv(table, var)
     table[table==""]<- NA
     table <- na.omit(table, cols = var)

@@ -214,7 +214,7 @@ function(input, output, session) {
     select.vars <- variables.lu[Variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
     tables <- as.vector(unique(select.vars$Table))
     dtypes <- as.vector(unique(select.vars$DType))
-    
+
     if('Trip' %in% tables){
       res<-'Trip'
     } else if('Person' %in% tables){
@@ -223,7 +223,7 @@ function(input, output, session) {
       res<-'Household'
     }
     
-  
+
     if('fact' %in% dtypes){
       type<- 'fact'
     }
@@ -242,12 +242,13 @@ function(input, output, session) {
         wt_field <- 'hh_wt_final'
       } else if(table.type == "Trip") {
         survey <- trip.dt
-        wt_field <- 'trip_wt_revised'
+        wt_field <- 'trip_weight_revised'
       }else {
         survey <- household.dt
         wt_field = 'hh_wt_final'
       }
-      type <- 'total'
+ 
+      type <- xtabTableType()$Type
       
       if (input$xtab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
       # browser()
@@ -626,19 +627,30 @@ function(input, output, session) {
   stabTableType <- eventReactive(input$stab_go, {
     select.vars <- variables.lu[Variable %in% c(input$stab_xcol), ]
     tables <- unique(select.vars$TableName)
-    if(tables == 'Person'){
-      res<-'Person'
-    } else if(tables=='Household'){
-      res<-'Household'
-    }else{
+    dtypes <- as.vector(unique(select.vars$DType))
+    
+    if('Trip' %in% tables){
       res<-'Trip'
+    } else if('Person' %in% tables){
+      res<-'Person'
+    }else{
+      res<-'Household'
     }
-    return(res)
-  })
+    
+    if('fact' %in% dtypes){
+      type<- 'fact'
+    }
+    else{
+      type<-'dimension'
+    }
+    
+    return(list(Res=res, Type=type))
+  } )
+
   
   # return list of tables subsetted by value types
   stabTable <- eventReactive(input$stab_go, {
-    table.type <- stabTableType()
+    table.type <- stabTableType()$Res
     if (table.type == "Person") {
       survey <- pers.dt
       wt_field <- 'hh_wt_final'
@@ -649,7 +661,7 @@ function(input, output, session) {
       survey<-household.dt
       wt_field<- "hh_wt_final"
     }
-    type <- 'total'
+    type <- stabTableType()$Type
     
     if (input$stab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
     
