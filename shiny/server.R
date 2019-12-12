@@ -213,6 +213,7 @@ function(input, output, session) {
   xtabTableType <- eventReactive(input$xtab_go, {
     select.vars <- variables.lu[Variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
     tables <- as.vector(unique(select.vars$Table))
+    dtypes <- as.vector(unique(select.vars$DType))
     
     if('Trip' %in% tables){
       res<-'Trip'
@@ -221,21 +222,30 @@ function(input, output, session) {
     }else{
       res<-'Household'
     }
-    return(res)
-    })
+    
+  
+    if('fact' %in% dtypes){
+      type<- 'fact'
+    }
+    else{
+      type<-'dimension'
+    }
+    
+    return(list(Res=res, Type=type))
+    } )
 
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
-      table.type <- xtabTableType()
+      table.type<- xtabTableType()$Res
       if (table.type == "Person") {
         survey <- pers.dt
-        wt_field <- 'HHWtFinal'
+        wt_field <- 'hh_wt_final'
       } else if(table.type == "Trip") {
         survey <- trip.dt
-        wt_field <- 'TripWtFinal'
+        wt_field <- 'trip_wt_revised'
       }else {
         survey <- household.dt
-        wt_field = 'HHWtFinal'
+        wt_field = 'hh_wt_final'
       }
       type <- 'total'
       
@@ -244,17 +254,22 @@ function(input, output, session) {
       # print(nrow(survey))
      
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
-
-      crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
-      setorder(crosstab, ValueOrder)
-      setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
-      
-
-      xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
-      dt.list <- map(as.list(col.headers), xtab.crosstab)
-      names(dt.list) <- col.headers
-      return(dt.list)
+      if(type=='dimension'){
+          xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    
+          crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
+          setorder(crosstab, ValueOrder)
+          setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
+          
+    
+          xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+          dt.list <- map(as.list(col.headers), xtab.crosstab)
+          names(dt.list) <- col.headers
+          return(dt.list)
+      }
+      else{ # placeholder for facts
+        print ('This functionality is in progress')
+        }
   })
   
   # clean xtabTable()
@@ -626,13 +641,13 @@ function(input, output, session) {
     table.type <- stabTableType()
     if (table.type == "Person") {
       survey <- pers.dt
-      wt_field <- 'HHWtFinal'
+      wt_field <- 'hh_wt_final'
     } else if(table.type =='Trip') {
       survey <- trip.dt
-      wt_field <- 'TripWtFinal'
+      wt_field <- 'trip_weight_revised'
     }else{
       survey<-household.dt
-      wt_field<- "HHWtFinal"
+      wt_field<- "hh_wt_final"
     }
     type <- 'total'
     

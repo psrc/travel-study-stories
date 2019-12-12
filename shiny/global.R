@@ -12,7 +12,7 @@ library(DBI)
 
 # local
 
-wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
+wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories_elmer/shiny"
 # shiny server
 #wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
 
@@ -20,9 +20,9 @@ source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
 
 
-working.dbtable.household <- "HHSurvey.vHousehold2017"
-working.dbtable.person <- "HHSurvey.vHouseholdPerson2017"
-working.dbtable.trip <- "HHSurvey.vHouseholdPersonTrip2017"
+working.dbtable.household <- "HHSurvey.v_households_2017"
+working.dbtable.person <- "HHSurvey.v_persons_2017"
+working.dbtable.trip <- "HHSurvey.v_trips_2017"
 working.dbtable.variables <- "HHSurvey.DataExplorerVariables2017"
 working.dbtable.values <- "HHSurvey.vDataExplorerValues2017"
 
