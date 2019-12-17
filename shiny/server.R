@@ -239,13 +239,13 @@ function(input, output, session) {
       table.type<- xtabTableType()$Res
       if (table.type == "Person") {
         survey <- pers.dt
-        wt_field <- 'hh_wt_final'
+        wt_field <- 'hh_wt_revised'
       } else if(table.type == "Trip") {
         survey <- trip.dt
         wt_field <- 'trip_weight_revised'
       }else {
         survey <- household.dt
-        wt_field = 'hh_wt_final'
+        wt_field = 'hh_wt_revised'
       }
  
       type <- xtabTableType()$Type
@@ -653,13 +653,13 @@ function(input, output, session) {
     table.type <- stabTableType()$Res
     if (table.type == "Person") {
       survey <- pers.dt
-      wt_field <- 'hh_wt_final'
+      wt_field <- 'hh_wt_revised'
     } else if(table.type =='Trip') {
       survey <- trip.dt
       wt_field <- 'trip_weight_revised'
     }else{
       survey<-household.dt
-      wt_field<- "hh_wt_final"
+      wt_field<- "hh_wt_revised"
     }
     type <- stabTableType()$Type
     
