@@ -5,6 +5,7 @@ library(tidyverse)
 
 
 
+
 # create_cross_tab_with_weights
 cross_tab <- function(table, var1, var2, wt_field, type) {
   # z <- 1.96 # 95% CI
@@ -34,8 +35,10 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
                                  get(eval(var1)) ~ get(eval(var2)), 
                                  value.var = c('sample_count', 'estimate', 'estMOE','share', 'MOE', 'N_HH'))
   } else if (type == "fact") {
-    tbl <- table[, (var2) := as.numeric(get(eval(var2)))][!is.na(get(eval(var2))), ]
-    tbl[, weighted_total := get(eval(wt_field))*get(eval(var2))]
+    tbl <- na.omit(table[, c(var1, var2, wt_field)])
+    tbl<-tbl[eval(parse(text=var2))>min_float]
+    tbl<-tbl[eval(parse(text=var2))<max_float]
+    tbl[, weighted_total := eval(parse((wt_field)))*eval(parse((var2)))]
     expanded <- tbl[, lapply(.SD, sum), .SDcols = "weighted_total", by = var1][order(get(eval(var1)))]
     expanded_tot <- tbl[, lapply(.SD, sum), .SDcols = wt_field, by = var1]
     expanded_moe <- tbl[, lapply(.SD, function(x) sd(x)/sqrt(length(x))), .SDcols = var2, by = var1][order(get(eval(var1)))]
@@ -81,11 +84,14 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
     var_weights <- na.omit(var_weights)
     var_weights <- var_weights[eval(parse(text=var))>min_float]
     var_weights <- var_weights[eval(parse(text=var))<max_float]
-    breaks <- 0:max_float
-    var_breaks <- var_weights[, cuts := cut(eval(parse(text=var)),breaks, order_result=TRUE)]
+    #breaks <- quantile(unlist(var_weights[,var, with =FALSE]), probs=seq(0,1,quantile_break))
+    
+    breaks<- hist_breaks
+    var_breaks <- var_weights[, cuts := cut(eval(parse(text=var)),breaks, order_result=TRUE, dig.lab=1)]
     var_cut <-var_breaks[, lapply(.SD, sum), .SDcols = wt_field, by = cuts]
     var_mean<-weighted.mean(var_weights[, var, with =FALSE], var_weights[,wt_field, with=FALSE])
     s_table<-c(var_cut,var_mean)
+    print(s_table)
   }
   
 return(s_table)  
