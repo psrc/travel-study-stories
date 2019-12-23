@@ -35,18 +35,22 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
                                  get(eval(var1)) ~ get(eval(var2)), 
                                  value.var = c('sample_count', 'estimate', 'estMOE','share', 'MOE', 'N_HH'))
   } else if (type == "fact") {
-    tbl <- na.omit(table[, c(var1, var2, wt_field)])
-    tbl<-tbl[eval(parse(text=var2))>min_float]
-    tbl<-tbl[eval(parse(text=var2))<max_float]
-    tbl[, weighted_total := eval(parse((wt_field)))*eval(parse((var2)))]
-    expanded <- tbl[, lapply(.SD, sum), .SDcols = "weighted_total", by = var1][order(get(eval(var1)))]
-    expanded_tot <- tbl[, lapply(.SD, sum), .SDcols = wt_field, by = var1]
-    expanded_moe <- tbl[, lapply(.SD, function(x) sd(x)/sqrt(length(x))), .SDcols = var2, by = var1][order(get(eval(var1)))]
+    cols = c(var1, var2, wt_field)
+    var_weights <- table[, cols, with = FALSE]
+    var_weights <- na.omit(var_weights)
+    print(var_weights)
+    var_weights<-var_weights[eval(parse(text=var2))>min_float]
+    var_weights<-var_weights[eval(parse(text=var2))<max_float]
+    var_weights[, weighted_total := get(eval((wt_field)))*get(eval((var2)))]
+    expanded <- var_weights[, lapply(.SD, sum), .SDcols = "weighted_total", by = var1][order(get(eval(var1)))]
+    expanded_tot <- var_weights[, lapply(.SD, sum), .SDcols = wt_field, by = var1]
+    expanded_moe <- var_weights[, lapply(.SD, function(x) z*sd(x)/sqrt(length(x))), .SDcols = var2, by = var1][order(get(eval(var1)))]
+    setnames(expanded_moe, var2, 'MOE')
     expanded <- merge(expanded, expanded_tot, by = var1)
+    print(expanded)
     expanded <- merge(expanded, expanded_moe, by = var1)
     expanded[, mean := weighted_total/get(eval(wt_field))]
     crosstab <- expanded
-    print(crosstab)
   }
  
   return(crosstab)
