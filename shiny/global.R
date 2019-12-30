@@ -11,8 +11,9 @@ library(odbc)
 library(DBI)
 
 # local
+wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
+# wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories_elmer/shiny"
 
-wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories_elmer/shiny"
 # shiny server
 #wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
 
@@ -20,11 +21,11 @@ source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
 
 
-working.dbtable.household <- "HHSurvey.v_households_2017"
-working.dbtable.person <- "HHSurvey.v_persons_2017"
-working.dbtable.trip <- "HHSurvey.v_trips_2017"
-working.dbtable.variables <- "HHSurvey.DataExplorerVariables2017"
-working.dbtable.values <- "HHSurvey.vDataExplorerValues2017"
+dbtable.household <- "HHSurvey.v_households_2017"
+dbtable.person <- "HHSurvey.v_persons_2017"
+dbtable.trip <- "HHSurvey.v_trips_2017"
+dbtable.variables <- "HHSurvey.DataExplorerVariables2017"
+dbtable.values <- "HHSurvey.vDataExplorerValues2017"
 
 
 ## Read from Elmer
@@ -38,23 +39,23 @@ db.connect <- function() {
   )
 }
 
-# read table
-read.dt <- function(atable) {
+read.dt <- function(astring, type =c('tablename', 'sqlquery')) {
   elmer_connection <- db.connect()
-  dtelm <- dbReadTable(elmer_connection, SQL(atable))
+  if (type == 'tablename') {
+    dtelm <- dbReadTable(elmer_connection, SQL(astring))
+  } else {
+    dtelm <- dbGetQuery(elmer_connection, SQL(astring))
+  }
   dbDisconnect(elmer_connection)
   setDT(dtelm)
 }
 
-
-household.dt <- read.dt(working.dbtable.household)
-pers.dt <-  read.dt(working.dbtable.person)
-trip.dt <- read.dt(working.dbtable.trip)
-variables.lu <- read.dt(working.dbtable.variables)
+variables.lu <- read.dt(dbtable.variables, 'tablename')
 variables.lu <- na.omit(variables.lu)
 variables.lu <- variables.lu[order(CategoryOrder, VariableName)]
-values.lu <- read.dt(working.dbtable.values)
+values.lu <- read.dt(dbtable.values, 'tablename')
 values.lu<- values.lu[order(ValueOrder)]
+
 readme.dt <- read.xlsx(file.path(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
 
 vars.cat <- unique(variables.lu$Category)

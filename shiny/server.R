@@ -238,16 +238,20 @@ function(input, output, session) {
   xtabTable <- eventReactive(input$xtab_go, {
       table.type<- xtabTableType()$Res
       if (table.type == "Person") {
-        survey <- pers.dt
         wt_field <- 'hh_wt_revised'
+        sql.query <- paste("SELECT hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.person)
+        survey <- read.dt(sql.query, 'sqlquery')
       } else if(table.type == "Trip") {
-        survey <- trip.dt
         wt_field <- 'trip_weight_revised'
+        
+        sql.query <- paste("SELECT hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.trip)
+        survey <- read.dt(sql.query, 'sqlquery')
       }else {
-        survey <- household.dt
         wt_field = 'hh_wt_revised'
+        sql.query <- paste("SELECT hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.household)
+        survey <- read.dt(sql.query, 'sqlquery')
       }
- 
+      
       type <- xtabTableType()$Type
       
       if (input$xtab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
@@ -260,7 +264,8 @@ function(input, output, session) {
     
           crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
           setorder(crosstab, ValueOrder)
-          setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
+          # setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
+          setnames(crosstab, "var1", varsXAlias())
           
     
           xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
@@ -652,14 +657,17 @@ function(input, output, session) {
   stabTable <- eventReactive(input$stab_go, {
     table.type <- stabTableType()$Res
     if (table.type == "Person") {
-      survey <- pers.dt
       wt_field <- 'hh_wt_revised'
+      sql.query <- paste("SELECT hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.person)
+      survey <- read.dt(sql.query, 'sqlquery')
     } else if(table.type =='Trip') {
-      survey <- trip.dt
       wt_field <- 'trip_weight_revised'
+      sql.query <- paste("SELECT hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.trip)
+      survey <- read.dt(sql.query, 'sqlquery')
     }else{
-      survey<-household.dt
       wt_field<- "hh_wt_revised"
+      sql.query <- paste("SELECT hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.household)
+      survey <- read.dt(sql.query, 'sqlquery')
     }
     type <- stabTableType()$Type
     
