@@ -239,26 +239,27 @@ function(input, output, session) {
       table.type<- xtabTableType()$Res
       if (table.type == "Person") {
         wt_field <- 'hh_wt_revised'
-        sql.query <- paste("SELECT hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.person)
+        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.person)
         survey <- read.dt(sql.query, 'sqlquery')
       } else if(table.type == "Trip") {
         wt_field <- 'trip_weight_revised'
         
-        sql.query <- paste("SELECT hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.trip)
+        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.trip)
         survey <- read.dt(sql.query, 'sqlquery')
       }else {
         wt_field = 'hh_wt_revised'
-        sql.query <- paste("SELECT hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.household)
+        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.household)
         survey <- read.dt(sql.query, 'sqlquery')
       }
       
       type <- xtabTableType()$Type
-      
-      if (input$xtab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
+
+      if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
       # browser()
       # print(nrow(survey))
      
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
+      
       if(type=='dimension'){
           xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     
@@ -273,7 +274,7 @@ function(input, output, session) {
           names(dt.list) <- col.headers
           return(dt.list)
       }
-      else{ # placeholder for facts
+      else { # placeholder for facts
         print ('This functionality is in progress')
         }
   })
@@ -658,20 +659,20 @@ function(input, output, session) {
     table.type <- stabTableType()$Res
     if (table.type == "Person") {
       wt_field <- 'hh_wt_revised'
-      sql.query <- paste("SELECT hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.person)
+      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.person)
       survey <- read.dt(sql.query, 'sqlquery')
     } else if(table.type =='Trip') {
       wt_field <- 'trip_weight_revised'
-      sql.query <- paste("SELECT hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.trip)
+      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.trip)
       survey <- read.dt(sql.query, 'sqlquery')
     }else{
       wt_field<- "hh_wt_revised"
-      sql.query <- paste("SELECT hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.household)
+      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.household)
       survey <- read.dt(sql.query, 'sqlquery')
     }
     type <- stabTableType()$Type
     
-    if (input$stab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
+    if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
     
     xa <- stab.varsXAlias()
     
