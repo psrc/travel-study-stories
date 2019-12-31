@@ -251,26 +251,23 @@ function(input, output, session) {
       type <- xtabTableType()$Type
       
       if (input$xtab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
-      # browser()
+
       # print(nrow(survey))
-     
+      # set it up so only the second variable can be selected as a fact
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      if(type=='dimension'){
-          xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+
+      xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     
-          crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
-          setorder(crosstab, ValueOrder)
-          setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
+      crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
+      setorder(crosstab, ValueOrder)
+      setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
           
     
-          xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
-          dt.list <- map(as.list(col.headers), xtab.crosstab)
-          names(dt.list) <- col.headers
-          return(dt.list)
-      }
-      else{ # placeholder for facts
-        print ('This functionality is in progress')
-        }
+      xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+      dt.list <- map(as.list(col.headers), xtab.crosstab)
+      names(dt.list) <- col.headers
+      return(dt.list)
+     
   })
   
   # clean xtabTable()
