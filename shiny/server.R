@@ -256,7 +256,7 @@ function(input, output, session) {
 
       if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
 
-
+      crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
       xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     
       crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
@@ -269,24 +269,6 @@ function(input, output, session) {
       names(dt.list) <- col.headers
       return(dt.list)
      
-
-      if(type=='dimension'){
-          xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
-    
-          crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
-          setorder(crosstab, ValueOrder)
-          # setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
-          setnames(crosstab, "var1", varsXAlias())
-          
-    
-          xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
-          dt.list <- map(as.list(col.headers), xtab.crosstab)
-          names(dt.list) <- col.headers
-          return(dt.list)
-      }
-      else { # placeholder for facts
-        print ('This functionality is in progress')
-        }
 
   })
   
