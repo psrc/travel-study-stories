@@ -238,23 +238,24 @@ function(input, output, session) {
   xtabTable <- eventReactive(input$xtab_go, {
       table.type<- xtabTableType()$Res
       if (table.type == "Person") {
-        survey <- pers.dt
         wt_field <- 'hh_wt_revised'
+        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.person)
+        survey <- read.dt(sql.query, 'sqlquery')
       } else if(table.type == "Trip") {
-        survey <- trip.dt
         wt_field <- 'trip_weight_revised'
+        
+        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.trip)
+        survey <- read.dt(sql.query, 'sqlquery')
       }else {
-        survey <- household.dt
         wt_field = 'hh_wt_revised'
+        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.household)
+        survey <- read.dt(sql.query, 'sqlquery')
       }
- 
-      type <- xtabTableType()$Type
-      
-      if (input$xtab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
 
-      # print(nrow(survey))
-      # set it up so only the second variable can be selected as a fact
-      crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
+      type <- xtabTableType()$Type
+
+      if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
+
 
       xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     
@@ -268,6 +269,25 @@ function(input, output, session) {
       names(dt.list) <- col.headers
       return(dt.list)
      
+
+      if(type=='dimension'){
+          xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    
+          crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
+          setorder(crosstab, ValueOrder)
+          # setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
+          setnames(crosstab, "var1", varsXAlias())
+          
+    
+          xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+          dt.list <- map(as.list(col.headers), xtab.crosstab)
+          names(dt.list) <- col.headers
+          return(dt.list)
+      }
+      else { # placeholder for facts
+        print ('This functionality is in progress')
+        }
+
   })
   
   # clean xtabTable()
@@ -649,18 +669,21 @@ function(input, output, session) {
   stabTable <- eventReactive(input$stab_go, {
     table.type <- stabTableType()$Res
     if (table.type == "Person") {
-      survey <- pers.dt
       wt_field <- 'hh_wt_revised'
+      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.person)
+      survey <- read.dt(sql.query, 'sqlquery')
     } else if(table.type =='Trip') {
-      survey <- trip.dt
       wt_field <- 'trip_weight_revised'
+      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.trip)
+      survey <- read.dt(sql.query, 'sqlquery')
     }else{
-      survey<-household.dt
       wt_field<- "hh_wt_revised"
+      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.household)
+      survey <- read.dt(sql.query, 'sqlquery')
     }
     type <- stabTableType()$Type
     
-    if (input$stab_fltr_sea == T) survey <- survey[SeattleHome == 'Home in Seattle',]
+    if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
     
     xa <- stab.varsXAlias()
     
