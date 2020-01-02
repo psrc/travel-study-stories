@@ -53,11 +53,13 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                                      mainPanel(width = 9,
                                                                uiOutput("ui_stab_res_type_title"),
                                                                br(),
-                                                               div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
+                                                               uiOutput("ui_stab_tbl"),
+                                                               # div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
                                                                br(),
                                                                br(),
                                                                br(),
-                                                               plotlyOutput('stab_vis', width = "85%")
+                                                               uiOutput("ui_stab_vis")
+                                                               # plotlyOutput('stab_vis', width = "85%")
                                                      ) # end mainPanel
                                                    ) # end sidebarLayout
                                                    ), # end tabPanel
@@ -163,11 +165,13 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                            tabsetPanel(type = "tabs",
                                                        tabPanel("Table",
                                                                 br(),
-                                                                div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
+                                                                # div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
+                                                                uiOutput("ui_xtab_tbl")
                                                                 ),
                                                        tabPanel("Visual",
                                                                 br(),
-                                                                plotlyOutput("xtab_vis", width = "85%"))
+                                                                # plotlyOutput("xtab_vis", width = "85%"))
+                                                                uiOutput("ui_xtab_vis"))
 
                                            ) # end tabsetPanel
                                          ) # end fluidRow
@@ -187,7 +191,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                column(2)
                                )
 
-# # Simple Table ------------------------------------------------------------
+# # Deprecated Simple Table ------------------------------------------------------------
 # 
 #                      tabPanel("Simple Table",
 #                               sidebarLayout(
