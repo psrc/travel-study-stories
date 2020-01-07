@@ -259,8 +259,13 @@ function(input, output, session) {
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
       xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     
-      crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
-      setorder(crosstab, ValueOrder)
+        
+      
+      if(typeof(crosstab$var1)=='character'){
+        crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
+        setorder(crosstab, ValueOrder)
+      }
+      
       setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
       # setnames(crosstab, "var1", varsXAlias())
           
@@ -690,10 +695,13 @@ function(input, output, session) {
     xa <- stab.varsXAlias()
     
     simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
+    
     xvals <- stabXValues()[, .(ValueOrder, ValueText)][]
 
-    simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='ValueText')
-    setorder(simtable, ValueOrder)
+    if(typeof(input$stab_col) == 'character'){
+      simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='ValueText')
+      setorder(simtable, ValueOrder)
+    }
     dtypes <- dtype.choice.stab 
     selcols <- c(xa, names(dtypes))
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)
