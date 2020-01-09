@@ -511,22 +511,22 @@ function(input, output, session) {
   })
   
   output$ui_xtab_tbl <- renderUI({
-    if (xtabTableType()$Type == 'dimension') {
+   if (xtabTableType()$Type == 'dimension') {
       div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
     } else {
       div(p('Results not available. This functionality is in progress.'),
-          style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
-    }
+         style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
+            }
 
   })
 
   output$ui_xtab_vis <- renderUI({
     if (xtabTableType()$Type == 'dimension') {
       plotlyOutput("xtab_vis", width = "85%")
-    } else {
-      div(p('Results not available. This functionality is in progress.'),
-          style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
-    }
+    }else {
+       div(p('Results not available. This functionality is in progress.'),
+           style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
+           }
   })
   
 
@@ -695,7 +695,7 @@ function(input, output, session) {
     xa <- stab.varsXAlias()
     
     simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
-    
+  
     xvals <- stabXValues()[, .(ValueOrder, ValueText)][]
 
     if(typeof(input$stab_col) == 'character'){
@@ -823,22 +823,22 @@ function(input, output, session) {
   })
   
   output$ui_stab_tbl <- renderUI({
-    if (stabTableType()$Type == 'dimension') {
+   # if (stabTableType()$Type == 'dimension') {
       div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%')
-    } else {
-      div(p('Tabular results not available. This functionality is in progress.'),
-          style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
-    }
+   # } #else {
+   #   #div(p('Tabular results not available. This functionality is in progress.'),
+      #    style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
+  #  }
     
   })
   
   output$ui_stab_vis <- renderUI({
-    if (stabTableType()$Type == 'dimension') {
+   # if (stabTableType()$Type == 'dimension') {
       plotlyOutput("stab_vis", width = "85%")
-    } else {
-      div(p('Visual results not available. This functionality is in progress.'),
-          style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
-    }
+    #} #else {
+      #div(p('Visual results not available. This functionality is in progress.'),
+       #   style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
+    #}
   })
 
 

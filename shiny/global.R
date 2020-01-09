@@ -12,8 +12,8 @@ library(DBI)
 
 
 # local
-wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
-# wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories_elmer/shiny"
+#wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
+wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories_on_github_elmer/shiny"
 
 # shiny server
 #wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
@@ -81,5 +81,4 @@ dtype.choice.stab.vis <- dtype.choice[c(1:2, 6, 4, 8)]
 
 min_float <- 0
 max_float <- 200
-quantile_break <- 0.1
-hist_breaks<- c(0,1,2,3,5,10,15,20,25,30,35,40,45,60,75,90,180)
+hist_breaks<- c(0,1,3,5,10,20,30,45,60,180)

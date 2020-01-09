@@ -51,12 +51,13 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
     expanded <- merge(expanded, expanded_moe, by = var1)
     expanded[, mean := weighted_total/get(eval(wt_field))]
     crosstab <- expanded
+    print(crosstab)
   }
  
   return(crosstab)
 }
 
-simple_table <- function(table, var, wt_field, type = c("total")) {
+simple_table <- function(table, var, wt_field, type) {
   z <- 1.645
   
 
@@ -81,21 +82,31 @@ simple_table <- function(table, var, wt_field, type = c("total")) {
   
   }
   else if(type == "fact") {
+    # rework this because really the cuts are just acting as the variables
+    # I think this can have the same logic as the code above.
     setkeyv(table, var)
     table[table==""]<- NA
     cols<- c(var, wt_field)
-    var_weights <- table[, cols, with = FALSE]
-    var_weights <- na.omit(var_weights)
-    var_weights <- var_weights[eval(parse(text=var))>min_float]
-    var_weights <- var_weights[eval(parse(text=var))<max_float]
-    #breaks <- quantile(unlist(var_weights[,var, with =FALSE]), probs=seq(0,1,quantile_break))
+    table <- na.omit(table)
+    table <- table[eval(parse(text=var))>min_float]
+    table <- table[eval(parse(text=var))<max_float]
+
     
     breaks<- hist_breaks
-    var_breaks <- var_weights[, cuts := cut(eval(parse(text=var)),breaks, order_result=TRUE, dig.lab=1)]
+    var_breaks <- table[, cuts := cut(eval(parse(text=var)),breaks, order_result=TRUE, dig.lab=1)]
+    
+    N_hh <-table[,.(hhid = uniqueN(hhid)), by = cuts]
+    raw <- table[, .(sample_count = .N), by = cuts]
     var_cut <-var_breaks[, lapply(.SD, sum), .SDcols = wt_field, by = cuts]
-    var_mean<-weighted.mean(var_weights[, var, with =FALSE], var_weights[,wt_field, with=FALSE])
-    s_table<-c(var_cut,var_mean)
-    print(s_table)
+    setnames(var_cut, wt_field, "estimate")
+    print(var_cut)
+    var_cut$total <- sum(var_cut$estimate)
+    var_cut[, share := estimate/total]
+    var_cut<- merge(var_cut, N_hh, by = 'cuts')
+    var_cut[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
+    var_cut$estMOE = var_cut$MOE * var_cut$total
+    var_cut<- merge(raw, var_cut, by = 'cuts')
+    s_table<-setnames(var_cut, 'cuts',var)
   }
   
 return(s_table)  
