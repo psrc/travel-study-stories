@@ -12,28 +12,46 @@ plot.format.nums <- function(format = c("percent", "nominal")) {
 xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
   yscale <- plot.format.nums(format)
   
-  g <- ggplot(table, 
-              aes(x = value,
-                  y = result,
-                  group = get(colnames(table)[1]),
-                  fill = get(colnames(table)[1]),
-                  text = paste(paste0(xlabel,':'), group,
-                               paste0('<br>', ylabel, ':'), value,
-                               paste0('<br>', dttype.label, ':'), yscale(result))
-              )
-  ) +
-    geom_col(position = position_dodge(preserve = "single")) +
-    theme_minimal() +
-    labs(fill = str_wrap(xlabel, 25),
-         x = ylabel,
-         y = NULL) +
-    scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
-    scale_y_continuous(labels = yscale) +
-    theme(axis.title.x = element_text(margin = margin(t=30)),
-          axis.title.y = element_text(margin = margin(r=20)),
-          legend.title=element_text(size=10),
-          plot.margin = margin(.6, 4.5, 0, 0, "cm"))
-  
+  if (format == "percent") {
+    f <- ggplot(table, 
+                aes(x = value,
+                    y = result,
+                    group = get(colnames(table)[1]),
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), group,
+                                 paste0('<br>', ylabel, ':'), value,
+                                 paste0('<br>', dttype.label, ':'), yscale(result))
+                )
+    ) +
+      geom_col(position = "fill") +
+#      geom_col(position = position_dodge(preserve = "single"))
+#      geom_col()+  # stacked bars but not filled
+      coord_flip()
+  } else {  
+    f <- ggplot(table, 
+                aes(x = value,
+                    y = result,
+                    group = get(colnames(table)[1]),
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), group,
+                                 paste0('<br>', ylabel, ':'), value,
+                                 paste0('<br>', dttype.label, ':'), yscale(result))
+                )
+    ) +
+      geom_col(position = position_dodge(preserve = "single")) 
+  }
+    g <- f + 
+        theme_minimal() +
+        labs(fill = str_wrap(xlabel, 25),
+             x = ylabel,
+             y = NULL) +
+        scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
+        scale_y_continuous(labels = yscale) +
+        theme(axis.title.x = element_text(margin = margin(t=30)),
+              axis.title.y = element_text(margin = margin(r=20)),
+              legend.title=element_text(size=10),
+              plot.margin = margin(.6, 4.5, 0, 0, "cm"))
+    
   p <- ggplotly(g, tooltip = "text") %>% layout(font = font.family)
 }
 
@@ -78,7 +96,7 @@ xtab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, y
                                  yscale(result), paste0("(", yscale(pmax(result-result_moe, 0)), ", ", yscale(pmin(result+result_moe, 1)), ")"))
                 )
     ) +
-      geom_col(position = position_dodge(preserve = "single")) + 
+      geom_col(position = position_dodge(preserve = "single")) +
       geom_errorbar(aes(ymin = pmax(result - result_moe, 0), ymax = pmin(result + result_moe, 1)),
                     alpha = .5,
                     width = 0.2,
