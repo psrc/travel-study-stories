@@ -14,19 +14,22 @@ xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabe
   
   if (format == "percent") {
     f <- ggplot(table, 
-                aes(x = value,
+                aes(x = get(colnames(table)[1]), #value,
                     y = result,
-                    group = get(colnames(table)[1]),
-                    fill = get(colnames(table)[1]),
+                    group = value, #get(colnames(table)[1]),
+                    fill = value, #get(colnames(table)[1]),
                     text = paste(paste0(xlabel,':'), group,
                                  paste0('<br>', ylabel, ':'), value,
                                  paste0('<br>', dttype.label, ':'), yscale(result))
                 )
     ) +
       geom_col(position = "fill") +
-#      geom_col(position = position_dodge(preserve = "single"))
-#      geom_col()+  # stacked bars but not filled
-      coord_flip()
+      #      geom_col(position = position_dodge(preserve = "single")) #original
+      #      geom_col()+  # stacked bars but not filled
+      coord_flip() +
+      labs(fill = str_wrap(ylabel, 25),
+           x = xlabel,
+           y = NULL)
   } else {  
     f <- ggplot(table, 
                 aes(x = value,
@@ -38,13 +41,13 @@ xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabe
                                  paste0('<br>', dttype.label, ':'), yscale(result))
                 )
     ) +
-      geom_col(position = position_dodge(preserve = "single")) 
+      geom_col(position = position_dodge(preserve = "single")) +
+      labs(fill = str_wrap(xlabel, 25),
+           x = ylabel,
+           y = NULL)
   }
     g <- f + 
         theme_minimal() +
-        labs(fill = str_wrap(xlabel, 25),
-             x = ylabel,
-             y = NULL) +
         scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
         scale_y_continuous(labels = yscale) +
         theme(axis.title.x = element_text(margin = margin(t=30)),
