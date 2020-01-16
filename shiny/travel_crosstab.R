@@ -88,12 +88,18 @@ simple_table <- function(table, var, wt_field, type) {
     table[table==""]<- NA
     cols<- c(var, wt_field)
     table <- na.omit(table)
-    table <- table[eval(parse(text=var))>min_float]
-    table <- table[eval(parse(text=var))<max_float]
-
+    if(var == 'weighted_trip_count'){
+      breaks<- hist_breaks_num_trips
+    }
+    else{
+      table <- table[eval(parse(text=var))>min_float]
+      table <- table[eval(parse(text=var))<max_float]
+      breaks<- hist_breaks
+    }
     
-    breaks<- hist_breaks
     var_breaks <- table[, cuts := cut(eval(parse(text=var)),breaks, order_result=TRUE, dig.lab=1)]
+    # to do: find a way to pull out this hard code
+
     
     N_hh <-table[,.(hhid = uniqueN(hhid)), by = cuts]
     raw <- table[, .(sample_count = .N), by = cuts]
