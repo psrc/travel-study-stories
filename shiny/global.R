@@ -79,6 +79,6 @@ col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
 dtype.choice.stab <- dtype.choice[c(1:2, 7, 3, 8)]
 dtype.choice.stab.vis <- dtype.choice[c(1:2, 6, 4, 8)]
 
-min_float <- 0
+min_float <- -.01
 max_float <- 200
-hist_breaks<- c(0,1,3,5,10,20,30,45,60,180)
+hist_breaks<- c(-.01,0,1,3,5,10,20,30,45,60,180)

@@ -238,7 +238,12 @@ function(input, output, session) {
   xtabTable <- eventReactive(input$xtab_go, {
       table.type<- xtabTableType()$Res
       if (table.type == "Person") {
-        wt_field <- 'hh_wt_revised'
+        if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
+          wt_field='hh_day_wt_revised'
+        }
+        else{
+          wt_field <- 'hh_wt_revised'
+          }
         sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.person)
         survey <- read.dt(sql.query, 'sqlquery')
       } else if(table.type == "Trip") {
@@ -676,7 +681,12 @@ function(input, output, session) {
   stabTable <- eventReactive(input$stab_go, {
     table.type <- stabTableType()$Res
     if (table.type == "Person") {
-      wt_field <- 'hh_wt_revised'
+      if(input$stab_xcol=='weighted_trip_count'){
+        wt_field='hh_day_wt_revised'
+      }
+      else{
+        wt_field <- 'hh_wt_revised'
+      }
       sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.person)
       survey <- read.dt(sql.query, 'sqlquery')
     } else if(table.type =='Trip') {
