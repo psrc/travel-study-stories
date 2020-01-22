@@ -34,11 +34,13 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
     crosstab <- dcast.data.table(crosstab, 
                                  get(eval(var1)) ~ get(eval(var2)), 
                                  value.var = c('sample_count', 'estimate', 'estMOE','share', 'MOE', 'N_HH'))
+    
   } else if (type == "fact") {
-    cols = c(var1, var2, wt_field)
+    cols = c(var1, var2, 'hhid', wt_field)
     var_weights <- table[, cols, with = FALSE]
     var_weights <- na.omit(var_weights)
-    print(var_weights)
+    raw <- var_weights[, .(sample_count = .N), by = var1] 
+    N_hh <- var_weights[, .(hhid = uniqueN(hhid)), by = var1]
     var_weights<-var_weights[eval(parse(text=var2))>min_float]
     var_weights<-var_weights[eval(parse(text=var2))<max_float]
     var_weights[, weighted_total := get(eval((wt_field)))*get(eval((var2)))]
@@ -47,9 +49,12 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
     expanded_moe <- var_weights[, lapply(.SD, function(x) z*sd(x)/sqrt(length(x))), .SDcols = var2, by = var1][order(get(eval(var1)))]
     setnames(expanded_moe, var2, 'MOE')
     expanded <- merge(expanded, expanded_tot, by = var1)
-    print(expanded)
     expanded <- merge(expanded, expanded_moe, by = var1)
     expanded[, mean := weighted_total/get(eval(wt_field))]
+    N_hh <- merge(raw, N_hh, by = var1)
+    expanded <- merge(expanded, N_hh, by = var1)
+    setnames(expanded, var1, 'var1')
+    setnames(expanded, 'hhid', 'N_HH')
     crosstab <- expanded
     print(crosstab)
   }

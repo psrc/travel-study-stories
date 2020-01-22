@@ -262,18 +262,17 @@ function(input, output, session) {
       if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
 
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
+      browser()
       xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     
-        
-      
-      if(typeof(crosstab$var1)=='character'){
+      if(type=='dimension'){
         crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
         setorder(crosstab, ValueOrder)
+        
       }
       
       setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
-      # setnames(crosstab, "var1", varsXAlias())
-          
+      
     
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
       dt.list <- map(as.list(col.headers), xtab.crosstab)
@@ -516,22 +515,12 @@ function(input, output, session) {
   })
   
   output$ui_xtab_tbl <- renderUI({
-   if (xtabTableType()$Type == 'dimension') {
       div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
-    } else {
-      div(p('Results not available. This functionality is in progress.'),
-         style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
-            }
-
   })
 
   output$ui_xtab_vis <- renderUI({
-    if (xtabTableType()$Type == 'dimension') {
       plotlyOutput("xtab_vis", width = "85%")
-    }else {
-       div(p('Results not available. This functionality is in progress.'),
-           style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
-           }
+
   })
   
 
