@@ -239,7 +239,7 @@ function(input, output, session) {
       table.type<- xtabTableType()$Res
       if (table.type == "Person") {
         if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
-          wt_field='hh_day_wt_revised'
+          wt_field <-'hh_day_wt_revised'
         }
         else{
           wt_field <- 'hh_wt_revised'
@@ -252,7 +252,7 @@ function(input, output, session) {
         sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.trip)
         survey <- read.dt(sql.query, 'sqlquery')
       }else {
-        wt_field = 'hh_wt_revised'
+        wt_field <- 'hh_wt_revised'
         sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.household)
         survey <- read.dt(sql.query, 'sqlquery')
       }
@@ -262,24 +262,28 @@ function(input, output, session) {
       if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
 
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      browser()
       xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     
-      if(type=='dimension'){
+      if (type=='dimension') {
         crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
         setorder(crosstab, ValueOrder)
-        
       }
       
       setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
-      
-    
+  
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
-      dt.list <- map(as.list(col.headers), xtab.crosstab)
-      names(dt.list) <- col.headers
-      return(dt.list)
-     
+      
+      if (type == 'dimension') {
+        column.headers <- col.headers
+      } else if (type == 'fact') {
+        column.headers <- col.headers.facts
+      }
+      
+      dt.list <- map(as.list(column.headers), xtab.crosstab)
+      names(dt.list) <- column.headers
 
+      # browser()
+      return(dt.list)
   })
   
   # clean xtabTable()
@@ -520,7 +524,6 @@ function(input, output, session) {
 
   output$ui_xtab_vis <- renderUI({
       plotlyOutput("xtab_vis", width = "85%")
-
   })
   
 

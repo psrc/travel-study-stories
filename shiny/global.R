@@ -12,7 +12,7 @@ library(DBI)
 
 
 # local
-#wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
+# wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
 wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories_on_github_elmer/shiny"
 
 # shiny server
@@ -69,11 +69,17 @@ dtype.choice <- c("Share" ="share",
                   "Number of Households" = "N_HH",
                   "Share with Margin of Error" = "share_with_MOE",
                   "Margin of Error (Share)" = "MOE",
-                  "Sample Count" = "sample_count")
+                  "Sample Count" = "sample_count",
+                  "Mean" = "mean",
+                  "Mean with Margin of Error" = "mean_with_MOE")
 
-# xtab sublist
+# xtab sublist: dimensions
 dtype.choice.xtab <- dtype.choice[c(1:2, 6, 4, 8)]
 col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
+
+# xtab sublist: facts
+dtype.choice.xtab.facts <- dtype.choice[c(9, 10, 8)]
+col.headers.facts <-  c("mean", "MOE", "sample_count", "N_HH")
 
 # stab sublist
 dtype.choice.stab <- dtype.choice[c(1:2, 7, 3, 8)]
