@@ -151,14 +151,15 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                 fluidRow(
                                   column(2,
                                     uiOutput("ui_xtab_res_type_title"),
-                                    wellPanel(
-                                             radioButtons("xtab_dtype_rbtns",
-                                                          label = strong("Summary Types"),
-                                                          # choices = dtype.choice[!(dtype.choice %in% 'N_HH')]
-                                                          choices = dtype.choice.xtab
-                                                          ),
-                                             div(p("Shares are based on rowwise totals."), style = 'font-size: 85%')
-                                    ) # end wellPanel
+                                    uiOutput("ui_xtab_dtype_rbtns")
+                                    # wellPanel(
+                                             # radioButtons("xtab_dtype_rbtns",
+                                             #              label = strong("Summary Types"),
+                                             #              # choices = dtype.choice[!(dtype.choice %in% 'N_HH')]
+                                             #              choices = dtype.choice.xtab
+                                             #              ),
+                                             # div(p("Shares are based on rowwise totals."), style = 'font-size: 85%')
+                                    # ) # end wellPanel
                                   ),
                                   column(10,
                                          fluidRow(

@@ -92,8 +92,15 @@ function(input, output, session) {
     ) # end withTags
   }
   
-  dt.container.tblMOE.dtstyle <- function(atable, xvaralias, yvaralias, tbltype = c("share", "estimate")) {
-    ifelse(tbltype == "share", tbltype <- "Share", tbltype <- "Total")
+  dt.container.tblMOE.dtstyle <- function(atable, xvaralias, yvaralias, tbltype = c("share", "estimate", "mean")) {
+    # ifelse(tbltype == "share", tbltype <- "Share", tbltype <- "Total")
+    if (tbltype == "share") {
+      tbltype <- "Share"
+    } else if (tbltype == "estimate") {
+      tbltype <- "Total"
+    } else {
+      tbltype <- "Mean"
+    }
     
     exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE|_sc.*", sep = "|"))
     yval.labels <- setdiff(colnames(atable), exc.cols)
@@ -101,22 +108,41 @@ function(input, output, session) {
     sc.cols <- str_subset(colnames(atable), "_sc.*")
     num.disp.cols <- ncol(atable) - length(sc.cols)
     
-    htmltools::withTags(table(
-      class = 'display',
-      thead(
-        tr(
-          th(class = 'dt-center', rowspan = 3, xvaralias),
-          th(class = 'dt-center', colspan = (num.disp.cols-1), yvaralias)
-        ), # end tr
-        tr(
-          lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
-        ), # end tr
-        tr(
-          lapply(rep(c(tbltype, "Margin of Error"), (num.disp.cols-1)/2), function(x) th(style = "font-size:12px", x))
-        ) # end tr
-      ) # end thead
-    ) # end table
-    ) # end withTags
+    if (tbltype == "Share" |tbltype == "Total") {
+      htmltools::withTags(table(
+        class = 'display',
+        thead(
+          tr(
+            th(class = 'dt-center', rowspan = 3, xvaralias),
+            th(class = 'dt-center', colspan = (num.disp.cols-1), yvaralias)
+          ), # end tr
+          tr(
+            lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
+          ), # end tr
+          tr(
+            lapply(rep(c(tbltype, "Margin of Error"), (num.disp.cols-1)/2), function(x) th(style = "font-size:12px", x))
+          ) # end tr
+        ) # end thead
+      ) # end table
+      ) # end withTags
+    } else {
+      htmltools::withTags(table(
+        class = 'display',
+        thead(
+          tr(
+            th(class = 'dt-center', rowspan = 2, xvaralias),
+            th(class = 'dt-center', colspan = (num.disp.cols-1), yvaralias)
+          ), # end tr
+          # tr(
+          #   lapply(yval.labels, function(x) th(class = 'dt-center', colspan = 2, x))
+          # ), # end tr
+          tr(
+            lapply(rep(c(tbltype, "Margin of Error"), (num.disp.cols-1)/2), function(x) th(style = "font-size:12px", x))
+          ) # end tr
+        ) # end thead
+      ) # end table
+      ) # end withTags
+    }
   }
   
 
@@ -185,8 +211,6 @@ function(input, output, session) {
   xtabXValues <- eventReactive(input$xtab_go, {
     dt <- values.lu[Variable %in% input$xtab_xcol, ][order(ValueOrder)] # return dt
   })
-  
- 
   
   xtabYValues <- eventReactive(input$xtab_go, {
     dt <- values.lu[Variable %in% input$xtab_ycol, ][order(ValueOrder)]
@@ -282,46 +306,66 @@ function(input, output, session) {
       dt.list <- map(as.list(column.headers), xtab.crosstab)
       names(dt.list) <- column.headers
 
-      # browser()
       return(dt.list)
   })
   
   # clean xtabTable()
   xtabTableClean <- reactive({
     dt.list <- xtabTable()
-    yv <- xtabYValues()
+    # yv <- xtabYValues()
     xa <- varsXAlias()
-    col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
-    regex <- paste(col.headers, collapse = "|")
+    # col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
+    # regex <- paste(col.headers, collapse = "|")
     
-    # evaluates for NA columns & rows, and excludes it
-    for (i in 1:length(dt.list)) {
-      dt.list[[i]] <- dt.list[[i]][!(get(eval(xa)) %in% "")]
-
-      new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+")) # includes blank
-
-      if (any(is.na(new.colnames))) { # if contains any NA columns
-        nonna.new.colnames <- str_subset(new.colnames, ".")
-        setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames)) # blank becomes NA
-        keep.cols <- colnames(dt.list[[i]])[!is.na(colnames(dt.list[[i]]))]
-        dt.list[[i]] <- dt.list[[i]][, ..keep.cols]
-
-        if (length(yv) != 0) {
-          yv.subset <- yv[yv %in% nonna.new.colnames] # only account for yv vals that exist in dt
-          setcolorder(dt.list[[i]], c(xa, yv.subset))
+    if (xtabTableType()$Type == 'dimension') {
+      yv <- xtabYValues()
+      col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
+      regex <- paste(col.headers, collapse = "|")
+      
+      # evaluates for NA columns & rows, and excludes it
+      for (i in 1:length(dt.list)) {
+        dt.list[[i]] <- dt.list[[i]][!(get(eval(xa)) %in% "")]
+  
+        new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+")) # includes blank
+  
+        if (any(is.na(new.colnames))) { # if contains any NA columns
+          nonna.new.colnames <- str_subset(new.colnames, ".")
+          setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames)) # blank becomes NA
+          keep.cols <- colnames(dt.list[[i]])[!is.na(colnames(dt.list[[i]]))]
+          dt.list[[i]] <- dt.list[[i]][, ..keep.cols]
+  
+          if (length(yv) != 0) {
+            yv.subset <- yv[yv %in% nonna.new.colnames] # only account for yv vals that exist in dt
+            setcolorder(dt.list[[i]], c(xa, yv.subset))
+          }
+        } else {
+          setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
+          if (!is.null(yv)) {
+            yv.subset <- yv[yv %in% new.colnames] # are all yv vals accounted for in new.colnames
+            setcolorder(dt.list[[i]], c(xa, yv.subset))
+          }
         }
-      } else {
-        setnames(dt.list[[i]], colnames(dt.list[[i]]), c(xa, new.colnames))
-        if (!is.null(yv)) {
-          yv.subset <- yv[yv %in% new.colnames] # are all yv vals accounted for in new.colnames
-          setcolorder(dt.list[[i]], c(xa, yv.subset))
+      }
+    } else if (xtabTableType()$Type == 'fact') {
+      new.colnames.fact <- c("Mean" = "mean", "Sample Count" = "sample_count", "Number of Households" = "N_HH") 
+      for (i in 1:length(dt.list)) {
+        # set colnames for mean, sample count, number of households field
+        if (names(dt.list[i]) %in% new.colnames.fact) {
+          setnames(dt.list[[i]],
+                   names(dt.list[i]),
+                   names(new.colnames.fact[new.colnames.fact %in% names(dt.list[i])]), skip_absent = TRUE)
+        } else {
+          next
         }
       }
     }
+
    return(dt.list)
   })
   
   create.table.joining.moe <- function(valuetable, moetable, xalias, xvalues) {
+    # This is function is for Dimension related tables
+    
     dtcols <- colnames(valuetable)[2:ncol(valuetable)]
     cols.order <- c()
     for (acol in dtcols) {
@@ -352,6 +396,22 @@ function(input, output, session) {
     dt.s <- xtabTableClean()[['estimate']]
     dt.m <- xtabTableClean()[['estMOE']]
     dt.sm <- create.table.joining.moe(dt.s, dt.m, xa, xvals)
+  })
+  
+  # create separate table of mean (for fact related tables) alongside margin of errors
+  xtabTableClean.MeanMOE <- reactive({
+    xa <- varsXAlias()
+
+    dt.s <- xtabTableClean()[['mean']]
+    dt.m <- xtabTableClean()[['MOE']]
+    dt <- merge(dt.s, dt.m, by = xa)
+  })
+  
+  xtabTableClean.DT.MeanMOE <- reactive({
+    t <- copy(xtabTableClean.MeanMOE())
+
+    t[, MOE := lapply(.SD, function(x) prettyNum(round(x, 2), big.mark = ",", preserve.width = "none")), .SDcols = 'MOE']
+    t[, MOE := lapply(.SD, function(x) paste0("+/-", as.character(x))), .SDcols = 'MOE']
   })
   
   xtabTableClean.DT.ShareMOE <- reactive({
@@ -472,49 +532,119 @@ function(input, output, session) {
   })
   
 # Crosstab Generator Table Rendering --------------------------------------------
- 
-  
-  output$xtab_tbl <- DT::renderDataTable({
-    dttype <- input$xtab_dtype_rbtns
+  xtabDtypeBtns <- eventReactive(input$xtab_go, {
+    # This reactive will change the display of 'Summary Types' radio buttons
+    # depending on whether it is a dimension or fact related table
     
-    if (dttype %in% c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")) {
-      dt <- xtab.join.samplecnt(xtabTableClean(), dttype, varsXAlias()) 
-      sc.cols <- str_which(colnames(dt), "_sc")
-      sc.idx <- sc.cols - 1
-      disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc")))
-    } else {
-      if (dttype %in% c("share_with_MOE")) {
-        dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.ShareMOE(), xtabTableClean(), dttype, varsXAlias())
-      } else if (dttype %in% c("estimate_with_MOE")) {
-        dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.EstMOE(), xtabTableClean(), dttype, varsXAlias())
-      }
-      moe.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
-      sc.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_sc.*")
-      cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], c(moe.colnms, sc.colnms))
-      sc.cols <- str_which(colnames(dt), "_sc.*")
-      sc.idx <- sc.cols - 1
-      disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc.*")))
+    if (xtabTableType()$Type == 'dimension') {
+     btns <-  wellPanel(
+        radioButtons("xtab_dtype_rbtns",
+                     label = strong("Summary Types"),
+                     choices = dtype.choice.xtab
+                     ),
+        div(p("Shares are based on rowwise totals."), style = 'font-size: 85%')
+      ) # end wellPanel
+    } else if (xtabTableType()$Type == 'fact') {
+      btns <- wellPanel(
+        radioButtons("xtab_dtype_rbtns_fact",
+                     label = strong("Summary Types"),
+                     choices = dtype.choice.xtab.facts
+        ),
+        div(p("Shares are based on rowwise totals."), style = 'font-size: 85%')
+      ) # end wellPanel
     }
     
-    sketch.dtstyle <- dt.container.dtstyle(dt, varsXAlias(), varsYAlias())
+    return(btns)
+  })
+  
+  output$ui_xtab_dtype_rbtns <- renderUI(
+    xtabDtypeBtns()
+  )
+  
+  output$xtab_tbl <- DT::renderDataTable({
+    if (xtabTableType()$Type == 'dimension') {
+      dttype <- input$xtab_dtype_rbtns
+      
+      if (dttype %in% c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")) {
+        # This if/else chunk joins sample count to the table of choice with the purpose
+        # of greying out values where sample counts are low.
+        dt <- xtab.join.samplecnt(xtabTableClean(), dttype, varsXAlias()) 
+        sc.cols <- str_which(colnames(dt), "_sc")
+        sc.idx <- sc.cols - 1
+        disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc")))
+      } else {
+        if (dttype %in% c("share_with_MOE")) {
+          dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.ShareMOE(), xtabTableClean(), dttype, varsXAlias())
+        } else if (dttype %in% c("estimate_with_MOE")) {
+          dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.EstMOE(), xtabTableClean(), dttype, varsXAlias())
+        }
+        # browser()
+        moe.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
+        sc.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_sc.*")
+        cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], c(moe.colnms, sc.colnms))
+        sc.cols <- str_which(colnames(dt), "_sc.*")
+        sc.idx <- sc.cols - 1
+        disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc.*")))
+      }
+      
+      sketch.dtstyle <- dt.container.dtstyle(dt, varsXAlias(), varsYAlias())
+      
+      if (dttype == 'share') {
+        xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+          formatPercentage(colnames(dt)[2:disp.col.max], 1)
+      } else if (dttype == 'estimate') {
+        xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+          formatRound(colnames(dt)[2:disp.col.max], 0)
+      } else if (dttype == 'sample_count') {
+        xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+          formatRound(colnames(dt)[2:disp.col.max], 0)
+      } else if (dttype == 'share_with_MOE') {
+        sketch.dtstyle.exp <- dt.container.tblMOE.dtstyle(dt, varsXAlias(), varsYAlias(), "share")
+        xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
+          formatPercentage(cols.fmt, 1)
+      } else if (dttype == 'estimate_with_MOE') {
+        sketch.dtstyle.exp <- dt.container.tblMOE.dtstyle(dt, varsXAlias(), varsYAlias(), "estimate")
+        xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
+          formatRound(cols.fmt, 0)
+      }
+    } else if (xtabTableType()$Type == 'fact') {
+      dttype <- input$xtab_dtype_rbtns_fact
+      if (dttype %in% col.headers.facts) {
+        # This if/else chunk joins sample count to the table of choice with the purpose
+        # of greying out values where sample counts are low.
+        
+        dt <- xtab.join.samplecnt(xtabTableClean(), dttype, varsXAlias()) 
+        sc.cols <- str_which(colnames(dt), "_sc")
+        sc.idx <- sc.cols - 1
+        disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc")))
+      }  else {
+        if (dttype %in% c("mean_with_MOE")) {
+          
+          dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.MeanMOE(), xtabTableClean(), dttype, varsXAlias())
+        }
+        # browser()
+        moe.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "MOE")
+        sc.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_sc.*")
+        cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], c(moe.colnms, sc.colnms))
+        sc.cols <- str_which(colnames(dt), "_sc.*")
+        sc.idx <- sc.cols - 1
+        disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc.*")))
+      }
+      
+      sketch.dtstyle <- dt.container.dtstyle(dt, varsXAlias(), varsYAlias()) 
     
-    if (dttype == 'share') {
-      xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
-        formatPercentage(colnames(dt)[2:disp.col.max], 1)
-    } else if (dttype == 'estimate') {
-      xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
-        formatRound(colnames(dt)[2:disp.col.max], 0)
-    } else if (dttype == 'sample_count') {
-      xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
-        formatRound(colnames(dt)[2:disp.col.max], 0)
-    } else if (dttype == 'share_with_MOE') {
-      sketch.dtstyle.exp <- dt.container.tblMOE.dtstyle(dt, varsXAlias(), varsYAlias(), "share")
-      xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
-        formatPercentage(cols.fmt, 1)
-    } else if (dttype == 'estimate_with_MOE') {
-      sketch.dtstyle.exp <- dt.container.tblMOE.dtstyle(dt, varsXAlias(), varsYAlias(), "estimate")
-      xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
-        formatRound(cols.fmt, 0)
+      if (dttype == 'mean') {
+        xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+          formatRound(colnames(dt)[2:disp.col.max], 2)
+      } else if (dttype == 'sample_count') {
+        xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
+          formatRound(colnames(dt)[2:disp.col.max], 0)
+      } else if (dttype == 'mean_with_MOE') {
+        sketch.dtstyle.exp <- dt.container.tblMOE.dtstyle(dt, varsXAlias(), varsYAlias(), "mean")
+        xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
+          formatRound(cols.fmt, 2)
+      }
+      
     }
   })
   
@@ -523,7 +653,13 @@ function(input, output, session) {
   })
 
   output$ui_xtab_vis <- renderUI({
+    if (xtabTableType()$Type == 'dimension') {
       plotlyOutput("xtab_vis", width = "85%")
+    } else {
+      div(p('Results not available. This functionality is in progress.'),
+          style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
+    }
+      
   })
   
 
@@ -674,7 +810,7 @@ function(input, output, session) {
     table.type <- stabTableType()$Res
     if (table.type == "Person") {
       if(input$stab_xcol=='weighted_trip_count'){
-        wt_field='hh_day_wt_revised'
+        wt_field <-'hh_day_wt_revised'
       }
       else{
         wt_field <- 'hh_wt_revised'
