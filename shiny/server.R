@@ -562,7 +562,9 @@ function(input, output, session) {
   )
   
   output$xtab_tbl <- DT::renderDataTable({
-    if (xtabTableType()$Type == 'dimension') {
+    
+    if ((xtabTableType()$Type == 'dimension')) {
+      if (is.null(input$xtab_dtype_rbtns)) return(NULL)
       dttype <- input$xtab_dtype_rbtns
       
       if (dttype %in% c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")) {
@@ -607,9 +609,11 @@ function(input, output, session) {
         xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
           formatRound(cols.fmt, 0)
       }
-    } else if (xtabTableType()$Type == 'fact') {
+    } else if ((xtabTableType()$Type == 'fact')) {
+      if (is.null(input$xtab_dtype_rbtns_fact)) return(NULL)
       dttype <- input$xtab_dtype_rbtns_fact
-      if (dttype %in% col.headers.facts) {
+      
+      if (dttype %in% c("mean", "sample_count")) {
         # This if/else chunk joins sample count to the table of choice with the purpose
         # of greying out values where sample counts are low.
         
@@ -622,14 +626,13 @@ function(input, output, session) {
           
           dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.MeanMOE(), xtabTableClean(), dttype, varsXAlias())
         }
-        # browser()
         moe.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "MOE")
         sc.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_sc.*")
         cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], c(moe.colnms, sc.colnms))
         sc.cols <- str_which(colnames(dt), "_sc.*")
         sc.idx <- sc.cols - 1
         disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc.*")))
-      }
+      } 
       
       sketch.dtstyle <- dt.container.dtstyle(dt, varsXAlias(), varsYAlias()) 
     
@@ -644,12 +647,12 @@ function(input, output, session) {
         xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
           formatRound(cols.fmt, 2)
       }
-      
     }
+    
   })
   
   output$ui_xtab_tbl <- renderUI({
-      div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
+    div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
   })
 
   output$ui_xtab_vis <- renderUI({
