@@ -549,7 +549,7 @@ function(input, output, session) {
         radioButtons("xtab_dtype_rbtns_fact",
                      label = strong("Summary Types"),
                      choices = dtype.choice.xtab.facts
-        ),
+        )
       ) # end wellPanel
     }
     
