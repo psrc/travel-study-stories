@@ -550,7 +550,6 @@ function(input, output, session) {
                      label = strong("Summary Types"),
                      choices = dtype.choice.xtab.facts
         ),
-        div(p("Shares are based on rowwise totals."), style = 'font-size: 85%')
       ) # end wellPanel
     }
     
