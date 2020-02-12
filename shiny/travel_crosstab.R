@@ -95,14 +95,16 @@ simple_table <- function(table, var, wt_field, type) {
     table <- na.omit(table)
     if(var == 'weighted_trip_count'){
       breaks<- hist_breaks_num_trips
+      hist_labels <- hist_breaks_num_trips_labels
     }
     else{
       table <- table[eval(parse(text=var))>min_float]
       table <- table[eval(parse(text=var))<max_float]
       breaks<- hist_breaks
+      hist_labels<- hist_breaks_labels
     }
     
-    var_breaks <- table[, cuts := cut(eval(parse(text=var)),breaks, order_result=TRUE, dig.lab=1)]
+    var_breaks <- table[, cuts := cut(eval(parse(text=var)),breaks,labels=hist_labels, order_result=TRUE,)]
     # to do: find a way to pull out this hard code
 
     
@@ -110,7 +112,6 @@ simple_table <- function(table, var, wt_field, type) {
     raw <- table[, .(sample_count = .N), by = cuts]
     var_cut <-var_breaks[, lapply(.SD, sum), .SDcols = wt_field, by = cuts]
     setnames(var_cut, wt_field, "estimate")
-    print(var_cut)
     var_cut$total <- sum(var_cut$estimate)
     var_cut[, share := estimate/total]
     var_cut<- merge(var_cut, N_hh, by = 'cuts')
