@@ -23,6 +23,8 @@ source(file.path(wrkdir, 'functions_plot.R'))
 
 
 dbtable.household <- "HHSurvey.v_households_2017"
+dbtable.day <- "HHSurvey.v_day_2017"
+dbtable.vehicle <- "HHSurvey.v_vehicle_2017"
 dbtable.person <- "HHSurvey.v_persons_2017"
 dbtable.trip <- "HHSurvey.v_trips_2017"
 dbtable.variables <- "HHSurvey.DataExplorerVariables2017"
@@ -32,6 +34,11 @@ hh_weight_name <- 'hh_wt_revised'
 hh_day_weight_name <-'hh_day_wt_revised'
 trip_weight_name <- 'trip_weight_revised'
 
+table_names <- list("Household" = list("weight_name" = hh_weight_name, "table_name" = dbtable.household),
+                    "Day" = list("weight_name" = hh_day_weight_name , "table_name" = dbtable.day),
+                    "Vehicle" = list("weight_name" = hh_weight_name, "table_name" =dbtable.vehicle),
+                    "Person" = list("weight_name" = hh_weight_name , "table_name" = dbtable.person), 
+                    "Trip" = list("weight_name" = trip_weight_name, "table_name" = dbtable.trip))
 
 
 ## Read from Elmer

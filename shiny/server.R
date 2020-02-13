@@ -261,25 +261,17 @@ function(input, output, session) {
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
       table.type<- xtabTableType()$Res
-      if (table.type == "Person") {
-        if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
-          wt_field <-hh_day_weight_name
-        }
-        else{
-          wt_field <- hh_weight_name
-          }
-        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.person)
-        survey <- read.dt(sql.query, 'sqlquery')
-      } else if(table.type == "Trip") {
-        wt_field <- trip_weight_name
-        
-        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.trip)
-        survey <- read.dt(sql.query, 'sqlquery')
-      }else {
-        wt_field <- hh_weight_name
-        sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.household)
-        survey <- read.dt(sql.query, 'sqlquery')
+     
+      wt_field<- table_names[[table.type]]$weight_name
+      
+      if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
+        # use a special weight here because trip counts are a weird case
+        wt_field <-hh_day_weight_name
       }
+
+      sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", table_names[[table.type]]$table_name)
+      survey <- read.dt(sql.query, 'sqlquery')
+        
 
       type <- xtabTableType()$Type
 
@@ -874,24 +866,17 @@ function(input, output, session) {
   # return list of tables subsetted by value types
   stabTable <- eventReactive(input$stab_go, {
     table.type <- stabTableType()$Res
-    if (table.type == "Person") {
-      if(input$stab_xcol=='weighted_trip_count'){
-        wt_field <-hh_day_weight_name
-      }
-      else{
-        wt_field <- hh_weight_name
-      }
-      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.person)
-      survey <- read.dt(sql.query, 'sqlquery')
-    } else if(table.type =='Trip') {
-      wt_field <- trip_weight_name
-      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.trip)
-      survey <- read.dt(sql.query, 'sqlquery')
-    }else{
-      wt_field<- "hh_wt_revised"
-      sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.household)
-      survey <- read.dt(sql.query, 'sqlquery')
+    wt_field<- table_names[[table.type]]$weight_name
+
+
+    
+    if(input$stab_xcol=='weighted_trip_count' ){
+      # use a special weight here because trip counts are a weird case
+      wt_field <-hh_day_weight_name
     }
+    
+    sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", table_names[[table.type]]$table_name)
+    survey <- read.dt(sql.query, 'sqlquery')
     type <- stabTableType()$Type
     
     if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
