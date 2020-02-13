@@ -288,11 +288,11 @@ function(input, output, session) {
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
       xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
     
-      if (type=='dimension') {
+      # if (type=='dimension') {
         crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
         setorder(crosstab, ValueOrder)
-      }
-      
+      # }
+      # browser()
       setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
   
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
@@ -374,7 +374,7 @@ function(input, output, session) {
     }
     colnames(moetable)[2:ncol(moetable)] <- paste0(colnames(moetable)[2:ncol(moetable)], "_MOE")
     dt.sm <- merge(valuetable, moetable, by = xalias)
-    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$ValueOrder)]
+    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$ValueText)]
     dt.sm <- dt.sm[order(var1.sort)][, var1.sort := NULL]
     order.colnames <- c(xalias, cols.order)
     dt.sm <- dt.sm[, ..order.colnames]
@@ -401,10 +401,13 @@ function(input, output, session) {
   # create separate table of mean (for fact related tables) alongside margin of errors
   xtabTableClean.MeanMOE <- reactive({
     xa <- varsXAlias()
+    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
 
     dt.s <- xtabTableClean()[['mean']]
     dt.m <- xtabTableClean()[['MOE']]
     dt <- merge(dt.s, dt.m, by = xa)
+    dt[, var1.sort := factor(get(eval(xa)), levels = xvals$ValueText)]
+    dt.sm <- dt[order(var1.sort)][, var1.sort := NULL]
   })
   
   xtabTableClean.DT.MeanMOE <- reactive({
@@ -446,9 +449,15 @@ function(input, output, session) {
   create.table.vistable.moe <- function(valuetable, moetable, xalias, xvalues) {
     msrcols <- colnames(valuetable)[!(colnames(valuetable) %in% xalias)]
     dts <- melt.data.table(valuetable, id.vars = xalias, measure.vars = msrcols, variable.name = "value", value.name = "result")
-    dtm <- melt.data.table(moetable, id.vars = xalias, measure.vars = msrcols, variable.name = "value", value.name = "result_moe")
-    dt <- merge(dts, dtm, by = c(xalias, "value"))
-    setnames(dt, xalias, "group")
+    
+    if (xtabTableType()$Type == 'dimension') {
+      dtm <- melt.data.table(moetable, id.vars = xalias, measure.vars = msrcols, variable.name = "value", value.name = "result_moe")
+      dt <- merge(dts, dtm, by = c(xalias, "value"))
+      setnames(dt, xalias, "group")
+    } else {
+      dt <- merge(dts, moetable, by = c(xalias))
+      setnames(dt, c(xalias, 'MOE'), c("group", "result_moe"))
+    }
     
     if (nrow(xvalues) != 0) {
       dt[, group := factor(group, levels = xvalues$ValueText)][, group := fct_explicit_na(group, "No Response")]
@@ -475,10 +484,18 @@ function(input, output, session) {
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
   })
   
+  xtabVisTable.meanMOE <- reactive({
+    xa <- varsXAlias()
+    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    dt.s <- xtabTableClean()[['mean']]
+    dt.m <- xtabTableClean()[['MOE']]
+    dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
+  })
+  
   xtabVisTable <- reactive({
     dt.list <- xtabTableClean()
     xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
-
+ 
     visdt.list <- NULL
     for (i in 1:length(dt.list)) {
       idcol <- varsXAlias()
@@ -501,33 +518,78 @@ function(input, output, session) {
   output$xtab_vis <- renderPlotly({
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
-    dttype <- input$xtab_dtype_rbtns
-    dttype.label <- names(dtype.choice.xtab[dtype.choice.xtab == dttype])
 
-    if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
-      dt <- xtabVisTable()[[dttype]]
-    } else {
-      if (dttype == "share_with_MOE") dt <- xtabVisTable.ShareMOE()
-      if (dttype == "estimate_with_MOE") dt <- xtabVisTable.EstMOE()
-    }
-
-    l <- length(unique(dt$value))
-
-    if (dttype == 'share') {
-      ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label))
-      return(p)
-    } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-      ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label))
-      return(p)
-    } else if (dttype %in% c('share_with_MOE')) {
-      ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel))
-      return(p)
-    } else if (dttype %in% c('estimate_with_MOE')) {
-      ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel))
-      return(p)
-    } else {
-      return(NULL)
-    }
+    if (xtabTableType()$Type == 'dimension') {
+      dttype <- input$xtab_dtype_rbtns
+      dttype.label <- names(dtype.choice.xtab[dtype.choice.xtab == dttype])
+  
+      if (dttype %in% c("sample_count", "estimate", "share", "MOE", "N_HH")) {
+        dt <- xtabVisTable()[[dttype]]
+      } else {
+        if (dttype == "share_with_MOE") dt <- xtabVisTable.ShareMOE()
+        if (dttype == "estimate_with_MOE") dt <- xtabVisTable.EstMOE()
+      }
+  
+      l <- length(unique(dt$value))
+  
+      if (dttype == 'share') {
+        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label))
+        return(p)
+      } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
+        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label))
+        return(p)
+      } else if (dttype %in% c('share_with_MOE')) {
+        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel))
+        return(p)
+      } else if (dttype %in% c('estimate_with_MOE')) {
+        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel))
+        return(p)
+      } else {
+        return(NULL)
+      }
+    } else { # if xtabTableType()$Type == 'fact'
+      dttype <- input$xtab_dtype_rbtns_fact
+      # browser()
+      dttype.label <- names(dtype.choice.xtab.facts[dtype.choice.xtab.facts == dttype])
+      
+      if (dttype %in% c("sample_count", "mean", "MOE", "N_HH")) {
+        dt <- xtabVisTable()[[dttype]]
+      } else {
+        if (dttype == "mean_with_MOE") dt <- xtabVisTable.meanMOE()
+      }
+      
+      if (dttype %in% c("sample_count", "mean", "N_HH")) {
+        # print(dt)
+        #  turn off legend
+        yscale <- scales::comma
+        g <- ggplot(dt,
+                    aes(x = group,
+                        y = result,
+                        fill = group,
+                        text = paste(paste0(xlabel,':'), group,
+                                     # paste0('<br>', ylabel, ':'), value,
+                                     paste0('<br>', dttype.label," of ", ylabel,  ':'), round(result, 2))
+                        )
+                    ) +
+          geom_col(position = position_dodge(preserve = "single")) +
+          theme_minimal() +
+          labs(fill = str_wrap(xlabel, 25),
+               x = ylabel,
+               y = NULL) +
+          scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
+          scale_y_continuous(labels = yscale) +
+          theme(axis.title.x = element_text(margin = margin(t=30)),
+                axis.title.y = element_text(margin = margin(r=20)),
+                legend.title=element_text(size=10),
+                plot.margin = margin(.6, 4.5, 0, 0, "cm"))
+        p <- ggplotly(g, tooltip = "text") %>% layout(font = font.family)
+        return(p)
+      } else { # mean_with_MOE
+        return(NULL)
+      }
+      
+      # add ggplot geom_col()
+    } 
 
   })
   
@@ -561,7 +623,8 @@ function(input, output, session) {
   )
   
   output$xtab_tbl <- DT::renderDataTable({
-    
+    # test <- xtabTableClean()
+    # browser()
     if ((xtabTableType()$Type == 'dimension')) {
       if (is.null(input$xtab_dtype_rbtns)) return(NULL)
       dttype <- input$xtab_dtype_rbtns
@@ -655,12 +718,13 @@ function(input, output, session) {
   })
 
   output$ui_xtab_vis <- renderUI({
-    if (xtabTableType()$Type == 'dimension') {
-      plotlyOutput("xtab_vis", width = "85%")
-    } else {
-      div(p('Results not available. This functionality is in progress.'),
-          style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
-    }
+    # if (xtabTableType()$Type == 'dimension') {
+    #   plotlyOutput("xtab_vis", width = "85%")
+    # } else {
+    #   div(p('Results not available. This functionality is in progress.'),
+    #       style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
+    # }
+    plotlyOutput("xtab_vis", width = "85%")
       
   })
   
