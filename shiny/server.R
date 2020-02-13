@@ -169,7 +169,7 @@ function(input, output, session) {
   
   # variable X alias list
   varsListX <- reactive({
-    t <- variables.lu[Category %in% input$xtab_xcat, ]
+    t <- variables.lu[Category %in% input$xtab_xcat & DType != 'fact', ]
     vars.raw <- as.list(t$Variable)
     vars.list <- setNames(vars.raw, as.list(t$VariableName))
   })
@@ -512,6 +512,7 @@ function(input, output, session) {
     ylabel <- varsYAlias() # second dim
 
     if (xtabTableType()$Type == 'dimension') {
+      if (is.null(input$xtab_dtype_rbtns)) return(NULL)
       dttype <- input$xtab_dtype_rbtns
       dttype.label <- names(dtype.choice.xtab[dtype.choice.xtab == dttype])
   
@@ -540,49 +541,24 @@ function(input, output, session) {
         return(NULL)
       }
     } else { # if xtabTableType()$Type == 'fact'
+      if (is.null(input$xtab_dtype_rbtns_fact)) return(NULL)
       dttype <- input$xtab_dtype_rbtns_fact
-      # browser()
       dttype.label <- names(dtype.choice.xtab.facts[dtype.choice.xtab.facts == dttype])
       
       if (dttype %in% c("sample_count", "mean", "MOE", "N_HH")) {
         dt <- xtabVisTable()[[dttype]]
-      } else {
-        if (dttype == "mean_with_MOE") dt <- xtabVisTable.meanMOE()
+      } else { #if (dttype == "mean_with_MOE")
+        dt <- xtabVisTable.meanMOE()
       }
       
       if (dttype %in% c("sample_count", "mean", "N_HH")) {
-        # print(dt)
-        #  turn off legend
-        yscale <- scales::comma
-        g <- ggplot(dt,
-                    aes(x = group,
-                        y = result,
-                        fill = group,
-                        text = paste(paste0(xlabel,':'), group,
-                                     # paste0('<br>', ylabel, ':'), value,
-                                     paste0('<br>', dttype.label," of ", ylabel,  ':'), round(result, 2))
-                        )
-                    ) +
-          geom_col(position = position_dodge(preserve = "single")) +
-          theme_minimal() +
-          labs(fill = str_wrap(xlabel, 25),
-               x = ylabel,
-               y = NULL) +
-          scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
-          scale_y_continuous(labels = yscale) +
-          theme(axis.title.x = element_text(margin = margin(t=30)),
-                axis.title.y = element_text(margin = margin(r=20)),
-                legend.title=element_text(size=10),
-                plot.margin = margin(.6, 4.5, 0, 0, "cm"))
-        p <- ggplotly(g, tooltip = "text") %>% layout(font = font.family)
+        p <- xtab.plot.bar.fact(dt, "nominal", xlabel, ylabel, dttype.label)
         return(p)
       } else { # mean_with_MOE
-        return(NULL)
+        p <- xtab.plot.bar.fact.moe(dt, "nominal", xlabel, ylabel, dttype.label)
+        return(p)
       }
-      
-      # add ggplot geom_col()
-    } 
-
+    } # end of if/else dim or fact  
   })
   
 # Crosstab Generator Table Rendering --------------------------------------------
@@ -615,8 +591,6 @@ function(input, output, session) {
   )
   
   output$xtab_tbl <- DT::renderDataTable({
-    # test <- xtabTableClean()
-    # browser()
     if ((xtabTableType()$Type == 'dimension')) {
       if (is.null(input$xtab_dtype_rbtns)) return(NULL)
       dttype <- input$xtab_dtype_rbtns
@@ -634,7 +608,7 @@ function(input, output, session) {
         } else if (dttype %in% c("estimate_with_MOE")) {
           dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.EstMOE(), xtabTableClean(), dttype, varsXAlias())
         }
-        # browser()
+
         moe.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_MOE")
         sc.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_sc.*")
         cols.fmt <- setdiff(colnames(dt)[2:ncol(dt)], c(moe.colnms, sc.colnms))

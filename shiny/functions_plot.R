@@ -319,3 +319,63 @@ stab.plot.bar2.moe <- function(table, format = c("percent", "nominal"), xlabel) 
   
   p <- ggplotly(g, tooltip = "text") %>% layout(font = font.family)
 }
+
+xtab.plot.bar.fact <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+  yscale <- plot.format.nums(format)
+  g <- ggplot(table,
+              aes(x = group,
+                  y = result,
+                  fill = get(colnames(table)[1]),
+                  text = paste(paste0(xlabel,':'), group,
+                               paste0('<br>', dttype.label," of ", ylabel,  ':'), round(result, 2))
+              )
+  ) +
+    geom_col(position = position_dodge(preserve = "single")) +
+    theme_minimal() +
+    labs(fill = str_wrap(xlabel, 25),
+         x = ylabel,
+         y = NULL) +
+    scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
+    scale_y_continuous(labels = yscale) +
+    theme(axis.title.x = element_text(margin = margin(t=30)),
+          axis.title.y = element_text(margin = margin(r=20)),
+          legend.title=element_text(size=10),
+          plot.margin = margin(.6, 4.5, 0, 0, "cm"))
+  p <- ggplotly(g, tooltip = "text") %>% layout(font = font.family)
+  
+}
+
+xtab.plot.bar.fact.moe <- function(table, format= c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+  yscale <- plot.format.nums(format)
+  
+  f <- ggplot(table, 
+              aes(x = group,
+                  y = result,
+                  fill = group,
+                  text = paste(paste0(xlabel,':'), group,
+                               paste0('<br>', value," of ", ylabel,  ':'), round(result, 2),
+                               paste0('<br>', 'Total (min, max):'), 
+                               yscale(result), paste0("(", round(result-result_moe, 2), ", ", round(result+result_moe, 2), ")"))
+              )
+  ) +
+    geom_col(position = position_dodge(preserve = "single")) + 
+    geom_errorbar(aes(ymin = result - result_moe, ymax = result + result_moe),
+                  alpha = .5,
+                  width = 0.2,
+                  position = position_dodge(width =  .9))
+
+  g <- f +
+    theme_minimal() +
+    labs(fill = str_wrap(xlabel, 25),
+         x = ylabel,
+         y = NULL) +
+    scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
+    scale_y_continuous(labels = yscale) +
+    theme(axis.title.x = element_text(margin = margin(t=30)),
+          axis.title.y = element_text(margin = margin(r=20)),
+          legend.title=element_text(size=10),
+          plot.margin = margin(.6, 4.5, 0, 0, "cm"))
+  
+  p <- ggplotly(g, tooltip = "text") %>% layout(font = font.family)
+  
+}
