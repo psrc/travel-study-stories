@@ -263,20 +263,20 @@ function(input, output, session) {
       table.type<- xtabTableType()$Res
       if (table.type == "Person") {
         if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
-          wt_field <-'hh_day_wt_revised'
+          wt_field <-hh_day_weight_name
         }
         else{
-          wt_field <- 'hh_wt_revised'
+          wt_field <- hh_weight_name
           }
         sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.person)
         survey <- read.dt(sql.query, 'sqlquery')
       } else if(table.type == "Trip") {
-        wt_field <- 'trip_weight_revised'
+        wt_field <- trip_weight_name
         
         sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.trip)
         survey <- read.dt(sql.query, 'sqlquery')
       }else {
-        wt_field <- 'hh_wt_revised'
+        wt_field <- hh_weight_name
         sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", dbtable.household)
         survey <- read.dt(sql.query, 'sqlquery')
       }
@@ -812,15 +812,15 @@ function(input, output, session) {
     table.type <- stabTableType()$Res
     if (table.type == "Person") {
       if(input$stab_xcol=='weighted_trip_count'){
-        wt_field <-'hh_day_wt_revised'
+        wt_field <-hh_day_weight_name
       }
       else{
-        wt_field <- 'hh_wt_revised'
+        wt_field <- hh_weight_name
       }
       sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.person)
       survey <- read.dt(sql.query, 'sqlquery')
     } else if(table.type =='Trip') {
-      wt_field <- 'trip_weight_revised'
+      wt_field <- trip_weight_name
       sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", dbtable.trip)
       survey <- read.dt(sql.query, 'sqlquery')
     }else{

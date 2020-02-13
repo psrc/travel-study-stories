@@ -28,6 +28,11 @@ dbtable.trip <- "HHSurvey.v_trips_2017"
 dbtable.variables <- "HHSurvey.DataExplorerVariables2017"
 dbtable.values <- "HHSurvey.vDataExplorerValues2017"
 
+hh_weight_name <- 'hh_wt_revised'
+hh_day_weight_name <-'hh_day_wt_revised'
+trip_weight_name <- 'trip_weight_revised'
+
+
 
 ## Read from Elmer
 
