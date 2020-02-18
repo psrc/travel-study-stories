@@ -14,10 +14,14 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
   print("reading in data")
 
   cols <- c(var1, var2)
-  print(type)
+
   if (type == "dimension") {
     setkeyv(table, cols)
     table[table==""]<- NA
+    for(missing in missing_codes){
+       table<- subset(table, get(var1) != missing)
+       table<- subset(table, get(var2) != missing)
+     }    
     table <- na.omit(table, cols = cols)
     table<-table[!is.na(get(wt_field))]
     raw <- table[, .(sample_count = .N), by = cols] 
@@ -38,6 +42,10 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
   } else if (type == "fact") {
     cols = c(var1, var2, 'hhid', wt_field)
     var_weights <- table[, cols, with = FALSE]
+    for(missing in missing_codes){
+      var_weights<- subset(var_weights, get(var1) != missing)
+      var_weights<- subset(var_weights, get(var2) != missing)
+    }  
     var_weights <- na.omit(var_weights)
     raw <- var_weights[, .(sample_count = .N), by = var1] 
     N_hh <- var_weights[, .(hhid = uniqueN(hhid)), by = var1]
@@ -70,6 +78,9 @@ simple_table <- function(table, var, wt_field, type) {
   if (type == "dimension") {
     setkeyv(table, var)
     table[table==""]<- NA
+    for(missing in missing_codes){
+      table<- subset(table, get(var) != missing)
+    }
     table <- na.omit(table, cols = var)
     raw <- table[, .(sample_count = .N), by = var]
     N_hh <- table[, .(hhid = uniqueN(hhid)), by = var]
@@ -91,6 +102,9 @@ simple_table <- function(table, var, wt_field, type) {
     # I think this can have the same logic as the code above.
     setkeyv(table, var)
     table[table==""]<- NA
+    for(missing in missing_codes){
+      table<- subset(table, get(var) != missing)
+    }
     cols<- c(var, wt_field)
     table <- na.omit(table)
     if(var == 'weighted_trip_count'){
