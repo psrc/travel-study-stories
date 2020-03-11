@@ -852,6 +852,7 @@ function(input, output, session) {
     sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", table_names[[table.type]]$table_name)
     survey <- read.dt(sql.query, 'sqlquery')
     type <- stabTableType()$Type
+   
     
     if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
     

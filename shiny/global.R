@@ -13,7 +13,7 @@ library(DBI)
 
 # local
 # wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
-wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories_on_github_elmer/shiny"
+wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-studies-stories/travel-study-stories/shiny"
 
 # shiny server
 #wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
@@ -23,23 +23,25 @@ source(file.path(wrkdir, 'functions_plot.R'))
 
 missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic')
 
-dbtable.household <- "HHSurvey.v_households_2017"
-dbtable.day <- "HHSurvey.v_day_2017"
-dbtable.vehicle <- "HHSurvey.v_vehicle_2017"
-dbtable.person <- "HHSurvey.v_persons_2017"
-dbtable.trip <- "HHSurvey.v_trips_2017"
-dbtable.variables <- "HHSurvey.DataExplorerVariables2017"
-dbtable.values <- "HHSurvey.vDataExplorerValues2017"
+dbtable.household <- "HHSurvey.v_households_2017_2019"
+dbtable.day <- "HHSurvey.v_day_2017_2019"
+dbtable.vehicle <- "HHSurvey.v_vehicle_2017_2019"
+dbtable.person <- "HHSurvey.v_persons_2017_2019"
+dbtable.trip <- "HHSurvey.v_trips_2017_2019"
+dbtable.variables <- "HHSurvey.data_explorer_variables"
+dbtable.values <- "HHSurvey.data_explorer_values"
 
-hh_weight_name <- 'hh_wt_revised'
-hh_day_weight_name <-'hh_day_wt_revised'
-trip_weight_name <- 'trip_weight_revised'
+hh_weight_name <- 'hh_wt_combined'
+hh_day_weight_name <-'hh_day_wt_combined'
+trip_weight_name <- 'trip_wt_combined'
 
 table_names <- list("Household" = list("weight_name" = hh_weight_name, "table_name" = dbtable.household),
                     "Day" = list("weight_name" = hh_day_weight_name , "table_name" = dbtable.day),
                     "Vehicle" = list("weight_name" = hh_weight_name, "table_name" =dbtable.vehicle),
                     "Person" = list("weight_name" = hh_weight_name , "table_name" = dbtable.person), 
                     "Trip" = list("weight_name" = trip_weight_name, "table_name" = dbtable.trip))
+
+z <- 1.645 # 90% CI
 
 
 ## Read from Elmer
