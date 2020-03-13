@@ -55,9 +55,9 @@ db.connect <- function() {
   )
 }
 
-read.dt <- function(astring, type =c('tablename', 'sqlquery')) {
+read.dt <- function(astring, type =c('table_name', 'sqlquery')) {
   elmer_connection <- db.connect()
-  if (type == 'tablename') {
+  if (type == 'table_name') {
     dtelm <- dbReadTable(elmer_connection, SQL(astring))
   } else {
     dtelm <- dbGetQuery(elmer_connection, SQL(astring))
@@ -66,15 +66,15 @@ read.dt <- function(astring, type =c('tablename', 'sqlquery')) {
   setDT(dtelm)
 }
 
-variables.lu <- read.dt(dbtable.variables, 'tablename')
+variables.lu <- read.dt(dbtable.variables, 'table_name')
 variables.lu <- na.omit(variables.lu)
-variables.lu <- variables.lu[order(CategoryOrder, VariableName)]
-values.lu <- read.dt(dbtable.values, 'tablename')
-values.lu<- values.lu[order(ValueOrder)]
+variables.lu <- variables.lu[order(category_order, variable_name)]
+values.lu <- read.dt(dbtable.values, 'table_name')
+values.lu<- values.lu[order(value_order)]
 
 readme.dt <- read.xlsx(file.path(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
 
-vars.cat <- unique(variables.lu$Category)
+vars.cat <- unique(variables.lu$category)
 
 # master list
 dtype.choice <- c("Share" ="share",

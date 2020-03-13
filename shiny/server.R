@@ -158,62 +158,62 @@ function(input, output, session) {
   })
   
   output$xtab_xcol_det <- renderText({
-    xvar.det <- variables.lu[Variable %in% input$xtab_xcol, .(Detail)]
+    xvar.det <- variables.lu[variable %in% input$xtab_xcol, .(Detail)]
     xvar.det$Detail
   })
 
   output$xtab_ycol_det <- renderText({
-    yvar.det <- variables.lu[Variable %in% input$xtab_ycol, .(Detail)]
+    yvar.det <- variables.lu[variable %in% input$xtab_ycol, .(Detail)]
     yvar.det$Detail
   })
   
   # variable X alias list
   varsListX <- reactive({
-    t <- variables.lu[Category %in% input$xtab_xcat & DType != 'fact', ]
-    vars.raw <- as.list(t$Variable)
-    vars.list <- setNames(vars.raw, as.list(t$VariableName))
+    t <- variables.lu[category %in% input$xtab_xcat & DType != 'fact', ]
+    vars.raw <- as.list(t$variable)
+    vars.list <- setNames(vars.raw, as.list(t$variable_name))
   })
   
   # variable Y alias list
   varsListY <- reactive({
-    t <- variables.lu[Category %in% input$xtab_ycat, ]
-    vars.raw <- as.list(t$Variable)
-    vars.list <- setNames(vars.raw, as.list(t$VariableName))
+    t <- variables.lu[category %in% input$xtab_ycat, ]
+    vars.raw <- as.list(t$variable)
+    vars.list <- setNames(vars.raw, as.list(t$variable_name))
   })
   
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
-    xvar.alias <- variables.lu[Variable %in% input$xtab_xcol, .(VariableName)]
-    xvar.alias$VariableName
+    xvar.alias <- variables.lu[variable %in% input$xtab_xcol, .(variable_name)]
+    xvar.alias$variable_name
   })
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
-    yvar.alias <- variables.lu[Variable %in% input$xtab_ycol, .(VariableName)]
-    yvar.alias$VariableName
+    yvar.alias <- variables.lu[variable %in% input$xtab_ycol, .(variable_name)]
+    yvar.alias$variable_name
   })
   
   # return values associated with category selected
   output$ui_xtab_xcol <- renderUI({
     selectInput('xtab_xcol',
-                'Variable',
+                'variable',
                 varsListX())
   })
 
   # return values associated with category selected
   output$ui_xtab_ycol <- renderUI({
     selectInput('xtab_ycol',
-                'Variable',
+                'variable',
                 varsListY(),
                 selected = varsListY()[[2]])
   })
   
   xtabXValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[Variable %in% input$xtab_xcol, ][order(ValueOrder)] # return dt
+    dt <- values.lu[variable %in% input$xtab_xcol, ][order(ValueOrder)] # return dt
   })
   
   xtabYValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[Variable %in% input$xtab_ycol, ][order(ValueOrder)]
+    dt <- values.lu[variable %in% input$xtab_ycol, ][order(ValueOrder)]
     v <- as.vector(dt$ValueText) # return vector
   })
   
@@ -235,7 +235,7 @@ function(input, output, session) {
   
   
   xtabTableType <- eventReactive(input$xtab_go, {
-    select.vars <- variables.lu[Variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
+    select.vars <- variables.lu[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
     tables <- as.vector(unique(select.vars$Table))
     dtypes <- as.vector(unique(select.vars$DType))
 
@@ -770,31 +770,31 @@ function(input, output, session) {
   })
   
   output$stab_xcol_det <- renderText({
-    xvar.det <- variables.lu[Variable %in% input$stab_xcol, .(Detail)]
+    xvar.det <- variables.lu[variable %in% input$stab_xcol, .(Detail)]
     xvar.det$Detail
   })
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
-    xvar.alias <- variables.lu[Variable %in% input$stab_xcol, .(VariableName)]
-    xvar.alias$VariableName
+    xvar.alias <- variables.lu[variable %in% input$stab_xcol, .(variable_name)]
+    xvar.alias$variable_name
   })
   
   # variable X alias list
   stab.varsListX <- reactive({
-    t <- variables.lu[Category %in% input$stab_xcat, ]
-    vars.raw <- as.list(t$Variable)
-    vars.list <- setNames(vars.raw, as.list(t$VariableName))
+    t <- variables.lu[category %in% input$stab_xcat, ]
+    vars.raw <- as.list(t$variable)
+    vars.list <- setNames(vars.raw, as.list(t$variable_name))
   })
   
   output$ui_stab_xcol <- renderUI({
     selectInput('stab_xcol',
-                'Variable', 
+                'variable', 
                 stab.varsListX())
   })
   
   stabXValues <- eventReactive(input$stab_go, {
-    dt <- values.lu[Variable %in% input$stab_xcol, ][order(ValueOrder)] # return dt
+    dt <- values.lu[variable %in% input$stab_xcol, ][order(ValueOrder)] # return dt
   })
   
   stabCaption <- eventReactive(input$stab_go, {
@@ -814,7 +814,7 @@ function(input, output, session) {
 
   
   stabTableType <- eventReactive(input$stab_go, {
-    select.vars <- variables.lu[Variable %in% c(input$stab_xcol), ]
+    select.vars <- variables.lu[variable %in% c(input$stab_xcol), ]
     tables <- unique(select.vars$TableName)
     dtypes <- as.vector(unique(select.vars$DType))
     
