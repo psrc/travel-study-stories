@@ -169,7 +169,7 @@ function(input, output, session) {
   
   # variable X alias list
   varsListX <- reactive({
-    t <- variables.lu[category %in% input$xtab_xcat & DType != 'fact', ]
+    t <- variables.lu[category %in% input$xtab_xcat & dtype != 'fact', ]
     vars.raw <- as.list(t$variable)
     vars.list <- setNames(vars.raw, as.list(t$variable_name))
   })
@@ -196,14 +196,14 @@ function(input, output, session) {
   # return values associated with category selected
   output$ui_xtab_xcol <- renderUI({
     selectInput('xtab_xcol',
-                'variable',
+                'Variable',
                 varsListX())
   })
 
   # return values associated with category selected
   output$ui_xtab_ycol <- renderUI({
     selectInput('xtab_ycol',
-                'variable',
+                'Variable',
                 varsListY(),
                 selected = varsListY()[[2]])
   })
@@ -789,7 +789,7 @@ function(input, output, session) {
   
   output$ui_stab_xcol <- renderUI({
     selectInput('stab_xcol',
-                'variable', 
+                'Variable', 
                 stab.varsListX())
   })
   
