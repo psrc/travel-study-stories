@@ -776,8 +776,9 @@ function(input, output, session) {
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
+    # browser()
     xvar.alias <- variables.lu[variable %in% input$stab_xcol, .(variable_name)]
-    xvar.alias$variable_name
+    unique(xvar.alias$variable_name)
   })
   
   # variable X alias list
@@ -794,7 +795,8 @@ function(input, output, session) {
   })
   
   stabXValues <- eventReactive(input$stab_go, {
-    dt <- values.lu[variable %in% input$stab_xcol, ][order(ValueOrder)] # return dt
+    # dt <- values.lu[variable %in% input$stab_xcol, ][order(ValueOrder)] # return dt
+    dt <- values.lu[variable %in% input$stab_xcol, ][order(value_order)] # return dt
   })
   
   stabCaption <- eventReactive(input$stab_go, {
@@ -815,8 +817,8 @@ function(input, output, session) {
   
   stabTableType <- eventReactive(input$stab_go, {
     select.vars <- variables.lu[variable %in% c(input$stab_xcol), ]
-    tables <- unique(select.vars$TableName)
-    dtypes <- as.vector(unique(select.vars$DType))
+    tables <- unique(select.vars$table_name) #unique(select.vars$TableName)
+    dtypes <- as.vector(unique(select.vars$dtype)) #as.vector(unique(select.vars$DType))
     
     if('Trip' %in% tables){
       res<-'Trip'
@@ -836,35 +838,34 @@ function(input, output, session) {
     return(list(Res=res, Type=type))
   } )
 
-  
   # return list of tables subsetted by value types
   stabTable <- eventReactive(input$stab_go, {
     table.type <- stabTableType()$Res
     wt_field<- table_names[[table.type]]$weight_name
 
-
-    
     if(input$stab_xcol=='weighted_trip_count' ){
       # use a special weight here because trip counts are a weird case
       wt_field <-hh_day_weight_name
     }
     
-    sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM", table_names[[table.type]]$table_name)
+    sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM" , table_names[[table.type]]$table_name)
     survey <- read.dt(sql.query, 'sqlquery')
     type <- stabTableType()$Type
    
-    
     if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
     
     xa <- stab.varsXAlias()
     
     simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
   
-    xvals <- stabXValues()[, .(ValueOrder, ValueText)][]
-
+    # xvals <- stabXValues()[, .(ValueOrder, ValueText)][]
+    xvals <- stabXValues()[, .(value_order, value_text)][]
+    # browser()
     if(typeof(input$stab_col) == 'character'){
-      simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='ValueText')
-      setorder(simtable, ValueOrder)
+      # simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='ValueText')
+      # setorder(simtable, ValueOrder)
+      simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='value_text')
+      setorder(simtable, value_order)
     }
     dtypes <- dtype.choice.stab 
     selcols <- c(xa, names(dtypes))
@@ -898,7 +899,7 @@ function(input, output, session) {
   output$stab_tbl <- DT::renderDataTable({
     colors <- list(ltgrey = '#bdbdc3', dkgrey = '#343439')
     dt <- stabTable.DT()
-   
+
     fmt.per <- names(dtype.choice[dtype.choice %in% c('share')])
     fmt.num <- names(dtype.choice[dtype.choice %in% c('estimate', 'sample_count')])
     DT::datatable(dt,
@@ -921,16 +922,18 @@ function(input, output, session) {
   stabVisTable <- reactive({
     dt <- stabTable()
     idvar <- stab.varsXAlias()
-    xvals <- stabXValues()[, .(ValueOrder, ValueText)]
+    # xvals <- stabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- stabXValues()[, .(value_order, value_text)]
 
     cols <- names(dtype.choice[dtype.choice %in% c("sample_count")])
     dt[, (cols) := lapply(.SD, as.numeric), .SDcols = cols]
     msr.vars <- names(dtype.choice[names(dtype.choice) %in% colnames(dt)])
     t <- melt.data.table(dt, id.vars = idvar, measure.vars = msr.vars, variable.name = "type", value.name = "result")
     setnames(t, idvar, "value")
-    
+
     if (nrow(xvals) != 0) {
-      t[, value := factor(value, levels = xvals$ValueText)][, value := fct_explicit_na(value, "No Response")]
+      # t[, value := factor(value, levels = xvals$ValueText)][, value := fct_explicit_na(value, "No Response")]
+      t[, value := factor(value, levels = xvals$value_text)][, value := fct_explicit_na(value, "No Response")]
       t <- t[order(value)]
     } else {
       t[, value := factor(value)]
