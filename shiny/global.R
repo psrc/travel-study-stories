@@ -29,7 +29,7 @@ dbtable.vehicle <- "HHSurvey.v_vehicle_2017_2019"
 dbtable.person <- "HHSurvey.v_persons_2017_2019"
 dbtable.trip <- "HHSurvey.v_trips_2017_2019"
 dbtable.variables <- "HHSurvey.data_explorer_variables"
-dbtable.values <- "HHSurvey.data_explorer_values"
+dbtable.values <- "HHSurvey.v_data_explorer_values_2019" #"HHSurvey.data_explorer_values"
 
 hh_weight_name <- 'hh_wt_combined'
 hh_day_weight_name <-'hh_day_wt_combined'
