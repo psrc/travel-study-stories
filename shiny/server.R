@@ -858,15 +858,14 @@ function(input, output, session) {
     
     simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
   
-    # xvals <- stabXValues()[, .(ValueOrder, ValueText)][]
     xvals <- stabXValues()[, .(value_order, value_text)][]
-    # browser()
-    if(typeof(input$stab_col) == 'character'){
-      # simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='ValueText')
-      # setorder(simtable, ValueOrder)
-      simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='value_text')
-      setorder(simtable, value_order)
+    
+    # check input type and xvals. sometimes xvals doesn't exist for some variables
+    if((typeof(input$stab_xcol) == 'character') & (nrow(xvals) > 0)){ 
+        simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='value_text')
+        setorder(simtable, value_order)
     }
+    
     dtypes <- dtype.choice.stab 
     selcols <- c(xa, names(dtypes))
     setnames(simtable, c(input$stab_xcol, dtypes), selcols)
