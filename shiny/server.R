@@ -158,39 +158,39 @@ function(input, output, session) {
   })
   
   output$xtab_xcol_det <- renderText({
-    xvar.det <- variables.lu[variable %in% input$xtab_xcol, .(Detail)]
-    xvar.det$Detail
+    xvar.det <- variables.lu[variable %in% input$xtab_xcol, .(detail)]
+    unique(xvar.det$detail)
   })
 
   output$xtab_ycol_det <- renderText({
-    yvar.det <- variables.lu[variable %in% input$xtab_ycol, .(Detail)]
-    yvar.det$Detail
+    yvar.det <- variables.lu[variable %in% input$xtab_ycol, .(detail)]
+    unique(yvar.det$detail)
   })
   
   # variable X alias list
   varsListX <- reactive({
     t <- variables.lu[category %in% input$xtab_xcat & dtype != 'fact', ]
-    vars.raw <- as.list(t$variable)
-    vars.list <- setNames(vars.raw, as.list(t$variable_name))
+    vars.raw <- as.list(unique(t$variable))
+    vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
   
   # variable Y alias list
   varsListY <- reactive({
     t <- variables.lu[category %in% input$xtab_ycat, ]
-    vars.raw <- as.list(t$variable)
-    vars.list <- setNames(vars.raw, as.list(t$variable_name))
+    vars.raw <- as.list(unique(t$variable))
+    vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
   
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
     xvar.alias <- variables.lu[variable %in% input$xtab_xcol, .(variable_name)]
-    xvar.alias$variable_name
+    unique(xvar.alias$variable_name)
   })
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
     yvar.alias <- variables.lu[variable %in% input$xtab_ycol, .(variable_name)]
-    yvar.alias$variable_name
+    unique(yvar.alias$variable_name)
   })
   
   # return values associated with category selected
@@ -209,12 +209,16 @@ function(input, output, session) {
   })
   
   xtabXValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[variable %in% input$xtab_xcol, ][order(ValueOrder)] # return dt
+    # dt <- values.lu[variable %in% input$xtab_xcol, ][order(ValueOrder)] # return dt
+    dt <- values.lu[variable %in% input$xtab_xcol, ][order(value_order)] # return dt
   })
   
   xtabYValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[variable %in% input$xtab_ycol, ][order(ValueOrder)]
-    v <- as.vector(dt$ValueText) # return vector
+    # dt <- values.lu[variable %in% input$xtab_ycol, ][order(ValueOrder)]
+    dt <- values.lu[variable %in% input$xtab_ycol, ][order(value_order)]
+    # browser()
+    # v <- as.vector(dt$ValueText) # return vector
+    v <- as.vector(dt$value_text) # return vector
   })
   
   xtabCaption <- eventReactive(input$xtab_go, {
@@ -236,8 +240,8 @@ function(input, output, session) {
   
   xtabTableType <- eventReactive(input$xtab_go, {
     select.vars <- variables.lu[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
-    tables <- as.vector(unique(select.vars$Table))
-    dtypes <- as.vector(unique(select.vars$DType))
+    tables <- as.vector(unique(select.vars$table_name))
+    dtypes <- as.vector(unique(select.vars$dtype))
 
     if('Trip' %in% tables){
       res<-'Trip'
@@ -261,7 +265,6 @@ function(input, output, session) {
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
       table.type<- xtabTableType()$Res
-     
       wt_field<- table_names[[table.type]]$weight_name
       
       if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
@@ -271,18 +274,21 @@ function(input, output, session) {
 
       sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", table_names[[table.type]]$table_name)
       survey <- read.dt(sql.query, 'sqlquery')
-        
 
       type <- xtabTableType()$Type
-
+      
       if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
 
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+      # xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+      xvals <- xtabXValues()[, .(value_order, value_text)]
     
       # if (type=='dimension') {
-        crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
-        setorder(crosstab, ValueOrder)
+        # crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
+        crosstab <- merge(crosstab, xvals, by.x='var1', by.y='value_text')
+        # setorder(crosstab, ValueOrder)
+        setorder(crosstab, value_order)
+        
       # }
       # browser()
       setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
@@ -770,13 +776,12 @@ function(input, output, session) {
   })
   
   output$stab_xcol_det <- renderText({
-    xvar.det <- variables.lu[variable %in% input$stab_xcol, .(Detail)]
-    xvar.det$Detail
+    xvar.det <- variables.lu[variable %in% input$stab_xcol, .(detail)]
+    unique(xvar.det$detail)
   })
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
-    # browser()
     xvar.alias <- variables.lu[variable %in% input$stab_xcol, .(variable_name)]
     unique(xvar.alias$variable_name)
   })
@@ -784,8 +789,8 @@ function(input, output, session) {
   # variable X alias list
   stab.varsListX <- reactive({
     t <- variables.lu[category %in% input$stab_xcat, ]
-    vars.raw <- as.list(t$variable)
-    vars.list <- setNames(vars.raw, as.list(t$variable_name))
+    vars.raw <- as.list(unique(t$variable))
+    vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
   
   output$ui_stab_xcol <- renderUI({
@@ -795,7 +800,6 @@ function(input, output, session) {
   })
   
   stabXValues <- eventReactive(input$stab_go, {
-    # dt <- values.lu[variable %in% input$stab_xcol, ][order(ValueOrder)] # return dt
     dt <- values.lu[variable %in% input$stab_xcol, ][order(value_order)] # return dt
   })
   
@@ -817,8 +821,8 @@ function(input, output, session) {
   
   stabTableType <- eventReactive(input$stab_go, {
     select.vars <- variables.lu[variable %in% c(input$stab_xcol), ]
-    tables <- unique(select.vars$table_name) #unique(select.vars$TableName)
-    dtypes <- as.vector(unique(select.vars$dtype)) #as.vector(unique(select.vars$DType))
+    tables <- unique(select.vars$table_name) 
+    dtypes <- as.vector(unique(select.vars$dtype)) 
     
     if('Trip' %in% tables){
       res<-'Trip'
