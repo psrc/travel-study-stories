@@ -1,8 +1,11 @@
 fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
           # shinythemes::themeSelector(),
           theme = shinytheme("flatly"),
+          tags$head(
+            tags$link(rel = "stylesheet", type = "text/css", href = "additional-styles.css")
+          ),
           useShinyjs(),
-          navbarPage("2017 Household Survey Results (Beta version)",
+          navbarPage("2017/2019 Household Survey Results (Beta version)",
 
 # Simple Table ------------------------------------------------------------
 
@@ -51,6 +54,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                                                  ) # end conditionalPanel
                                                      ), # end sidbarPanel
                                                      mainPanel(width = 9,
+                                                               div(
                                                                uiOutput("ui_stab_res_type_title"),
                                                                br(),
                                                                uiOutput("ui_stab_tbl"),
@@ -58,8 +62,11 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                                                br(),
                                                                br(),
                                                                br(),
-                                                               uiOutput("ui_stab_vis")
+                                                               uiOutput("ui_stab_vis"), 
+                                                               class='visual-display'
                                                                # plotlyOutput('stab_vis', width = "85%")
+                                                               ) # end div
+                                                               
                                                      ) # end mainPanel
                                                    ) # end sidebarLayout
                                                    ), # end tabPanel

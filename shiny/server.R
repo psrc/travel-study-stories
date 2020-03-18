@@ -209,15 +209,11 @@ function(input, output, session) {
   })
   
   xtabXValues <- eventReactive(input$xtab_go, {
-    # dt <- values.lu[variable %in% input$xtab_xcol, ][order(ValueOrder)] # return dt
     dt <- values.lu[variable %in% input$xtab_xcol, ][order(value_order)] # return dt
   })
   
   xtabYValues <- eventReactive(input$xtab_go, {
-    # dt <- values.lu[variable %in% input$xtab_ycol, ][order(ValueOrder)]
     dt <- values.lu[variable %in% input$xtab_ycol, ][order(value_order)]
-    # browser()
-    # v <- as.vector(dt$ValueText) # return vector
     v <- as.vector(dt$value_text) # return vector
   })
   
@@ -280,17 +276,11 @@ function(input, output, session) {
       if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
 
       crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      # xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
       xvals <- xtabXValues()[, .(value_order, value_text)]
     
-      # if (type=='dimension') {
-        # crosstab <- merge(crosstab, xvals, by.x='var1', by.y='ValueText')
-        crosstab <- merge(crosstab, xvals, by.x='var1', by.y='value_text')
-        # setorder(crosstab, ValueOrder)
-        setorder(crosstab, value_order)
+      crosstab <- merge(crosstab, xvals, by.x='var1', by.y='value_text')
+      setorder(crosstab, value_order)
         
-      # }
-      # browser()
       setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
   
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
@@ -372,7 +362,7 @@ function(input, output, session) {
     }
     colnames(moetable)[2:ncol(moetable)] <- paste0(colnames(moetable)[2:ncol(moetable)], "_MOE")
     dt.sm <- merge(valuetable, moetable, by = xalias)
-    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$ValueText)]
+    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$value_text)]
     dt.sm <- dt.sm[order(var1.sort)][, var1.sort := NULL]
     order.colnames <- c(xalias, cols.order)
     dt.sm <- dt.sm[, ..order.colnames]
@@ -381,7 +371,7 @@ function(input, output, session) {
   # create separate table of shares alongside margin of errors
   xtabTableClean.ShareMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- xtabXValues()[, .(value_order, value_text)]
     dt.s <- xtabTableClean()[['share']]
     dt.m <- xtabTableClean()[['MOE']]
     dt.sm <- create.table.joining.moe(dt.s, dt.m, xa, xvals)
@@ -390,7 +380,7 @@ function(input, output, session) {
   # create separate table of estimates alongside margin of errors
   xtabTableClean.EstMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- xtabXValues()[, .(value_order, value_text)]
     dt.s <- xtabTableClean()[['estimate']]
     dt.m <- xtabTableClean()[['estMOE']]
     dt.sm <- create.table.joining.moe(dt.s, dt.m, xa, xvals)
@@ -399,12 +389,12 @@ function(input, output, session) {
   # create separate table of mean (for fact related tables) alongside margin of errors
   xtabTableClean.MeanMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- xtabXValues()[, .(value_order, value_text)]
 
     dt.s <- xtabTableClean()[['mean']]
     dt.m <- xtabTableClean()[['MOE']]
     dt <- merge(dt.s, dt.m, by = xa)
-    dt[, var1.sort := factor(get(eval(xa)), levels = xvals$ValueText)]
+    dt[, var1.sort := factor(get(eval(xa)), levels = xvals$value_text)]
     dt.sm <- dt[order(var1.sort)][, var1.sort := NULL]
   })
   
@@ -458,7 +448,7 @@ function(input, output, session) {
     }
     
     if (nrow(xvalues) != 0) {
-      dt[, group := factor(group, levels = xvalues$ValueText)][, group := fct_explicit_na(group, "No Response")]
+      dt[, group := factor(group, levels = xvalues$value_text)][, group := fct_explicit_na(group, "No Response")]
       dt <- dt[order(group)]
     } else {
       dt[, group := factor(group)]
@@ -468,7 +458,7 @@ function(input, output, session) {
   
   xtabVisTable.EstMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- xtabXValues()[, .(value_order, value_text)]
     dt.s <- xtabTableClean()[['estimate']]
     dt.m <- xtabTableClean()[['estMOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
@@ -476,7 +466,7 @@ function(input, output, session) {
   
   xtabVisTable.ShareMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- xtabXValues()[, .(value_order, value_text)]
     dt.s <- xtabTableClean()[['share']]
     dt.m <- xtabTableClean()[['MOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
@@ -484,7 +474,7 @@ function(input, output, session) {
   
   xtabVisTable.meanMOE <- reactive({
     xa <- varsXAlias()
-    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- xtabXValues()[, .(value_order, value_text)]
     dt.s <- xtabTableClean()[['mean']]
     dt.m <- xtabTableClean()[['MOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
@@ -492,7 +482,7 @@ function(input, output, session) {
   
   xtabVisTable <- reactive({
     dt.list <- xtabTableClean()
-    xvals <- xtabXValues()[, .(ValueOrder, ValueText)]
+    xvals <- xtabXValues()[, .(value_order, value_text)]
  
     visdt.list <- NULL
     for (i in 1:length(dt.list)) {
@@ -503,7 +493,7 @@ function(input, output, session) {
       t[, type := names(dt.list[i])]
       setnames(t, idcol, "group")
       if (nrow(xvals) != 0) {
-        t[, group := factor(group, levels = xvals$ValueText)][, group := fct_explicit_na(group, "No Response")]
+        t[, group := factor(group, levels = xvals$value_text)][, group := fct_explicit_na(group, "No Response")]
         t <- t[order(group)]
       } else {
         t[, group := factor(group)]
@@ -686,7 +676,7 @@ function(input, output, session) {
   })
   
   output$ui_xtab_tbl <- renderUI({
-    div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
+    div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%', class = 'visual-display')
   })
 
   output$ui_xtab_vis <- renderUI({
@@ -696,7 +686,7 @@ function(input, output, session) {
     #   div(p('Results not available. This functionality is in progress.'),
     #       style = 'display: flex; justify-content: center; align-items: center; margin-top: 5em;')
     # }
-    plotlyOutput("xtab_vis", width = "85%")
+    div(plotlyOutput("xtab_vis", width = "85%"), class = 'visual-display')
       
   })
   
