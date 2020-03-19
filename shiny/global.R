@@ -13,10 +13,11 @@ library(DBI)
 
 # local
 # wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
-wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-studies-stories/travel-study-stories/shiny"
+# wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-studies-stories/travel-study-stories/shiny"
 
 # shiny server
-#wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
+wrkdir <- "/home/shiny/apps/testing-travel-study-stories/shiny"
+# wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
 
 source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
