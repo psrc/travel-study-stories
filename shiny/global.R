@@ -22,7 +22,7 @@ wrkdir <- "/home/shiny/apps/testing-travel-study-stories/shiny"
 source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
 
-missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic')
+missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Children or missing')
 
 dbtable.household <- "HHSurvey.v_households_2017_2019"
 dbtable.day <- "HHSurvey.v_day_2017_2019"
