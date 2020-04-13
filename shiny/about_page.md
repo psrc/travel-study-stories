@@ -1,6 +1,6 @@
 #### Data Source
 
--   [2017 Puget Sound Regional Household Travel
+-   [2017/2019 Puget Sound Regional Household Travel
     Survey](https://www.psrc.org/household-travel-survey-program)
 
 -   [Puget Sound Regional Council](https://www.psrc.org)
@@ -17,7 +17,7 @@ better plans for the future.
 
 #### About the Survey Program
 
-The 2017 household travel survey was part of a six-year survey program
+The 2017 and 2019 household travel surveys are part of a six-year survey program
 for three waves (two-year survey cycles). This effort builds upon the
 2014 and 2006 household travel surveys to continue to support a wide
 variety of agency and member data and analysis needs. The 2019 survey

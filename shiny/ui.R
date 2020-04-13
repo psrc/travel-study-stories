@@ -5,7 +5,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
             tags$link(rel = "stylesheet", type = "text/css", href = "additional-styles.css")
           ),
           useShinyjs(),
-          navbarPage("2017/2019 Household Survey Results (Beta version)",
+          navbarPage("2017/2019 Household Survey Results",
 
 # Simple Table ------------------------------------------------------------
 
