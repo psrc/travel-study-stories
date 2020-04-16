@@ -897,7 +897,7 @@ function(input, output, session) {
     fmt.num <- names(dtype.choice[dtype.choice %in% c('estimate', 'sample_count')])
     DT::datatable(dt,
                   options = list(bFilter=0, 
-                                 pageLength = 6,
+                                 # pageLength = 10,
                                  autoWidth = FALSE,
                                  columnDefs = list(list(className = "dt-center", width = '100px', targets = c(2:ncol(dt))))
                                  )
