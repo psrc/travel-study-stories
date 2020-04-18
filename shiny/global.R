@@ -52,7 +52,7 @@ db.connect <- function() {
                                 Driver = "SQL Server",
                                 Server = "AWS-PROD-SQL\\COHO",
                                 Database = "Elmer",
-                                #Trusted_Connection = "yes",
+                                # Trusted_Connection = "yes"
                                 UID = Sys.getenv("userid"),
                                 PWD = Sys.getenv("pwd")
   )

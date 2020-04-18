@@ -479,11 +479,11 @@ function(input, output, session) {
     dt.m <- xtabTableClean()[['MOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
   })
-  
+
   xtabVisTable <- reactive({
     dt.list <- xtabTableClean()
     xvals <- xtabXValues()[, .(value_order, value_text)]
- 
+
     visdt.list <- NULL
     for (i in 1:length(dt.list)) {
       idcol <- varsXAlias()
@@ -717,33 +717,46 @@ function(input, output, session) {
   xtabDownloadOutput <- reactive({
     dtlist <- copy(xtabTableClean())
     t <- dtlist[['sample_count']]
-    tsm <- copy(xtabTableClean.DT.ShareMOE()) 
-    tem <- copy(xtabTableClean.DT.EstMOE())
+    data.type <- xtabTableType()$Type
     
-    # Format tsm, every other column as string starting at index 2
-    nums <- seq(1, length(colnames(tsm)))
-    evens <- unlist(lapply(nums, function(x) x %%2 ==0))
-    ind <- nums[evens]
-    
-    cols.to.str <- colnames(tsm)[ind]
-    tsm[, (cols.to.str) := lapply(.SD, function(x) paste0(as.character(round(x*100, 1)), '%')), .SDcols = cols.to.str]
-    
-    # Format tem, every other column as string starting at index 2
-    cols.to.prettynum <- colnames(tem)[ind]
-    tem[, (cols.to.prettynum) := lapply(.SD, function(x) prettyNum(round(x), big.mark = ",")), .SDcols = cols.to.prettynum]
-
-    for(j in seq_along(tsm)){
-      set(tsm, i = which(tsm[[j]] == "NA%"), j=j, value="")
+    if (data.type == 'dimension') {
+      tsm <- copy(xtabTableClean.DT.ShareMOE())
+      tem <- copy(xtabTableClean.DT.EstMOE())
+      
+      # Format tsm, every other column as string starting at index 2
+      nums <- seq(1, length(colnames(tsm)))
+      evens <- unlist(lapply(nums, function(x) x %%2 ==0))
+      ind <- nums[evens]
+      
+      cols.to.str <- colnames(tsm)[ind]
+      tsm[, (cols.to.str) := lapply(.SD, function(x) paste0(as.character(round(x*100, 1)), '%')), .SDcols = cols.to.str]
+      
+      # Format tem, every other column as string starting at index 2
+      cols.to.prettynum <- colnames(tem)[ind]
+      tem[, (cols.to.prettynum) := lapply(.SD, function(x) prettyNum(round(x), big.mark = ",")), .SDcols = cols.to.prettynum]
+      
+      for(j in seq_along(tsm)){
+        set(tsm, i = which(tsm[[j]] == "NA%"), j=j, value="")
+      }
+      
+      for(j in seq_along(tem)){
+        set(tem, i = which(tem[[j]] == "NA"), j=j, value="")
+      }
+      
+      tbllist <- list("About" = readme.dt,
+                      "Share with Margin of Error" = tsm,
+                      "Total with Margin of Error" = tem,
+                      "Sample Count" = t)
+    } else if (data.type == 'fact') {
+      # join mean/MOE with sample count
+      tmm <- copy(xtabTableClean.DT.MeanMOE())
+      tjoin <- tmm[t, on = varsXAlias()]
+      tj <- tjoin[, Mean := lapply(.SD, function(x) round(x, 2)), .SDcols = 'Mean'
+                  ][, `Sample Count`:= lapply(.SD, function(x) prettyNum(x, big.mark = ",")), .SDcols = "Sample Count"]
+      setnames(tj, "MOE", "Margin of Error (Mean)")
+      tbllist <- list("About" = readme.dt,
+                      "Mean with Margin of Error" = tj)
     }
-
-    for(j in seq_along(tem)){
-      set(tem, i = which(tem[[j]] == "NA"), j=j, value="")
-    }
-    
-    tbllist <- list("About" = readme.dt, 
-                    "Share with Margin of Error" = tsm, 
-                    "Total with Margin of Error" = tem, 
-                    "Sample Count" = t)
     return(tbllist)
   })
   
@@ -753,7 +766,7 @@ function(input, output, session) {
     },
     content = function(file) {
       write.xlsx(xtabDownloadOutput(), file)
-      
+
     }
   )
   
