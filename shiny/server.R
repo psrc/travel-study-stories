@@ -718,7 +718,8 @@ function(input, output, session) {
     dtlist <- copy(xtabTableClean())
     t <- dtlist[['sample_count']]
     data.type <- xtabTableType()$Type
-    
+    geog <- xtabCaption()
+
     if (data.type == 'dimension') {
       tsm <- copy(xtabTableClean.DT.ShareMOE())
       tem <- copy(xtabTableClean.DT.EstMOE())
@@ -743,6 +744,10 @@ function(input, output, session) {
         set(tem, i = which(tem[[j]] == "NA"), j=j, value="")
       }
       
+      tsm[, `Result Type` := geog]
+      tem[, `Result Type` := geog]
+      t[, `Result Type` := geog]
+      
       tbllist <- list("About" = readme.dt,
                       "Share with Margin of Error" = tsm,
                       "Total with Margin of Error" = tem,
@@ -752,7 +757,8 @@ function(input, output, session) {
       tmm <- copy(xtabTableClean.DT.MeanMOE())
       tjoin <- tmm[t, on = varsXAlias()]
       tj <- tjoin[, Mean := lapply(.SD, function(x) round(x, 2)), .SDcols = 'Mean'
-                  ][, `Sample Count`:= lapply(.SD, function(x) prettyNum(x, big.mark = ",")), .SDcols = "Sample Count"]
+                  ][, `Sample Count`:= lapply(.SD, function(x) prettyNum(x, big.mark = ",")), .SDcols = "Sample Count"
+                    ][, `Result Type` := geog]
       setnames(tj, "MOE", "Margin of Error (Mean)")
       tbllist <- list("About" = readme.dt,
                       "Mean with Margin of Error" = tj)
@@ -766,7 +772,6 @@ function(input, output, session) {
     },
     content = function(file) {
       write.xlsx(xtabDownloadOutput(), file)
-
     }
   )
   
@@ -1038,13 +1043,15 @@ function(input, output, session) {
   
   stabDownloadOutput <- reactive({
     t <- copy(stabTable())
+    geog <- stabCaption()
     
     cols.fmt.per <- str_subset(colnames(t), "Share")
     cols.fmt.nom <- str_subset(colnames(t), "Total")
     cols.fmt.moe <- str_subset(colnames(t), "Margin of Error")
     t[, (cols.fmt.per) := lapply(.SD, function(x) paste0(as.character(round(x*100, 1)), '%')), .SDcols = cols.fmt.per
       ][, (cols.fmt.nom) := lapply(.SD, function(x) prettyNum(round(x), big.mark = ",")), .SDcols = cols.fmt.nom
-        ][, (cols.fmt.moe) := lapply(.SD, function(x) paste0('+/-', x)), .SDcols = cols.fmt.moe]
+        ][, (cols.fmt.moe) := lapply(.SD, function(x) paste0('+/-', x)), .SDcols = cols.fmt.moe
+          ][, `Result Type` := geog]
     tlist <- list("About" = readme.dt, "Simple Table" = t)
     return(tlist)
     })
