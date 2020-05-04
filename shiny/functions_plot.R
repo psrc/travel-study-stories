@@ -10,11 +10,11 @@ plot.format.nums <- function(format = c("percent", "nominal")) {
   return(yscale)
 }
 
-plot.layout <- function(df, dttype.label, xlabel, ylabel = NULL) {
+plot.layout <- function(df, dttype.label, geog.caption, xlabel, ylabel = NULL) {
   if (!is.null(ylabel)) {
-    main.title <- paste0(paste(dttype.label, "of", '<i>',ylabel,'</i>', "by", '<i>',xlabel,'</i>'))
+    main.title <- paste0(paste(geog.caption, ": ", dttype.label, "of", '<i>',ylabel,'</i>', "by", '<i>',xlabel,'</i>'))
   } else {
-    main.title <- paste0(paste(dttype.label, "of", '<i>', xlabel, '</i>'))
+    main.title <- paste0(paste(geog.caption, ": ", dttype.label, "of", '<i>', xlabel, '</i>'))
   }
  
   df %>% layout(font = font.family,
@@ -33,7 +33,7 @@ plot.layout <- function(df, dttype.label, xlabel, ylabel = NULL) {
 # Two-way Table functions -------------------------------------------------
 
 
-xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label, geog.caption) {
   yscale <- plot.format.nums(format)
   
   g <- ggplot(table, 
@@ -60,7 +60,7 @@ xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabe
           plot.margin = margin(.6, 4.5, 0, 0, "cm")
           )
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel, ylabel)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel, ylabel)
     # layout(font = font.family,
     #        title = list(text = paste0(paste(dttype.label, "of", ylabel, "by", xlabel),
     #                                   '<br>',
@@ -74,7 +74,7 @@ xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabe
     #        ) # end layout
 }
 
-xtab.plot.bar.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+xtab.plot.bar.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label, geog.caption) {
   yscale <- plot.format.nums(format)
   
   g <- ggplot(table, 
@@ -97,11 +97,11 @@ xtab.plot.bar.pivot <- function(table, format = c("percent", "nominal"), xlabel,
           axis.title.y = element_text(margin = margin(r=20))) +
     coord_flip()
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel, ylabel)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel, ylabel)
   # layout(font = font.family)
 }
 
-xtab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, ylabel) {
+xtab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, ylabel, geog.caption) {
   yscale <- plot.format.nums(format)
   
   if (format == "percent") {
@@ -154,10 +154,10 @@ xtab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, y
           legend.title=element_text(size=10),
           plot.margin = margin(.6, 4.5, 0, 0, "cm"))
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel, ylabel)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel, ylabel)#layout(font = font.family)
 }
 
-xtab.plot.bar.moe.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel) {
+xtab.plot.bar.moe.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel, geog.caption) {
   yscale <- plot.format.nums(format)
   
   if (format == "percent") {
@@ -210,13 +210,13 @@ xtab.plot.bar.moe.pivot <- function(table, format = c("percent", "nominal"), xla
           plot.margin = margin(.4, 0, 0, 0, "cm")) +
     coord_flip()
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel, ylabel)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel, ylabel)#layout(font = font.family)
 }
 
 # One-way Table functions -------------------------------------------------
 
 
-stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel) {
+stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, geog.caption) {
   yscale <- plot.format.nums(format)
   dttype.label <- unique(table$type)
   g <- ggplot(table,
@@ -238,10 +238,10 @@ stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel) {
           axis.title.y = element_text(margin = margin(r=20)),
           legend.position = 'none')
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption,xlabel)#layout(font = font.family)
 }
 
-stab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel) {
+stab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, geog.caption) {
   yscale <- plot.format.nums(format)
   
   if (format == "percent") {
@@ -289,10 +289,10 @@ stab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel) {
           axis.title.y = element_text(margin = margin(r=20)),
           legend.position = 'none')
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel)#layout(font = font.family)
 }
 
-stab.plot.bar2 <- function(table, format = c("percent", "nominal"), xlabel) {
+stab.plot.bar2 <- function(table, format = c("percent", "nominal"), xlabel, geog.caption) {
   yscale <- plot.format.nums(format)
   dttype.label <- unique(table$type)
   g <- ggplot(table, 
@@ -314,11 +314,11 @@ stab.plot.bar2 <- function(table, format = c("percent", "nominal"), xlabel) {
           axis.title.y = element_text(margin = margin(r=20))#,
     )
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel)#layout(font = font.family)
 }
 
 
-stab.plot.bar2.moe <- function(table, format = c("percent", "nominal"), xlabel) {
+stab.plot.bar2.moe <- function(table, format = c("percent", "nominal"), xlabel, geog.caption) {
   yscale <- plot.format.nums(format)
   
   if (format == "percent") {
@@ -366,13 +366,13 @@ stab.plot.bar2.moe <- function(table, format = c("percent", "nominal"), xlabel) 
           axis.title.y = element_text(margin = margin(r=20))#,
     )
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel)#layout(font = font.family)
 }
 
 # Two-way Facts Table functions -------------------------------------------
 
 
-xtab.plot.bar.fact <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+xtab.plot.bar.fact <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label, geog.caption) {
   yscale <- plot.format.nums(format)
   g <- ggplot(table,
               aes(x = group,
@@ -393,11 +393,11 @@ xtab.plot.bar.fact <- function(table, format = c("percent", "nominal"), xlabel, 
           axis.title.y = element_text(margin = margin(r=20)),
           legend.title=element_text(size=10),
           plot.margin = margin(.6, 4.5, 0, 0, "cm"))
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel, ylabel)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel, ylabel)#layout(font = font.family)
   
 }
 
-xtab.plot.bar.fact.moe <- function(table, format= c("percent", "nominal"), xlabel, ylabel, dttype.label) {
+xtab.plot.bar.fact.moe <- function(table, format= c("percent", "nominal"), xlabel, ylabel, dttype.label, geog.caption) {
   yscale <- plot.format.nums(format)
   
   f <- ggplot(table, 
@@ -428,6 +428,6 @@ xtab.plot.bar.fact.moe <- function(table, format= c("percent", "nominal"), xlabe
           legend.title=element_text(size=10),
           plot.margin = margin(.6, 4.5, 0, 0, "cm"))
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, xlabel, ylabel)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption, xlabel, ylabel)#layout(font = font.family)
   
 }

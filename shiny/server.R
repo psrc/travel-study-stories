@@ -506,6 +506,7 @@ function(input, output, session) {
   output$xtab_vis <- renderPlotly({
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
+    geog.caption <- xtabCaption()
 
     if (xtabTableType()$Type == 'dimension') {
       if (is.null(input$xtab_dtype_rbtns)) return(NULL)
@@ -522,16 +523,16 @@ function(input, output, session) {
       l <- length(unique(dt$value))
   
       if (dttype == 'share') {
-        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label))
+        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label, geog.caption), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label, geog.caption))
         return(p)
       } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label))
+        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption))
         return(p)
       } else if (dttype %in% c('share_with_MOE')) {
-        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel))
+        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel, geog.caption), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, geog.caption))
         return(p)
       } else if (dttype %in% c('estimate_with_MOE')) {
-        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel))
+        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel, geog.caption), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel, geog.caption))
         return(p)
       } else {
         return(NULL)
@@ -548,10 +549,10 @@ function(input, output, session) {
       }
       
       if (dttype %in% c("sample_count", "mean", "N_HH")) {
-        p <- xtab.plot.bar.fact(dt, "nominal", xlabel, ylabel, dttype.label)
+        p <- xtab.plot.bar.fact(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption)
         return(p)
       } else { # mean_with_MOE
-        p <- xtab.plot.bar.fact.moe(dt, "nominal", xlabel, ylabel, dttype.label)
+        p <- xtab.plot.bar.fact.moe(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption)
         return(p)
       }
     } # end of if/else dim or fact  
@@ -972,6 +973,7 @@ function(input, output, session) {
     xlabel <- stab.varsXAlias() # first dim
     dttype <- input$stab_dtype_rbtns
     selection <- names(dtype.choice[dtype.choice %in% dttype])
+    geog.caption <- stabCaption()
     
     if (dttype %in% col.headers) {
       dt <- stabVisTable()[type %in% selection, ]
@@ -984,16 +986,16 @@ function(input, output, session) {
     if(l == 0) l <- length(unique(dt$value)) # evaluate if values are not in lookup (length 0)
     
     if (dttype == 'share') {
-      ifelse(l < 10, p <- stab.plot.bar(dt, "percent", xlabel), p <- stab.plot.bar2(dt, "percent", xlabel))
+      ifelse(l < 10, p <- stab.plot.bar(dt, "percent", xlabel, geog.caption), p <- stab.plot.bar2(dt, "percent", xlabel, geog.caption))
       return(p)
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-      ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel), p <- stab.plot.bar2(dt, "nominal", xlabel))
+      ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel, geog.caption), p <- stab.plot.bar2(dt, "nominal", xlabel, geog.caption))
       return(p)
     } else if (dttype == 'share_with_MOE') {
-      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel), p <- stab.plot.bar2.moe(dt, "percent", xlabel))
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel, geog.caption), p <- stab.plot.bar2.moe(dt, "percent", xlabel, geog.caption))
       return(p)
     } else if (dttype == 'estimate_with_MOE') {
-      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "nominal", xlabel),  p <- stab.plot.bar2.moe(dt, "nominal", xlabel))
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "nominal", xlabel, geog.caption),  p <- stab.plot.bar2.moe(dt, "nominal", xlabel, geog.caption))
       return(p)
     } else {
       return(NULL)
