@@ -1114,7 +1114,7 @@ function(input, output, session) {
                   tabPanel("Chart", plotlyOutput("stab_vis", width = "85%")), # end tabPanel
                   tabPanel("Map", 
                            div(
-                           leafletOutput("stab_map", height = "700px"),
+                           leafletOutput("stab_map"),
                            style = 'margin-top: 2rem;'
                            )
                            )

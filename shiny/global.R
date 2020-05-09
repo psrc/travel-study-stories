@@ -114,6 +114,7 @@ hist_breaks_num_trips_labels<-c('0', '1-2', '3-4', '5-6', '7-8', '9-10', '11-12'
 
 # load shapefile(s)
 dsn <- "../shapes"
-layer.puma <- "reg10puma"
-puma.shape <-spTransform(readOGR(dsn=dsn,layer=layer.puma), CRS("+proj=longlat +datum=WGS84"))
+layer.puma <- "reg10puma_WGS84"
+puma.shape <- readOGR(dsn=dsn,layer=layer.puma)
+# puma.shape <-spTransform(readOGR(dsn=dsn,layer=layer.puma), CRS("+proj=longlat +datum=WGS84"))
 
