@@ -1091,15 +1091,15 @@ function(input, output, session) {
                 pal = pal,
                 values = ~result,
                 title = paste0(geog.caption, ": <br>", selection, " of ", xlabel),
-                opacity = 1) %>%
-      setView(lng = -122.008546, lat = 47.549390, zoom = 9) %>%
-      addEasyButton(
-        easyButton(
-          icon="fa-globe", 
-          title="Zoom to Region",
-          onClick=JS("function(btn, map){ 
-                     map.setView([47.549390, -122.008546],9);}"))
-      )
+                opacity = 1) #%>%
+      # setView(lng = -122.008546, lat = 47.549390, zoom = 9) %>%
+      # addEasyButton(
+      #   easyButton(
+      #     icon="fa-globe", 
+      #     title="Zoom to Region",
+      #     onClick=JS("function(btn, map){ 
+      #                map.setView([47.549390, -122.008546],9);}"))
+      # )
 
     return(m)
   })
@@ -1114,7 +1114,7 @@ function(input, output, session) {
                   tabPanel("Chart", plotlyOutput("stab_vis", width = "85%")), # end tabPanel
                   tabPanel("Map", 
                            div(
-                           leafletOutput("stab_map", width= "85%", height = "700px"),
+                           leafletOutput("stab_map", height = "700px"),
                            style = 'margin-top: 2rem;'
                            )
                            )
