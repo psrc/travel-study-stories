@@ -6,9 +6,11 @@ library(DT)
 library(openxlsx)
 library(plotly)
 library(shinyjs)
-library(data.table)
 library(odbc)
 library(DBI)
+library(sp)
+library(rgdal)
+library(leaflet)
 
 
 # local
@@ -109,3 +111,9 @@ hist_breaks<- c(0,1,3,5,10,20,30,45,60,180)
 hist_breaks_labels<-c('0 to 1', '1 to 3', '3 to 5', '5 to 10', '10 to 20', '20 to 30', '30 to 45', '45 to 60', '60 to 180')
 hist_breaks_num_trips<-c(-.01,0,2,4,6,8,10,12,14,16,18,20,100)
 hist_breaks_num_trips_labels<-c('0', '1-2', '3-4', '5-6', '7-8', '9-10', '11-12', '13-14', '14-16', '17-18', '19-20', '20-100')
+
+# load shapefile(s)
+dsn <- "../shapes"
+layer.puma <- "reg10puma"
+puma.shape <-spTransform(readOGR(dsn=dsn,layer=layer.puma), CRS("+proj=longlat +datum=WGS84"))
+
