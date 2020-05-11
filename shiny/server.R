@@ -1069,37 +1069,29 @@ function(input, output, session) {
         if (dttype == "share_with_MOE") dt <- stabVisTable.shareMOE()
         if (dttype == "estimate_with_MOE") dt <- stabVisTable.estMOE() 
       }
+      
+      # join data to shapefile (remove extra cols)
+      shp <- sp::merge(puma.shape, dt, by.x = "PUMACE10", by.y = "value")
+      
+      # put into leaflet
+      colorBinResult <- map.colorBins(shp$result)
+      pal <- colorBin(palette = colorBinResult$color, bins = colorBinResult$bin)
+      
+      m <- leaflet(data = shp) %>%
+        addProviderTiles("CartoDB.Positron") %>%
+        addPolygons(fillColor = ~pal(result),
+                    fillOpacity = 0.7,
+                    stroke = T,
+                    color = "#8a8a95",
+                    weight = 2) %>%
+        addLegend("topright",
+                  pal = pal,
+                  values = ~result,
+                  title = paste0(geog.caption, ": <br>", selection, " of ", xlabel),
+                  opacity = 1)
     } else {
-      NULL
+      m <- NULL
     }
-
-    # join data to shapefile (remove extra cols)
-    shp <- sp::merge(puma.shape, dt, by.x = "PUMACE10", by.y = "value")
-    
-    # put into leaflet
-    colorBinResult <- map.colorBins(shp$result)
-    pal <- colorBin(palette = colorBinResult$color, bins = colorBinResult$bin)
-    
-    m <- leaflet(data = shp) %>%
-      addProviderTiles("CartoDB.Positron") %>%
-      addPolygons(fillColor = ~pal(result),
-                  fillOpacity = 0.7,
-                  stroke = T,
-                  color = "#8a8a95",
-                  weight = 2) %>%
-      addLegend("topright",
-                pal = pal,
-                values = ~result,
-                title = paste0(geog.caption, ": <br>", selection, " of ", xlabel),
-                opacity = 1) #%>%
-      # setView(lng = -122.008546, lat = 47.549390, zoom = 9) %>%
-      # addEasyButton(
-      #   easyButton(
-      #     icon="fa-globe", 
-      #     title="Zoom to Region",
-      #     onClick=JS("function(btn, map){ 
-      #                map.setView([47.549390, -122.008546],9);}"))
-      # )
 
     return(m)
   })
