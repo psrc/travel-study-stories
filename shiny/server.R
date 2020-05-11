@@ -1105,10 +1105,11 @@ function(input, output, session) {
       tabsetPanel(type = "tabs",
                   tabPanel("Chart", plotlyOutput("stab_vis", width = "85%")), # end tabPanel
                   tabPanel("Map", 
-                           div(
-                           leafletOutput("stab_map"),
-                           style = 'margin-top: 2rem;'
-                           )
+                           leafletOutput("stab_map")#,
+                           # div(
+                           # 
+                           # style = 'margin-top: 2rem;'
+                           # )
                            )
                   ) # end tabsetPanel
     } else {
