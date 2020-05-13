@@ -8,9 +8,9 @@ library(plotly)
 library(shinyjs)
 library(odbc)
 library(DBI)
-library(sp)
-library(rgdal)
-library(leaflet)
+# library(sp)
+# library(rgdal)
+# library(leaflet)
 
 
 # local
@@ -18,8 +18,8 @@ library(leaflet)
 # wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-studies-stories/travel-study-stories/shiny"
 
 # shiny server
-wrkdir <- "/home/shiny/apps/testing-travel-study-stories/shiny"
-# wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
+# wrkdir <- "/home/shiny/apps/testing-travel-study-stories/shiny"
+wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
 
 source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
@@ -113,8 +113,8 @@ hist_breaks_num_trips<-c(-.01,0,2,4,6,8,10,12,14,16,18,20,100)
 hist_breaks_num_trips_labels<-c('0', '1-2', '3-4', '5-6', '7-8', '9-10', '11-12', '13-14', '14-16', '17-18', '19-20', '20-100')
 
 # load shapefile(s)
-dsn <- "../shapes"
-layer.puma <- "reg10puma_WGS84"
-puma.shape <- readOGR(dsn=dsn,layer=layer.puma)
+# dsn <- "../shapes"
+# layer.puma <- "reg10puma_WGS84"
+# puma.shape <- readOGR(dsn=dsn,layer=layer.puma)
 # puma.shape <-spTransform(readOGR(dsn=dsn,layer=layer.puma), CRS("+proj=longlat +datum=WGS84"))
 
