@@ -1,8 +1,11 @@
 fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
           # shinythemes::themeSelector(),
           theme = shinytheme("flatly"),
+          tags$head(
+            tags$link(rel = "stylesheet", type = "text/css", href = "additional-styles.css")
+          ),
           useShinyjs(),
-          navbarPage("2017 Household Survey Results (Beta version)",
+          navbarPage("2017/2019 Household Survey Results",
 
 # Simple Table ------------------------------------------------------------
 
@@ -51,13 +54,19 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                                                  ) # end conditionalPanel
                                                      ), # end sidbarPanel
                                                      mainPanel(width = 9,
+                                                               div(
                                                                uiOutput("ui_stab_res_type_title"),
                                                                br(),
-                                                               div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
+                                                               uiOutput("ui_stab_tbl"),
+                                                               # div(DT::dataTableOutput('stab_tbl'), style = 'font-size: 95%; width: 85%'),#
                                                                br(),
                                                                br(),
                                                                br(),
-                                                               plotlyOutput('stab_vis', width = "85%")
+                                                               uiOutput("ui_stab_vis"), 
+                                                               class='visual-display'
+                                                               # plotlyOutput('stab_vis', width = "85%")
+                                                               ) # end div
+                                                               
                                                      ) # end mainPanel
                                                    ) # end sidebarLayout
                                                    ), # end tabPanel
@@ -149,25 +158,28 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                                 fluidRow(
                                   column(2,
                                     uiOutput("ui_xtab_res_type_title"),
-                                    wellPanel(
-                                             radioButtons("xtab_dtype_rbtns",
-                                                          label = strong("Summary Types"),
-                                                          # choices = dtype.choice[!(dtype.choice %in% 'N_HH')]
-                                                          choices = dtype.choice.xtab
-                                                          ),
-                                             div(p("Shares are based on rowwise totals."), style = 'font-size: 85%')
-                                    ) # end wellPanel
+                                    uiOutput("ui_xtab_dtype_rbtns")
+                                    # wellPanel(
+                                             # radioButtons("xtab_dtype_rbtns",
+                                             #              label = strong("Summary Types"),
+                                             #              # choices = dtype.choice[!(dtype.choice %in% 'N_HH')]
+                                             #              choices = dtype.choice.xtab
+                                             #              ),
+                                             # div(p("Shares are based on rowwise totals."), style = 'font-size: 85%')
+                                    # ) # end wellPanel
                                   ),
                                   column(10,
                                          fluidRow(
                                            tabsetPanel(type = "tabs",
                                                        tabPanel("Table",
                                                                 br(),
-                                                                div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
+                                                                # div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%')
+                                                                uiOutput("ui_xtab_tbl")
                                                                 ),
                                                        tabPanel("Visual",
                                                                 br(),
-                                                                plotlyOutput("xtab_vis", width = "85%"))
+                                                                # plotlyOutput("xtab_vis", width = "85%"))
+                                                                uiOutput("ui_xtab_vis"))
 
                                            ) # end tabsetPanel
                                          ) # end fluidRow
@@ -182,12 +194,12 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                       tabPanel("About Travel Survey Data Explorer",
                                column(2),
                                column(8,
-                                      includeMarkdown(file.path(data.dir, "about_page.md"))
+                                      includeMarkdown(file.path(wrkdir, "about_page.md"))
                                       ),
                                column(2)
                                )
 
-# # Simple Table ------------------------------------------------------------
+# # Deprecated Simple Table ------------------------------------------------------------
 # 
 #                      tabPanel("Simple Table",
 #                               sidebarLayout(

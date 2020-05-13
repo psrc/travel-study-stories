@@ -1,0 +1,94 @@
+Variables,Name,Category,Table,Detail
+None,None,None,Person,None
+Gender,Gender,Person,Person,Gender
+RaceCategory,Race Group,Person,Person,"Race or Ethnicity, in very broad groups for sufficient samples for statistical significance; children did not answer this question, and some people chose not to answer. "
+AgeCategory,Age Group,Person,Person,"Age in years,  in broad groups for sufficient samples for statistical significance"
+Age,Age,Person,Person,"Age in years, detailed age group"
+Education,Education,Person,Person,Highest level of education completed
+License,Driver's License,Person,Person,Survey Question: Has a valid driver's license or permit?
+ModeFreq1,Times ridden transit in past 30 days,Travel,Person,"Survey Question: In the past 30 days, how often have you ridden transit?"
+ModeFreq2,Times ridden a bike in past 30 days,Travel,Person,"Survey Question: In the past 30 days, how often have you ridden a bike (for 15 minutes or more?"
+ModeFreq3,Times gone for a walk in past 30 days,Travel,Person,"Survey Question: In the past 30 days, how often have you gone for a walk (for 15 minutes or more)?"
+ModeFreq4,Times used carshare in past 30 days,Travel,Person,"Survey Question: Age 16+, In the past 30 days, how often have you used Carshare (e.g. car2go, RelayRides)?"
+ModeFreq5,Times used rideshare in past 30 days,Travel,Person,"Survey Question: Age 16+, In the past 30 days, how often have you used Rideshare (e.g. Lyft, Uber)?"
+MainMode,Mode Group,Travel,Trip,"Mode Category, in broad groups for sufficient samples for statistical significance"
+DestPurposeSimple,Destination Purpose Group,Travel,Trip,"Destination purpose category, in broad groups for sufficient samples for statistical significance"
+Orgcname,Trip Origin Regional Growth Center,Travel,Trip,Trip Origin Regional Growth Center
+Drgcname,Trip Destination Regional Growth Center,Travel,Trip,Trip Destination Regional Growth Center
+ModeAcc,Transit Access Mode,Travel,Trip,Survey Question: How did you travel from your origin to the first transit stop/station?
+TravelersTotal,Number of People in Vehicle,Travel,Trip,Number of people total who traveled on trip
+TravelersHH,Number of Household Members Travelling With,Travel,Trip,Household members who traveled on trip
+MainMode,Detailed Mode,Travel,Trip,"Main way traveled on trip, detailed"
+Destination purpose,Detailed Purpose,Travel,Trip,"Main purpose of trip, detailed category"
+Driver,Driver or Passenger,Travel,Trip,Survey Question: Were you the driver or passenger on the trip?
+Park,Parking Location at Trip Destination,Travel,Trip,Survey Question: Where was the vehicle parked at/near?
+Employment,Employment Status,Worker,Person,Primary type of employment
+HoursWork,Hours Worked,Worker,Person,Survey Question: How many hours typically worked per week?
+CommuteFreq,Commute Frequency,Worker,Person,Survey Question: How often typically commutes to workplace?
+CommuteMode,Usual Commute Mode,Worker,Person,Usual way of commuting to workplace (mode use for greatest distance during usual commute)
+CommuteDuration,Commute Duration,Worker,Person,Survey Question: How long has been commuting to current location/office?
+TelecommuteFreq,Telecommute Frequency,Worker,Person,Survey Question: How often telecommutes?
+Wpktyp,Work Parking Location,Worker,Person,Survey Question: Usual parking location at work?
+Workpass,Work Parking Payment Method,Worker,Person,"Usual pay or use a pass to park at work, if usually drive alone or carpool"
+JobsCount,Number of Jobs,Worker,Person,Number of Jobs
+WorkCounty,Work County,Worker,Person,Work County
+PrevWorkCounty,Previous Work County,Worker,Person,Previous Work County
+Benefits1,Flextime,Worker,Person,Survey Question: Does your employer offer flextime?
+Benefits2,Compressed Week,Worker,Person,Survey Question: Does your employer offer a compressed work week?
+Benefits3,Free/partially subsidized passes/fares,Worker,Person,Survey Question: Does your employer offer free or partially subsidized transit passes?
+Benefits4,Other subsidized commute,Worker,Person,"Survey Question: Does your employer offer other subsidized commuter benefits (vanpooling, bike storage)?"
+Student,Student Status,Student,Person,Survey Question: Currently a student?
+Schooltype,School Type,Student,Person,Type of school attended
+SchoolLocCounty,School County,Student,Person,School County
+HHSize,Household Size,Household,Household,Survey Question: How many total people (including yourself) currently live in your household?
+VehicleCount,Number of Vehicles,Household,Household,"Survey Question: How many motor vehicles (in working order) are in your household? Includes cars, trucks, SUVs, vans, RVs and motorcylcles"
+SampleCounty,County,Household,Household,Home County
+ResDur,Length of Residence,Household,Household,Survey Question: How long have you lived at your current residence?
+RentOwn,Rent or Own Home,Household,Household,Survey Question: Do you rent or own your current residence?
+ResType,Type of Residence,Household,Household,Survey Question: What type of place is your current residence?
+PrevHomeWa,Previous Home (WA),Household,Household,"Was your previous home located in the state of Washington, if lived in residence <= 5 years"
+HHincomeBroad,Household Income Group,Household,Household,"Household Income Group, in broad categories"
+Lifecycle,Household Life Cycle,Household,Household,Household Life Cycle stage
+CarShare,Carshare,Household,Household,Survey Question: Is anyone in your household a member of a car share program?
+HHGroup,Survey Type,Household,Household,Respondents could take the survey via an app or online
+FinalHomePuma10,Home Address PUMA 2010,Household,Household,Home Address PUMA 2010
+ResFactors30min,Being within a 30-minute commute to work,Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+ResFactorsAfford,Affordability,Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+ResFactorsCloseFam,Being close to family or friends,Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+ResFactorsHHchange,A change in family size or marital/ partner status,Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+ResFactorsHwy,Being close to the highway,Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+ResFactorsSchool,Quality of schools (K-12),Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+ResFactorsSpace,Having space & separation from others,Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+ResFactorsTransit,Being close to public transit,Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+ResFactorsWalk,Having a walkable neighborhood and being near local activities,Home Choice Priority,Person,Survey Question: How important were each of these factors when choosing to move where you live now?
+AvInterest1," Taxi, no driver present",Autonomous Car Interest,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvInterest2," Taxi, backup driver present",Autonomous Car Interest,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvInterest3,Commute alone,Autonomous Car Interest,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvInterest4,Commute with others,Autonomous Car Interest,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvInterest5,Own autonomous car,Autonomous Car Interest,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvInterest6,Autonomous carshare,Autonomous Car Interest,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvInterest7,Autonomous short trips,Autonomous Car Interest,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvConcern1,Equipment and safety,Autonomous Car Concern,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvConcern2,Legal liability,Autonomous Car Concern,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvConcern3,System and security,Autonomous Car Concern,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvConcern4,Reaction to driving environment,Autonomous Car Concern,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+AvConcern5,Poor weather performance,Autonomous Car Concern,Person,Survey Question: What is your level of interest in the following uses of autonomous cars?
+TranPass1,Cash ,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass2,Tickets,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass3,ORCA card,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass4,UPass or Husky Card,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass5,Regional Reduced-Fare Permit,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass6,Flexpass/Passport,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass7,Access Pass,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass8,School District Card/Pass,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass9,City/County Employee Badge,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass10,Ride free,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+TranPass11,Other,Transit Payment Method,Person,Survey Question: Which of the following types of fare payments do you typically use when riding transit in the greater Seattle region?
+WbtTransitmore1,Safer ways to get to stops,Transit Improvements,Person,"Survey Question: If the following transit improvements were in place, how often would you choose to take transit for trips where transit is an option?"
+WbtTransitmore2,Increased frequency,Transit Improvements,Person,"Survey Question: If the following transit improvements were in place, how often would you choose to take transit for trips where transit is an option?"
+WbtTransitmore3,Increased reliability,Transit Improvements,Person,"Survey Question: If the following transit improvements were in place, how often would you choose to take transit for trips where transit is an option?"
+WbtBikemore1,Shared use path or protected bike lane,Bike Improvements,Person,"Survey Question: If the following bicycle improvements were in place, how often would you choose to take a bike for trips where bicycling in an option?"
+WbtBikemore2,Neighborhood greenway,Bike Improvements,Person,"Survey Question: If the following bicycle improvements were in place, how often would you choose to take a bike for trips where bicycling in an option?"
+WbtBikemore3,Bike lane,Bike Improvements,Person,"Survey Question: If the following bicycle improvements were in place, how often would you choose to take a bike for trips where bicycling in an option?"
+WbtBikemore4,Shared roadway lane,Bike Improvements,Person,"Survey Question: If the following bicycle improvements were in place, how often would you choose to take a bike for trips where bicycling in an option?"
+WbtBikemore5,End of trip ammenities,Bike Improvements,Person,"Survey Question: If the following bicycle improvements were in place, how often would you choose to take a bike for trips where bicycling in an option?"
