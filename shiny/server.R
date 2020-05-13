@@ -1015,106 +1015,106 @@ function(input, output, session) {
 # Simple Table Map --------------------------------------------------------
 
   
-  stabToMap <- eventReactive(input$stab_go, {
-    # TEST!!!!!!!!!!!!!!!!!!!!!!
-    ifelse(str_detect(input$stab_xcol, "puma10$"), TRUE, FALSE)
-  })
+  # stabToMap <- eventReactive(input$stab_go, {
+  #   # TEST!!!!!!!!!!!!!!!!!!!!!!
+  #   ifelse(str_detect(input$stab_xcol, "puma10$"), TRUE, FALSE)
+  # })
   
-  map.colorBins <- function(diffcolumn){
-    rng <- range(diffcolumn)
-    if (rng[1] < 0 & rng[2] > 0){
-      diff.range <- "both"
-      bins.from.positive <- abs(rng[2]) > abs(rng[1])
-    } else if (rng[1] >=0 & rng[2] > 0){
-      diff.range <- "pos"
-    } else if (rng[1] < 0 & rng[2] < 0){
-      diff.range <- "neg"
-    } else {
-      diff.range <- "none"
-    }
-    max.bin <- max(abs(rng))
-    round.to <- 10^floor(log10(max.bin))
-    # round maximum to the nearest 100 or 1000 or whatever is appropriate (determined by the log10)
-    max.bin <- ceiling(max.bin/round.to)*round.to
-    absbreaks <- (sqrt(max.bin)*c(0.1, 0.2,0.4, 0.6, 0.8, 1))^2 # breaks on sqrt scale
-    
-    if (diff.range == "both"){
-      color <- c("#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#ffffff", "#f7f7f7",
-                 "#fddbc7", "#f4a582", "#d6604d", "#b2182b", "#67001f")
-      bin <- c(-rev(absbreaks), absbreaks)
-    } else if (diff.range == "pos"){
-      color <- "Reds"
-      bin <- c(0, absbreaks)
-    } else if (diff.range == "neg"){
-      color <- "Blues"
-      bin <- c(-rev(absbreaks), 0)
-    } else if (diff.range == "none"){
-      color <- "transparent"
-      bin <- c(0, 1)
-    }
-    return(list(color=color, bin=bin))
-  }
+  # map.colorBins <- function(diffcolumn){
+  #   rng <- range(diffcolumn)
+  #   if (rng[1] < 0 & rng[2] > 0){
+  #     diff.range <- "both"
+  #     bins.from.positive <- abs(rng[2]) > abs(rng[1])
+  #   } else if (rng[1] >=0 & rng[2] > 0){
+  #     diff.range <- "pos"
+  #   } else if (rng[1] < 0 & rng[2] < 0){
+  #     diff.range <- "neg"
+  #   } else {
+  #     diff.range <- "none"
+  #   }
+  #   max.bin <- max(abs(rng))
+  #   round.to <- 10^floor(log10(max.bin))
+  #   # round maximum to the nearest 100 or 1000 or whatever is appropriate (determined by the log10)
+  #   max.bin <- ceiling(max.bin/round.to)*round.to
+  #   absbreaks <- (sqrt(max.bin)*c(0.1, 0.2,0.4, 0.6, 0.8, 1))^2 # breaks on sqrt scale
+  #   
+  #   if (diff.range == "both"){
+  #     color <- c("#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#ffffff", "#f7f7f7",
+  #                "#fddbc7", "#f4a582", "#d6604d", "#b2182b", "#67001f")
+  #     bin <- c(-rev(absbreaks), absbreaks)
+  #   } else if (diff.range == "pos"){
+  #     color <- "Reds"
+  #     bin <- c(0, absbreaks)
+  #   } else if (diff.range == "neg"){
+  #     color <- "Blues"
+  #     bin <- c(-rev(absbreaks), 0)
+  #   } else if (diff.range == "none"){
+  #     color <- "transparent"
+  #     bin <- c(0, 1)
+  #   }
+  #   return(list(color=color, bin=bin))
+  # }
   
-  output$stab_map <- renderLeaflet({
-    # TEST!!!!!!!!!!!!!!!!!!!!!!!!
-    if (stabToMap()) {
-      xlabel <- stab.varsXAlias() # first dim
-      dttype <- input$stab_dtype_rbtns
-      selection <- names(dtype.choice[dtype.choice %in% dttype])
-      geog.caption <- stabCaption()
-
-      if (dttype %in% col.headers) {
-        dt <- stabVisTable()[type %in% selection, ]
-      } else {
-        if (dttype == "share_with_MOE") dt <- stabVisTable.shareMOE()
-        if (dttype == "estimate_with_MOE") dt <- stabVisTable.estMOE() 
-      }
-      
-      # join data to shapefile (remove extra cols)
-      shp <- sp::merge(puma.shape, dt, by.x = "PUMACE10", by.y = "value")
-      
-      # put into leaflet
-      colorBinResult <- map.colorBins(shp$result)
-      pal <- colorBin(palette = colorBinResult$color, bins = colorBinResult$bin)
-      
-      m <- leaflet(data = shp) %>%
-        addProviderTiles("CartoDB.Positron") %>%
-        addPolygons(fillColor = ~pal(result),
-                    fillOpacity = 0.7,
-                    stroke = T,
-                    color = "#8a8a95",
-                    weight = 2) %>%
-        addLegend("topright",
-                  pal = pal,
-                  values = ~result,
-                  title = paste0(geog.caption, ": <br>", selection, " of ", xlabel),
-                  opacity = 1)
-    } else {
-      m <- NULL
-    }
-
-    return(m)
-  })
+  # output$stab_map <- renderLeaflet({
+  #   # TEST!!!!!!!!!!!!!!!!!!!!!!!!
+  #   if (stabToMap()) {
+  #     xlabel <- stab.varsXAlias() # first dim
+  #     dttype <- input$stab_dtype_rbtns
+  #     selection <- names(dtype.choice[dtype.choice %in% dttype])
+  #     geog.caption <- stabCaption()
+  # 
+  #     if (dttype %in% col.headers) {
+  #       dt <- stabVisTable()[type %in% selection, ]
+  #     } else {
+  #       if (dttype == "share_with_MOE") dt <- stabVisTable.shareMOE()
+  #       if (dttype == "estimate_with_MOE") dt <- stabVisTable.estMOE() 
+  #     }
+  #     
+  #     # join data to shapefile (remove extra cols)
+  #     shp <- sp::merge(puma.shape, dt, by.x = "PUMACE10", by.y = "value")
+  #     
+  #     # put into leaflet
+  #     colorBinResult <- map.colorBins(shp$result)
+  #     pal <- colorBin(palette = colorBinResult$color, bins = colorBinResult$bin)
+  #     
+  #     m <- leaflet(data = shp) %>%
+  #       addProviderTiles("CartoDB.Positron") %>%
+  #       addPolygons(fillColor = ~pal(result),
+  #                   fillOpacity = 0.7,
+  #                   stroke = T,
+  #                   color = "#8a8a95",
+  #                   weight = 2) %>%
+  #       addLegend("topright",
+  #                 pal = pal,
+  #                 values = ~result,
+  #                 title = paste0(geog.caption, ": <br>", selection, " of ", xlabel),
+  #                 opacity = 1)
+  #   } else {
+  #     m <- NULL
+  #   }
+  # 
+  #   return(m)
+  # })
   
   output$ui_stab_vis <- renderUI({
     # ORIGINAL!!!!!!!!!!!!!!!!!!!!!!
-    # plotlyOutput("stab_vis", width = "85%")
+    plotlyOutput("stab_vis", width = "85%")
     
-    if (stabToMap()) {
-      # TEST!!!!!!!!!!!!!!!!!!!!!!!!
-      tabsetPanel(type = "tabs",
-                  tabPanel("Chart", plotlyOutput("stab_vis", width = "85%")), # end tabPanel
-                  tabPanel("Map", 
-                           leafletOutput("stab_map")#,
-                           # div(
-                           # 
-                           # style = 'margin-top: 2rem;'
-                           # )
-                           )
-                  ) # end tabsetPanel
-    } else {
-      plotlyOutput("stab_vis", width = "85%")
-    }
+    # if (stabToMap()) {
+    #   # TEST!!!!!!!!!!!!!!!!!!!!!!!!
+    #   tabsetPanel(type = "tabs",
+    #               tabPanel("Chart", plotlyOutput("stab_vis", width = "85%")), # end tabPanel
+    #               tabPanel("Map", 
+    #                        leafletOutput("stab_map")#,
+    #                        # div(
+    #                        # 
+    #                        # style = 'margin-top: 2rem;'
+    #                        # )
+    #                        )
+    #               ) # end tabsetPanel
+    # } else {
+    #   plotlyOutput("stab_vis", width = "85%")
+    # }
   })
 
 
