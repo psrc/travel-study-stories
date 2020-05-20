@@ -71,7 +71,6 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
 }
 
 simple_table <- function(table, var, wt_field, type) {
-  z <- 1.645
   
 
 
@@ -83,14 +82,13 @@ simple_table <- function(table, var, wt_field, type) {
     }
     table <- na.omit(table, cols = var)
     raw <- table[, .(sample_count = .N), by = var]
-    N_hh <- table[, .(hhid = uniqueN(hhid)), by = var]
+    N_hh <- table[, .(hhid = uniqueN(hhid))]
     table<-table[!is.na(get(wt_field))]
     expanded <- table[, lapply(.SD, sum), .SDcols = wt_field, by = var]
     expanded_tot <- expanded[, lapply(.SD, sum), .SDcols = wt_field][[eval(wt_field)]]
-    print(expanded_tot)
+    expanded[,'hhid':=N_hh[['hhid']][1]]
     setnames(expanded, wt_field, "estimate")
     expanded[, share := estimate/eval(expanded_tot)]
-    expanded <- merge(expanded, N_hh, by = var)
     expanded[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
     expanded$total <- sum(expanded$estimate)
     expanded$estMOE = expanded$MOE * expanded$total
