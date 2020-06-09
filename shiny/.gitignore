@@ -1,3 +1,4 @@
 *.csv
 etc/
 .Rhistory
+.RData
