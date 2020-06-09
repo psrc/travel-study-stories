@@ -1,6 +1,8 @@
 fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
-          # shinythemes::themeSelector(),
-          theme = shinytheme("flatly"),
+          #shinythemes::themeSelector(),
+          #theme = shinytheme("flatly"),
+          #theme = shinytheme("united"),
+          theme = "bootstrap_united.css",
           tags$head(
             tags$link(rel = "stylesheet", type = "text/css", href = "additional-styles.css")
           ),
