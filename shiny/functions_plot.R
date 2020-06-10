@@ -36,6 +36,52 @@ plot.layout <- function(df, dttype.label, geog.caption, xlabel, ylabel = NULL) {
 xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label, geog.caption) {
   yscale <- plot.format.nums(format)
   
+
+  if (format == "percent") {
+    f <- ggplot(table, 
+                aes(x = get(colnames(table)[1]), #value,
+                    y = result,
+                    group = value, #get(colnames(table)[1]),
+                    fill = value, #get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), group,
+                                 paste0('<br>', ylabel, ':'), value,
+                                 paste0('<br>', dttype.label, ':'), yscale(result))
+                )
+    ) +
+      geom_col(position = "fill") +
+      #      geom_col(position = position_dodge(preserve = "single")) #original
+      #      geom_col()+  # stacked bars but not filled
+      coord_flip() +
+      labs(fill = str_wrap(ylabel, 25),
+           x = xlabel,
+           y = NULL)
+  } else {  
+    f <- ggplot(table, 
+                aes(x = value,
+                    y = result,
+                    group = get(colnames(table)[1]),
+                    fill = get(colnames(table)[1]),
+                    text = paste(paste0(xlabel,':'), group,
+                                 paste0('<br>', ylabel, ':'), value,
+                                 paste0('<br>', dttype.label, ':'), yscale(result))
+                )
+    ) +
+      geom_col(position = position_dodge(preserve = "single")) +
+      labs(fill = str_wrap(xlabel, 25),
+           x = ylabel,
+           y = NULL)
+  }
+    g <- f + 
+        theme_minimal() +
+        scale_x_discrete(labels = function(x) str_wrap(x, width = 15)) +
+        scale_y_continuous(labels = yscale) +
+        theme(axis.title.x = element_text(margin = margin(t=30)),
+              axis.title.y = element_text(margin = margin(r=20)),
+              legend.title=element_text(size=10),
+              plot.margin = margin(.6, 4.5, 0, 0, "cm"))
+    
+  p <- ggplotly(g, tooltip = "text") %>% layout(font = font.family)
+
   g <- ggplot(table, 
               aes(x = value,
                   y = result,
@@ -72,6 +118,7 @@ xtab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, ylabe
     #                     font=list(size=14)
     #                     ) # end title list
     #        ) # end layout
+
 }
 
 xtab.plot.bar.pivot <- function(table, format = c("percent", "nominal"), xlabel, ylabel, dttype.label, geog.caption) {
@@ -116,7 +163,7 @@ xtab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, y
                                  yscale(result), paste0("(", yscale(pmax(result-result_moe, 0)), ", ", yscale(pmin(result+result_moe, 1)), ")"))
                 )
     ) +
-      geom_col(position = position_dodge(preserve = "single")) + 
+      geom_col(position = position_dodge(preserve = "single")) +
       geom_errorbar(aes(ymin = pmax(result - result_moe, 0), ymax = pmin(result + result_moe, 1)),
                     alpha = .5,
                     width = 0.2,
