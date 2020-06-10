@@ -32,7 +32,8 @@ cross_tab <- function(table, var1, var2, wt_field, type) {
     expanded <- merge(expanded, expanded_tot, by = var1)
     expanded[, share := estimate/get(eval(wt_field))]
     expanded <- merge(expanded, N_hh, by = var1)
-    expanded[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
+    expanded[,p_col :=p_MOE] 
+    expanded[, ("in") := (p_col*(1-p_col))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
     expanded$estMOE= expanded$MOE*expanded[[wt_field]]
     crosstab <- merge(raw, expanded, by = cols)
     crosstab <- dcast.data.table(crosstab, 
@@ -89,7 +90,8 @@ simple_table <- function(table, var, wt_field, type) {
     expanded[,'hhid':=N_hh[['hhid']][1]]
     setnames(expanded, wt_field, "estimate")
     expanded[, share := estimate/eval(expanded_tot)]
-    expanded[, ("in") := (share*(1-share))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
+    expanded[,p_col :=p_MOE]   
+    expanded[, ("in") := (p_col*(1-p_col))/hhid][, MOE := z*sqrt(get("in"))][, N_HH := hhid]
     expanded$total <- sum(expanded$estimate)
     expanded$estMOE = expanded$MOE * expanded$total
     s_table <- merge(raw, expanded, by = var)
