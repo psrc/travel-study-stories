@@ -14,28 +14,12 @@ library(DBI)
 
 
 # local
-
-# wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
-# data.dir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/data"
-# wrkdir <- "C:/Users/CLam/Desktop/travel-study-stories/shiny"
-# data.dir <- "C:/Users/CLam/Desktop/travel-study-stories/data"
-wrkdir <- "C:/travel-study-stories/shiny"
-data.dir <- "C:/travel-study-stories/data"
-
-
-# shiny server
-# wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
-# data.dir <- "/home/shiny/apps/travel-study-stories/data"
-
 # wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
-# wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-studies-stories/travel-study-stories/shiny"
-wrkdir <- "C:/travel-study-stories/shiny"
+#wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
 
 # shiny server
 # wrkdir <- "/home/shiny/apps/testing-travel-study-stories/shiny"
-#wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
-
-
+wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
 
 source(file.path(wrkdir, 'travel_crosstab.R'))
 source(file.path(wrkdir, 'functions_plot.R'))
@@ -117,6 +101,8 @@ col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
 dtype.choice.xtab.facts <- dtype.choice[c(9, 10, 8)]
 col.headers.facts <-  c("mean", "MOE", "sample_count", "N_HH")
 
+# we assume a 50% probability to maximize the MOE
+p_MOE <- 0.5
 # stab sublist
 dtype.choice.stab <- dtype.choice[c(1:2, 7, 3, 8)]
 dtype.choice.stab.vis <- dtype.choice[c(1:2, 6, 4, 8)]
@@ -133,4 +119,3 @@ hist_breaks_num_trips_labels<-c('0', '1-2', '3-4', '5-6', '7-8', '9-10', '11-12'
 # layer.puma <- "reg10puma_WGS84"
 # puma.shape <- readOGR(dsn=dsn,layer=layer.puma)
 # puma.shape <-spTransform(readOGR(dsn=dsn,layer=layer.puma), CRS("+proj=longlat +datum=WGS84"))
-
