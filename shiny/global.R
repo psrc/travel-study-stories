@@ -15,7 +15,7 @@ library(DBI)
 
 # local
 # wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
-# wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-studies-stories/travel-study-stories/shiny"
+#wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
 
 # shiny server
 # wrkdir <- "/home/shiny/apps/testing-travel-study-stories/shiny"
@@ -101,6 +101,8 @@ col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
 dtype.choice.xtab.facts <- dtype.choice[c(9, 10, 8)]
 col.headers.facts <-  c("mean", "MOE", "sample_count", "N_HH")
 
+# we assume a 50% probability to maximize the MOE
+p_MOE <- 0.5
 # stab sublist
 dtype.choice.stab <- dtype.choice[c(1:2, 7, 3, 8)]
 dtype.choice.stab.vis <- dtype.choice[c(1:2, 6, 4, 8)]
