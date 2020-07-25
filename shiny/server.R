@@ -262,6 +262,11 @@ function(input, output, session) {
   xtabTable <- eventReactive(input$xtab_go, {
       table.type<- xtabTableType()$Res
       wt_field<- table_names[[table.type]]$weight_name
+
+      # temp statement b/c this cat was only asked in 2019. Use 2019 weights
+      if (input$xtab_xcat == 'Reason for leaving previous residence' || input$xtab_ycat == 'Reason for leaving previous residence') {
+        wt_field <- hh_move_weight_name
+      }
       
       if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
         # use a special weight here because trip counts are a weird case
@@ -676,8 +681,11 @@ function(input, output, session) {
     
   })
   
+  
+  
   output$ui_xtab_tbl <- renderUI({
-    div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%', class = 'visual-display')
+    div(DT::dataTableOutput('xtab_tbl'), style = 'font-size: 95%; width: 85%', class = 'visual-display', )
+    
   })
 
   output$ui_xtab_vis <- renderUI({
@@ -856,6 +864,11 @@ function(input, output, session) {
     table.type <- stabTableType()$Res
     wt_field<- table_names[[table.type]]$weight_name
 
+    # temp statement b/c this cat was only asked in 2019. Use 2019 weights
+    if (input$stab_xcat == 'Reason for leaving previous residence') {
+      wt_field <- hh_move_weight_name
+    }
+    
     if(input$stab_xcol=='weighted_trip_count' ){
       # use a special weight here because trip counts are a weird case
       wt_field <-hh_day_weight_name

@@ -31,12 +31,15 @@ dbtable.day <- "HHSurvey.v_day_2017_2019"
 dbtable.vehicle <- "HHSurvey.v_vehicle_2017_2019"
 dbtable.person <- "HHSurvey.v_persons_2017_2019"
 dbtable.trip <- "HHSurvey.v_trips_2017_2019"
-dbtable.variables <- "HHSurvey.data_explorer_variables"
-dbtable.values <- "HHSurvey.v_data_explorer_values_2019" #"HHSurvey.data_explorer_values"
+# dbtable.variables <- "HHSurvey.data_explorer_variables"
+# dbtable.values <- "HHSurvey.v_data_explorer_values_2019"
+dbtable.variables <- "HHSurvey.data_explorer_variables_w_reasons_for_moving" # temp structure
+dbtable.values <- "HHSurvey.v_data_explorer_values_2019_w_reasons_for_moving" # temp structure
 
 hh_weight_name <- 'hh_wt_combined'
 hh_day_weight_name <-'hh_day_wt_combined'
 trip_weight_name <- 'trip_wt_combined'
+hh_move_weight_name <- 'hh_wt_2019' # temp structure
 
 table_names <- list("Household" = list("weight_name" = hh_weight_name, "table_name" = dbtable.household),
                     "Day" = list("weight_name" = hh_day_weight_name , "table_name" = dbtable.day),
