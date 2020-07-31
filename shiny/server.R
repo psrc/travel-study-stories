@@ -178,48 +178,29 @@ function(input, output, session) {
     
     x <- input$xtab_xcat
     y <- input$xtab_ycat
-
+    
     if (x == move.var) {
-      # filter to 2 choices
-      updateSelectInput(session, "xtab_ycat",
-                        label = "Category",
-                        choices = move.choices
-      )
-    } else if ((x != move.var & x != 'Household') & (is.null(v$xtabycat) | y == hh.var)) {
-      # exclude only 'Reason...'
-      updateSelectInput(session, "xtab_ycat",
-                        label = "Category",
-                        selected = y,
-                        choices = vars.cat[!(vars.cat %in% move.var)]
-      )
-    } else if (x == hh.var & (is.null(v$xtabycat))) {
-      # don't exclude 'Reason...'
-      updateSelectInput(session, "xtab_ycat",
-                        label = "Category",
-                        selected = y,
-                        choices = vars.cat[!(vars.cat %in% 'None')]
-      )
-    } else if (x == hh.var & (!is.null(v$xtabycat))) {
-      # don't exclude 'Reason...' & allow prev cat selection to persist
-      updateSelectInput(session, "xtab_ycat",
-                        label = "Category",
-                        # selected = v$xtabycat,
-                        selected = y,
-                        choices = vars.cat[!(vars.cat %in% 'None')]
-      )
-    } else if (x != move.var & v$xtabycat %in% vars.cat[!(vars.cat %in% move.var)]) {
-      updateSelectInput(session, "xtab_ycat",
-                        label = "Category",
-                        selected = v$xtabycat,
-                        choices = vars.cat[!(vars.cat %in% move.var)]
-      )
+      # filter to two options
+      y.choices <- move.choices
+    } else if ((!(x %in% move.choices) & (y == hh.var))) {
+      # exclude 'Reason...'
+      y.choices <- vars.cat[!(vars.cat %in% move.var)]
+    } else if (x == hh.var) {
+      # default options
+      y.choices <- vars.cat[!(vars.cat %in% "None")]
+    } else if (x != move.var & y != move.var) {
+      # exclude 'Reason...'
+      y.choices <- vars.cat[!(vars.cat %in% move.var)]
     } else {
-      updateSelectInput(session, "xtab_ycat",
-                        label = "Category",
-                        selected = y,
-                        choices = vars.cat[!(vars.cat %in% "None")]
-      )
+      # default options
+      y.choices <- vars.cat[!(vars.cat %in% "None")]
     }
+    
+    updateSelectInput(session, "xtab_ycat",
+                      label = "Category",
+                      selected = y,
+                      choices = y.choices)
+    
   })
   
   observeEvent(input$xtab_ycat, ignoreInit = TRUE, {
@@ -231,39 +212,23 @@ function(input, output, session) {
     y <- input$xtab_ycat
     
     if (y == move.var) {
-      updateSelectInput(session, "xtab_xcat",
-                        label = "Category",
-                        selected = x,
-                        choices = move.choices
-      )
-    }  else if ((y != move.var & y != hh.var) & (is.null(v$xtabxcat))) {
+      # filter to two options
+      x.choices <- move.choices
+    }  else if (!(y %in% move.choices)) {
       # exclude only 'Reason...'
-      updateSelectInput(session, "xtab_xcat",
-                        label = "Category",
-                        selected = x,
-                        choices = vars.cat[!(vars.cat %in% move.var)]
-      )
-    } else if (y == hh.var & (is.null(v$xtabxcat))) {
-      # bring back 'Reason...'
-      updateSelectInput(session, "xtab_xcat",
-                        label = "Category",
-                        selected = x,
-                        choices = vars.cat[!(vars.cat %in% "None")]
-      )
-    } else if (y == hh.var & (!is.null(v$xtabxcat))) {
-      # don't exclude 'Reason...' & allow prev cat selection to persist
-      updateSelectInput(session, "xtab_xcat",
-                        label = "Category",
-                        selected = x,
-                        choices = vars.cat[!(vars.cat %in% "None")]
-      )
+      x.choices <- vars.cat[!(vars.cat %in% move.var)]
+    } else if (y == hh.var) {
+      # default options
+      x.choices <- vars.cat[!(vars.cat %in% "None")]
     } else {
-      updateSelectInput(session, "xtab_xcat",
-                        label = "Category",
-                        selected = x,
-                        choices = vars.cat[!(vars.cat %in% "None")]
-      )
+      # default options
+      x.choices <- vars.cat[!(vars.cat %in% "None")]
     }
+    
+    updateSelectInput(session, "xtab_xcat",
+                      label = "Category",
+                      selected = x,
+                      choices = x.choices)
   })
   
   # variable X alias list
@@ -804,16 +769,12 @@ function(input, output, session) {
   # Enable/Disable download button
   v <- reactiveValues(xtabxcol = NULL,
                       xtabycol = NULL,
-                      xtabxcat = NULL, # new feature
-                      xtabycat = NULL, # new feature
                       xtabgo = 0,
                       xtabfltrsea = F)
   
   observeEvent(input$xtab_go, {
     v$xtabxcol <- input$xtab_xcol
     v$xtabycol <- input$xtab_ycol
-    v$xtabxcat <- input$xtab_xcat # new feature
-    v$xtabycat <- input$xtab_ycat # new feature
     v$xtabgo <- v$xtabgo + 1
     v$xtabfltrsea <- input$xtab_fltr_sea
   })
