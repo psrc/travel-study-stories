@@ -166,6 +166,89 @@ function(input, output, session) {
     yvar.det <- variables.lu[variable %in% input$xtab_ycol, .(detail)]
     unique(yvar.det$detail)
   })
+
+# Update X and Y Categories -----------------------------------------------
+
+  
+  # update x and y cateogries
+  observeEvent(input$xtab_xcat, {
+    move.var <- 'Reason for leaving previous residence'
+    move.choices <- c('Household', move.var)
+    x <- input$xtab_xcat
+
+    if (x == move.var) {
+      # filter to 2 choices
+      updateSelectInput(session, "xtab_ycat",
+                        label = "Category",
+                        choices = move.choices
+      )
+    } else if ((x != move.var & x != 'Household') & (is.null(v$xtabycat))) {
+      # # exclude only 'Reason...'
+      updateSelectInput(session, "xtab_ycat",
+                        label = "Category",
+                        choices = vars.cat[!(vars.cat %in% move.var)]
+      )
+    } else if (x == 'Household' & (is.null(v$xtabycat))) {
+      # don't exclude 'Reason...'
+      updateSelectInput(session, "xtab_ycat",
+                        label = "Category",
+                        choices = vars.cat[!(vars.cat %in% 'None')]
+      )
+    } else if (x == 'Household' & (!is.null(v$xtabycat))) {
+      # don't exclude 'Reason...' & allow prev cat selection to persist
+      updateSelectInput(session, "xtab_ycat",
+                        label = "Category",
+                        selected = v$xtabycat,
+                        choices = vars.cat[!(vars.cat %in% 'None')]
+      )
+    } else if (x != move.var & v$xtabycat %in% vars.cat[!(vars.cat %in% move.var)]) {
+      updateSelectInput(session, "xtab_ycat",
+                        label = "Category",
+                        selected = v$xtabycat,
+                        choices = vars.cat[!(vars.cat %in% move.var)]
+      )
+    }
+  })
+  
+  observeEvent(input$xtab_ycat, ignoreInit = TRUE, {
+    move.var <- 'Reason for leaving previous residence'
+    move.choices <- c('Household', move.var)
+    y <- input$xtab_ycat
+    
+    if (y == move.var) {
+      updateSelectInput(session, "xtab_xcat",
+                        label = "Category",
+                        choices = move.choices
+      )
+    }  else if ((y != move.var & y != 'Household') & (is.null(v$xtabxcat))) {
+      # exclude only 'Reason...'
+      updateSelectInput(session, "xtab_xcat",
+                        label = "Category",
+                        selected = input$xtab_xcat,
+                        choices = vars.cat[!(vars.cat %in% move.var)]
+      )
+    } else if (y == 'Household' & (is.null(v$xtabxcat))) {
+      # bring back 'Reason...'
+      updateSelectInput(session, "xtab_xcat",
+                        label = "Category",
+                        selected = input$xtab_xcat,
+                        choices = vars.cat[!(vars.cat %in% "None")]
+      )
+    } else if (y == 'Household' & (!is.null(v$xtabxcat))) {
+      # don't exclude 'Reason...' & allow prev cat selection to persist
+      updateSelectInput(session, "xtab_xcat",
+                        label = "Category",
+                        selected = v$xtabxcat,
+                        choices = vars.cat[!(vars.cat %in% "None")]
+      )
+    } else {
+      updateSelectInput(session, "xtab_xcat",
+                        label = "Category",
+                        selected = v$xtabxcat,
+                        choices = vars.cat[!(vars.cat %in% "None")]
+      )
+    }
+  })
   
   # variable X alias list
   varsListX <- reactive({
@@ -705,12 +788,16 @@ function(input, output, session) {
   # Enable/Disable download button
   v <- reactiveValues(xtabxcol = NULL,
                       xtabycol = NULL,
+                      xtabxcat = NULL, # new feature
+                      xtabycat = NULL, # new feature
                       xtabgo = 0,
                       xtabfltrsea = F)
   
   observeEvent(input$xtab_go, {
     v$xtabxcol <- input$xtab_xcol
     v$xtabycol <- input$xtab_ycol
+    v$xtabxcat <- input$xtab_xcat # new feature
+    v$xtabycat <- input$xtab_ycat # new feature
     v$xtabgo <- v$xtabgo + 1
     v$xtabfltrsea <- input$xtab_fltr_sea
   })
