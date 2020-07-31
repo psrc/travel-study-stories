@@ -173,8 +173,11 @@ function(input, output, session) {
   # update x and y cateogries
   observeEvent(input$xtab_xcat, {
     move.var <- 'Reason for leaving previous residence'
-    move.choices <- c('Household', move.var)
+    hh.var <- 'Household'
+    move.choices <- c(hh.var, move.var)
+    
     x <- input$xtab_xcat
+    y <- input$xtab_ycat
 
     if (x == move.var) {
       # filter to 2 choices
@@ -182,23 +185,26 @@ function(input, output, session) {
                         label = "Category",
                         choices = move.choices
       )
-    } else if ((x != move.var & x != 'Household') & (is.null(v$xtabycat))) {
-      # # exclude only 'Reason...'
+    } else if ((x != move.var & x != 'Household') & (is.null(v$xtabycat) | y == hh.var)) {
+      # exclude only 'Reason...'
       updateSelectInput(session, "xtab_ycat",
                         label = "Category",
+                        selected = y,
                         choices = vars.cat[!(vars.cat %in% move.var)]
       )
-    } else if (x == 'Household' & (is.null(v$xtabycat))) {
+    } else if (x == hh.var & (is.null(v$xtabycat))) {
       # don't exclude 'Reason...'
       updateSelectInput(session, "xtab_ycat",
                         label = "Category",
+                        selected = y,
                         choices = vars.cat[!(vars.cat %in% 'None')]
       )
-    } else if (x == 'Household' & (!is.null(v$xtabycat))) {
+    } else if (x == hh.var & (!is.null(v$xtabycat))) {
       # don't exclude 'Reason...' & allow prev cat selection to persist
       updateSelectInput(session, "xtab_ycat",
                         label = "Category",
-                        selected = v$xtabycat,
+                        # selected = v$xtabycat,
+                        selected = y,
                         choices = vars.cat[!(vars.cat %in% 'None')]
       )
     } else if (x != move.var & v$xtabycat %in% vars.cat[!(vars.cat %in% move.var)]) {
@@ -207,44 +213,54 @@ function(input, output, session) {
                         selected = v$xtabycat,
                         choices = vars.cat[!(vars.cat %in% move.var)]
       )
+    } else {
+      updateSelectInput(session, "xtab_ycat",
+                        label = "Category",
+                        selected = y,
+                        choices = vars.cat[!(vars.cat %in% "None")]
+      )
     }
   })
   
   observeEvent(input$xtab_ycat, ignoreInit = TRUE, {
     move.var <- 'Reason for leaving previous residence'
-    move.choices <- c('Household', move.var)
+    hh.var <- 'Household'
+    move.choices <- c(hh.var, move.var)
+    
+    x <- input$xtab_xcat
     y <- input$xtab_ycat
     
     if (y == move.var) {
       updateSelectInput(session, "xtab_xcat",
                         label = "Category",
+                        selected = x,
                         choices = move.choices
       )
-    }  else if ((y != move.var & y != 'Household') & (is.null(v$xtabxcat))) {
+    }  else if ((y != move.var & y != hh.var) & (is.null(v$xtabxcat))) {
       # exclude only 'Reason...'
       updateSelectInput(session, "xtab_xcat",
                         label = "Category",
-                        selected = input$xtab_xcat,
+                        selected = x,
                         choices = vars.cat[!(vars.cat %in% move.var)]
       )
-    } else if (y == 'Household' & (is.null(v$xtabxcat))) {
+    } else if (y == hh.var & (is.null(v$xtabxcat))) {
       # bring back 'Reason...'
       updateSelectInput(session, "xtab_xcat",
                         label = "Category",
-                        selected = input$xtab_xcat,
+                        selected = x,
                         choices = vars.cat[!(vars.cat %in% "None")]
       )
-    } else if (y == 'Household' & (!is.null(v$xtabxcat))) {
+    } else if (y == hh.var & (!is.null(v$xtabxcat))) {
       # don't exclude 'Reason...' & allow prev cat selection to persist
       updateSelectInput(session, "xtab_xcat",
                         label = "Category",
-                        selected = v$xtabxcat,
+                        selected = x,
                         choices = vars.cat[!(vars.cat %in% "None")]
       )
     } else {
       updateSelectInput(session, "xtab_xcat",
                         label = "Category",
-                        selected = v$xtabxcat,
+                        selected = x,
                         choices = vars.cat[!(vars.cat %in% "None")]
       )
     }
