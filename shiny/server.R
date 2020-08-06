@@ -166,6 +166,70 @@ function(input, output, session) {
     yvar.det <- variables.lu[variable %in% input$xtab_ycol, .(detail)]
     unique(yvar.det$detail)
   })
+
+# Update X and Y Categories -----------------------------------------------
+
+  
+  # update x and y cateogries
+  observeEvent(input$xtab_xcat, {
+    move.var <- 'Reason for leaving previous residence'
+    hh.var <- 'Household'
+    move.choices <- c(hh.var, move.var)
+    
+    x <- input$xtab_xcat
+    y <- input$xtab_ycat
+    
+    if (x == move.var) {
+      # filter to two options
+      y.choices <- move.choices
+    } else if ((!(x %in% move.choices) & (y == hh.var))) {
+      # exclude 'Reason...'
+      y.choices <- vars.cat[!(vars.cat %in% move.var)]
+    } else if (x == hh.var) {
+      # default options
+      y.choices <- vars.cat[!(vars.cat %in% "None")]
+    } else if (x != move.var & y != move.var) {
+      # exclude 'Reason...'
+      y.choices <- vars.cat[!(vars.cat %in% move.var)]
+    } else {
+      # default options
+      y.choices <- vars.cat[!(vars.cat %in% "None")]
+    }
+    
+    updateSelectInput(session, "xtab_ycat",
+                      label = "Category",
+                      selected = y,
+                      choices = y.choices)
+    
+  })
+  
+  observeEvent(input$xtab_ycat, ignoreInit = TRUE, {
+    move.var <- 'Reason for leaving previous residence'
+    hh.var <- 'Household'
+    move.choices <- c(hh.var, move.var)
+    
+    x <- input$xtab_xcat
+    y <- input$xtab_ycat
+    
+    if (y == move.var) {
+      # filter to two options
+      x.choices <- move.choices
+    }  else if (!(y %in% move.choices)) {
+      # exclude only 'Reason...'
+      x.choices <- vars.cat[!(vars.cat %in% move.var)]
+    } else if (y == hh.var) {
+      # default options
+      x.choices <- vars.cat[!(vars.cat %in% "None")]
+    } else {
+      # default options
+      x.choices <- vars.cat[!(vars.cat %in% "None")]
+    }
+    
+    updateSelectInput(session, "xtab_xcat",
+                      label = "Category",
+                      selected = x,
+                      choices = x.choices)
+  })
   
   # variable X alias list
   varsListX <- reactive({
