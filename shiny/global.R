@@ -55,7 +55,7 @@ z <- 1.645 # 90% CI
 db.connect <- function() {
   elmer_connection <- dbConnect(odbc(),
                                 Driver = "SQL Server",
-                                Server = "AWS-PROD-SQL\\COHO",
+                                Server = "AWS-PROD-SQL\\SOCKEYE",
                                 Database = "Elmer",
                                 # Trusted_Connection = "yes"
                                 UID = Sys.getenv("userid"),
