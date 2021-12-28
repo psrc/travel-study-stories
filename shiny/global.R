@@ -8,21 +8,12 @@ library(plotly)
 library(shinyjs)
 library(odbc)
 library(DBI)
-# library(sp)
-# library(rgdal)
-# library(leaflet)
+library(here)
 
+wrkdir <- 'shiny'
 
-# local
-# wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
-#wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
-
-# shiny server
-# wrkdir <- "/home/shiny/apps/testing-travel-study-stories/shiny"
-wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
-
-source(file.path(wrkdir, 'travel_crosstab.R'))
-source(file.path(wrkdir, 'functions_plot.R'))
+source(here(wrkdir, 'travel_crosstab.R'))
+source(here(wrkdir, 'functions_plot.R'))
 
 missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Children or missing')
 
@@ -80,7 +71,7 @@ variables.lu <- variables.lu[order(category_order, variable_name)]
 values.lu <- read.dt(dbtable.values, 'table_name')
 values.lu<- values.lu[order(value_order)]
 
-readme.dt <- read.xlsx(file.path(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
+readme.dt <- read.xlsx(here(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
 
 vars.cat <- unique(variables.lu$category)
 
@@ -117,8 +108,3 @@ hist_breaks_labels<-c('0 to 1', '1 to 3', '3 to 5', '5 to 10', '10 to 20', '20 t
 hist_breaks_num_trips<-c(-.01,0,2,4,6,8,10,12,14,16,18,20,100)
 hist_breaks_num_trips_labels<-c('0', '1-2', '3-4', '5-6', '7-8', '9-10', '11-12', '13-14', '14-16', '17-18', '19-20', '20-100')
 
-# load shapefile(s)
-# dsn <- "../shapes"
-# layer.puma <- "reg10puma_WGS84"
-# puma.shape <- readOGR(dsn=dsn,layer=layer.puma)
-# puma.shape <-spTransform(readOGR(dsn=dsn,layer=layer.puma), CRS("+proj=longlat +datum=WGS84"))

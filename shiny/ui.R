@@ -196,7 +196,8 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
                       tabPanel("About Travel Survey Data Explorer",
                                column(2),
                                column(8,
-                                      includeMarkdown(file.path(wrkdir, "about_page.md"))
+                                      # includeMarkdown(file.path(wrkdir, "about_page.md"))
+                                      includeMarkdown(here(wrkdir, "about_page.md"))
                                       ),
                                column(2)
                                )
