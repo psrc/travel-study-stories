@@ -4,6 +4,9 @@ simple.table.sidebar <- sidebarPanel(width = 3,
                                      p("Select from the following characteristics, organized by categories, to generate a simple summary table."),
                                      p("Click 'Download Data' to download tabular data after the table has been generated."),
                                      br(),
+                                     selectInput('stab_dataset',
+                                                 label = 'Dataset',
+                                                 choices = hhts.datasets),
                                      selectInput('stab_xcat',
                                                  'Category',
                                                  vars.cat[!(vars.cat %in% "None")]),
@@ -17,7 +20,7 @@ simple.table.sidebar <- sidebarPanel(width = 3,
                                          style = 'font-size: 90%'
                                      ), # end div
                                      div(checkboxInput('stab_fltr_sea',
-                                                       label = "Select Seattle households only",
+                                                       label = "Seattle households only",
                                                        value = FALSE), style="font-size:95%;"),
                                      actionButton('stab_go',
                                                   'Create Table'),
@@ -60,7 +63,7 @@ simple.table <- tabPanel("One-way Table",
 ) # end tabPanel
 
 
-# Crosstab Generator ------------------------------------------------------
+# Crosstab Table ------------------------------------------------------
 
 crosstab.panel.x <-  column(3,
                             wellPanel(
@@ -99,33 +102,34 @@ crosstab.panel.y <- column(3,
                            ) # end welPanel
 ) # end column
 
-crosstab.panel.end <- column(3,
-                             fluidRow(
-                               column(7,
-                                      wellPanel(
-                                        div(checkboxInput('xtab_fltr_sea',
-                                                          label = "Select Seattle households only",
-                                                          value = FALSE), style="font-size:95%;"),
-                                        style = "padding: 25px;"
-                                      )
-                               ), # end column
-                               column(1,
-                                      actionButton('xtab_go', 'Create Crosstab', width = '150px'),
-                                      br(),
-                                      br(),
-                                      downloadButton("xtab_download", "Download Data")
-                               ) # end column
-                             ), # end fluidRow
-                             fluidRow(
-                               column(12,
-                                      br(),
-                                      div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
-                                      div(p("The Margin of Error is calculated for a 90% confidence interval.
-                             As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
-                             Statistics with less than 30 will be greyed out in the two-way tables."), style = 'font-size: 85%')
-                               ) # end column
-                             ) # end fluidRow
+crosstab.panel.front <- column(2,
+                               wellPanel(
+                                 selectInput('xtab_dataset',
+                                             label = 'Dataset',
+                                             choices = hhts.datasets),
+                                 div(checkboxInput('xtab_fltr_sea',
+                                                   label = "Seattle households only",
+                                                   value = FALSE), style="font-size:95%;")
+                               )
 ) # end column
+
+crosstab.panel.end <- column(2,
+                             actionButton('xtab_go', 'Create Crosstab', width = '150px'),
+                             br(),
+                             br(),
+                             downloadButton("xtab_download", "Download Data")
+) # end column
+
+crosstab.moe.about <- fluidRow(
+  column(12,
+         div(a(href = "https://en.wikipedia.org/wiki/Margin_of_error", "About the Margin of Error", target = "_blank"), style = 'font-size: 85%'),
+         div(p("The Margin of Error is calculated for a 90% confidence interval.
+               As a rule of thumb, you should have a sample count of 30 or more for any given statistic to feel comfortable with it.
+               Statistics with less than 30 will be greyed out in the two-way tables."), style = 'font-size: 85%')
+  ) # end column
+) # end fluidRow
+
+## Compile Crosstab ----
 
 crosstab.table <- tabPanel("Two-way Table",
                               br(),
@@ -135,6 +139,7 @@ crosstab.table <- tabPanel("Two-way Table",
                                        p("Tables may be summarized by sample counts, or by share or weighted totals, with and without margins of error."),
                                        p("Click 'Download Data' to download tabular data for all summary types after the cross-tabulation has been generated.")
                                 ),
+                                crosstab.panel.front,
                                 crosstab.panel.x,
                                 crosstab.panel.y,
                                 crosstab.panel.end
@@ -144,7 +149,8 @@ crosstab.table <- tabPanel("Two-way Table",
                                fluidRow(
                                  column(2,
                                         uiOutput("ui_xtab_res_type_title"),
-                                        uiOutput("ui_xtab_dtype_rbtns")
+                                        uiOutput("ui_xtab_dtype_rbtns"),
+                                        crosstab.moe.about
                                  ),
                                  column(10,
                                         fluidRow(
@@ -163,6 +169,10 @@ crosstab.table <- tabPanel("Two-way Table",
                                ) # end fluidRow
                              ) # end conditional Panel
 ) # end tabPanel
+
+
+# About -------------------------------------------------------------------
+
                              
 about <-  tabPanel("About Travel Survey Data Explorer",
                    column(2),
@@ -184,7 +194,7 @@ fluidPage(title = "", windowTitle = "Travel Survey Data Explorer",
             tags$link(rel = "stylesheet", type = "text/css", href = "additional-styles.css")
           ),
           useShinyjs(),
-          navbarPage("2017/2019 Household Survey Results",
+          navbarPage("Household Travel Survey Explorer",
                      simple.table,
                      crosstab.table,
                      about
