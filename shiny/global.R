@@ -15,6 +15,8 @@ wrkdir <- 'shiny'
 source(here(wrkdir, 'travel_crosstab.R'))
 source(here(wrkdir, 'functions_plot.R'))
 
+hhts.datasets <- c('2017/2019' = '2019', '2021' = '2021')
+
 missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Children or missing')
 
 dbtable.household <- "HHSurvey.v_households_2017_2019"
