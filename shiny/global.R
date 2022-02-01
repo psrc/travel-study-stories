@@ -76,7 +76,7 @@ read.dt <- function(astring, type =c('table_name', 'sqlquery')) {
 
 variables.lu <- read.dt(dbtable.variables, 'table_name')
 variables.lu <- na.omit(variables.lu)
-variables.lu <- variables.lu[order(category_order, variable_name)]
+variables.lu <- variables.lu[survey_year < 2021, ][order(category_order, variable_name)]
 values.lu <- read.dt(dbtable.values, 'table_name')
 values.lu<- values.lu[order(value_order)]
 
