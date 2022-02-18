@@ -150,7 +150,7 @@ function(input, output, session) {
   
   xtab.variable.tbl <- reactive({
     # filter variables table by survey year
-    variables.lu[survey_year == input$xtab_dataset, ]
+   variables.lu[survey_year == input$xtab_dataset, ]
   })
   
   # show/hide vars definition
@@ -161,18 +161,14 @@ function(input, output, session) {
             toggle(id = "xtabYAdvanced", anim = TRUE))
 
   })
-  
-  
-  # NEED TO ADD survey_year??
+
   output$xtab_xcol_det <- renderText({
-    xvar.det <- variables.lu[variable %in% input$xtab_xcol, .(detail)]
-    # and survey_year = survey_year?
+    xvar.det <- xtab.variable.tbl()[variable %in% input$xtab_xcol, .(detail)]
     unique(xvar.det$detail)
   })
 
   output$xtab_ycol_det <- renderText({
-    yvar.det <- variables.lu[variable %in% input$xtab_ycol, .(detail)]
-    # and survey_year = survey_year?
+    yvar.det <- xtab.variable.tbl()[variable %in% input$xtab_ycol, .(detail)]
     unique(yvar.det$detail)
   })
 
@@ -243,7 +239,6 @@ function(input, output, session) {
   
   # variable X alias list
   varsListX <- reactive({
-    # survey_year?
     v <- xtab.variable.tbl()
     t <- v[category %in% input$xtab_xcat & dtype != 'fact', ]
     vars.raw <- as.list(unique(t$variable))
@@ -252,7 +247,6 @@ function(input, output, session) {
   
   # variable Y alias list
   varsListY <- reactive({
-    # survey_year?
     v <- xtab.variable.tbl()
     t <- v[category %in% input$xtab_ycat, ]
     vars.raw <- as.list(unique(t$variable))
@@ -261,7 +255,6 @@ function(input, output, session) {
   
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
-    # survey_year?
     v <- xtab.variable.tbl()
     xvar.alias <- v[variable %in% input$xtab_xcol, .(variable_name)]
     unique(xvar.alias$variable_name)
@@ -269,7 +262,6 @@ function(input, output, session) {
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
-    # survey_year?
     v <- xtab.variable.tbl()
     yvar.alias <- v[variable %in% input$xtab_ycol, .(variable_name)]
     unique(yvar.alias$variable_name)
@@ -290,14 +282,18 @@ function(input, output, session) {
                 selected = varsListY()[[2]])
   })
   
+  xtab.values.tbl <- reactive({
+    # filter variables table by survey year
+    values.lu[survey_year == input$xtab_dataset, ]
+  })
+  
   xtabXValues <- eventReactive(input$xtab_go, {
     # survey_year?
-    dt <- values.lu[variable %in% input$xtab_xcol, ][order(value_order)] # return dt
+    dt <-  xtab.values.tbl()[variable %in% input$xtab_xcol, ][order(value_order)] # return dt
   })
   
   xtabYValues <- eventReactive(input$xtab_go, {
-    # survey_year?
-    dt <- values.lu[variable %in% input$xtab_ycol, ][order(value_order)]
+    dt <- xtab.values.tbl()[variable %in% input$xtab_ycol, ][order(value_order)]
     v <- as.vector(dt$value_text) # return vector
   })
   
@@ -321,18 +317,20 @@ function(input, output, session) {
   xtabTableType <- eventReactive(input$xtab_go, {
     v <- xtab.variable.tbl()
     select.vars <- v[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
-    # read in the weight name table for the year
-    #NOTES CHANGE
-    # (wt_x, priority_x)<- 'select weight_name, weight_priority from dbtable.variables where survey_year=survey_year AND variable_name=input$xtab_col'
-    # (wt_y, priority_y)<- 'select weight_name, weight_priority from dbtable.variables where survey_year=survey_year AND variable_name=input$ytab_col'
+    
+    select.wts<-select.vars$weight_name
+    select.priority<-select.vars$weight_priority
+    #this is what this essentially doing:
+    # (wt_x, priority_x)<- 'select weight_name, weight_priority from dbtable.variables where variable_name=input$xtab_col'
+    # (wt_y, priority_y)<- 'select weight_name, weight_priority from dbtable.variables where variable_name=input$ytab_col'
     
     # is the next line going to work?
     dtypes <- as.vector(unique(select.vars$dtype))
 
     # Need to figure out which variable has the highest priority weight.
-    
-    # find (max_weight_priority= max (priority_x, priority_y)
-    # weight_name= wt where that weights priority = max_weight_priority
+    #confused on syntax and referencing
+    # find (weight_priority= min(priority_x, priority_y) (lower number means higher priority)
+    # weight_name= wt where that weights priority = weight_priority
     
     return(list(WeightName=weight_name, Type=type))
     } )
@@ -867,21 +865,20 @@ function(input, output, session) {
   })
   
   output$stab_xcol_det <- renderText({
-    xvar.det <- variables.lu[variable %in% input$stab_xcol, .(detail)]
+    xvar.det <- stab.variable.tbl()[variable %in% input$stab_xcol, .(detail)]
     unique(xvar.det$detail)
   })
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
     #add survey_year
-    xvar.alias <- variables.lu[variable %in% input$stab_xcol, .(variable_name)]
+    xvar.alias <- stab.variable.tbl()[variable %in% input$stab_xcol, .(variable_name)]
     unique(xvar.alias$variable_name)
   })
   
   # variable X alias list
   stab.varsListX <- reactive({
-    #add survey_year
-    t <- variables.lu[category %in% input$stab_xcat, ]
+    t <- stab.variable.tbl()[category %in% input$stab_xcat, ]
     vars.raw <- as.list(unique(t$variable))
     vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
@@ -892,9 +889,13 @@ function(input, output, session) {
                 stab.varsListX())
   })
   
+  xtab.values.tbl <- reactive({
+    # filter variables table by survey year
+    values.lu[survey_year == input$xtab_dataset, ]
+  })
+  
   stabXValues <- eventReactive(input$stab_go, {
-    #add survey_year
-    dt <- values.lu[variable %in% input$stab_xcol, ][order(value_order)] # return dt
+    dt <- xtab.values.tbl()[variable %in% input$stab_xcol, ][order(value_order)] # return dt
   })
   
   stabCaption <- eventReactive(input$stab_go, {
@@ -914,16 +915,11 @@ function(input, output, session) {
 
   
   stabTableType <- eventReactive(input$stab_go, {
-    select.vars <- variables.lu[variable %in% c(input$stab_xcol), ] # and survey_year
+    select.vars <-   stab.variable.tbl()[variable %in% c(input$stab_xcol), ] # and survey_year
     tables <- unique(select.vars$table_name) 
     dtypes <- as.vector(unique(select.vars$dtype)) 
-    
-    select.vars <- v[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
+    weight_name<- stab.variable.tbl()[variable=select.var, weight_name]
     # read in the weight name table for the year
-    
-    #NOTES CHANGE
-    # weight_name<- 'select weight_name from dbtable.variables where survey_year=survey_year AND variable_name=input$xtab_col'
-    
     
     
     # is the next line going to work?
