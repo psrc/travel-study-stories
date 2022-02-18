@@ -147,7 +147,12 @@ function(input, output, session) {
   
 
 # Crosstab Generator Selection --------------------------------------------
-
+  
+  xtab.variable.tbl <- reactive({
+    # filter variables table by survey year
+    variables.lu[survey_year == input$xtab_dataset, ]
+  })
+  
   # show/hide vars definition
   observe({
     onclick("xtabXtoggleAdvanced",
@@ -233,27 +238,31 @@ function(input, output, session) {
   
   # variable X alias list
   varsListX <- reactive({
-    t <- variables.lu[category %in% input$xtab_xcat & dtype != 'fact', ]
+    v <- xtab.variable.tbl()
+    t <- v[category %in% input$xtab_xcat & dtype != 'fact', ]
     vars.raw <- as.list(unique(t$variable))
     vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
   
   # variable Y alias list
   varsListY <- reactive({
-    t <- variables.lu[category %in% input$xtab_ycat, ]
+    v <- xtab.variable.tbl()
+    t <- v[category %in% input$xtab_ycat, ]
     vars.raw <- as.list(unique(t$variable))
     vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
   
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
-    xvar.alias <- variables.lu[variable %in% input$xtab_xcol, .(variable_name)]
+    v <- xtab.variable.tbl()
+    xvar.alias <- v[variable %in% input$xtab_xcol, .(variable_name)]
     unique(xvar.alias$variable_name)
   })
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
-    yvar.alias <- variables.lu[variable %in% input$xtab_ycol, .(variable_name)]
+    v <- xtab.variable.tbl()
+    yvar.alias <- v[variable %in% input$xtab_ycol, .(variable_name)]
     unique(yvar.alias$variable_name)
   })
   
@@ -299,7 +308,8 @@ function(input, output, session) {
   
   
   xtabTableType <- eventReactive(input$xtab_go, {
-    select.vars <- variables.lu[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
+    v <- xtab.variable.tbl()
+    select.vars <- v[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
     tables <- as.vector(unique(select.vars$table_name))
     dtypes <- as.vector(unique(select.vars$dtype))
 
