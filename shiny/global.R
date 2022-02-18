@@ -25,12 +25,14 @@ dbtable.trip <- "HHSurvey.v_trips"
 dbtable.variables <- "HHSurvey.data_explorer_variables_w_reasons_for_moving" # temp structure
 dbtable.values <- "HHSurvey.v_data_explorer_values_w_reasons_for_moving" # temp structure
 
-
+table_names <- list("Household" = list("table_name"=dbtable.household),
+                    "Person" = list("table_name"=dbtable.person),
+                    "Trip" = list("table_name" = dbtable.trip))
 z <- 1.645 # 90% CI
 
 
 ## Read from Elmer
-
+d
 db.connect <- function() {
   elmer_connection <- dbConnect(odbc(),
                                 Driver = "SQL Server",

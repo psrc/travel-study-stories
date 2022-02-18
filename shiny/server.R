@@ -162,13 +162,17 @@ function(input, output, session) {
 
   })
   
+  
+  # NEED TO ADD survey_year??
   output$xtab_xcol_det <- renderText({
     xvar.det <- variables.lu[variable %in% input$xtab_xcol, .(detail)]
+    # and survey_year = survey_year?
     unique(xvar.det$detail)
   })
 
   output$xtab_ycol_det <- renderText({
     yvar.det <- variables.lu[variable %in% input$xtab_ycol, .(detail)]
+    # and survey_year = survey_year?
     unique(yvar.det$detail)
   })
 
@@ -181,6 +185,7 @@ function(input, output, session) {
     hh.var <- 'Household'
     move.choices <- c(hh.var, move.var)
     
+    #might need to add survey_year here
     x <- input$xtab_xcat
     y <- input$xtab_ycat
     
@@ -238,6 +243,7 @@ function(input, output, session) {
   
   # variable X alias list
   varsListX <- reactive({
+    # survey_year?
     v <- xtab.variable.tbl()
     t <- v[category %in% input$xtab_xcat & dtype != 'fact', ]
     vars.raw <- as.list(unique(t$variable))
@@ -246,6 +252,7 @@ function(input, output, session) {
   
   # variable Y alias list
   varsListY <- reactive({
+    # survey_year?
     v <- xtab.variable.tbl()
     t <- v[category %in% input$xtab_ycat, ]
     vars.raw <- as.list(unique(t$variable))
@@ -254,6 +261,7 @@ function(input, output, session) {
   
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
+    # survey_year?
     v <- xtab.variable.tbl()
     xvar.alias <- v[variable %in% input$xtab_xcol, .(variable_name)]
     unique(xvar.alias$variable_name)
@@ -261,6 +269,7 @@ function(input, output, session) {
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
+    # survey_year?
     v <- xtab.variable.tbl()
     yvar.alias <- v[variable %in% input$xtab_ycol, .(variable_name)]
     unique(yvar.alias$variable_name)
@@ -282,10 +291,12 @@ function(input, output, session) {
   })
   
   xtabXValues <- eventReactive(input$xtab_go, {
+    # survey_year?
     dt <- values.lu[variable %in% input$xtab_xcol, ][order(value_order)] # return dt
   })
   
   xtabYValues <- eventReactive(input$xtab_go, {
+    # survey_year?
     dt <- values.lu[variable %in% input$xtab_ycol, ][order(value_order)]
     v <- as.vector(dt$value_text) # return vector
   })
@@ -310,44 +321,28 @@ function(input, output, session) {
   xtabTableType <- eventReactive(input$xtab_go, {
     v <- xtab.variable.tbl()
     select.vars <- v[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
-    tables <- as.vector(unique(select.vars$table_name))
+    # read in the weight name table for the year
+    #NOTES CHANGE
+    # (wt_x, priority_x)<- 'select weight_name, weight_priority from dbtable.variables where survey_year=survey_year AND variable_name=input$xtab_col'
+    # (wt_y, priority_y)<- 'select weight_name, weight_priority from dbtable.variables where survey_year=survey_year AND variable_name=input$ytab_col'
+    
+    # is the next line going to work?
     dtypes <- as.vector(unique(select.vars$dtype))
 
-    if('Trip' %in% tables){
-      res<-'Trip'
-    } else if('Person' %in% tables){
-      res<-'Person'
-    }else{
-      res<-'Household'
-    }
+    # Need to figure out which variable has the highest priority weight.
     
-
-    if('fact' %in% dtypes){
-      type<- 'fact'
-    }
-    else{
-      type<-'dimension'
-    }
+    # find (max_weight_priority= max (priority_x, priority_y)
+    # weight_name= wt where that weights priority = max_weight_priority
     
-    return(list(Res=res, Type=type))
+    return(list(WeightName=weight_name, Type=type))
     } )
 
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
-      table.type<- xtabTableType()$Res
-      wt_field<- table_names[[table.type]]$weight_name
+      wt_field<- xtabTableType()Weight_name
 
-      # temp statement b/c this cat was only asked in 2019. Use 2019 weights
-      if (input$xtab_xcat == 'Reason for leaving previous residence' || input$xtab_ycat == 'Reason for leaving previous residence') {
-        wt_field <- hh_move_weight_name
-      }
-      
-      if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
-        # use a special weight here because trip counts are a weird case
-        wt_field <-hh_day_weight_name
-      }
-
-      sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", table_names[[table.type]]$table_name)
+      sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", table_names[[table.type]]$table_name,
+                         "WHERE survey_year =", survey_year)
       survey <- read.dt(sql.query, 'sqlquery')
 
       type <- xtabTableType()$Type
@@ -866,6 +861,11 @@ function(input, output, session) {
             toggle(id = "stabXAdvanced", anim = TRUE))  
   })
   
+  stab.variable.tbl <- reactive({
+    # filter variables table by survey year
+    variables.lu[survey_year == input$xtab_dataset, ]
+  })
+  
   output$stab_xcol_det <- renderText({
     xvar.det <- variables.lu[variable %in% input$stab_xcol, .(detail)]
     unique(xvar.det$detail)
@@ -873,12 +873,14 @@ function(input, output, session) {
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
+    #add survey_year
     xvar.alias <- variables.lu[variable %in% input$stab_xcol, .(variable_name)]
     unique(xvar.alias$variable_name)
   })
   
   # variable X alias list
   stab.varsListX <- reactive({
+    #add survey_year
     t <- variables.lu[category %in% input$stab_xcat, ]
     vars.raw <- as.list(unique(t$variable))
     vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
@@ -891,6 +893,7 @@ function(input, output, session) {
   })
   
   stabXValues <- eventReactive(input$stab_go, {
+    #add survey_year
     dt <- values.lu[variable %in% input$stab_xcol, ][order(value_order)] # return dt
   })
   
@@ -911,18 +914,21 @@ function(input, output, session) {
 
   
   stabTableType <- eventReactive(input$stab_go, {
-    select.vars <- variables.lu[variable %in% c(input$stab_xcol), ]
+    select.vars <- variables.lu[variable %in% c(input$stab_xcol), ] # and survey_year
     tables <- unique(select.vars$table_name) 
     dtypes <- as.vector(unique(select.vars$dtype)) 
     
-    if('Trip' %in% tables){
-      res<-'Trip'
-    } else if('Person' %in% tables){
-      res<-'Person'
-    }else{
-      res<-'Household'
-    }
+    select.vars <- v[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
+    # read in the weight name table for the year
     
+    #NOTES CHANGE
+    # weight_name<- 'select weight_name from dbtable.variables where survey_year=survey_year AND variable_name=input$xtab_col'
+    
+    
+    
+    # is the next line going to work?
+    dtypes <- as.vector(unique(select.vars$dtype))
+
     if('fact' %in% dtypes){
       type<- 'fact'
     }
@@ -930,25 +936,16 @@ function(input, output, session) {
       type<-'dimension'
     }
     
-    return(list(Res=res, Type=type))
+    return(list(Weight_Name=weight_name, Type=type))
   } )
 
   # return list of tables subsetted by value types
   stabTable <- eventReactive(input$stab_go, {
-    table.type <- stabTableType()$Res
-    wt_field<- table_names[[table.type]]$weight_name
+    wt_field <- stabTableType()Weight_Name
 
-    # temp statement b/c this cat was only asked in 2019. Use 2019 weights
-    if (input$stab_xcat == 'Reason for leaving previous residence') {
-      wt_field <- hh_move_weight_name
-    }
     
-    if(input$stab_xcol=='weighted_trip_count' ){
-      # use a special weight here because trip counts are a weird case
-      wt_field <-hh_day_weight_name
-    }
-    
-    sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM" , table_names[[table.type]]$table_name)
+    sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM" , table_names[[table.type]]$table_name, 
+                       "WHERE survey_year=", "survey_year")
     survey <- read.dt(sql.query, 'sqlquery')
     type <- stabTableType()$Type
    
