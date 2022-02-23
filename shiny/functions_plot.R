@@ -263,7 +263,6 @@ xtab.plot.bar.moe.pivot <- function(table, format = c("percent", "nominal"), xla
 
 
 stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, geog.caption,  source.string) {
-  browser()
   yscale <- plot.format.nums(format)
   dttype.label <- unique(table$type)
   g <- ggplot(table,
@@ -285,7 +284,7 @@ stab.plot.bar <- function(table, format = c("percent", "nominal"), xlabel, geog.
           axis.title.y = element_text(margin = margin(r=20)),
           legend.position = 'none')
   
-  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label, geog.caption,xlabel, source.string)#layout(font = font.family)
+  p <- ggplotly(g, tooltip = "text") %>% plot.layout(dttype.label=dttype.label, geog.caption=geog.caption,xlabel=xlabel, source.string=source.string)#layout(font = font.family)
 }
 
 stab.plot.bar.moe <- function(table, format = c("percent", "nominal"), xlabel, geog.caption, source.string) {

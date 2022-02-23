@@ -150,8 +150,15 @@ function(input, output, session) {
   
   xtab.variable.tbl <-eventReactive(input$xtab_dataset,{
     # filter variables table by survey year
-    xtab.variable.tbl <-variables.lu[survey_year == input$xtab_dataset,]
+    if(input$xtab_dataset=='2017/2019'){
+      survey_year_name='2019'
+    }
+    else{
+      survey_year_name=input$xtab_dataset
+    }
+    variables.lu[survey_year == survey_year_name, ]
   })
+
   
   # show/hide vars definition
   observe({
@@ -181,7 +188,7 @@ function(input, output, session) {
     hh.var <- 'Household'
     move.choices <- c(hh.var, move.var)
     
-    #might need to add survey_year here somehow
+
     x <- input$xtab_xcat
     y <- input$xtab_ycat
     
@@ -283,7 +290,13 @@ function(input, output, session) {
   })
   
   xtab.values.tbl <-eventReactive(input$xtab_dataset,{
-    values.lu[survey_year == input$xtab_dataset,]
+    if(input$xtab_dataset=='2017/2019'){
+      survey_year_name='2019'
+    }
+    else{
+      survey_year_name=input$xtab_dataset
+    }
+    values.lu[survey_year == survey_year_name,]
   })
   
   xtabXValues <- eventReactive(input$xtab_go, {
@@ -319,31 +332,41 @@ function(input, output, session) {
     select.tables<-select.vars$table_name
     select.wts<-select.vars$weight_name
     select.priority<-select.vars$weight_priority
-    #this is what this essentially doing:
-    # (wt_x, priority_x)<- 'select weight_name, weight_priority from dbtable.variables where variable_name=input$xtab_col'
-    # (wt_y, priority_y)<- 'select weight_name, weight_priority from dbtable.variables where variable_name=input$ytab_col'
-    # table_name also needs to be assigned.
-    # is the next line going to work?
+    weight_name<- select.wts[which.min(select.priority)]
     dtypes <- as.vector(unique(select.vars$dtype))
 
-    # Need to figure out which variable has the highest priority weight.
-    #confused on syntax and referencing
-    # find (weight_priority= min(priority_x, priority_y) (lower number means higher priority)
-    # weight_name= wt where that weights priority = weight_priority
+    if('Trip' %in% select.tables){
+      res<-table_names[['Trip']]
+    } else if('Person' %in% select.tables){
+      res<- table_names[['Person']]
+    }else{
+      res<-table_names[['Household']]
+    }
     
-    return(list(WeightName=weight_name, Type=type, Table_Name=table_name))
+    
+    if('fact' %in% dtypes){
+      type<- 'fact'
+    }
+    else{
+      type<-'dimension'
+    }
+
+    return(list(WeightName=weight_name, Type=type, Table_Name=res))
     } )
 
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
-      wt_field<- xtabTableType()$Weight_name
+      wt_field<- xtabTableType()$WeightName
       table_name<- xtabTableType()$Table_Name
-      if(input$xtab_dataset=='2019')
+      if(input$xtab_dataset=='2017/2019')
       {
         survey_year_sql ='2017 OR survey_year=2019'
       }
+      else{
+        survey_year_sql=input$xtab_dataset
+      }
       
-      sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", table_names[[table.type]]$table_name,
+      sql.query <- paste("SELECT seattle_home, household_id,", input$xtab_xcol,",", input$xtab_ycol,",", wt_field, "FROM", table_name,
                          "WHERE survey_year = ", survey_year_sql)
       survey <- read.dt(sql.query, 'sqlquery')
 
@@ -583,14 +606,15 @@ function(input, output, session) {
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
     geog.caption <- xtabCaption()
-    if(input$xtab_dataset=='2019'){
-      yr_name<-'2017/2019 Combined'
-    }else
-    {
-      yr_name<- input$xtab_dataset
-    }
     
-    source.string<- paste(yr_name, "Household Travel Survey")
+    if(input$stab_dataset=='2017/2019'){
+      survey_year_name='2017_2019'
+    }
+    else{
+      survey_year_name=input$xtab_dataset
+    }
+
+    source.string<- paste(survey_year_name, "Household Travel Survey")
 
     if (xtabTableType()$Type == 'dimension') {
       if (is.null(input$xtab_dtype_rbtns)) return(NULL)
@@ -873,12 +897,24 @@ function(input, output, session) {
   
   stab.variable.tbl<-eventReactive(input$stab_dataset,{
     # filter variables table by survey year
-    variables.lu[survey_year == input$stab_dataset, ]
+    if(input$stab_dataset=='2017/2019'){
+      survey_year_name='2019'
+    }
+    else{
+      survey_year_name=input$stab_dataset
+    }
+    variables.lu[survey_year == survey_year_name, ]
   })
   
   stab.values.tbl<-eventReactive(input$stab_dataset,{
     # filter variables table by survey year
-    values.lu[survey_year==input$stab_dataset, ]
+    if(input$stab_dataset=='2017/2019'){
+      survey_year_name='2019'
+    }
+    else{
+      survey_year_name=input$stab_dataset
+    }
+    values.lu[survey_year==survey_year_name, ]
   })
   
   
@@ -950,7 +986,7 @@ function(input, output, session) {
     wt_field <- stabTableType()$Weight_Name
     table_name<-stabTableType()$Table_Name
     
-    if(input$stab_dataset=='2019')
+    if(input$stab_dataset=='2017/2019')
     {
       survey_year_sql ='2017 OR survey_year=2019'
     }
@@ -1073,14 +1109,7 @@ function(input, output, session) {
     dttype <- input$stab_dtype_rbtns
     selection <- names(dtype.choice[dtype.choice %in% dttype])
     geog.caption <- stabCaption()
-    if(input$stab_dataset=='2019'){
-      yr_name<-'2017/2019 Combined'
-    }else
-    {
-      yr_name<- input$stab_dataset
-    }
-      
-    source.string<- paste(yr_name, "Household Travel Survey")
+    source.string<- paste(input$stab_dataset, "Household Travel Survey")
 
     if (dttype %in% col.headers) {
       dt <- stabVisTable()[type %in% selection, ]
@@ -1162,7 +1191,13 @@ function(input, output, session) {
   
   output$stab_download <- downloadHandler(
     filename = function() {
-      paste0("HHSurvey_",input$stab_dataset,"_", stab.varsXAlias(),"_", stabCaption(), ".xlsx")
+      if(input$stab_dataset=='2017/2019'){
+        survey_year_name='2017_2019'
+      }
+      else{
+        survey_year_name=input$stab_dataset
+      }
+      paste0("HHSurvey_",survey_year_name,"_", stab.varsXAlias(),"_", stabCaption(), ".xlsx")
     },
     content = function(file) {
       # write.xlsx(stabTable(), file)
