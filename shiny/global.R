@@ -15,15 +15,15 @@ wrkdir <- 'shiny'
 source(here(wrkdir, 'travel_crosstab.R'))
 source(here(wrkdir, 'functions_plot.R'))
 
-hhts.datasets <- c('2017/2019' = '2019', '2021' = '2021')
+hhts.datasets <- c('2019','2021')
 
-missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Children or missing')
+missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Missing: Skip Logic', 'Children or missing')
 
 dbtable.household <- "HHSurvey.v_households"
 dbtable.person <- "HHSurvey.v_persons"
 dbtable.trip <- "HHSurvey.v_trips"
-dbtable.variables <- "HHSurvey.data_explorer_variables_w_reasons_for_moving" # temp structure
-dbtable.values <- "HHSurvey.v_data_explorer_values_w_reasons_for_moving" # temp structure
+dbtable.variables <- "HHSurvey.data_explorer_variables_w_reasons_for_moving"
+dbtable.values <- "HHSurvey.v_data_explorer_values_2021_w_reasons_for_moving"
 
 table_names <- list("Household" = list("table_name"=dbtable.household),
                     "Person" = list("table_name"=dbtable.person),
@@ -32,7 +32,7 @@ z <- 1.645 # 90% CI
 
 
 ## Read from Elmer
-d
+
 db.connect <- function() {
   elmer_connection <- dbConnect(odbc(),
                                 Driver = "SQL Server",
