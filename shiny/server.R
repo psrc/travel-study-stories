@@ -583,6 +583,14 @@ function(input, output, session) {
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
     geog.caption <- xtabCaption()
+    if(input$xtab_dataset=='2019'){
+      yr_name<-'2017/2019 Combined'
+    }else
+    {
+      yr_name<- input$xtab_dataset
+    }
+    
+    source.string<- paste(yr_name, "Household Travel Survey")
 
     if (xtabTableType()$Type == 'dimension') {
       if (is.null(input$xtab_dtype_rbtns)) return(NULL)
@@ -599,16 +607,16 @@ function(input, output, session) {
       l <- length(unique(dt$value))
   
       if (dttype == 'share') {
-        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label, geog.caption), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label, geog.caption))
+        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label, geog.caption, source.string), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label, geog.caption, source.string))
         return(p)
       } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption))
+        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, source.string), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, source.string))
         return(p)
       } else if (dttype %in% c('share_with_MOE')) {
-        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel, geog.caption), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, geog.caption))
+        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel, geog.caption, source.string), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, geog.caption, source.string))
         return(p)
       } else if (dttype %in% c('estimate_with_MOE')) {
-        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel, geog.caption), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel, geog.caption))
+        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel, geog.caption, source.string), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel, geog.caption, source.string))
         return(p)
       } else {
         return(NULL)
@@ -625,10 +633,10 @@ function(input, output, session) {
       }
       
       if (dttype %in% c("sample_count", "mean", "N_HH")) {
-        p <- xtab.plot.bar.fact(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption)
+        p <- xtab.plot.bar.fact(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, input$xtab_dataset)
         return(p)
       } else { # mean_with_MOE
-        p <- xtab.plot.bar.fact.moe(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption)
+        p <- xtab.plot.bar.fact.moe(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, input$xtab_dataset)
         return(p)
       }
     } # end of if/else dim or fact  
@@ -1065,7 +1073,15 @@ function(input, output, session) {
     dttype <- input$stab_dtype_rbtns
     selection <- names(dtype.choice[dtype.choice %in% dttype])
     geog.caption <- stabCaption()
-    
+    if(input$stab_dataset=='2019'){
+      yr_name<-'2017/2019 Combined'
+    }else
+    {
+      yr_name<- input$stab_dataset
+    }
+      
+    source.string<- paste(yr_name, "Household Travel Survey")
+
     if (dttype %in% col.headers) {
       dt <- stabVisTable()[type %in% selection, ]
     } else {
@@ -1077,16 +1093,16 @@ function(input, output, session) {
     if(l == 0) l <- length(unique(dt$value)) # evaluate if values are not in lookup (length 0)
     
     if (dttype == 'share') {
-      ifelse(l < 10, p <- stab.plot.bar(dt, "percent", xlabel, geog.caption), p <- stab.plot.bar2(dt, "percent", xlabel, geog.caption))
+      ifelse(l < 10, p <- stab.plot.bar(dt, "percent", xlabel, geog.caption, source.string=source.string), p <- stab.plot.bar2(dt, "percent", xlabel, geog.caption, source.string=source.string))
       return(p)
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-      ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel, geog.caption), p <- stab.plot.bar2(dt, "nominal", xlabel, geog.caption))
+      ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel, geog.caption, source.string=source.string), p <- stab.plot.bar2(dt, "nominal", xlabel, geog.caption, source.string=source.string))
       return(p)
     } else if (dttype == 'share_with_MOE') {
-      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel, geog.caption), p <- stab.plot.bar2.moe(dt, "percent", xlabel, geog.caption))
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel, geog.caption, source.string=source.string), p <- stab.plot.bar2.moe(dt, "percent", xlabel, geog.caption, source.string=source.string))
       return(p)
     } else if (dttype == 'estimate_with_MOE') {
-      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "nominal", xlabel, geog.caption),  p <- stab.plot.bar2.moe(dt, "nominal", xlabel, geog.caption))
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "nominal", xlabel, geog.caption, source.string=source.string),  p <- stab.plot.bar2.moe(dt, "nominal", xlabel, geog.caption, source.string=source.string))
       return(p)
     } else {
       return(NULL)
@@ -1146,7 +1162,7 @@ function(input, output, session) {
   
   output$stab_download <- downloadHandler(
     filename = function() {
-      paste0("HHSurvey2017_19_", stab.varsXAlias(),"_", stabCaption(), ".xlsx")
+      paste0("HHSurvey_",input$stab_dataset,"_", stab.varsXAlias(),"_", stabCaption(), ".xlsx")
     },
     content = function(file) {
       # write.xlsx(stabTable(), file)
