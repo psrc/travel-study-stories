@@ -101,6 +101,7 @@ function(input, output, session) {
     } else {
       tbltype <- "Mean"
     }
+  
     
     exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE|_sc.*", sep = "|"))
     yval.labels <- setdiff(colnames(atable), exc.cols)
@@ -366,6 +367,7 @@ function(input, output, session) {
         survey_year_sql=input$xtab_dataset
       }
       
+      
       sql.query <- paste("SELECT seattle_home, household_id,", input$xtab_xcol,",", input$xtab_ycol,",", wt_field, "FROM", table_name,
                          "WHERE survey_year = ", survey_year_sql)
       survey <- read.dt(sql.query, 'sqlquery')
@@ -383,6 +385,7 @@ function(input, output, session) {
       setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
   
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+
       
       if (type == 'dimension') {
         column.headers <- col.headers
@@ -985,7 +988,7 @@ function(input, output, session) {
   stabTable <- eventReactive(input$stab_go, {
     wt_field <- stabTableType()$Weight_Name
     table_name<-stabTableType()$Table_Name
-    
+
     if(input$stab_dataset=='2017/2019')
     {
       survey_year_sql ='2017 OR survey_year=2019'
