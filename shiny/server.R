@@ -101,6 +101,7 @@ function(input, output, session) {
     } else {
       tbltype <- "Mean"
     }
+  
     
     exc.cols <- str_subset(colnames(atable), paste(xvaralias, "_MOE|_sc.*", sep = "|"))
     yval.labels <- setdiff(colnames(atable), exc.cols)
@@ -147,7 +148,19 @@ function(input, output, session) {
   
 
 # Crosstab Generator Selection --------------------------------------------
+  
+  xtab.variable.tbl <-eventReactive(input$xtab_dataset,{
+    # filter variables table by survey year
+    if(input$xtab_dataset=='2017/2019'){
+      survey_year_name='2019'
+    }
+    else{
+      survey_year_name=input$xtab_dataset
+    }
+    variables.lu[survey_year == survey_year_name, ]
+  })
 
+  
   # show/hide vars definition
   observe({
     onclick("xtabXtoggleAdvanced",
@@ -156,14 +169,14 @@ function(input, output, session) {
             toggle(id = "xtabYAdvanced", anim = TRUE))
 
   })
-  
+
   output$xtab_xcol_det <- renderText({
-    xvar.det <- variables.lu[variable %in% input$xtab_xcol, .(detail)]
+    xvar.det <- xtab.variable.tbl()[variable %in% input$xtab_xcol, .(detail)]
     unique(xvar.det$detail)
   })
 
   output$xtab_ycol_det <- renderText({
-    yvar.det <- variables.lu[variable %in% input$xtab_ycol, .(detail)]
+    yvar.det <- xtab.variable.tbl()[variable %in% input$xtab_ycol, .(detail)]
     unique(yvar.det$detail)
   })
 
@@ -176,6 +189,7 @@ function(input, output, session) {
     hh.var <- 'Household'
     move.choices <- c(hh.var, move.var)
     
+
     x <- input$xtab_xcat
     y <- input$xtab_ycat
     
@@ -233,27 +247,31 @@ function(input, output, session) {
   
   # variable X alias list
   varsListX <- reactive({
-    t <- variables.lu[category %in% input$xtab_xcat & dtype != 'fact', ]
+    v <- xtab.variable.tbl()
+    t <- v[category %in% input$xtab_xcat & dtype != 'fact', ]
     vars.raw <- as.list(unique(t$variable))
     vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
   
   # variable Y alias list
   varsListY <- reactive({
-    t <- variables.lu[category %in% input$xtab_ycat, ]
+    v <- xtab.variable.tbl()
+    t <- v[category %in% input$xtab_ycat, ]
     vars.raw <- as.list(unique(t$variable))
     vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
   
   # variable X alias
   varsXAlias <- eventReactive(input$xtab_go, {
-    xvar.alias <- variables.lu[variable %in% input$xtab_xcol, .(variable_name)]
+    v <- xtab.variable.tbl()
+    xvar.alias <- v[variable %in% input$xtab_xcol, .(variable_name)]
     unique(xvar.alias$variable_name)
   })
   
   # variable Y alias
   varsYAlias <- eventReactive(input$xtab_go, {
-    yvar.alias <- variables.lu[variable %in% input$xtab_ycol, .(variable_name)]
+    v <- xtab.variable.tbl()
+    yvar.alias <- v[variable %in% input$xtab_ycol, .(variable_name)]
     unique(yvar.alias$variable_name)
   })
   
@@ -272,12 +290,23 @@ function(input, output, session) {
                 selected = varsListY()[[2]])
   })
   
+  xtab.values.tbl <-eventReactive(input$xtab_dataset,{
+    if(input$xtab_dataset=='2017/2019'){
+      survey_year_name='2019'
+    }
+    else{
+      survey_year_name=input$xtab_dataset
+    }
+    values.lu[survey_year == survey_year_name,]
+  })
+  
   xtabXValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[variable %in% input$xtab_xcol, ][order(value_order)] # return dt
+    # survey_year?
+    dt <-  xtab.values.tbl()[variable %in% input$xtab_xcol, ][order(value_order)] # return dt
   })
   
   xtabYValues <- eventReactive(input$xtab_go, {
-    dt <- values.lu[variable %in% input$xtab_ycol, ][order(value_order)]
+    dt <- xtab.values.tbl()[variable %in% input$xtab_ycol, ][order(value_order)]
     v <- as.vector(dt$value_text) # return vector
   })
   
@@ -299,45 +328,48 @@ function(input, output, session) {
   
   
   xtabTableType <- eventReactive(input$xtab_go, {
-    select.vars <- variables.lu[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
-    tables <- as.vector(unique(select.vars$table_name))
+    v <- xtab.variable.tbl()
+    select.vars <- v[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
+    select.tables<-select.vars$table_name
+    select.wts<-select.vars$weight_name
+    select.priority<-select.vars$weight_priority
+    weight_name<- select.wts[which.min(select.priority)]
     dtypes <- as.vector(unique(select.vars$dtype))
 
-    if('Trip' %in% tables){
-      res<-'Trip'
-    } else if('Person' %in% tables){
-      res<-'Person'
+    if('Trip' %in% select.tables){
+      res<-table_names[['Trip']]
+    } else if('Person' %in% select.tables){
+      res<- table_names[['Person']]
     }else{
-      res<-'Household'
+      res<-table_names[['Household']]
     }
     
-
+    
     if('fact' %in% dtypes){
       type<- 'fact'
     }
     else{
       type<-'dimension'
     }
-    
-    return(list(Res=res, Type=type))
+
+    return(list(WeightName=weight_name, Type=type, Table_Name=res))
     } )
 
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
-      table.type<- xtabTableType()$Res
-      wt_field<- table_names[[table.type]]$weight_name
-
-      # temp statement b/c this cat was only asked in 2019. Use 2019 weights
-      if (input$xtab_xcat == 'Reason for leaving previous residence' || input$xtab_ycat == 'Reason for leaving previous residence') {
-        wt_field <- hh_move_weight_name
+      wt_field<- xtabTableType()$WeightName
+      table_name<- xtabTableType()$Table_Name
+      if(input$xtab_dataset=='2017/2019')
+      {
+        survey_year_sql ='2017 OR survey_year=2019'
+      }
+      else{
+        survey_year_sql=input$xtab_dataset
       }
       
-      if(input$xtab_xcol=='weighted_trip_count' || input$xtab_ycol =='weighted_trip_count'){
-        # use a special weight here because trip counts are a weird case
-        wt_field <-hh_day_weight_name
-      }
-
-      sql.query <- paste("SELECT seattle_home, hhid,", input$xtab_xcol,",", input$xtab_ycol, ",", wt_field, "FROM", table_names[[table.type]]$table_name)
+      
+      sql.query <- paste("SELECT seattle_home, household_id,", input$xtab_xcol,",", input$xtab_ycol,",", wt_field, "FROM", table_name,
+                         "WHERE survey_year = ", survey_year_sql)
       survey <- read.dt(sql.query, 'sqlquery')
 
       type <- xtabTableType()$Type
@@ -353,6 +385,7 @@ function(input, output, session) {
       setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
   
       xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+
       
       if (type == 'dimension') {
         column.headers <- col.headers
@@ -576,6 +609,15 @@ function(input, output, session) {
     xlabel <- varsXAlias() # first dim
     ylabel <- varsYAlias() # second dim
     geog.caption <- xtabCaption()
+    
+    if(input$stab_dataset=='2017/2019'){
+      survey_year_name='2017_2019'
+    }
+    else{
+      survey_year_name=input$xtab_dataset
+    }
+
+    source.string<- paste(survey_year_name, "Household Travel Survey")
 
     if (xtabTableType()$Type == 'dimension') {
       if (is.null(input$xtab_dtype_rbtns)) return(NULL)
@@ -592,16 +634,16 @@ function(input, output, session) {
       l <- length(unique(dt$value))
   
       if (dttype == 'share') {
-        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label, geog.caption), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label, geog.caption))
+        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "percent", xlabel, ylabel, dttype.label, geog.caption, source.string), p <- xtab.plot.bar(dt, "percent", xlabel, ylabel, dttype.label, geog.caption, source.string))
         return(p)
       } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption))
+        ifelse(l > 10, p <- xtab.plot.bar.pivot(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, source.string), p <- xtab.plot.bar(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, source.string))
         return(p)
       } else if (dttype %in% c('share_with_MOE')) {
-        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel, geog.caption), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, geog.caption))
+        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "percent", xlabel, ylabel, geog.caption, source.string), p <- xtab.plot.bar.moe(dt, "percent", xlabel, ylabel, geog.caption, source.string))
         return(p)
       } else if (dttype %in% c('estimate_with_MOE')) {
-        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel, geog.caption), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel, geog.caption))
+        ifelse(l > 10, p <- xtab.plot.bar.moe.pivot(dt, "nominal", xlabel, ylabel, geog.caption, source.string), p <- xtab.plot.bar.moe(dt, "nominal", xlabel, ylabel, geog.caption, source.string))
         return(p)
       } else {
         return(NULL)
@@ -618,10 +660,10 @@ function(input, output, session) {
       }
       
       if (dttype %in% c("sample_count", "mean", "N_HH")) {
-        p <- xtab.plot.bar.fact(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption)
+        p <- xtab.plot.bar.fact(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, input$xtab_dataset)
         return(p)
       } else { # mean_with_MOE
-        p <- xtab.plot.bar.fact.moe(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption)
+        p <- xtab.plot.bar.fact.moe(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, input$xtab_dataset)
         return(p)
       }
     } # end of if/else dim or fact  
@@ -856,20 +898,44 @@ function(input, output, session) {
             toggle(id = "stabXAdvanced", anim = TRUE))  
   })
   
+  stab.variable.tbl<-eventReactive(input$stab_dataset,{
+    # filter variables table by survey year
+    if(input$stab_dataset=='2017/2019'){
+      survey_year_name='2019'
+    }
+    else{
+      survey_year_name=input$stab_dataset
+    }
+    variables.lu[survey_year == survey_year_name, ]
+  })
+  
+  stab.values.tbl<-eventReactive(input$stab_dataset,{
+    # filter variables table by survey year
+    if(input$stab_dataset=='2017/2019'){
+      survey_year_name='2019'
+    }
+    else{
+      survey_year_name=input$stab_dataset
+    }
+    values.lu[survey_year==survey_year_name, ]
+  })
+  
+  
   output$stab_xcol_det <- renderText({
-    xvar.det <- variables.lu[variable %in% input$stab_xcol, .(detail)]
+    xvar.det <- stab.variable.tbl()[variable %in% input$stab_xcol, .(detail)]
     unique(xvar.det$detail)
   })
   
   # variable X alias
   stab.varsXAlias <- eventReactive(input$stab_go, {
-    xvar.alias <- variables.lu[variable %in% input$stab_xcol, .(variable_name)]
+    #add survey_year
+    xvar.alias <- stab.variable.tbl()[variable %in% input$stab_xcol, .(variable_name)]
     unique(xvar.alias$variable_name)
   })
   
   # variable X alias list
   stab.varsListX <- reactive({
-    t <- variables.lu[category %in% input$stab_xcat, ]
+    t <- stab.variable.tbl()[category %in% input$stab_xcat, ]
     vars.raw <- as.list(unique(t$variable))
     vars.list <- setNames(vars.raw, as.list(unique(t$variable_name)))
   })
@@ -881,7 +947,7 @@ function(input, output, session) {
   })
   
   stabXValues <- eventReactive(input$stab_go, {
-    dt <- values.lu[variable %in% input$stab_xcol, ][order(value_order)] # return dt
+    dt <- xtab.values.tbl()[variable %in% input$stab_xcol, ][order(value_order)] # return dt
   })
   
   stabCaption <- eventReactive(input$stab_go, {
@@ -901,18 +967,13 @@ function(input, output, session) {
 
   
   stabTableType <- eventReactive(input$stab_go, {
-    select.vars <- variables.lu[variable %in% c(input$stab_xcol), ]
-    tables <- unique(select.vars$table_name) 
+    select.vars <-   stab.variable.tbl()[variable %in% c(input$stab_xcol), ]
+    tables <- unique(select.vars$table_name)
+    table_name<- table_names[[tables]]
     dtypes <- as.vector(unique(select.vars$dtype)) 
-    
-    if('Trip' %in% tables){
-      res<-'Trip'
-    } else if('Person' %in% tables){
-      res<-'Person'
-    }else{
-      res<-'Household'
-    }
-    
+    weight_name<- select.vars$weight_name
+    dtypes <- as.vector(unique(select.vars$dtype))
+
     if('fact' %in% dtypes){
       type<- 'fact'
     }
@@ -920,25 +981,25 @@ function(input, output, session) {
       type<-'dimension'
     }
     
-    return(list(Res=res, Type=type))
+    return(list(Weight_Name=weight_name, Type=type, Table_Name=table_name))
   } )
 
   # return list of tables subsetted by value types
   stabTable <- eventReactive(input$stab_go, {
-    table.type <- stabTableType()$Res
-    wt_field<- table_names[[table.type]]$weight_name
+    wt_field <- stabTableType()$Weight_Name
+    table_name<-stabTableType()$Table_Name
 
-    # temp statement b/c this cat was only asked in 2019. Use 2019 weights
-    if (input$stab_xcat == 'Reason for leaving previous residence') {
-      wt_field <- hh_move_weight_name
+    if(input$stab_dataset=='2017/2019')
+    {
+      survey_year_sql ='2017 OR survey_year=2019'
     }
-    
-    if(input$stab_xcol=='weighted_trip_count' ){
-      # use a special weight here because trip counts are a weird case
-      wt_field <-hh_day_weight_name
+    else{
+      survey_year_sql=input$stab_dataset
     }
+
+    sql.query <- paste("SELECT seattle_home, household_id,", input$stab_xcol,",", wt_field, " FROM " , table_name, 
+                       " WHERE survey_year= ", survey_year_sql)
     
-    sql.query <- paste("SELECT seattle_home, hhid,", input$stab_xcol,",", wt_field, "FROM" , table_names[[table.type]]$table_name)
     survey <- read.dt(sql.query, 'sqlquery')
     type <- stabTableType()$Type
    
@@ -1051,7 +1112,8 @@ function(input, output, session) {
     dttype <- input$stab_dtype_rbtns
     selection <- names(dtype.choice[dtype.choice %in% dttype])
     geog.caption <- stabCaption()
-    
+    source.string<- paste(input$stab_dataset, "Household Travel Survey")
+
     if (dttype %in% col.headers) {
       dt <- stabVisTable()[type %in% selection, ]
     } else {
@@ -1063,16 +1125,16 @@ function(input, output, session) {
     if(l == 0) l <- length(unique(dt$value)) # evaluate if values are not in lookup (length 0)
     
     if (dttype == 'share') {
-      ifelse(l < 10, p <- stab.plot.bar(dt, "percent", xlabel, geog.caption), p <- stab.plot.bar2(dt, "percent", xlabel, geog.caption))
+      ifelse(l < 10, p <- stab.plot.bar(dt, "percent", xlabel, geog.caption, source.string=source.string), p <- stab.plot.bar2(dt, "percent", xlabel, geog.caption, source.string=source.string))
       return(p)
     } else if (dttype %in% c('estimate', 'sample_count', 'N_HH')) {
-      ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel, geog.caption), p <- stab.plot.bar2(dt, "nominal", xlabel, geog.caption))
+      ifelse(l < 10, p <- stab.plot.bar(dt, "nominal", xlabel, geog.caption, source.string=source.string), p <- stab.plot.bar2(dt, "nominal", xlabel, geog.caption, source.string=source.string))
       return(p)
     } else if (dttype == 'share_with_MOE') {
-      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel, geog.caption), p <- stab.plot.bar2.moe(dt, "percent", xlabel, geog.caption))
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "percent", xlabel, geog.caption, source.string=source.string), p <- stab.plot.bar2.moe(dt, "percent", xlabel, geog.caption, source.string=source.string))
       return(p)
     } else if (dttype == 'estimate_with_MOE') {
-      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "nominal", xlabel, geog.caption),  p <- stab.plot.bar2.moe(dt, "nominal", xlabel, geog.caption))
+      ifelse(l < 10, p <- stab.plot.bar.moe(dt, "nominal", xlabel, geog.caption, source.string=source.string),  p <- stab.plot.bar2.moe(dt, "nominal", xlabel, geog.caption, source.string=source.string))
       return(p)
     } else {
       return(NULL)
@@ -1089,109 +1151,8 @@ function(input, output, session) {
     
   })
 
-# Simple Table Map --------------------------------------------------------
-
-  
-  # stabToMap <- eventReactive(input$stab_go, {
-  #   # TEST!!!!!!!!!!!!!!!!!!!!!!
-  #   ifelse(str_detect(input$stab_xcol, "puma10$"), TRUE, FALSE)
-  # })
-  
-  # map.colorBins <- function(diffcolumn){
-  #   rng <- range(diffcolumn)
-  #   if (rng[1] < 0 & rng[2] > 0){
-  #     diff.range <- "both"
-  #     bins.from.positive <- abs(rng[2]) > abs(rng[1])
-  #   } else if (rng[1] >=0 & rng[2] > 0){
-  #     diff.range <- "pos"
-  #   } else if (rng[1] < 0 & rng[2] < 0){
-  #     diff.range <- "neg"
-  #   } else {
-  #     diff.range <- "none"
-  #   }
-  #   max.bin <- max(abs(rng))
-  #   round.to <- 10^floor(log10(max.bin))
-  #   # round maximum to the nearest 100 or 1000 or whatever is appropriate (determined by the log10)
-  #   max.bin <- ceiling(max.bin/round.to)*round.to
-  #   absbreaks <- (sqrt(max.bin)*c(0.1, 0.2,0.4, 0.6, 0.8, 1))^2 # breaks on sqrt scale
-  #   
-  #   if (diff.range == "both"){
-  #     color <- c("#053061", "#2166ac", "#4393c3", "#92c5de", "#d1e5f0", "#ffffff", "#f7f7f7",
-  #                "#fddbc7", "#f4a582", "#d6604d", "#b2182b", "#67001f")
-  #     bin <- c(-rev(absbreaks), absbreaks)
-  #   } else if (diff.range == "pos"){
-  #     color <- "Reds"
-  #     bin <- c(0, absbreaks)
-  #   } else if (diff.range == "neg"){
-  #     color <- "Blues"
-  #     bin <- c(-rev(absbreaks), 0)
-  #   } else if (diff.range == "none"){
-  #     color <- "transparent"
-  #     bin <- c(0, 1)
-  #   }
-  #   return(list(color=color, bin=bin))
-  # }
-  
-  # output$stab_map <- renderLeaflet({
-  #   # TEST!!!!!!!!!!!!!!!!!!!!!!!!
-  #   if (stabToMap()) {
-  #     xlabel <- stab.varsXAlias() # first dim
-  #     dttype <- input$stab_dtype_rbtns
-  #     selection <- names(dtype.choice[dtype.choice %in% dttype])
-  #     geog.caption <- stabCaption()
-  # 
-  #     if (dttype %in% col.headers) {
-  #       dt <- stabVisTable()[type %in% selection, ]
-  #     } else {
-  #       if (dttype == "share_with_MOE") dt <- stabVisTable.shareMOE()
-  #       if (dttype == "estimate_with_MOE") dt <- stabVisTable.estMOE() 
-  #     }
-  #     
-  #     # join data to shapefile (remove extra cols)
-  #     shp <- sp::merge(puma.shape, dt, by.x = "PUMACE10", by.y = "value")
-  #     
-  #     # put into leaflet
-  #     colorBinResult <- map.colorBins(shp$result)
-  #     pal <- colorBin(palette = colorBinResult$color, bins = colorBinResult$bin)
-  #     
-  #     m <- leaflet(data = shp) %>%
-  #       addProviderTiles("CartoDB.Positron") %>%
-  #       addPolygons(fillColor = ~pal(result),
-  #                   fillOpacity = 0.7,
-  #                   stroke = T,
-  #                   color = "#8a8a95",
-  #                   weight = 2) %>%
-  #       addLegend("topright",
-  #                 pal = pal,
-  #                 values = ~result,
-  #                 title = paste0(geog.caption, ": <br>", selection, " of ", xlabel),
-  #                 opacity = 1)
-  #   } else {
-  #     m <- NULL
-  #   }
-  # 
-  #   return(m)
-  # })
-  
   output$ui_stab_vis <- renderUI({
-    # ORIGINAL!!!!!!!!!!!!!!!!!!!!!!
     plotlyOutput("stab_vis", width = "85%")
-    
-    # if (stabToMap()) {
-    #   # TEST!!!!!!!!!!!!!!!!!!!!!!!!
-    #   tabsetPanel(type = "tabs",
-    #               tabPanel("Chart", plotlyOutput("stab_vis", width = "85%")), # end tabPanel
-    #               tabPanel("Map", 
-    #                        leafletOutput("stab_map")#,
-    #                        # div(
-    #                        # 
-    #                        # style = 'margin-top: 2rem;'
-    #                        # )
-    #                        )
-    #               ) # end tabsetPanel
-    # } else {
-    #   plotlyOutput("stab_vis", width = "85%")
-    # }
   })
 
 
@@ -1233,7 +1194,13 @@ function(input, output, session) {
   
   output$stab_download <- downloadHandler(
     filename = function() {
-      paste0("HHSurvey2017_19_", stab.varsXAlias(),"_", stabCaption(), ".xlsx")
+      if(input$stab_dataset=='2017/2019'){
+        survey_year_name='2017_2019'
+      }
+      else{
+        survey_year_name=input$stab_dataset
+      }
+      paste0("HHSurvey_",survey_year_name,"_", stab.varsXAlias(),"_", stabCaption(), ".xlsx")
     },
     content = function(file) {
       # write.xlsx(stabTable(), file)

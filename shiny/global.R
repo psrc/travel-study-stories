@@ -8,45 +8,26 @@ library(plotly)
 library(shinyjs)
 library(odbc)
 library(DBI)
-# library(sp)
-# library(rgdal)
-# library(leaflet)
+library(here)
 
+wrkdir <- 'shiny'
 
-# local
-# wrkdir <- "C:/Users/clam/Desktop/travel-study-stories/shiny"
-#wrkdir <- "C:/Users/SChildress/Documents/GitHub/travel-study-stories/shiny"
+source(here(wrkdir, 'travel_crosstab.R'))
+source(here(wrkdir, 'functions_plot.R'))
 
-# shiny server
-# wrkdir <- "/home/shiny/apps/testing-travel-study-stories/shiny"
-wrkdir <- "/home/shiny/apps/travel-study-stories/shiny"
+hhts.datasets <- c('2017/2019','2021')
 
-source(file.path(wrkdir, 'travel_crosstab.R'))
-source(file.path(wrkdir, 'functions_plot.R'))
+missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Missing: Skip Logic', 'Children or missing')
 
-missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Children or missing')
+dbtable.household <- "HHSurvey.v_households"
+dbtable.person <- "HHSurvey.v_persons"
+dbtable.trip <- "HHSurvey.v_trips"
+dbtable.variables <- "HHSurvey.data_explorer_variables_w_reasons_for_moving"
+dbtable.values <- "HHSurvey.v_data_explorer_values_w_reasons_for_moving"
 
-dbtable.household <- "HHSurvey.v_households_2017_2019"
-dbtable.day <- "HHSurvey.v_day_2017_2019"
-dbtable.vehicle <- "HHSurvey.v_vehicle_2017_2019"
-dbtable.person <- "HHSurvey.v_persons_2017_2019"
-dbtable.trip <- "HHSurvey.v_trips_2017_2019"
-# dbtable.variables <- "HHSurvey.data_explorer_variables"
-# dbtable.values <- "HHSurvey.v_data_explorer_values_2019"
-dbtable.variables <- "HHSurvey.data_explorer_variables_w_reasons_for_moving" # temp structure
-dbtable.values <- "HHSurvey.v_data_explorer_values_2019_w_reasons_for_moving" # temp structure
-
-hh_weight_name <- 'hh_wt_combined'
-hh_day_weight_name <-'hh_day_wt_combined'
-trip_weight_name <- 'trip_wt_combined'
-hh_move_weight_name <- 'hh_wt_2019' # temp structure
-
-table_names <- list("Household" = list("weight_name" = hh_weight_name, "table_name" = dbtable.household),
-                    "Day" = list("weight_name" = hh_day_weight_name , "table_name" = dbtable.day),
-                    "Vehicle" = list("weight_name" = hh_weight_name, "table_name" =dbtable.vehicle),
-                    "Person" = list("weight_name" = hh_weight_name , "table_name" = dbtable.person), 
-                    "Trip" = list("weight_name" = trip_weight_name, "table_name" = dbtable.trip))
-
+table_names <- list("Household" = list("table_name"=dbtable.household),
+                    "Person" = list("table_name"=dbtable.person),
+                    "Trip" = list("table_name" = dbtable.trip))
 z <- 1.645 # 90% CI
 
 
@@ -80,7 +61,7 @@ variables.lu <- variables.lu[survey_year < 2021, ][order(category_order, variabl
 values.lu <- read.dt(dbtable.values, 'table_name')
 values.lu<- values.lu[order(value_order)]
 
-readme.dt <- read.xlsx(file.path(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
+readme.dt <- read.xlsx(here(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
 
 vars.cat <- unique(variables.lu$category)
 
@@ -116,10 +97,4 @@ hist_breaks<- c(0,1,3,5,10,20,30,45,60,180)
 hist_breaks_labels<-c('0 to 1', '1 to 3', '3 to 5', '5 to 10', '10 to 20', '20 to 30', '30 to 45', '45 to 60', '60 to 180')
 hist_breaks_num_trips<-c(-.01,0,2,4,6,8,10,12,14,16,18,20,100)
 hist_breaks_num_trips_labels<-c('0', '1-2', '3-4', '5-6', '7-8', '9-10', '11-12', '13-14', '14-16', '17-18', '19-20', '20-100')
-
-# load shapefile(s)
-# dsn <- "../shapes"
-# layer.puma <- "reg10puma_WGS84"
-# puma.shape <- readOGR(dsn=dsn,layer=layer.puma)
-# puma.shape <-spTransform(readOGR(dsn=dsn,layer=layer.puma), CRS("+proj=longlat +datum=WGS84"))
 
