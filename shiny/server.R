@@ -947,7 +947,7 @@ function(input, output, session) {
   })
   
   stabXValues <- eventReactive(input$stab_go, {
-    dt <- xtab.values.tbl()[variable %in% input$stab_xcol, ][order(value_order)] # return dt
+    dt <- stab.values.tbl()[variable %in% input$stab_xcol, ][order(value_order)] # return dt
   })
   
   stabCaption <- eventReactive(input$stab_go, {
