@@ -22,8 +22,8 @@ missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing
 dbtable.household <- "HHSurvey.v_households"
 dbtable.person <- "HHSurvey.v_persons"
 dbtable.trip <- "HHSurvey.v_trips"
-dbtable.variables <- "HHSurvey.data_explorer_variables_w_reasons_for_moving"
-dbtable.values <- "HHSurvey.v_data_explorer_values_w_reasons_for_moving"
+dbtable.variables <- "HHSurvey.variable_metadata"
+dbtable.values <- "HHSurvey.v_value_metadata"
 
 table_names <- list("Household" = list("table_name"=dbtable.household),
                     "Person" = list("table_name"=dbtable.person),
