@@ -610,14 +610,9 @@ function(input, output, session) {
     ylabel <- varsYAlias() # second dim
     geog.caption <- xtabCaption()
     
-    if(input$stab_dataset=='2017/2019'){
-      survey_year_name='2017_2019'
-    }
-    else{
-      survey_year_name=input$xtab_dataset
-    }
+    survey_year_name <- input$xtab_dataset
 
-    source.string<- paste(survey_year_name, "Household Travel Survey")
+    source.string <- paste(survey_year_name, "Household Travel Survey")
 
     if (xtabTableType()$Type == 'dimension') {
       if (is.null(input$xtab_dtype_rbtns)) return(NULL)
