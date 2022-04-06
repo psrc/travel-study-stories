@@ -1,3 +1,9 @@
+#### How to Use the Explorer
+
+See the [User Guide](https://github.com/psrc/travel-study-stories/wiki/User-Guide)
+
+------------------------------------------------------------------------
+
 #### Data Source
 
 -   [2017/2019 Puget Sound Regional Household Travel
@@ -23,3 +29,4 @@ for three waves (two-year survey cycles). This effort builds upon the
 variety of agency and member data and analysis needs. The 2019 survey
 was completed in June 2019, and the final wave is planned for 2021,
 depending on funding.
+
