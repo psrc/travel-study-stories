@@ -9,6 +9,8 @@ library(shinyjs)
 library(odbc)
 library(DBI)
 library(here)
+library(psrc.travelsurvey)
+
 
 wrkdir <- 'shiny'
 
@@ -19,9 +21,9 @@ hhts.datasets <- c('2017/2019','2021')
 
 missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Missing: Skip Logic', 'Children or missing')
 
-dbtable.household <- "HHSurvey.v_households"
-dbtable.person <- "HHSurvey.v_persons"
-dbtable.trip <- "HHSurvey.v_trips"
+dbtable.household <- "h"
+dbtable.person <- "p"
+dbtable.trip <- "t"
 dbtable.variables <- "HHSurvey.variable_metadata"
 dbtable.values <- "HHSurvey.v_value_metadata"
 

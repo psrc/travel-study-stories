@@ -326,7 +326,6 @@ function(input, output, session) {
   
 # Crosstab Generator data wrangling ---------------------------------------
   
-  
   xtabTableType <- eventReactive(input$xtab_go, {
     v <- xtab.variable.tbl()
     select.vars <- v[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
@@ -335,7 +334,7 @@ function(input, output, session) {
     select.priority<-select.vars$weight_priority
     weight_name<- select.wts[which.min(select.priority)]
     dtypes <- as.vector(unique(select.vars$dtype))
-
+    
     if('Trip' %in% select.tables){
       res<-table_names[['Trip']]
     } else if('Person' %in% select.tables){
@@ -351,52 +350,86 @@ function(input, output, session) {
     else{
       type<-'dimension'
     }
-
+    
     return(list(WeightName=weight_name, Type=type, Table_Name=res))
-    } )
+})
+
 
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
-      wt_field<- xtabTableType()$WeightName
-      table_name<- xtabTableType()$Table_Name
-      if(input$xtab_dataset=='2017/2019')
-      {
-        survey_year_sql ='2017 OR survey_year=2019'
-      }
-      else{
-        survey_year_sql=input$xtab_dataset
-      }
-      
-      
-      sql.query <- paste("SELECT seattle_home, household_id,", input$xtab_xcol,",", input$xtab_ycol,",", wt_field, "FROM", table_name,
-                         "WHERE survey_year = ", survey_year_sql)
-      survey <- read.dt(sql.query, 'sqlquery')
+    tbl_name <- xtabTableType()$Table_Name
 
-      type <- xtabTableType()$Type
-      
-      if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
+    if (input$xtab_dataset == '2017/2019')
+    {
+      survey_yr = "2017_2019"
+    }
+    else{
+      survey_yr = input$xtab_dataset
+    }
 
-      crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      xvals <- xtabXValues()[, .(value_order, value_text)]
+    data_for_xtab <-
+      get_hhts(
+        survey = survey_yr,
+        level = tbl_name,
+        vars = c("seattle_home", input$xtab_xcol, input$xtab_ycol)
+      ) %>% setDT()
     
-      crosstab <- merge(crosstab, xvals, by.x='var1', by.y='value_text')
-      setorder(crosstab, value_order)
-        
-      setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
-  
-      xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
-
+    if (input$stab_fltr_sea == T) {
+      data_for_xtab[seattle_home == "Home in Seattle"]
+    }
+    
+    if (is.numeric(input$xtab_ycol)) {
+      crosstab <-
+        hhts_median(
+          data_for_xtab,
+          input$xtab_xcol,
+          group_vars = input$xtab_ycol,
+          incl_na = FALSE
+        ) %>% setDT %>% dcast(input$xtab_xcol ~ input$xtab_ycol,
+                              value.var = c(unlist(med_vars), "sample_size"))
+      # may need to rename the variable for downstream impacts
+    }
+    else{
+      crosstab <-
+        hhts_count(
+          data_for_xtab,
+          group_vars = c(input$xtab_xcol, input$xtab_ycol),
+          incl_na = FALSE
+        ) 
+      browser()
+      setnames(crosstab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
+    
+      # TO DO: Need to handle difference between N_HH and sample_count
       
-      if (type == 'dimension') {
-        column.headers <- col.headers
-      } else if (type == 'fact') {
-        column.headers <- col.headers.facts
-      }
-      
-      dt.list <- map(as.list(column.headers), xtab.crosstab)
-      names(dt.list) <- column.headers
+      crosstab <- dcast.data.table(crosstab, 
+                                   input$xtab_xcol ~ input$xtab_ycol, 
+                                   value.var = c('sample_count', 'estimate', 'estMOE','share', 'MOE', 'sample_count'))
 
-      return(dt.list)
+    }
+
+    
+    
+    xvals <- xtabXValues()[, .(value_order, value_text)]
+    
+    crosstab <-
+      merge(crosstab, xvals, by.x = 'var1', by.y = 'value_text')
+    setorder(crosstab, value_order)
+    
+    setnames(crosstab, "var1", varsXAlias(), skip_absent = TRUE)
+    
+    xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+    
+    
+    if (type == 'dimension') {
+      column.headers <- col.headers
+    } else if (type == 'fact') {
+      column.headers <- col.headers.facts
+    }
+    
+    dt.list <- map(as.list(column.headers), xtab.crosstab)
+    names(dt.list) <- column.headers
+    
+    return(dt.list)
   })
   
   # clean xtabTable()
