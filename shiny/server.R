@@ -379,6 +379,7 @@ function(input, output, session) {
     }
     
     if (is.numeric(input$xtab_ycol)) {
+      #THIS NEEDS WORK
       crosstab <-
         hhts_median(
           data_for_xtab,
@@ -387,7 +388,7 @@ function(input, output, session) {
           incl_na = FALSE
         ) %>% setDT %>% dcast(input$xtab_xcol ~ input$xtab_ycol,
                               value.var = c(unlist(med_vars), "sample_size"))
-      # may need to rename the variable for downstream impacts
+      # may need to rename the columns for downstream impacts
     }
     else{
       crosstab <-
@@ -395,46 +396,47 @@ function(input, output, session) {
           data_for_xtab,
           group_vars = c(input$xtab_xcol, input$xtab_ycol),
           incl_na = FALSE
-        ) 
+        ) %>%setDT()
       browser()
-      setnames(crosstab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
+      setnames(crosstab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))%>% 
+        select(input$xtab_xcol, input$xtab_ycol, "estimate", "estMOE", "share", "MOE", 'sample_count')
     
       # TO DO: Need to handle difference between N_HH and sample_count
       
-      crosstab <- dcast.data.table(crosstab, 
-                                   input$xtab_xcol ~ input$xtab_ycol, 
-                                   value.var = c('sample_count', 'estimate', 'estMOE','share', 'MOE', 'sample_count'))
+      crosstab <- crosstab%>% select(input$xtab_xcol, input$xtab_ycol, "estimate", "estMOE", "share", "MOE", 'sample_count')%>%
+        pivot_wider(names_from=input$xtab_ycol, values_from=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
 
     }
 
-    
+   ### THIS DOESNT WORK YET
     
     xvals <- xtabXValues()[, .(value_order, value_text)]
-    
+
     crosstab <-
       merge(crosstab, xvals, by.x = 'var1', by.y = 'value_text')
     setorder(crosstab, value_order)
-    
+
     setnames(crosstab, "var1", varsXAlias(), skip_absent = TRUE)
-    
+
     xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
-    
-    
+
+
     if (type == 'dimension') {
       column.headers <- col.headers
     } else if (type == 'fact') {
       column.headers <- col.headers.facts
     }
-    
+
     dt.list <- map(as.list(column.headers), xtab.crosstab)
     names(dt.list) <- column.headers
-    
-    return(dt.list)
+
+    return(crosstab)
   })
   
   # clean xtabTable()
   xtabTableClean <- reactive({
     dt.list <- xtabTable()
+    browser()
     # yv <- xtabYValues()
     xa <- varsXAlias()
     # col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
@@ -1017,40 +1019,63 @@ function(input, output, session) {
     wt_field <- stabTableType()$Weight_Name
     table_name<-stabTableType()$Table_Name
 
-    if(input$stab_dataset=='2017/2019')
+    if (input$stab_dataset == '2017/2019')
     {
-      survey_year_sql ='2017 OR survey_year=2019'
+      survey_yr = "2017_2019"
     }
     else{
-      survey_year_sql=input$stab_dataset
+      survey_yr = input$stab_dataset
     }
 
-    sql.query <- paste("SELECT seattle_home, household_id,", input$stab_xcol,",", wt_field, " FROM " , table_name, 
-                       " WHERE survey_year= ", survey_year_sql)
-    
-    survey <- read.dt(sql.query, 'sqlquery')
     type <- stabTableType()$Type
+    
+    data_for_stab <-
+      get_hhts(
+        survey = survey_yr,
+        level = tbl_name,
+        vars = c("seattle_home", input$stab_xcol)
+      ) %>% setDT()
+    
    
-    if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
+    if (input$stab_fltr_sea == T) data_for_stab <- data_for_stab[seattle_home == 'Home in Seattle',]
     
-    xa <- stab.varsXAlias()
+    xa <- data_for_stab.varsXAlias()
     
-    simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
+    # deatl with facts and dimensions
+    if (is.numeric(input$stab_xcol)) {
+      #THIS NEEDS WORK
+      simpletab <-
+        hhts_median(
+          data_for_xtab,
+          input$stab_xcol,
+          incl_na = FALSE
+        ) %>% setDT
+      # may need to rename the columns for downstream impacts
+    }
+    else{
+     simpletab <-
+        hhts_count(
+          data_for_xtab,
+          group_vars = c(input$stab_xcol),
+          incl_na = FALSE
+        ) %>%setDT()
+      
+    }
   
     xvals <- stabXValues()[, .(value_order, value_text)][]
     
     # check input type and xvals. sometimes xvals doesn't exist for some variables
     if((typeof(input$stab_xcol) == 'character') & (nrow(xvals) > 0)){ 
-        simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='value_text')
-        setorder(simtable, value_order)
+        simpletab <- merge(simpletab, xvals, by.x=input$stab_xcol, by.y='value_text')
+        setorder(data_fo, value_order)
     }
     
     dtypes <- dtype.choice.stab 
     selcols <- c(xa, names(dtypes))
-    setnames(simtable, c(input$stab_xcol, dtypes), selcols)
-    setcolorder(simtable, selcols)
+    setnames(simpletab, c(input$stab_xcol, dtypes), selcols)
+    setcolorder(simpletab, selcols)
     
-    dt <- simtable[!(get(eval(xa)) %in% "")][, ..selcols]
+    dt <- simpletab[!(get(eval(xa)) %in% "")][, ..selcols]
   })
   
   # clean Margin of Error column and column reorder
@@ -1092,6 +1117,8 @@ function(input, output, session) {
       formatStyle(columns = 2:ncol(dt),
                   valueColumns = ncol(dt), 
                   color = styleInterval(c(30), c(colors$ltgrey, colors$dkgrey)))
+    
+    
   })
 
 # Simple Table Visuals -----------------------------------------------------
