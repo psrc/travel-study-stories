@@ -72,20 +72,19 @@ dtype.choice <- c("Share" ="share",
                   "Total" = "estimate",
                   "Margin of Error (Total)" = "estMOE",
                   "Total with Margin of Error" = "estimate_with_MOE",
-                  "Number of Households" = "N_HH",
                   "Share with Margin of Error" = "share_with_MOE",
                   "Margin of Error (Share)" = "MOE",
                   "Sample Count" = "sample_count",
-                  "Mean" = "mean",
-                  "Mean with Margin of Error" = "mean_with_MOE")
+                  "Median" = "median",
+                  "Median with Margin of Error" = "median_with_MOE")
 
 # xtab sublist: dimensions
 dtype.choice.xtab <- dtype.choice[c(1:2, 6, 4, 8)]
-col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
+col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE")
 
 # xtab sublist: facts
 dtype.choice.xtab.facts <- dtype.choice[c(9, 10, 8)]
-col.headers.facts <-  c("mean", "MOE", "sample_count", "N_HH")
+col.headers.facts <-  c("median", "MOE", "sample_count")
 
 # we assume a 50% probability to maximize the MOE
 p_MOE <- 0.5
