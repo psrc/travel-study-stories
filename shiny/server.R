@@ -397,30 +397,29 @@ function(input, output, session) {
           group_vars = c(input$xtab_xcol, input$xtab_ycol),
           incl_na = FALSE
         ) %>%setDT()
-      browser()
-      setnames(crosstab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))%>% 
-        select(input$xtab_xcol, input$xtab_ycol, "estimate", "estMOE", "share", "MOE", 'sample_count')
+  
+      setnames(crosstab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
+        
     
       # TO DO: Need to handle difference between N_HH and sample_count
-      
+      browser()
       crosstab <- crosstab%>% select(input$xtab_xcol, input$xtab_ycol, "estimate", "estMOE", "share", "MOE", 'sample_count')%>%
         pivot_wider(names_from=input$xtab_ycol, values_from=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
 
     }
-
-   ### THIS DOESNT WORK YET
     
     xvals <- xtabXValues()[, .(value_order, value_text)]
 
     crosstab <-
-      merge(crosstab, xvals, by.x = 'var1', by.y = 'value_text')
+      merge(crosstab, xvals, by.x = input$xtab_xcol, by.y = 'value_text')
     setorder(crosstab, value_order)
 
-    setnames(crosstab, "var1", varsXAlias(), skip_absent = TRUE)
+    setnames(crosstab, input$xtab_xcol, varsXAlias(), skip_absent = TRUE)
 
     xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
 
-
+    type <- xtabTableType()$Type
+    
     if (type == 'dimension') {
       column.headers <- col.headers
     } else if (type == 'fact') {
