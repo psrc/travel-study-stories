@@ -79,7 +79,7 @@ dtype.choice <- c("Share" ="share",
                   "Median with Margin of Error" = "median_with_MOE")
 
 # xtab sublist: dimensions
-dtype.choice.xtab <- dtype.choice[c(1:2, 6, 4, 8)]
+dtype.choice.xtab <- dtype.choice[c(1:2, 5, 4, 7)]
 col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE")
 
 # xtab sublist: facts
@@ -89,8 +89,9 @@ col.headers.facts <-  c("median", "MOE", "sample_count")
 # we assume a 50% probability to maximize the MOE
 p_MOE <- 0.5
 # stab sublist
-dtype.choice.stab <- dtype.choice[c(1:2, 7, 3, 8)]
-dtype.choice.stab.vis <- dtype.choice[c(1:2, 6, 4, 8)]
+# change to named indices
+dtype.choice.stab <- dtype.choice[c(1:2, 6, 3,7)]
+dtype.choice.stab.vis <- dtype.choice[c(1:2, 5, 4,7)]
 
 min_float <- 0
 max_float <- 200

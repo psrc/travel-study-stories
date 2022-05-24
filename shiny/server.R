@@ -394,12 +394,12 @@ function(input, output, session) {
       
     }
     else{
+
       crosstab <-
         hhts_count(
           data_for_xtab,
           group_vars = c(input$xtab_xcol, input$xtab_ycol),
-          incl_na = FALSE
-        ) %>%setDT()
+          incl_na = FALSE)
   
       setnames(crosstab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
         
@@ -436,7 +436,7 @@ function(input, output, session) {
   # clean xtabTable()
   xtabTableClean <- reactive({
     dt.list <- xtabTable()
-    browser()
+
     # yv <- xtabYValues()
     xa <- varsXAlias()
     # col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
@@ -1042,7 +1042,7 @@ function(input, output, session) {
     xa <- stab.varsXAlias()
 
     if (is.numeric(input$stab_xcol)) {
-  
+      # to do: implement a weighted histogram
       simpletab <-
         hhts_median(
           data_for_stab,
@@ -1062,7 +1062,7 @@ function(input, output, session) {
           data_for_stab,
           group_vars = c(input$stab_xcol),
           incl_na = FALSE
-        ) %>%setDT()
+        )
      
      setnames(simpletab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
      
@@ -1079,9 +1079,10 @@ function(input, output, session) {
         simpletab <- merge(simpletab, xvals, by.x=input$stab_xcol, by.y='value_text')
         setorder(simpletab, value_order)
     }
-    browser()
+    
     dtypes <- dtype.choice.stab 
     selcols <- c(xa, names(dtypes))
+
     setnames(simpletab, c(input$stab_xcol, dtypes), selcols)
     setcolorder(simpletab, selcols)
     
