@@ -936,6 +936,7 @@ function(input, output, session) {
     else{
       survey_year_name=input$stab_dataset
     }
+
     variables.lu[survey_year == survey_year_name, ]
   })
   
@@ -1041,7 +1042,7 @@ function(input, output, session) {
     
     xa <- stab.varsXAlias()
 
-    if (is.numeric(input$stab_xcol)) {
+    if (type=='fact') {
       # to do: implement a weighted histogram
       simpletab <-
         hhts_median(
@@ -1049,7 +1050,7 @@ function(input, output, session) {
           input$stab_xcol,
           incl_na = FALSE
         ) %>% setDT
-      
+      browser()
       setnames(simpletab, old=c('sample_size','median_moe', 'median'), new=c('sample_count', 'MOE','median'))
      simpletab <- simpletab%>% select(input$xtab_xcol, "median", "MOE", 'sample_count')%>% setDT()
      #%>%
