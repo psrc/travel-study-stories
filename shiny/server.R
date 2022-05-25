@@ -358,7 +358,8 @@ function(input, output, session) {
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
     tbl_name <- xtabTableType()$Table_Name
-
+    type <- xtabTableType()$Type
+    data
     if (input$xtab_dataset == '2017/2019')
     {
       survey_yr = "2017_2019"
@@ -378,19 +379,19 @@ function(input, output, session) {
       data_for_xtab[seattle_home == "Home in Seattle"]
     }
     
-    if (is.numeric(input$xtab_ycol)) {
-      #THIS NEEDS WORK
+    if (type=='fact') {
+
       crosstab <-
         hhts_median(
           data_for_xtab,
-          input$xtab_xcol,
-          group_vars = input$xtab_ycol,
+          input$xtab_ycol,
+          group_vars = input$xtab_xcol,
           incl_na = FALSE
-        ) %>% setDT %>% dcast(input$xtab_xcol ~ input$xtab_ycol,
-                              value.var = c(unlist(med_vars), "sample_size"))
-      setnames(crosstab, old=c('sample_size','median_moe', 'median'), new=c('sample_count', 'MOE','median'))
-      crosstab <- crosstab%>% select(input$xtab_xcol, input$xtab_ycol, "median", "MOE", 'sample_count')%>%
-        pivot_wider(names_from=input$xtab_ycol, values_from=c("median","MOE", 'sample_count'))%>% setDT()
+        ) %>%  rename('median' = ends_with('median'))%>%  rename('MOE'=ends_with('MOE')) %>%
+               rename(sample_count= sample_size)
+
+      crosstab <- crosstab%>% select(input$xtab_xcol, "median", "MOE", 'sample_count')
+       
       
     }
     else{
@@ -410,6 +411,7 @@ function(input, output, session) {
     }
    
     xvals <- xtabXValues()[, .(value_order, value_text)]
+    
 
     crosstab <-
       merge(crosstab, xvals, by.x = input$xtab_xcol, by.y = 'value_text')
@@ -419,7 +421,7 @@ function(input, output, session) {
 
     xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
 
-    type <- xtabTableType()$Type
+   
     
     if (type == 'dimension') {
       column.headers <- col.headers
@@ -524,7 +526,7 @@ function(input, output, session) {
   })
   
   # create separate table of median (for fact related tables) alongside margin of errors
-  xtabTableClean.MedianMOE <- reactive({
+  xtabTableClean.medianMOE <- reactive({
     xa <- varsXAlias()
     xvals <- xtabXValues()[, .(value_order, value_text)]
 
@@ -535,8 +537,8 @@ function(input, output, session) {
     dt.sm <- dt[order(var1.sort)][, var1.sort := NULL]
   })
   
-  xtabTableClean.DT.MedianMOE <- reactive({
-    t <- copy(xtabTableClean.MedianMOE())
+  xtabTableClean.DT.medianMOE <- reactive({
+    t <- copy(xtabTableClean.medianMOE())
 
     t[, MOE := lapply(.SD, function(x) prettyNum(round(x, 2), big.mark = ",", preserve.width = "none")), .SDcols = 'MOE']
     t[, MOE := lapply(.SD, function(x) paste0("+/-", as.character(x))), .SDcols = 'MOE']
@@ -1050,7 +1052,7 @@ function(input, output, session) {
           input$stab_xcol,
           incl_na = FALSE
         ) %>% setDT
-      browser()
+
       setnames(simpletab, old=c('sample_size','median_moe', 'median'), new=c('sample_count', 'MOE','median'))
      simpletab <- simpletab%>% select(input$xtab_xcol, "median", "MOE", 'sample_count')%>% setDT()
      #%>%

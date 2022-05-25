@@ -58,7 +58,7 @@ read.dt <- function(astring, type =c('table_name', 'sqlquery')) {
 }
 
 variables.lu <- read.dt(dbtable.variables, 'table_name')
-variables.lu <- variables.lu %>% select(-"levels") %>% na.omit()
+variables.lu <- variables.lu %>% select(-"levels") %>% na.omit()%>%setDT()
 variables.lu <- variables.lu[order(category_order, variable_name)]
 values.lu <- read.dt(dbtable.values, 'table_name')
 values.lu<- values.lu[order(value_order)]
@@ -83,7 +83,7 @@ dtype.choice.xtab <- dtype.choice[c(1:2, 5, 4, 7)]
 col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE")
 
 # xtab sublist: facts
-dtype.choice.xtab.facts <- dtype.choice[c(9, 10, 8)]
+dtype.choice.xtab.facts <- dtype.choice[c(9, 8, 7)]
 col.headers.facts <-  c("median", "MOE", "sample_count")
 
 # we assume a 50% probability to maximize the MOE
