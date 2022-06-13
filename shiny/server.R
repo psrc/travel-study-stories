@@ -357,6 +357,7 @@ function(input, output, session) {
 
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
+
     tbl_name <- xtabTableType()$Table_Name
     type <- xtabTableType()$Type
     data
@@ -1045,21 +1046,14 @@ function(input, output, session) {
     xa <- stab.varsXAlias()
 
     if (type=='fact') {
-      # to do: implement a weighted histogram
-      simpletab <-
-        hhts_median(
-          data_for_stab,
-          input$stab_xcol,
-          incl_na = FALSE
-        ) %>% setDT
+      data_for_stab<- data_for_stab[eval(parse(text=input$stab_xcol))>min_float]
+      data_for_stab <- data_for_stab[eval(parse(text=input$stab_xcol))<max_float]
+      breaks<- hist_breaks
+      hist_labels<- hist_breaks_labels
+      data_for_stab<-data_for_stab[, input$stab_xcol:= cut(eval(parse(text=input$stab_xcol)),breaks,labels=hist_labels, order_result=TRUE,)]
 
-      setnames(simpletab, old=c('sample_size','median_moe', 'median'), new=c('sample_count', 'MOE','median'))
-     simpletab <- simpletab%>% select(input$xtab_xcol, "median", "MOE", 'sample_count')%>% setDT()
-     #%>%
-        #pivot_wider(names_from=input$xtab_xcol, values_from=c("median","MOE", 'sample_count'))%>% setDT()
-     
     }
-    else{
+
      simpletab <-
         hhts_count(
           data_for_stab,
@@ -1070,10 +1064,11 @@ function(input, output, session) {
      setnames(simpletab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
      
      
-    simpletab<- simpletab%>% select(input$stab_xcol,  "estimate", "estMOE", "share", "MOE", 'sample_count')%>% setDT()
+    simpletab<- simpletab%>% select(input$stab_xcol,  "estimate", "estMOE", "share", "MOE", 'sample_count')%>% filter(share != 1) %>% setDT()
+  
     #%>%pivot_wider(names_from=input$stab_xcol, values_from=c("estimate", "estMOE", "share", "MOE", 'sample_count'))%>% setDT()
       
-    }
+    
   
     xvals <- stabXValues()[, .(value_order, value_text)][]
     
