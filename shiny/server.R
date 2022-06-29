@@ -1060,16 +1060,13 @@ function(input, output, session) {
           group_vars = c(input$stab_xcol),
           incl_na = FALSE
         )
-     
-     setnames(simpletab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
-     
-     
-    simpletab<- simpletab%>% select(input$stab_xcol,  "estimate", "estMOE", "share", "MOE", 'sample_count')%>% filter(share != 1) %>% setDT()
-  
-    #%>%pivot_wider(names_from=input$stab_xcol, values_from=c("estimate", "estMOE", "share", "MOE", 'sample_count'))%>% setDT()
-      
     
-  
+    new.colnames <- c("estimate", "estMOE", "share", "MOE", 'sample_count')
+    setnames(simpletab, old = c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new = new.colnames)
+    
+    new.colorder <- c(input$stab_xcol, new.colnames)
+    simpletab <- simpletab[, ..new.colorder][share != 1, ]
+      
     xvals <- stabXValues()[, .(value_order, value_text)][]
     
     # check input type and xvals. sometimes xvals doesn't exist for some variables
