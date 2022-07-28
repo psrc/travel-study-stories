@@ -92,14 +92,14 @@ function(input, output, session) {
     ) # end withTags
   }
   
-  dt.container.tblMOE.dtstyle <- function(atable, xvaralias, yvaralias, tbltype = c("share", "estimate", "mean")) {
+  dt.container.tblMOE.dtstyle <- function(atable, xvaralias, yvaralias, tbltype = c("share", "estimate", "median")) {
     # ifelse(tbltype == "share", tbltype <- "Share", tbltype <- "Total")
     if (tbltype == "share") {
       tbltype <- "Share"
     } else if (tbltype == "estimate") {
       tbltype <- "Total"
     } else {
-      tbltype <- "Mean"
+      tbltype <- "median"
     }
   
     
@@ -326,7 +326,6 @@ function(input, output, session) {
   
 # Crosstab Generator data wrangling ---------------------------------------
   
-  
   xtabTableType <- eventReactive(input$xtab_go, {
     v <- xtab.variable.tbl()
     select.vars <- v[variable %in% c(input$xtab_xcol, input$xtab_ycol), ]
@@ -335,7 +334,7 @@ function(input, output, session) {
     select.priority<-select.vars$weight_priority
     weight_name<- select.wts[which.min(select.priority)]
     dtypes <- as.vector(unique(select.vars$dtype))
-
+    
     if('Trip' %in% select.tables){
       res<-table_names[['Trip']]
     } else if('Person' %in% select.tables){
@@ -351,57 +350,96 @@ function(input, output, session) {
     else{
       type<-'dimension'
     }
-
+    
     return(list(WeightName=weight_name, Type=type, Table_Name=res))
-    } )
+})
+
 
   # return list of tables subsetted by value types
   xtabTable <- eventReactive(input$xtab_go, {
-      wt_field<- xtabTableType()$WeightName
-      table_name<- xtabTableType()$Table_Name
-      if(input$xtab_dataset=='2017/2019')
-      {
-        survey_year_sql ='2017 OR survey_year=2019'
-      }
-      else{
-        survey_year_sql=input$xtab_dataset
-      }
-      
-      
-      sql.query <- paste("SELECT seattle_home, household_id,", input$xtab_xcol,",", input$xtab_ycol,",", wt_field, "FROM", table_name,
-                         "WHERE survey_year = ", survey_year_sql)
-      survey <- read.dt(sql.query, 'sqlquery')
 
-      type <- xtabTableType()$Type
-      
-      if (input$xtab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
+    tbl_name <- xtabTableType()$Table_Name
+    type <- xtabTableType()$Type
+    data
+    if (input$xtab_dataset == '2017/2019')
+    {
+      survey_yr = "2017_2019"
+    }
+    else{
+      survey_yr = input$xtab_dataset
+    }
 
-      crosstab <-cross_tab(survey, input$xtab_xcol, input$xtab_ycol, wt_field, type)
-      xvals <- xtabXValues()[, .(value_order, value_text)]
+    data_for_xtab <-
+      get_hhts(
+        survey = survey_yr,
+        level = tbl_name,
+        vars = c("seattle_home", input$xtab_xcol, input$xtab_ycol)
+      ) %>% setDT()
     
-      crosstab <- merge(crosstab, xvals, by.x='var1', by.y='value_text')
-      setorder(crosstab, value_order)
-        
-      setnames(crosstab, "var1", varsXAlias(), skip_absent=TRUE)
+    if (input$xtab_fltr_sea == T) {
+      data_for_xtab[seattle_home == "Home in Seattle"]
+    }
+    
+    if (type=='fact') {
+
+      crosstab <-
+        hhts_median(
+          data_for_xtab,
+          input$xtab_ycol,
+          group_vars = input$xtab_xcol,
+          incl_na = FALSE
+        ) %>%  rename('median' = ends_with('median'))%>%  rename('MOE'=ends_with('MOE')) %>%
+               rename(sample_count= sample_size)
+
+      crosstab <- crosstab%>% select(input$xtab_xcol, "median", "MOE", 'sample_count')
+       
+      
+    }
+    else{
+
+      crosstab <-
+        hhts_count(
+          data_for_xtab,
+          group_vars = c(input$xtab_xcol, input$xtab_ycol),
+          incl_na = FALSE)
   
-      xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+      setnames(crosstab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
+        
+   
+      crosstab <- crosstab%>% select(input$xtab_xcol, input$xtab_ycol, "estimate", "estMOE", "share", "MOE", 'sample_count')%>%
+        pivot_wider(names_from=input$xtab_ycol, values_from=c("estimate", "estMOE", "share", "MOE", 'sample_count'))%>% setDT()
 
-      
-      if (type == 'dimension') {
-        column.headers <- col.headers
-      } else if (type == 'fact') {
-        column.headers <- col.headers.facts
-      }
-      
-      dt.list <- map(as.list(column.headers), xtab.crosstab)
-      names(dt.list) <- column.headers
+    }
+   
+    xvals <- xtabXValues()[, .(value_order, value_text)]
+    
 
-      return(dt.list)
+    crosstab <-
+      merge(crosstab, xvals, by.x = input$xtab_xcol, by.y = 'value_text')
+    setorder(crosstab, value_order)
+
+    setnames(crosstab, input$xtab_xcol, varsXAlias(), skip_absent = TRUE)
+
+    xtab.crosstab <- partial(xtab.col.subset, table = crosstab)
+
+   
+    
+    if (type == 'dimension') {
+      column.headers <- col.headers
+    } else if (type == 'fact') {
+      column.headers <- col.headers.facts
+    }
+
+    dt.list <- map(as.list(column.headers), xtab.crosstab)
+    names(dt.list) <- column.headers
+
+    return(dt.list)
   })
   
   # clean xtabTable()
   xtabTableClean <- reactive({
     dt.list <- xtabTable()
+
     # yv <- xtabYValues()
     xa <- varsXAlias()
     # col.headers <- lapply(col.headers, function(x) paste0(x, "_")) %>% unlist
@@ -437,9 +475,9 @@ function(input, output, session) {
         }
       }
     } else if (xtabTableType()$Type == 'fact') {
-      new.colnames.fact <- c("Mean" = "mean", "Sample Count" = "sample_count", "Number of Households" = "N_HH") 
+      new.colnames.fact <- c("Median" = "median", "Sample Count" = "sample_count") 
       for (i in 1:length(dt.list)) {
-        # set colnames for mean, sample count, number of households field
+        # set colnames for median, sample count
         if (names(dt.list[i]) %in% new.colnames.fact) {
           setnames(dt.list[[i]],
                    names(dt.list[i]),
@@ -488,20 +526,20 @@ function(input, output, session) {
     dt.sm <- create.table.joining.moe(dt.s, dt.m, xa, xvals)
   })
   
-  # create separate table of mean (for fact related tables) alongside margin of errors
-  xtabTableClean.MeanMOE <- reactive({
+  # create separate table of median (for fact related tables) alongside margin of errors
+  xtabTableClean.medianMOE <- reactive({
     xa <- varsXAlias()
     xvals <- xtabXValues()[, .(value_order, value_text)]
 
-    dt.s <- xtabTableClean()[['mean']]
+    dt.s <- xtabTableClean()[['median']]
     dt.m <- xtabTableClean()[['MOE']]
     dt <- merge(dt.s, dt.m, by = xa)
     dt[, var1.sort := factor(get(eval(xa)), levels = xvals$value_text)]
     dt.sm <- dt[order(var1.sort)][, var1.sort := NULL]
   })
   
-  xtabTableClean.DT.MeanMOE <- reactive({
-    t <- copy(xtabTableClean.MeanMOE())
+  xtabTableClean.DT.medianMOE <- reactive({
+    t <- copy(xtabTableClean.medianMOE())
 
     t[, MOE := lapply(.SD, function(x) prettyNum(round(x, 2), big.mark = ",", preserve.width = "none")), .SDcols = 'MOE']
     t[, MOE := lapply(.SD, function(x) paste0("+/-", as.character(x))), .SDcols = 'MOE']
@@ -574,10 +612,10 @@ function(input, output, session) {
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
   })
   
-  xtabVisTable.meanMOE <- reactive({
+  xtabVisTable.medianMOE <- reactive({
     xa <- varsXAlias()
     xvals <- xtabXValues()[, .(value_order, value_text)]
-    dt.s <- xtabTableClean()[['mean']]
+    dt.s <- xtabTableClean()[['median']]
     dt.m <- xtabTableClean()[['MOE']]
     dt <- create.table.vistable.moe(dt.s, dt.m, xa, xvals)
   })
@@ -648,16 +686,16 @@ function(input, output, session) {
       dttype <- input$xtab_dtype_rbtns_fact
       dttype.label <- names(dtype.choice.xtab.facts[dtype.choice.xtab.facts == dttype])
       
-      if (dttype %in% c("sample_count", "mean", "MOE", "N_HH")) {
+      if (dttype %in% c("sample_count", "median", "MOE", "N_HH")) {
         dt <- xtabVisTable()[[dttype]]
-      } else { #if (dttype == "mean_with_MOE")
-        dt <- xtabVisTable.meanMOE()
+      } else { #if (dttype == "median_with_MOE")
+        dt <- xtabVisTable.medianMOE()
       }
       
-      if (dttype %in% c("sample_count", "mean", "N_HH")) {
+      if (dttype %in% c("sample_count", "median", "N_HH")) {
         p <- xtab.plot.bar.fact(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, input$xtab_dataset)
         return(p)
-      } else { # mean_with_MOE
+      } else { # median_with_MOE
         p <- xtab.plot.bar.fact.moe(dt, "nominal", xlabel, ylabel, dttype.label, geog.caption, input$xtab_dataset)
         return(p)
       }
@@ -744,7 +782,7 @@ function(input, output, session) {
       if (is.null(input$xtab_dtype_rbtns_fact)) return(NULL)
       dttype <- input$xtab_dtype_rbtns_fact
       
-      if (dttype %in% c("mean", "sample_count")) {
+      if (dttype %in% c("median", "sample_count")) {
         # This if/else chunk joins sample count to the table of choice with the purpose
         # of greying out values where sample counts are low.
         
@@ -753,9 +791,9 @@ function(input, output, session) {
         sc.idx <- sc.cols - 1
         disp.col.max <- length(setdiff(colnames(dt), str_subset(colnames(dt), "_sc")))
       }  else {
-        if (dttype %in% c("mean_with_MOE")) {
+        if (dttype %in% c("median_with_MOE")) {
           
-          dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.MeanMOE(), xtabTableClean(), dttype, varsXAlias())
+          dt <- xtab.tblMOE.join.samplecnt(xtabTableClean.DT.medianMOE(), xtabTableClean(), dttype, varsXAlias())
         }
         moe.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "MOE")
         sc.colnms <- str_subset(colnames(dt)[2:ncol(dt)], "_sc.*")
@@ -767,14 +805,14 @@ function(input, output, session) {
       
       sketch.dtstyle <- dt.container.dtstyle(dt, varsXAlias(), varsYAlias()) 
     
-      if (dttype == 'mean') {
+      if (dttype == 'median') {
         xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
           formatRound(colnames(dt)[2:disp.col.max], 2)
       } else if (dttype == 'sample_count') {
         xtab.create.DT(dt, moe = F, sketch.dtstyle, sc.idx, disp.col.max, sc.cols) %>%
           formatRound(colnames(dt)[2:disp.col.max], 0)
-      } else if (dttype == 'mean_with_MOE') {
-        sketch.dtstyle.exp <- dt.container.tblMOE.dtstyle(dt, varsXAlias(), varsYAlias(), "mean")
+      } else if (dttype == 'median_with_MOE') {
+        sketch.dtstyle.exp <- dt.container.tblMOE.dtstyle(dt, varsXAlias(), varsYAlias(), "median")
         xtab.create.DT(dt, moe = T, sketch.dtstyle.exp, sc.idx, disp.col.max, sc.cols) %>%
           formatRound(cols.fmt, 2)
       }
@@ -863,15 +901,15 @@ function(input, output, session) {
                       "Total with Margin of Error" = tem,
                       "Sample Count" = t)
     } else if (data.type == 'fact') {
-      # join mean/MOE with sample count
-      tmm <- copy(xtabTableClean.DT.MeanMOE())
+      # join median/MOE with sample count
+      tmm <- copy(xtabTableClean.DT.medianMOE())
       tjoin <- tmm[t, on = varsXAlias()]
-      tj <- tjoin[, Mean := lapply(.SD, function(x) round(x, 2)), .SDcols = 'Mean'
+      tj <- tjoin[, median := lapply(.SD, function(x) round(x, 2)), .SDcols = 'median'
                   ][, `Sample Count`:= lapply(.SD, function(x) prettyNum(x, big.mark = ",")), .SDcols = "Sample Count"
                     ][, `Result Type` := geog]
-      setnames(tj, "MOE", "Margin of Error (Mean)")
+      setnames(tj, "MOE", "Margin of Error (median)")
       tbllist <- list("About" = readme.dt,
-                      "Mean with Margin of Error" = tj)
+                      "median with Margin of Error" = tj)
     }
     return(tbllist)
   })
@@ -901,6 +939,7 @@ function(input, output, session) {
     else{
       survey_year_name=input$stab_dataset
     }
+
     variables.lu[survey_year == survey_year_name, ]
   })
   
@@ -984,40 +1023,65 @@ function(input, output, session) {
     wt_field <- stabTableType()$Weight_Name
     table_name<-stabTableType()$Table_Name
 
-    if(input$stab_dataset=='2017/2019')
+    if (input$stab_dataset == '2017/2019')
     {
-      survey_year_sql ='2017 OR survey_year=2019'
+      survey_yr = "2017_2019"
     }
     else{
-      survey_year_sql=input$stab_dataset
+      survey_yr = input$stab_dataset
     }
 
-    sql.query <- paste("SELECT seattle_home, household_id,", input$stab_xcol,",", wt_field, " FROM " , table_name, 
-                       " WHERE survey_year= ", survey_year_sql)
-    
-    survey <- read.dt(sql.query, 'sqlquery')
     type <- stabTableType()$Type
+    
+    data_for_stab <-
+      get_hhts(
+        survey = survey_yr,
+        level = table_name,
+        vars = c("seattle_home", input$stab_xcol)
+      ) %>% setDT()
+    
    
-    if (input$stab_fltr_sea == T) survey <- survey[seattle_home == 'Home in Seattle',]
+    if (input$stab_fltr_sea == T) data_for_stab <- data_for_stab[seattle_home == 'Home in Seattle',]
     
     xa <- stab.varsXAlias()
+
+    if (type=='fact') {
+      data_for_stab<- data_for_stab[eval(parse(text=input$stab_xcol))>min_float]
+      data_for_stab <- data_for_stab[eval(parse(text=input$stab_xcol))<max_float]
+      breaks<- hist_breaks
+      hist_labels<- hist_breaks_labels
+      data_for_stab<-data_for_stab[, input$stab_xcol:= cut(eval(parse(text=input$stab_xcol)),breaks,labels=hist_labels, order_result=TRUE,)]
+
+    }
+
+     simpletab <-
+        hhts_count(
+          data_for_stab,
+          group_vars = c(input$stab_xcol),
+          incl_na = FALSE
+        )
     
-    simtable <- simple_table(survey, input$stab_xcol, wt_field, type)
-  
+    new.colnames <- c("estimate", "estMOE", "share", "MOE", 'sample_count')
+    setnames(simpletab, old = c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new = new.colnames)
+    
+    new.colorder <- c(input$stab_xcol, new.colnames)
+    simpletab <- simpletab[, ..new.colorder][share != 1, ]
+      
     xvals <- stabXValues()[, .(value_order, value_text)][]
     
     # check input type and xvals. sometimes xvals doesn't exist for some variables
     if((typeof(input$stab_xcol) == 'character') & (nrow(xvals) > 0)){ 
-        simtable <- merge(simtable, xvals, by.x=input$stab_xcol, by.y='value_text')
-        setorder(simtable, value_order)
+        simpletab <- merge(simpletab, xvals, by.x=input$stab_xcol, by.y='value_text')
+        setorder(simpletab, value_order)
     }
     
     dtypes <- dtype.choice.stab 
     selcols <- c(xa, names(dtypes))
-    setnames(simtable, c(input$stab_xcol, dtypes), selcols)
-    setcolorder(simtable, selcols)
+
+    setnames(simpletab, c(input$stab_xcol, dtypes), selcols)
+    setcolorder(simpletab, selcols)
     
-    dt <- simtable[!(get(eval(xa)) %in% "")][, ..selcols]
+    dt <- simpletab[!(get(eval(xa)) %in% "")][, ..selcols]
   })
   
   # clean Margin of Error column and column reorder
@@ -1059,6 +1123,8 @@ function(input, output, session) {
       formatStyle(columns = 2:ncol(dt),
                   valueColumns = ncol(dt), 
                   color = styleInterval(c(30), c(colors$ltgrey, colors$dkgrey)))
+    
+    
   })
 
 # Simple Table Visuals -----------------------------------------------------

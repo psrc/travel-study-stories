@@ -9,6 +9,8 @@ library(shinyjs)
 library(odbc)
 library(DBI)
 library(here)
+library(psrc.travelsurvey)
+
 
 wrkdir <- 'shiny'
 
@@ -19,9 +21,9 @@ hhts.datasets <- c('2017/2019','2021')
 
 missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing: Skip logic', 'Missing: Skip Logic', 'Children or missing')
 
-dbtable.household <- "HHSurvey.v_households"
-dbtable.person <- "HHSurvey.v_persons"
-dbtable.trip <- "HHSurvey.v_trips"
+dbtable.household <- "h"
+dbtable.person <- "p"
+dbtable.trip <- "t"
 dbtable.variables <- "HHSurvey.variable_metadata"
 dbtable.values <- "HHSurvey.v_value_metadata"
 
@@ -56,7 +58,7 @@ read.dt <- function(astring, type =c('table_name', 'sqlquery')) {
 }
 
 variables.lu <- read.dt(dbtable.variables, 'table_name')
-variables.lu <- na.omit(variables.lu)
+variables.lu <- variables.lu %>% select(-"levels") %>% na.omit()%>%setDT()
 variables.lu <- variables.lu[order(category_order, variable_name)]
 values.lu <- read.dt(dbtable.values, 'table_name')
 values.lu<- values.lu[order(value_order)]
@@ -70,26 +72,26 @@ dtype.choice <- c("Share" ="share",
                   "Total" = "estimate",
                   "Margin of Error (Total)" = "estMOE",
                   "Total with Margin of Error" = "estimate_with_MOE",
-                  "Number of Households" = "N_HH",
                   "Share with Margin of Error" = "share_with_MOE",
                   "Margin of Error (Share)" = "MOE",
                   "Sample Count" = "sample_count",
-                  "Mean" = "mean",
-                  "Mean with Margin of Error" = "mean_with_MOE")
+                  "Median" = "median",
+                  "Median with Margin of Error" = "median_with_MOE")
 
 # xtab sublist: dimensions
-dtype.choice.xtab <- dtype.choice[c(1:2, 6, 4, 8)]
-col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE", "N_HH")
+dtype.choice.xtab <- dtype.choice[c(1:2, 5, 4, 7)]
+col.headers <- c("sample_count", "estimate", "estMOE", "share", "MOE")
 
 # xtab sublist: facts
-dtype.choice.xtab.facts <- dtype.choice[c(9, 10, 8)]
-col.headers.facts <-  c("mean", "MOE", "sample_count", "N_HH")
+dtype.choice.xtab.facts <- dtype.choice[c(9, 8, 7)]
+col.headers.facts <-  c("median", "MOE", "sample_count")
 
 # we assume a 50% probability to maximize the MOE
 p_MOE <- 0.5
 # stab sublist
-dtype.choice.stab <- dtype.choice[c(1:2, 7, 3, 8)]
-dtype.choice.stab.vis <- dtype.choice[c(1:2, 6, 4, 8)]
+# change to named indices
+dtype.choice.stab <- dtype.choice[c(1:2, 6, 3,7)]
+dtype.choice.stab.vis <- dtype.choice[c(1:2, 5, 4,7)]
 
 min_float <- 0
 max_float <- 200
