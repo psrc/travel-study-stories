@@ -179,6 +179,33 @@ function(input, output, session) {
     yvar.det <- xtab.variable.tbl()[variable %in% input$xtab_ycol, .(detail)]
     unique(yvar.det$detail)
   })
+  
+
+# X and Y Categories ----------------------------------------------------------
+
+  xtab_cat_list <- reactive({
+    # find unique categories based on dataset
+    
+    ifelse(input$xtab_dataset == '2017/2019', d <- c('2017', '2019'), d <- '2021')
+    v <- variables.lu[survey_year %in% d, ]
+    cat <- unique(v$category)
+  })
+  
+  output$ui_xtab_xcat <- renderUI({
+
+    selectInput('xtab_xcat',
+                'Category',
+                xtab_cat_list())
+  })
+
+  output$ui_xtab_ycat <- renderUI({
+    # find unique categories based on dataset
+
+    selectInput('xtab_ycat',
+                'Category',
+                xtab_cat_list())
+
+  })
 
 # Update X and Y Categories -----------------------------------------------
 
@@ -189,7 +216,6 @@ function(input, output, session) {
     hh.var <- 'Household'
     move.choices <- c(hh.var, move.var)
     
-
     x <- input$xtab_xcat
     y <- input$xtab_ycat
     
@@ -198,18 +224,18 @@ function(input, output, session) {
       y.choices <- move.choices
     } else if ((!(x %in% move.choices) & (y == hh.var))) {
       # exclude 'Reason...'
-      y.choices <- vars.cat[!(vars.cat %in% move.var)]
+      y.choices <- xtab_cat_list()[!(xtab_cat_list() %in% move.var)]
     } else if (x == hh.var) {
       # default options
-      y.choices <- vars.cat[!(vars.cat %in% "None")]
+      y.choices <- xtab_cat_list()[!(xtab_cat_list() %in% "None")]
     } else if (x != move.var & y != move.var) {
       # exclude 'Reason...'
-      y.choices <- vars.cat[!(vars.cat %in% move.var)]
+      y.choices <- xtab_cat_list()[!(xtab_cat_list() %in% move.var)]
     } else {
       # default options
-      y.choices <- vars.cat[!(vars.cat %in% "None")]
+      y.choices <- xtab_cat_list()[!(xtab_cat_list() %in% "None")]
     }
-    
+   
     updateSelectInput(session, "xtab_ycat",
                       label = "Category",
                       selected = y,
@@ -224,19 +250,19 @@ function(input, output, session) {
     
     x <- input$xtab_xcat
     y <- input$xtab_ycat
-    
+
     if (y == move.var) {
       # filter to two options
       x.choices <- move.choices
     }  else if (!(y %in% move.choices)) {
       # exclude only 'Reason...'
-      x.choices <- vars.cat[!(vars.cat %in% move.var)]
+      x.choices <- xtab_cat_list()[!(xtab_cat_list() %in% move.var)]
     } else if (y == hh.var) {
       # default options
-      x.choices <- vars.cat[!(vars.cat %in% "None")]
+      x.choices <- xtab_cat_list()[!(xtab_cat_list() %in% "None")]
     } else {
       # default options
-      x.choices <- vars.cat[!(vars.cat %in% "None")]
+      x.choices <- xtab_cat_list()[!(xtab_cat_list() %in% "None")]
     }
     
     updateSelectInput(session, "xtab_xcat",
@@ -284,10 +310,11 @@ function(input, output, session) {
 
   # return values associated with category selected
   output$ui_xtab_ycol <- renderUI({
+    ifelse(length(varsListY()) == 1, y <- varsListY(), y <- varsListY()[2])
     selectInput('xtab_ycol',
                 'Variable',
                 varsListY(),
-                selected = varsListY()[[2]])
+                selected = y)
   })
   
   xtab.values.tbl <-eventReactive(input$xtab_dataset,{
@@ -396,12 +423,9 @@ function(input, output, session) {
       
     }
     else{
-
-      crosstab <-
-        hhts_count(
-          data_for_xtab,
-          group_vars = c(input$xtab_xcol, input$xtab_ycol),
-          incl_na = FALSE)
+      crosstab <- hhts_count(data_for_xtab,
+                             group_vars = c(input$xtab_xcol, input$xtab_ycol),
+                             incl_na = FALSE)
   
       setnames(crosstab, old=c('count', 'count_moe', 'share', 'share_moe', 'sample_size'), new=c("estimate", "estMOE", "share", "MOE", 'sample_count'))
         
@@ -954,10 +978,19 @@ function(input, output, session) {
     values.lu[survey_year==survey_year_name, ]
   })
   
-  
   output$stab_xcol_det <- renderText({
     xvar.det <- stab.variable.tbl()[variable %in% input$stab_xcol, .(detail)]
     unique(xvar.det$detail)
+  })
+  
+  output$ui_stab_xcat <- renderUI({
+    ifelse(input$stab_dataset == '2017/2019', d <- c('2017', '2019'), d <- '2021')
+    v <- variables.lu[survey_year %in% d, ]
+    cat <- unique(v$category)
+    
+    selectInput('stab_xcat',
+                'Category',
+                cat)
   })
   
   # variable X alias
