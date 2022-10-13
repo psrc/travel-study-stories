@@ -928,7 +928,7 @@ function(input, output, session) {
       # join median/MOE with sample count
       tmm <- copy(xtabTableClean.DT.medianMOE())
       tjoin <- tmm[t, on = varsXAlias()]
-      tj <- tjoin[, median := lapply(.SD, function(x) round(x, 2)), .SDcols = 'median'
+      tj <- tjoin[, median := lapply(.SD, function(x) round(x, 2)), .SDcols = 'Median'
                   ][, `Sample Count`:= lapply(.SD, function(x) prettyNum(x, big.mark = ",")), .SDcols = "Sample Count"
                     ][, `Result Type` := geog]
       setnames(tj, "MOE", "Margin of Error (median)")
