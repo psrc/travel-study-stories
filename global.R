@@ -1,3 +1,4 @@
+library(config)
 library(shiny)
 library(shinythemes)
 library(data.table)
@@ -12,12 +13,16 @@ library(here)
 library(RSQLite)
 library(psrc.travelsurvey)
 library(markdown)
-
-
+library(magrittr)
+library(conflicted)
 
 
 source('travel_crosstab.R')
 source('functions_plot.R')
+
+
+conflict_prefer("layout", "plotly")
+conflict_prefer("get", "base")
 
 hhts.datasets <- c('2017/2019','2021')
 
@@ -26,8 +31,9 @@ missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing
 dbtable.household <- "h"
 dbtable.person <- "p"
 dbtable.trip <- "t"
-dbtable.variables <- "variable_metadata"
-dbtable.values <- "v_value_metadata"
+
+dbtable.variables <- "[HHSurvey.variable_metadata]"
+dbtable.values <- "[HHSurvey.v_value_metadata]"
 
 table_names <- list("Household" = list("table_name"=dbtable.household),
                     "Person" = list("table_name"=dbtable.person),

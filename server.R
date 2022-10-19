@@ -26,8 +26,8 @@ function(input, output, session) {
     # dt.style <- xtab.edit.samplecnt(dt.style, 30)
     
     colnames(dt.style)[2:length(colnames(dt.style))] <- paste0(colnames(dt.style)[2:length(colnames(dt.style))], "_sc")
-    dt <- merge(dt.data, dt.style, by = varsXAlias)
-    dt[, var1.sort := factor(get(varsXAlias), levels = dt.sort.rows)]
+    dt <- base::merge(dt.data, dt.style, by = varsXAlias)
+    dt[, var1.sort := factor(base::get(varsXAlias), levels = dt.sort.rows)]
     dt <- dt[order(var1.sort)][, var1.sort := NULL]
   }
   
@@ -47,9 +47,9 @@ function(input, output, session) {
     # alter dt.style, update rows containing < 30
     # dt.style <- xtab.edit.samplecnt(dt.style, 30)
     
-    dt <- merge(dt.data, dt.style, by = varsXAlias)
+    dt <- base::merge(dt.data, dt.style, by = varsXAlias)
     
-    dt[, var1.sort := factor(get(varsXAlias), levels = dt.sort.rows)]
+    dt[, var1.sort := factor(base::get(varsXAlias), levels = dt.sort.rows)]
     dt <- dt[order(var1.sort)][, var1.sort := NULL]
   } 
   
@@ -439,7 +439,7 @@ function(input, output, session) {
     
 
     crosstab <-
-      merge(crosstab, xvals, by.x = input$xtab_xcol, by.y = 'value_text')
+      base::merge(crosstab, xvals, by.x = input$xtab_xcol, by.y = 'value_text')
     setorder(crosstab, value_order)
 
     setnames(crosstab, input$xtab_xcol, varsXAlias(), skip_absent = TRUE)
@@ -476,7 +476,7 @@ function(input, output, session) {
       
       # evaluates for NA columns & rows, and excludes it
       for (i in 1:length(dt.list)) {
-        dt.list[[i]] <- dt.list[[i]][!(get(eval(xa)) %in% "")]
+        dt.list[[i]] <- dt.list[[i]][!(base::get(eval(xa)) %in% "")]
   
         new.colnames <- str_extract(colnames(dt.list[[i]])[2:length(colnames(dt.list[[i]]))], paste0("(?<=", regex, ").+")) # includes blank
   
@@ -525,8 +525,8 @@ function(input, output, session) {
       cols.order <- append(cols.order, c(acol, moe.col))
     }
     colnames(moetable)[2:ncol(moetable)] <- paste0(colnames(moetable)[2:ncol(moetable)], "_MOE")
-    dt.sm <- merge(valuetable, moetable, by = xalias)
-    dt.sm[, var1.sort := factor(get(eval(xalias)), levels = xvalues$value_text)]
+    dt.sm <- base::merge(valuetable, moetable, by = xalias)
+    dt.sm[, var1.sort := factor(base::get(eval(xalias)), levels = xvalues$value_text)]
     dt.sm <- dt.sm[order(var1.sort)][, var1.sort := NULL]
     order.colnames <- c(xalias, cols.order)
     dt.sm <- dt.sm[, ..order.colnames]
@@ -557,8 +557,8 @@ function(input, output, session) {
 
     dt.s <- xtabTableClean()[['median']]
     dt.m <- xtabTableClean()[['MOE']]
-    dt <- merge(dt.s, dt.m, by = xa)
-    dt[, var1.sort := factor(get(eval(xa)), levels = xvals$value_text)]
+    dt <- base::merge(dt.s, dt.m, by = xa)
+    dt[, var1.sort := factor(base::get(eval(xa)), levels = xvals$value_text)]
     dt.sm <- dt[order(var1.sort)][, var1.sort := NULL]
   })
   
@@ -604,10 +604,10 @@ function(input, output, session) {
     
     if (xtabTableType()$Type == 'dimension') {
       dtm <- melt.data.table(moetable, id.vars = xalias, measure.vars = msrcols, variable.name = "value", value.name = "result_moe")
-      dt <- merge(dts, dtm, by = c(xalias, "value"))
+      dt <- base::merge(dts, dtm, by = c(xalias, "value"))
       setnames(dt, xalias, "group")
     } else {
-      dt <- merge(dts, moetable, by = c(xalias))
+      dt <- base::merge(dts, moetable, by = c(xalias))
       setnames(dt, c(xalias, 'MOE'), c("group", "result_moe"))
     }
     
@@ -1101,10 +1101,10 @@ function(input, output, session) {
     simpletab <- simpletab[, ..new.colorder][share != 1, ]
       
     xvals <- stabXValues()[, .(value_order, value_text)][]
-    
+
     # check input type and xvals. sometimes xvals doesn't exist for some variables
     if((typeof(input$stab_xcol) == 'character') & (nrow(xvals) > 0)){ 
-        simpletab <- merge(simpletab, xvals, by.x=input$stab_xcol, by.y='value_text')
+        simpletab <- base::merge(simpletab, xvals, by.x=input$stab_xcol, by.y='value_text')
         setorder(simpletab, value_order)
     }
     
@@ -1114,11 +1114,12 @@ function(input, output, session) {
     setnames(simpletab, c(input$stab_xcol, dtypes), selcols)
     setcolorder(simpletab, selcols)
     
-    dt <- simpletab[!(get(eval(xa)) %in% "")][, ..selcols]
+    dt <- simpletab[!(base::get(eval(xa)) %in% "")][, ..selcols]
   })
   
   # clean Margin of Error column and column reorder
   stabTable.DT <- reactive({
+
     xa <- stab.varsXAlias()
     dt <- copy(stabTable())
     
