@@ -940,7 +940,7 @@ function(input, output, session) {
   
   output$xtab_download <- downloadHandler(
     filename = function() {
-      paste0("HHSurvey2017_19_", varsXAlias(), "_by_", varsYAlias(), "_", xtabCaption(), ".xlsx")
+      paste0("HHSurvey", input$xtab_dataset, "_", varsXAlias(), "_by_", varsYAlias(), "_", xtabCaption(), ".xlsx")
     },
     content = function(file) {
       write.xlsx(xtabDownloadOutput(), file)
