@@ -7,7 +7,9 @@ simple.table.sidebar <- sidebarPanel(width = 3,
                                      selectInput('stab_dataset',
                                                  label = 'Dataset',
                                                  choices = hhts.datasets),
-                                     uiOutput('ui_stab_xcat'),
+                                     selectInput('stab_xcat',
+                                                 'Category',
+                                                 vars.cat[!(vars.cat %in% "None")]),
                                      uiOutput("ui_stab_xcol"),
                                      div(a(id = "stabXtoggleAdvanced", "Show/hide variable detail", href = "#"),
                                          hidden(
@@ -66,7 +68,9 @@ simple.table <- tabPanel("One-way Table",
 crosstab.panel.x <-  column(3,
                             wellPanel(
                               p(strong("First Variable (Crosstab rows)")),
-                              uiOutput("ui_xtab_xcat"),
+                              selectInput('xtab_xcat',
+                                          'Category',
+                                          vars.cat[!(vars.cat %in% "None")]),
                               uiOutput("ui_xtab_xcol"),
                               div(a(id = "xtabXtoggleAdvanced", "Show/hide variable detail", href = "#"),
                                   hidden(
@@ -82,7 +86,10 @@ crosstab.panel.x <-  column(3,
 crosstab.panel.y <- column(3,
                            wellPanel(
                              p(strong("Second Variable (Crosstab columns)")),
-                             uiOutput("ui_xtab_ycat"),
+                             selectInput('xtab_ycat',
+                                         'Category',
+                                         # width = '75%',
+                                         vars.cat[!(vars.cat %in% "None")]),
                              uiOutput("ui_xtab_ycol"),
                              div(a(id = "xtabYtoggleAdvanced", "Show/hide variable detail", href = "#"),
                                  hidden(
@@ -170,7 +177,7 @@ crosstab.table <- tabPanel("Two-way Table",
 about <-  tabPanel("About Travel Survey Data Explorer",
                    column(2),
                    column(8,
-                          includeMarkdown(here(wrkdir, "about_page.md"))
+                          includeMarkdown("about_page.md")
                    ),
                    column(2)
 )

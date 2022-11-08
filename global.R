@@ -1,3 +1,4 @@
+library(config)
 library(shiny)
 library(shinythemes)
 library(data.table)
@@ -9,13 +10,19 @@ library(shinyjs)
 library(odbc)
 library(DBI)
 library(here)
+library(RSQLite)
 library(psrc.travelsurvey)
+library(markdown)
+library(magrittr)
+library(conflicted)
 
 
-wrkdir <- 'shiny'
+source('travel_crosstab.R')
+source('functions_plot.R')
 
-source(here(wrkdir, 'travel_crosstab.R'))
-source(here(wrkdir, 'functions_plot.R'))
+
+conflict_prefer("layout", "plotly")
+conflict_prefer("get", "base")
 
 hhts.datasets <- c('2017/2019','2021')
 
@@ -24,8 +31,9 @@ missing_codes <- c('Missing: Technical Error', 'Missing: Non-response', 'Missing
 dbtable.household <- "h"
 dbtable.person <- "p"
 dbtable.trip <- "t"
-dbtable.variables <- "HHSurvey.variable_metadata"
-dbtable.values <- "HHSurvey.v_value_metadata"
+
+dbtable.variables <- "[HHSurvey.variable_metadata]"
+dbtable.values <- "[HHSurvey.v_value_metadata]"
 
 table_names <- list("Household" = list("table_name"=dbtable.household),
                     "Person" = list("table_name"=dbtable.person),
@@ -35,25 +43,15 @@ z <- 1.645 # 90% CI
 
 ## Read from Elmer
 
-db.connect <- function() {
-  elmer_connection <- dbConnect(odbc(),
-                                Driver = "SQL Server",
-                                Server = "AWS-PROD-SQL\\SOCKEYE",
-                                Database = "Elmer",
-                                # Trusted_Connection = "yes"
-                                UID = Sys.getenv("userid"),
-                                PWD = Sys.getenv("pwd")
-  )
-}
 
 read.dt <- function(astring, type =c('table_name', 'sqlquery')) {
-  elmer_connection <- db.connect()
+  sqllite_connection <- dbConnect(RSQLite::SQLite(), 'hh_survey.db')
   if (type == 'table_name') {
-    dtelm <- dbReadTable(elmer_connection, SQL(astring))
+    dtelm <- dbReadTable(sqllite_connection, SQL(astring))
   } else {
-    dtelm <- dbGetQuery(elmer_connection, SQL(astring))
+    dtelm <- dbGetQuery(sqllite_connection, SQL(astring))
   }
-  dbDisconnect(elmer_connection)
+  dbDisconnect(sqllite_connection)
   setDT(dtelm)
 }
 
@@ -63,7 +61,7 @@ variables.lu <- variables.lu[order(category_order, variable_name)]
 values.lu <- read.dt(dbtable.values, 'table_name')
 values.lu<- values.lu[order(value_order)]
 
-readme.dt <- read.xlsx(here(wrkdir, 'readme.xlsx'), colNames = T, skipEmptyRows = F)
+readme.dt <- read.xlsx('readme.xlsx', colNames = T, skipEmptyRows = F)
 
 vars.cat <- unique(variables.lu$category)
 

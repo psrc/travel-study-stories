@@ -1,7 +1,6 @@
-.RData
+*.csv
+etc/
 .Rhistory
-data/trip.csv
-data/person.csv
-data/person.csv
+.RData
 .Rproj.user
 hh_survey.db
