@@ -61,7 +61,7 @@ variables.lu <- variables.lu[order(category_order, variable_name)]
 values.lu <- read.dt(dbtable.values, 'table_name')
 values.lu<- values.lu[order(value_order)]
 
-readme.dt <- read.xlsx('readme.xlsx', colNames = T, skipEmptyRows = F)
+readme.dt <- read.xlsx(here('data', 'readme.xlsx'), colNames = T, skipEmptyRows = F)
 
 vars.cat <- unique(variables.lu$category)
 

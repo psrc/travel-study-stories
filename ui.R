@@ -177,7 +177,7 @@ crosstab.table <- tabPanel("Two-way Table",
 about <-  tabPanel("About Travel Survey Data Explorer",
                    column(2),
                    column(8,
-                          includeMarkdown("about_page.md")
+                          includeMarkdown(here('data', "about_page.md"))
                    ),
                    column(2)
 )
