@@ -1,6 +1,13 @@
 
 function(input, output, session) {
   
+  observe(
+    showModal(modalDialog(
+      title = "Important message",
+      "This app may take up to 2 minutes to load on first start-up. Thank you for your patience. We are working on improvements to be released soon.",
+      easyClose = TRUE))
+  )
+ 
 
 # Functions ---------------------------------------------------------------
   
